@@ -41,6 +41,8 @@ Setting \code{na.rm = TRUE} simply removes missing values when scaling the weigh
 Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press.
 
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Consumer Price Index Manual: Theory and Practice. International Monetary Fund.
+
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manual: Theory and Practice. International Monetary Fund.
 }
 
 \seealso{
