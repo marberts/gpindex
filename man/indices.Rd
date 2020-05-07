@@ -1,14 +1,26 @@
-\name{index weights}
-\alias{index_weights}
+\name{indices}
+\alias{arithmetic_index}
+\alias{geometric_index}
+\alias{harmonic_index}
+\alias{fisher_index}
+\alias{lloyd_moulton_index}
 
-\title{Calculate the weights for a variety of price indices}
+\title{Calculate a variety of price indices}
 
 \description{
-Calculate the weights for a variety of price indices using information on prices and quantites.
+Calculate a variety of price indices using information on prices and quantites.
 }
 
 \usage{
-index_weights(p0, p1, q0, q1, pb, qb, type, na.rm)
+arithmetic_index(p0, p1, q0, q1, pb, qb, type, na.rm)
+
+geometric_index(p0, p1, q0, q1, pb, qb, type, na.rm)
+
+harmonic_index(p0, p1, q0, q1, pb, qb, type, na.rm)
+
+fisher_index(p0, p1, q0, q1, na.rm)
+
+lloyd_moulton_index(p0, p1, q0, q1, elasticity, na.rm)
 }
 
 \arguments{
@@ -24,17 +36,19 @@ index_weights(p0, p1, q0, q1, pb, qb, type, na.rm)
 
 \item{qb}{Period-b quantities.}
 
+\item{elasticity}{The elasticity of substitution for the Lloyd-Moulton index.}
+
 \item{type}{The name of the index. See details.}
 
 \item{na.rm}{Should missing values be removed?}
 }
 
 \value{
-A numeric vector, the same length as \code{p0}.
+A numeric value.
 }
 
 \details{
-Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
+To do.
 }
 
 \references{

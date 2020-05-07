@@ -29,7 +29,7 @@ Returns the value of the generalized logarithmic mean of \code{a} and \code{b} o
 
 The usual definition of the generalized logarithmic mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{a} and \code{b}. This is not implemented here, as it does not seem to be of practical value.
 
-As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforeced here, but the results may not make sense.
+As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
 }
 
 \references{

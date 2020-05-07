@@ -8,7 +8,7 @@
 \title{Change the weights in a generalized mean}
 
 \description{
-Calculate the weights to turn a \code{r}-generalized mean into a \code{k}-generalized mean
+Calculate the weights to turn a \code{r}-generalized mean into a \code{k}-generalized mean.
 }
 
 \usage{
@@ -40,13 +40,15 @@ A numeric vector, the same length as \code{x}.
 }
 
 \details{
-Returns a vector of weights \code{v} such that \code{generalized_mean(x, w, r) = generalized_mean(x, v, k)}. This generalizes the result in section 4.x of Balk (2008) when \code{r} and \code{k} are 0 or 1.
+Returns a vector of weights \code{v} such that \code{generalized_mean(x, w, r) = generalized_mean(x, v, k)}. This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
+
+Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
 }
 
 \references{
-Balk, B. M. (2008). Price and Quantity Indices. Cambridge University Press.
+Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press.
 }
 
 \seealso{

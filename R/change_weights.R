@@ -44,8 +44,6 @@ change_weights <- function(x, w, r, k, na.rm = FALSE) {
   } 
   out / sum(out, na.rm = na.rm)
 }
-
-
   
 geometric_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x = x, w = w, r = 0, k = 1, na.rm = na.rm)
 

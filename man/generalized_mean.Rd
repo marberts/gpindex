@@ -43,7 +43,7 @@ The usual definition of the generalized mean lets \code{r} take on values from t
 
 For the geometric and harmonic means in particular, the implementation and performance is similar to the \code{geometric.mean} and \code{harmonic.mean} functions in the \code{psych} package, the \code{geomean} function in the FSA package, the \code{GMean} and \code{HMean} functions in the \code{DescTools} package, and the \code{geoMean} function in the \code{EnvStats} package, with the exception that weights are allowed.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
 }
 
 \references{
