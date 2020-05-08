@@ -8,7 +8,7 @@
 \title{Change the weights in a generalized mean}
 
 \description{
-Calculate the weights to turn a \code{r}-generalized mean into a \code{k}-generalized mean.
+Calculate the weights to turn a r-generalized mean into a k-generalized mean.
 }
 
 \usage{
@@ -28,9 +28,9 @@ harmonic_to_geometric(x, w, na.rm = FALSE)
 
 \item{w}{An optional vector of numeric weights, the same length as \code{x}.}
 
-\item{r}{A number giving the exponent of the generalized mean.}
+\item{r}{A number giving the exponent of the generalized mean. See details.}
 
-\item{k}{A number giving the exponent of the generalized mean.}
+\item{k}{A number giving the exponent of the generalized mean. See details.}
 
 \item{na.rm}{Should missing values be removed?}
 }
@@ -59,7 +59,8 @@ See \code{\link[gpindex]{generalized_mean}} for the generalized mean.
 x <- 1:10
 geometric_mean(x)
 
-# Calculate the geometric mean as an arithmetic and harmonic by changing the weights
+# Calculate the geometric mean as an arithmetic mean and harmonic mean by changing the weights
+
 arithmetic_mean(x, geometric_to_arithmetic(x))
 harmonic_mean(x, change_weights(x, r = 0, k = -1))
 

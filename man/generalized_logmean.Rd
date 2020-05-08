@@ -38,6 +38,7 @@ Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
 
 \examples{
 ## A useful identity
+
 logmean(1:10, 10:1) * log(1:10 / 10:1)  - (1:10 - 10:1) # should be the all zero
 }
 

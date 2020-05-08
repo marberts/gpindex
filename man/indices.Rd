@@ -115,15 +115,21 @@ index_geometric(p0, p1, q0, type = "Laspeyres")
 geometric_mean(p1 / p0, index_weights(p0, p1, q0, type = "Laspeyres"))
 
 # If only weights are available (no quantity information), then use one of the generalized means
+
 geometric_mean(p1 / p0, c(0.1, 0.2, 0.4, 0.15, 0.15))
 
 # NAs get special treatment
+
 p0 <- c(1:4, NA)
 p1 <- 2:6
 q0 <- 1:5
+
 # Drops the last price relative
+
 index_arithmetic(p0, p1, q0, type = "Laspeyres", na.rm = TRUE)
+
 # Only drops the last period-0 price
+
 sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
 
 

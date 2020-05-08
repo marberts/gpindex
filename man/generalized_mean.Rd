@@ -56,30 +56,38 @@ See \code{\link[gpindex]{generalized_logmean}} for the generalized logarithmic m
 
 \examples{
 ## Geometric mean
+
 geometric_mean(2:3)
 
 # Same as manual calculation
+
 sqrt(6)
 
 # Using prod to calculate the geometric mean manually can give misleading results
+
 prod(1:1000)^(1/1000)
 geometric_mean(1:1000)
 
 # geometric_mean is usually faster anyways
+
 x <- runif(1000000)
 system.time(geometric_mean(x))
 system.time(prod(x^(1/length(x))))
 
 ## Harmonic mean
+
 harmonic_mean(2:3)
 
 # Same as manual calculation
+
 (sum((2:3)^(-1)) / 2)^(-1)
 
 ## Quadratic mean
+
 generalized_mean(2:3, r = 2)
 
-# root mean square
+# Root mean square
+
 sqrt(generalized_mean(2:3, r = 2))
 
 }
