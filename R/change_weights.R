@@ -45,12 +45,12 @@ change_weights <- function(x, w, r, k, na.rm = FALSE) {
   out / sum(out, na.rm = na.rm)
 }
   
-geometric_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x = x, w = w, r = 0, k = 1, na.rm = na.rm)
+geometric_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x, w, 0, 1, na.rm)
 
-harmonic_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x = x, w = w, r = -1, k = 1, na.rm = na.rm)
+harmonic_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x, w, -1, 1, na.rm)
 
-arithmetic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x = x, w = w, r = 1, k = 0, na.rm = na.rm)
+arithmetic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x, w, 1, 0, na.rm)
 
-harmonic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x = x, w = w, r = -1, k = 0, na.rm = na.rm)
+harmonic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x, w, -1, 0, na.rm)
 
 

@@ -27,8 +27,8 @@ generalized_mean <- function(x, w, r, na.rm = FALSE) {
   }
 }
 
-geometric_mean <- function(x, w, na.rm = FALSE) generalized_mean(x = x, w = w, r = 0, na.rm = na.rm)
+geometric_mean <- function(x, w, na.rm = FALSE) generalized_mean(x, w, 0, na.rm)
 
-arithmetic_mean <- function(x, w, na.rm = FALSE) generalized_mean(x = x, w = w, r = 1, na.rm = na.rm)
+arithmetic_mean <- function(x, w, na.rm = FALSE) generalized_mean(x, w, 1, na.rm)
 
-harmonic_mean <- function(x, w, na.rm = FALSE) generalized_mean(x = x, w = w, r = -1, na.rm = na.rm)
+harmonic_mean <- function(x, w, na.rm = FALSE) generalized_mean(x, w, r = -1, na.rm)

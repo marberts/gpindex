@@ -34,4 +34,4 @@ generalized_logmean <- function(a, b, r) {
   out
 }
 
-logmean <- function(a, b) generalized_logmean(a = a, b = b, r = 0)
+logmean <- function(a, b) generalized_logmean(a, b, 0)

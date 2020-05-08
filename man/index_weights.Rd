@@ -20,9 +20,9 @@ index_weights(p0, p1, q0, q1, pb, qb, type, na.rm)
 
 \item{q1}{Current-period quantities.}
 
-\item{pb}{Period-b prices.}
+\item{pb}{Period-b prices for the Lowe/Young index.}
 
-\item{qb}{Period-b quantities.}
+\item{qb}{Period-b quantities for the Lowe/Young index.}
 
 \item{type}{The name of the index. See details.}
 
@@ -34,6 +34,27 @@ A numeric vector, the same length as \code{p0}.
 }
 
 \details{
+Weights for the following types of indices can be calculated.
+\itemize{
+\item Carli/Jevons/Coggeshall
+\item Dutot
+\item Laspeyres
+\item Hybrid Laspeyres (for use in a harmonic mean)
+\item Paasche / Palgrave
+\item Hybrid Paasche (for use in an arithmetic mean)
+\item Unnamed / Tornqvist
+\item Drobish
+\item Walsh-I (for an arithmetic Walsh index)
+\item Walsh-II (for a geometric Walsh index)
+\item Marshall-Edgeworth
+\item Geary-Khamis
+\item Sato-Vartia / Vartia-II
+\item Lowe
+\item Young
+}
+
+Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two different names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calcuations are given in the examples.
+
 Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
 }
 
@@ -50,6 +71,80 @@ See \code{\link[gpindex]{generalized_mean}} for the generalized mean.
 }
 
 \examples{
-# Do to
+# Make some data
+p0 <- runif(5)
+p1 <- runif(5)
+q0 <- runif(5)
+q1 <- runif(5)
+pb <- runif(5)
+qb <- runif(5)
+
+# Can be used with the generalized_mean function to make most types of price indices
+# arithmetic Laspeyres index
+arithmetic_mean(p1 / p0, index_weights(p0, p1, q0, q1, type = "Laspeyres")) 
+# harmonic calculation
+harmonic_mean(p1 / p0, index_weights(p0, p1, q0, q1, type = "HybridLaspeyres")) 
+
+# Explicit calculation for each of the different weights
+# Carli/Jevons/Coggeshall
+index_weights(p0, type = "Carli")
+rep(1, length(p0)) / length(p0)
+
+# Dutot
+index_weights(p0, p1, q0, q1, type = "Dutot")
+p0 / sum(p0)
+
+# Laspeyres
+index_weights(p0, p1, q0, q1, type = "Laspeyres")
+p0 * q0 / sum(p0 * q0)
+
+# Hybrid Laspeyres
+index_weights(p0, p1, q0, q1, type = "HybridLaspeyres")
+p1 * q0 / sum(p1 * q0)
+
+# Paasche / Palgrave
+index_weights(p0, p1, q0, q1, type = "Paasche")
+p1 * q1 / sum(p1 * q1)
+
+# Hybrid Paasche
+index_weights(p0, p1, q0, q1, type = "HybridPaasche")
+p0 * q1 / sum(p0 * q1)
+
+# Unnamed / Tornqvist
+index_weights(p0, p1, q0, q1, type = "Tornqvist")
+0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+
+# Drobish
+index_weights(p0, p1, q0, q1, type = "Drobish")
+0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
+
+# Walsh-I
+index_weights(p0, p1, q0, q1, type = "Walsh1")
+p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
+
+# Marshall-Edgeworth
+index_weights(p0, p1, q0, q1, type = "MarshallEdgeworth")
+p0 * (q0 + q1) / sum(p0 * (q0 + q1))
+
+# Geary-Khamis
+index_weights(p0, p1, q0, q1, type = "GearyKhamis")
+p0 / (1 / p0 + 1 / p1) / sum(p0 / (1 / p0 + 1 / p1))
+
+# Sato-Vartia / Vartia-II
+index_weights(p0, p1, q0, q1, type = "SatoVartia")
+logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)) / 
+sum(logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+
+# Walsh-II
+index_weights(p0, p1, q0, q1, type = "Walsh2")
+sqrt(p0 * q0 * p1 * q1) / sum(sqrt(p0 * q0 * p1 * q1))
+
+# Lowe
+index_weights(p0, p1, pb = pb, qb = qb, type = "Lowe")
+p0 * qb / sum(p0 * qb)
+
+# Young
+index_weights(p0, p1, pb = pb, qb = qb, type = "Young")
+pb * qb / sum(pb * qb)
 
 }
