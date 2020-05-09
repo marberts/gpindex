@@ -1,28 +1,8 @@
-index_weights <- function(p0, p1, q0, q1, pb, qb, type, na.rm = FALSE) {
+index_weights <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   # check input
-  check_weights_arguments(p0, p1, q0, q1, pb, qb, type, na.rm)
+  check_weights_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   # match type arguments
-  type <- match.arg(type, c("Carli", 
-                            "Dutot",
-                            "Laspeyres",
-                            "HybridLaspeyres",
-                            "Paasche",
-                            "HybridPaasche",
-                            "Palgrave", 
-                            "Unnamed", 
-                            "Drobish", 
-                            "Walsh1", 
-                            "MarshallEdgeworth", 
-                            "GearyKhamis",
-                            "Jevons",
-                            "Tornqvist",
-                            "SatoVartia",
-                            "Vartia2",
-                            "Walsh2",
-                            "Lowe",
-                            "Young",
-                            "Coggeshall")
-  )
+  type <- match.arg(type, types[["weight_types"]])
   # Calculate weights
   if (length(p0) == 0L) return(numeric(0))
   out <- switch(type,

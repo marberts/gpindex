@@ -1,8 +1,10 @@
-generalized_logmean <- function(a, b, r) {
+generalized_logmean <- function (a, b, r) {
   # check input
-  stopifnot(is.numeric(a), is.numeric(b), # a and b should be numeric
-            length(r) == 1L, is.numeric(r), is.finite(r) # r should be a length 1 numeric
-            )
+  stopifnot(
+    "a must be numeric" = is.numeric(a), 
+    "b must be numeric" = is.numeric(b),
+    "r must be a length  numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
+    )
   # return numeric(0) if either a or b is length 0
   if (length(a) == 0L || length(b) == 0L) return(numeric(0))
   # a and b must be the same length, so manually recycle if necessary
@@ -34,4 +36,4 @@ generalized_logmean <- function(a, b, r) {
   out
 }
 
-logmean <- function(a, b) generalized_logmean(a, b, 0)
+logmean <- function (a, b) generalized_logmean(a, b, 0)

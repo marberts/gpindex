@@ -8,19 +8,19 @@
 \title{Change the weights in a generalized mean}
 
 \description{
-Calculate the weights to turn a r-generalized mean into a k-generalized mean.
+Calculate the weights to turn an r-generalized mean into a k-generalized mean.
 }
 
 \usage{
-change_weights(x, w, r, k, na.rm = FALSE)
+change_weights(x, w, r, k, na.rm = FALSE, M)
 
-geometric_to_arithmetic(x, w, na.rm = FALSE)
+geometric_to_arithmetic(x, w, na.rm = FALSE, M)
 
-harmonic_to_arithmetic(x, w, na.rm = FALSE)
+harmonic_to_arithmetic(x, w, na.rm = FALSE, M)
 
-arithmetic_to_geometric(x, w, na.rm = FALSE)
+arithmetic_to_geometric(x, w, na.rm = FALSE, M)
 
-harmonic_to_geometric(x, w, na.rm = FALSE)
+harmonic_to_geometric(x, w, na.rm = FALSE, M)
 }
 
 \arguments{
@@ -33,6 +33,8 @@ harmonic_to_geometric(x, w, na.rm = FALSE)
 \item{k}{A number giving the exponent of the generalized mean. See details.}
 
 \item{na.rm}{Should missing values be removed?}
+
+\item{M}{The value of the r-generalized mean, if known.}
 }
 
 \value{
@@ -45,6 +47,8 @@ Returns a vector of weights \code{v} such that \code{generalized_mean(x, w, r) =
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
 
 Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
+
+In general the weights depend on the value of \code{generalized_mean(x, w, r)}. In many cases this value is known prior to calling the function, and can be supplied to save some computations. Otherwise, it will be calculated from the values of \code{x} and \code{w}.
 }
 
 \references{

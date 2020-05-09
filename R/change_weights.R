@@ -1,10 +1,11 @@
-change_weights <- function(x, w, r, k, na.rm = FALSE) {
+change_weights <- function (x, w, r, k, na.rm = FALSE, M) {
   stopifnot(
-    is.numeric(x) || is.logical(x), # x should be numeric or logical
-    missing(w) || (is.numeric(w) || is.logical(w)), # weights should be numeric or logical 
-    length(r) == 1L, is.numeric(r), is.finite(r), # r must be a length 1 numeric
-    length(k) == 1L, is.numeric(k), is.finite(k), # k must be a length 1 numeric
-    length(na.rm) == 1L, is.logical(na.rm) # na.rm must be a length 1 logical
+    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
+    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
+    "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
+    "na.rm must be a length 1 numeric" = length(na.rm) == 1L && is.logical(na.rm),
+    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
   )
   # set w to 1 / n if equally weighted and calculate r-mean
   if (missing(w)) {
@@ -13,8 +14,10 @@ change_weights <- function(x, w, r, k, na.rm = FALSE) {
     } else {
       w <- numeric(0)
     }
-    M <- generalized_mean(x, r = r, na.rm = na.rm)
-  } else {
+    if (missing(M)) {
+      M <- generalized_mean(x, r = r, na.rm = na.rm)
+    }
+  } else if (missing(M)) {
     M <- generalized_mean(x, w, r, na.rm = na.rm)
   }
   out <- if (r < 1 && k < 1) {
@@ -45,12 +48,12 @@ change_weights <- function(x, w, r, k, na.rm = FALSE) {
   out / sum(out, na.rm = na.rm)
 }
   
-geometric_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x, w, 0, 1, na.rm)
+geometric_to_arithmetic <- function (x, w, na.rm = FALSE, M) change_weights(x, w, 0, 1, na.rm, M)
 
-harmonic_to_arithmetic <- function(x, w, na.rm = FALSE) change_weights(x, w, -1, 1, na.rm)
+harmonic_to_arithmetic <- function (x, w, na.rm = FALSE, M) change_weights(x, w, -1, 1, na.rm, M)
 
-arithmetic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x, w, 1, 0, na.rm)
+arithmetic_to_geometric <- function (x, w, na.rm = FALSE, M) change_weights(x, w, 1, 0, na.rm, M)
 
-harmonic_to_geometric <- function(x, w, na.rm = FALSE) change_weights(x, w, -1, 0, na.rm)
+harmonic_to_geometric <- function (x, w, na.rm = FALSE, M) change_weights(x, w, -1, 0, na.rm, M)
 
 

@@ -8,17 +8,17 @@ Calculate the weights for a variety of price indices using information on prices
 }
 
 \usage{
-index_weights(p0, p1, q0, q1, pb, qb, type, na.rm)
+index_weights(p1, p0, q1, q0, pb, qb, type, na.rm)
 }
 
 \arguments{
-\item{p0}{Base-period prices.}
-
 \item{p1}{Current-period prices.}
 
-\item{q0}{Base-period quantities.}
+\item{p0}{Base-period prices.}
 
 \item{q1}{Current-period quantities.}
+
+\item{q0}{Base-period quantities.}
 
 \item{pb}{Period-b prices for the Lowe/Young index.}
 
@@ -83,86 +83,86 @@ qb <- runif(5)
 # Can be used with the generalized_mean function to make most types of price indices
 # arithmetic Laspeyres index
 
-arithmetic_mean(p1 / p0, index_weights(p0, p1, q0, q1, type = "Laspeyres")) 
+arithmetic_mean(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
+
 # harmonic calculation
-harmonic_mean(p1 / p0, index_weights(p0, p1, q0, q1, type = "HybridLaspeyres")) 
+harmonic_mean(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
 
 # Explicit calculation for each of the different weights
-
 # Carli/Jevons/Coggeshall
 
-index_weights(p0, type = "Carli")
+index_weights(p1, p0, q1, q0, type = "Carli")
 rep(1, length(p0)) / length(p0)
 
 # Dutot
 
-index_weights(p0, p1, q0, q1, type = "Dutot")
+index_weights(p1, p0, q1, q0, type = "Dutot")
 p0 / sum(p0)
 
 # Laspeyres
 
-index_weights(p0, p1, q0, q1, type = "Laspeyres")
+index_weights(p1, p0, q1, q0, type = "Laspeyres")
 p0 * q0 / sum(p0 * q0)
 
 # Hybrid Laspeyres
 
-index_weights(p0, p1, q0, q1, type = "HybridLaspeyres")
+index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")
 p1 * q0 / sum(p1 * q0)
 
 # Paasche / Palgrave
 
-index_weights(p0, p1, q0, q1, type = "Paasche")
+index_weights(p1, p0, q1, q0, type = "Paasche")
 p1 * q1 / sum(p1 * q1)
 
 # Hybrid Paasche
 
-index_weights(p0, p1, q0, q1, type = "HybridPaasche")
+index_weights(p1, p0, q1, q0, type = "HybridPaasche")
 p0 * q1 / sum(p0 * q1)
 
 # Unnamed / Tornqvist
 
-index_weights(p0, p1, q0, q1, type = "Tornqvist")
+index_weights(p1, p0, q1, q0, type = "Tornqvist")
 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
 
 # Drobish
 
-index_weights(p0, p1, q0, q1, type = "Drobish")
+index_weights(p1, p0, q1, q0, type = "Drobish")
 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
 
 # Walsh-I
 
-index_weights(p0, p1, q0, q1, type = "Walsh1")
+index_weights(p1, p0, q1, q0, type = "Walsh1")
 p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
 
 # Marshall-Edgeworth
 
-index_weights(p0, p1, q0, q1, type = "MarshallEdgeworth")
+index_weights(p1, p0, q1, q0, type = "MarshallEdgeworth")
 p0 * (q0 + q1) / sum(p0 * (q0 + q1))
 
 # Geary-Khamis
 
-index_weights(p0, p1, q0, q1, type = "GearyKhamis")
+index_weights(p1, p0, q1, q0, type = "GearyKhamis")
 p0 / (1 / p0 + 1 / p1) / sum(p0 / (1 / p0 + 1 / p1))
 
 # Sato-Vartia / Vartia-II
 
-index_weights(p0, p1, q0, q1, type = "SatoVartia")
+index_weights(p1, p0, q1, q0, type = "SatoVartia")
 logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)) / 
 sum(logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
 
 # Walsh-II
 
-index_weights(p0, p1, q0, q1, type = "Walsh2")
+index_weights(p1, p0, q1, q0, type = "Walsh2")
 sqrt(p0 * q0 * p1 * q1) / sum(sqrt(p0 * q0 * p1 * q1))
 
 # Lowe
 
-index_weights(p0, p1, pb = pb, qb = qb, type = "Lowe")
+index_weights(p1, p0, pb = pb, qb = qb, type = "Lowe")
 p0 * qb / sum(p0 * qb)
 
 # Young
 
-index_weights(p0, p1, pb = pb, qb = qb, type = "Young")
+index_weights(p1, p0, pb = pb, qb = qb, type = "Young")
 pb * qb / sum(pb * qb)
 
 }
