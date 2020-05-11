@@ -8,7 +8,7 @@ Calculate the weights for a variety of price indices using information on prices
 }
 
 \usage{
-index_weights(p1, p0, q1, q0, pb, qb, type, na.rm)
+index_weights(p1, p0, q1, q0, pb, qb, type)
 }
 
 \arguments{
@@ -25,8 +25,6 @@ index_weights(p1, p0, q1, q0, pb, qb, type, na.rm)
 \item{qb}{Period-b quantities for the Lowe/Young index.}
 
 \item{type}{The name of the index. See details.}
-
-\item{na.rm}{Should missing values be removed?}
 }
 
 \value{
@@ -48,6 +46,7 @@ Weights for the following types of indices can be calculated.
 \item Walsh-II (for a geometric Walsh index)
 \item Marshall-Edgeworth
 \item Geary-Khamis
+\item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Lowe
 \item Young
@@ -55,7 +54,7 @@ Weights for the following types of indices can be calculated.
 
 Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two different names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calcuations are given in the examples.
 
-Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
+The weights need not sum to 1, as this normalization isn't always appropriate. The \code{\link[gpindex]{generalized_mean}} function that powers most price-index calculations scales weights by default, so this is not an issue.
 }
 
 \references{
@@ -92,32 +91,32 @@ harmonic_mean(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres"))
 # Carli/Jevons/Coggeshall
 
 index_weights(p1, p0, q1, q0, type = "Carli")
-rep(1, length(p0)) / length(p0)
+rep(1, length(p0))
 
 # Dutot
 
 index_weights(p1, p0, q1, q0, type = "Dutot")
-p0 / sum(p0)
+p0
 
 # Laspeyres
 
 index_weights(p1, p0, q1, q0, type = "Laspeyres")
-p0 * q0 / sum(p0 * q0)
+p0 * q0 
 
 # Hybrid Laspeyres
 
 index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")
-p1 * q0 / sum(p1 * q0)
+p1 * q0 
 
 # Paasche / Palgrave
 
 index_weights(p1, p0, q1, q0, type = "Paasche")
-p1 * q1 / sum(p1 * q1)
+p1 * q1 
 
 # Hybrid Paasche
 
 index_weights(p1, p0, q1, q0, type = "HybridPaasche")
-p0 * q1 / sum(p0 * q1)
+p0 * q1 
 
 # Unnamed / Tornqvist
 
@@ -132,37 +131,40 @@ index_weights(p1, p0, q1, q0, type = "Drobish")
 # Walsh-I
 
 index_weights(p1, p0, q1, q0, type = "Walsh1")
-p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
+p0 * sqrt(q0 * q1)
 
 # Marshall-Edgeworth
 
 index_weights(p1, p0, q1, q0, type = "MarshallEdgeworth")
-p0 * (q0 + q1) / sum(p0 * (q0 + q1))
+p0 * (q0 + q1) 
 
 # Geary-Khamis
 
 index_weights(p1, p0, q1, q0, type = "GearyKhamis")
-p0 / (1 / p0 + 1 / p1) / sum(p0 / (1 / p0 + 1 / p1))
+p0 / (1 / p0 + 1 / p1) 
+
+# Montgomery-Vartia / Vartia-I
+
+index_weights(p1, p0, q1, q0, type = "MontgomeryVartia")
 
 # Sato-Vartia / Vartia-II
 
 index_weights(p1, p0, q1, q0, type = "SatoVartia")
-logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)) / 
-sum(logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
 
 # Walsh-II
 
 index_weights(p1, p0, q1, q0, type = "Walsh2")
-sqrt(p0 * q0 * p1 * q1) / sum(sqrt(p0 * q0 * p1 * q1))
+sqrt(p0 * q0 * p1 * q1) 
 
 # Lowe
 
 index_weights(p1, p0, pb = pb, qb = qb, type = "Lowe")
-p0 * qb / sum(p0 * qb)
+p0 * qb
 
 # Young
 
 index_weights(p1, p0, pb = pb, qb = qb, type = "Young")
-pb * qb / sum(pb * qb)
+pb * qb
 
 }

@@ -13,6 +13,8 @@ types <- list(
                    "GearyKhamis",
                    "Jevons",
                    "Tornqvist",
+                   "MontgomeryVartia",
+                   "Vartia2",
                    "SatoVartia",
                    "Vartia2",
                    "Walsh2",

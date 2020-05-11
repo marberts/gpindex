@@ -11,13 +11,13 @@ Calculate a generalized mean.
 }
 
 \usage{
-generalized_mean(x, w, r, na.rm = FALSE)
+generalized_mean(x, w, r, na.rm = FALSE, scale = TRUE)
 
-arithmetic_mean(x, w, na.rm = FALSE)
+arithmetic_mean(x, w, na.rm = FALSE, scale = TRUE)
 
-geometric_mean(x, w, na.rm = FALSE)
+geometric_mean(x, w, na.rm = FALSE, scale = TRUE)
 
-harmonic_mean(x, w, na.rm = FALSE)
+harmonic_mean(x, w, na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -28,6 +28,8 @@ harmonic_mean(x, w, na.rm = FALSE)
 \item{r}{A number giving the exponent of the generalized mean.}
 
 \item{na.rm}{Should missing values be removed?}
+
+\item{scale}{Should the weights be scaled to sum to 1?}
 }
 
 \value{
@@ -35,15 +37,15 @@ A numeric value.
 }
 
 \details{
-Returns the value of the generalized mean of \code{x} and weights \code{w} with exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175).
+Returns the value of the generalized mean of \code{x} and weights \code{w} with exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement.
 
-The underlying calculation is done with \code{\link[stats]{weighted.mean}}. This means that weights are handled in the same way as \code{\link[stats]{weighted.mean}}. In particular, \code{arithmetic_mean} is identical to \code{\link[stats]{weighted.mean}}, except for some additional checks on the inputs.
+The underlying calculation is done with \code{arithmetic_mean}, which is almost identical to \code{\link[stats]{weighted.mean}}. Other than doing more checks on input values and being considerably faster in some cases, setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}.
 
 The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
 
 For the geometric and harmonic means in particular, the implementation and performance is similar to the \code{geometric.mean} and \code{harmonic.mean} functions in the \code{psych} package, the \code{geomean} function in the FSA package, the \code{GMean} and \code{HMean} functions in the \code{DescTools} package, and the \code{geoMean} function in the \code{EnvStats} package, with the exception that weights are allowed.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise. Similarly, the weights should almost always be scaled to sum to 1.
 }
 
 \references{
