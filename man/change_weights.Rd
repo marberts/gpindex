@@ -46,8 +46,6 @@ Returns a vector of weights \code{v} such that \code{generalized_mean(x, w, r) =
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
 
-Setting \code{na.rm = TRUE} simply removes missing values when scaling the weights so that they sum to 1. Any missing values will still appear in the return value to keep it the same length as the input values.
-
 In general the weights depend on the value of \code{generalized_mean(x, w, r)}. In many cases this value is known prior to calling the function, and can be supplied to save some computations. Otherwise, it will be calculated from the values of \code{x} and \code{w}.
 }
 

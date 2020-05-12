@@ -20,7 +20,7 @@ change_weights <- function (x, w, r, k, na.rm = FALSE, M) {
   } else if (missing(M)) {
     M <- generalized_mean(x, w, r, na.rm = na.rm)
   }
-  out <- if (r < 1 && k < 1) {
+  if (r < 1 && k < 1) {
     w * generalized_logmean(x, M, k)^(1 - k) / generalized_logmean(x, M, r)^(1 - r)
   } else if (r < 1 && k >= 1) {
     if (k == 1) {
@@ -45,7 +45,6 @@ change_weights <- function (x, w, r, k, na.rm = FALSE, M) {
       w * generalized_logmean(x, M, r)^(r - 1) / generalized_logmean(x, M, k)^(k - 1)
     }
   } 
-  out / sum(out, na.rm = na.rm)
 }
   
 geometric_to_arithmetic <- function (x, w, na.rm = FALSE, M) change_weights(x, w, 0, 1, na.rm, M)
