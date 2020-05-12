@@ -80,6 +80,7 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Geometric Paasche
 \item Geometric Young
 \item Tornqvist
+\item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Walsh-II (geometric Walsh)
 \item Coggeshall (equally weighted harmonic index)
@@ -89,7 +90,7 @@ In addition to these generalized indices, there are also functions for calculati
 
 Naming for the indices follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual.
 
-In many cases these functions are slower than the direct calculation, mostly because special attention is paid to making sure NAs are correctly handled to remove missing price relatives when \code{na.rm = TRUE}.
+Dealing with missing values when making a price index is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. The approach taken here when \code{na.rm = TRUE} is to remove price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in e.g., a Tornqvist or Sato-Vartia index).
 }
 
 \references{

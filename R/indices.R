@@ -1,18 +1,18 @@
 index_arithmetic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-  type <- match.arg(type, types[["arithmetic_index_types"]])
+  type <- match.arg(type, types$arithmetic_index_types)
   arithmetic_mean(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm)
 }
 
 index_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-  type <- match.arg(type, types[["geometric_index_types"]])
-  geometric_mean(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm)
+  type <- match.arg(type, types$geometric_index_types)
+  geometric_mean(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm, scale = type %in% c("Vartia1", "Montgomery-Vartia"))
 }
 
 index_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-  type <- match.arg(type, types[["harmonic_index_types"]])
+  type <- match.arg(type, types$harmonic_index_types)
   harmonic_mean(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm)
 }
 

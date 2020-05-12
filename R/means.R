@@ -85,7 +85,7 @@ generalized_logmean <- function (a, b, r) {
     (a - b) / log(a / b)
   } else if (r == 1) {
     # r = 1
-    (a^a / b^b)^(1 / (b - a)) / exp(1)
+    (a^a / b^b)^(1 / (a - b)) / exp(1)
   } else {
     # general case
     if (r > 0 & r < 1) {

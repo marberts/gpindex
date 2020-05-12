@@ -1,10 +1,6 @@
 change_weights <- function (x, w, r, k, na.rm = FALSE, M) {
   stopifnot(
-    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
-    "na.rm must be a length 1 numeric" = length(na.rm) == 1L && is.logical(na.rm),
     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
   )
   # set w to 1 / n if equally weighted and calculate r-mean
