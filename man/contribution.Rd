@@ -30,7 +30,7 @@ contribution_fisher(p1, p0, q1, q0, na.rm = FALSE)
 
 \item{qb}{Period-b quantities for the Lowe/Young index.}
 
-\item{type}{The name of the index. See \code{\link[gpindex]{price_indices}}.}
+\item{type}{The name of the index. See \code{\link[gpindex]{index_arithmetic}}.}
 
 \item{na.rm}{Should missing values be removed?}
 }
@@ -48,7 +48,7 @@ Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_mean}} for the generalized mean.
+See \code{\link[gpindex]{mean_generalized}} for the generalized mean.
 }
 
 \examples{

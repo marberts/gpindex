@@ -54,7 +54,7 @@ Weights for the following types of indices can be calculated.
 
 Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calcuations are given in the examples.
 
-The weights need not sum to 1, as this normalization isn't always appropriate (e.g., for the Vartia-I weights). The \code{\link[gpindex]{generalized_mean}} function that powers most price-index calculations scales weights by default, so this is not an issue.
+The weights need not sum to 1, as this normalization isn't always appropriate (e.g., for the Vartia-I weights). The \code{\link[gpindex]{mean_generalized}} function that powers most price-index calculations scales weights by default, so this is not an issue.
 
 Dealing with missing values when making weights is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating weights.
 }
@@ -68,7 +68,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manua
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_mean}} for the generalized mean.
+See \code{\link[gpindex]{mean_generalized}} for the generalized mean. \code{\link[gpindex]{index_arithmetic}}, \code{\link[gpindex]{index_geometric}}, and \code{\link[gpindex]{index_harmonic}} provide a wrapper for common indices.
 }
 
 \examples{
@@ -81,15 +81,15 @@ q1 <- runif(5)
 pb <- runif(5)
 qb <- runif(5)
 
-# Can be used with the generalized_mean function to make most types of price indices
+# Can be used with the mean_generalized function to make most types of price indices
 # arithmetic Laspeyres index
 
-arithmetic_mean(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
+mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
 
 # harmonic calculation
-harmonic_mean(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
+mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
 
-# Explicit calculation for each of the different weights
+# Explicit (unscaled) calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
 index_weights(p1, p0, q1, q0, type = "Carli")
@@ -148,6 +148,7 @@ p0 / (1 / p0 + 1 / p1)
 # Montgomery-Vartia / Vartia-I
 
 index_weights(p1, p0, q1, q0, type = "MontgomeryVartia")
+logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1), sum(p1 * q1))
 
 # Sato-Vartia / Vartia-II
 

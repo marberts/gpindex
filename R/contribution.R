@@ -1,13 +1,13 @@
 contribution_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-  type <- match.arg(type, types[["geometric_index_types"]])
-  geometric_to_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm) * p1 / p0
+  type <- match.arg(type, types$geometric_index_types)
+  weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm) * p1 / p0
 }
 
 contribution_harmonic<- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-  type <- match.arg(type, types[["harmonic_index_types"]])
-  harmonic_to_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm) * p1 / p0
+  type <- match.arg(type, types$harmonic_index_types)
+  weights_h2a(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm) * p1 / p0
 }
 
 contribution_fisher <- function (p1, p0, q1, q0, na.rm = FALSE) {

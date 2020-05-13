@@ -1,5 +1,5 @@
 \name{generalized logarithmic mean}
-\alias{generalized_logmean}
+\alias{logmean_generalized}
 \alias{logmean}
 
 \title{Generalized logarithmic mean}
@@ -9,7 +9,7 @@ Calculate a generalized logarithmic mean.
 }
 
 \usage{
-generalized_logmean(a, b, r)
+logmean_generalized(a, b, r)
 
 logmean(a, b)
 }
@@ -43,5 +43,5 @@ logmean(1:10, 10:1) * log(1:10 / 10:1)  - (1:10 - 10:1) # should be the all zero
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_mean}} for the generalized mean.
+See \code{\link[gpindex]{mean_generalized}} for the generalized mean.
 }

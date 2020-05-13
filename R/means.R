@@ -1,5 +1,5 @@
 #---- Arithmetic mean ----
-arithmetic_mean <- function (x, w, na.rm = FALSE, scale = TRUE) {
+mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
     "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
@@ -23,40 +23,40 @@ arithmetic_mean <- function (x, w, na.rm = FALSE, scale = TRUE) {
 }
 
 #---- Generalized mean ----
-generalized_mean <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
+mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
   stopifnot(
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
   )
   # geomean if r = 0
   if (r == 0) { 
-    exp(arithmetic_mean(log(x), w, na.rm, scale))
+    exp(mean_arithmetic(log(x), w, na.rm, scale))
   # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) { 
     # arithmetic mean if r = 1
     if (r == 1) { 
-      arithmetic_mean(x, w, na.rm, scale)
+      mean_arithmetic(x, w, na.rm, scale)
     # harmonic mean if r = -1
     } else { 
-      1 / arithmetic_mean(1 / x, w, na.rm, scale)
+      1 / mean_arithmetic(1 / x, w, na.rm, scale)
     }
   # generalized mean otherwise
   # if r < 0 then 1 / x^r is faster than x^(-r)
   } else if (r < 0) { 
-    1 / (arithmetic_mean((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
+    1 / (mean_arithmetic((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
   } else {
-    (arithmetic_mean(x^r, w, na.rm, scale))^(1 / r)
+    (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r)
   }
 }
 
 #---- Geometric mean ----
-geometric_mean <- function (x, w, na.rm = FALSE, scale = TRUE) generalized_mean(x, w, 0, na.rm, scale)
+mean_geometric <- function (x, w, na.rm = FALSE, scale = TRUE) mean_generalized(x, w, 0, na.rm, scale)
 
 #---- Harmonic mean ----
-harmonic_mean <- function (x, w, na.rm = FALSE, scale = TRUE) generalized_mean(x, w, -1, na.rm, scale)
+mean_harmonic <- function (x, w, na.rm = FALSE, scale = TRUE) mean_generalized(x, w, -1, na.rm, scale)
 
 #---- Generalized logarithmic mean ----
-generalized_logmean <- function (a, b, r) {
+logmean_generalized <- function (a, b, r) {
   # check input
   stopifnot(
     "a must be numeric" = is.numeric(a), 
@@ -95,6 +95,6 @@ generalized_logmean <- function (a, b, r) {
 }
 
 #---- Logarithmic mean ----
-logmean <- function (a, b) generalized_logmean(a, b, 0)
+logmean <- function (a, b) logmean_generalized(a, b, 0)
 
 

@@ -1,8 +1,8 @@
 \name{generalized mean}
-\alias{generalized_mean}
-\alias{arithmetic_mean}
-\alias{geometric_mean}
-\alias{harmonic_mean}
+\alias{mean_generalized}
+\alias{mean_arithmetic}
+\alias{mean_geometric}
+\alias{mean_harmonic}
 
 \title{Generalized mean}
 
@@ -11,13 +11,13 @@ Calculate a generalized mean.
 }
 
 \usage{
-generalized_mean(x, w, r, na.rm = FALSE, scale = TRUE)
+mean_generalized(x, w, r, na.rm = FALSE, scale = TRUE)
 
-arithmetic_mean(x, w, na.rm = FALSE, scale = TRUE)
+mean_arithmetic(x, w, na.rm = FALSE, scale = TRUE)
 
-geometric_mean(x, w, na.rm = FALSE, scale = TRUE)
+mean_geometric(x, w, na.rm = FALSE, scale = TRUE)
 
-harmonic_mean(x, w, na.rm = FALSE, scale = TRUE)
+mean_harmonic(x, w, na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -39,7 +39,7 @@ A numeric value.
 \details{
 Returns the value of the generalized mean of \code{x} and weights \code{w} with exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement.
 
-The underlying calculation is done with \code{arithmetic_mean}, which is almost identical to \code{\link[stats]{weighted.mean}}. Other than doing more checks on input values and being slightly faster in some cases when \code{na.rm = TRUE}, setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}.
+The underlying calculation is done with \code{mean_arithmetic}, which is almost identical to \code{\link[stats]{weighted.mean}}. Other than doing more checks on input values and being slightly faster in some cases when \code{na.rm = TRUE}, setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}.
 
 The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
 
@@ -53,31 +53,31 @@ Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_logmean}} for the generalized logarithmic mean. \code{\link[gpindex]{change_weights}} can be used to turn an r-generalized mean into a k-generalized mean, and \code{\link[gpindex]{factor_weights}} can be used to factor the weights to a turn a mean of products into a product of means.
+See \code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. \code{\link[gpindex]{weights_change}} can be used to turn an r-generalized mean into a k-generalized mean, and \code{\link[gpindex]{weights_factor}} can be used to factor the weights to a turn a mean of products into a product of means.
 }
 
 \examples{
 ## Geometric mean
 
-geometric_mean(2:3)
+mean_geometric(2:3)
 
 # Same as manual calculation
 
-sqrt(6)
+sqrt(2 * 3)
 
 # Using prod to manually calculate the geometric mean can give misleading results
 
 prod(1:1000)^(1/1000)
-geometric_mean(1:1000)
+mean_geometric(1:1000)
 
-# geometric_mean is usuallya bit faster anyways
+# mean_geometric is usually a bit faster anyways
 
 x <- runif(1000000)
-system.time(prod(x^(1/length(x)))) - system.time(geometric_mean(x))
+system.time(prod(x^(1/length(x)))) - system.time(mean_geometric(x))
 
 ## Harmonic mean
 
-harmonic_mean(2:3)
+mean_harmonic(2:3)
 
 # Same as manual calculation
 
@@ -85,10 +85,10 @@ harmonic_mean(2:3)
 
 ## Quadratic mean
 
-generalized_mean(2:3, r = 2)
+mean_generalized(2:3, r = 2)
 
 # Root mean square
 
-sqrt(generalized_mean(2:3, r = 2))
+sqrt(mean_generalized(2:3, r = 2))
 
 }

@@ -1,5 +1,4 @@
 \name{price indices}
-\alias{price_indices}
 \alias{index_arithmetic}
 \alias{index_geometric}
 \alias{index_harmonic}
@@ -61,7 +60,7 @@ A numeric value.
 }
 
 \details{
-The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convient wrappers for \code{generalized_mean(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
+The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
 \itemize{
 \item Carli
 \item Dutot
@@ -102,7 +101,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manua
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_mean}} for the generalized mean. \code{\link[gpindex]{index_weights}} calculates weights for the different types of indices.
+See \code{\link[gpindex]{mean_generalized}} for the generalized mean. \code{\link[gpindex]{index_weights}} calculates weights for the different types of indices.
 }
 
 \examples{
@@ -114,11 +113,11 @@ p1 <- 2:6
 q0 <- 1:5
 
 index_geometric(p1, p0, q0 = q0, type = "Laspeyres")
-geometric_mean(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+mean_geometric(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
 
 # If only weights are available (no quantity information), then use one of the generalized means
 
-geometric_mean(p1 / p0, c(0.1, 0.2, 0.4, 0.15, 0.15))
+mean_geometric(p1 / p0, c(0.1, 0.2, 0.4, 0.15, 0.15))
 
 # NAs get special treatment
 
