@@ -32,7 +32,7 @@ change_weights <- function (x, w, r, k, na.rm = FALSE, M) {
     }
   } else if (r >= 1 && k >= 1) {
     if (r == 1 && k == 1) {
-      w
+      rep_len(w, length(x))
     } else if (r == 1) {
       w / generalized_logmean(x, M, k)^(k - 1)
     } else if (k == 1){

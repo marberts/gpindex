@@ -8,23 +8,15 @@ arithmetic_mean <- function (x, w, na.rm = FALSE, scale = TRUE) {
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
   if (missing(w)) {
-    if (anyNA(x)) {
-      if (na.rm) {
-        x <- x[!is.na(x)]
-      } else {
-        return(NA_real_)
-      }
+    if (anyNA(x) && na.rm) {
+      x <- x[!is.na(x)]
     }
     return(sum(x) * (scale / length(x) + 1 - scale))
   } else {
-    if (anyNA(x) || anyNA(w)) {
-      if (na.rm) {
-        na <- is.na(x) | is.na(w)
-        x <- x[!na]
-        w <- w[!na]
-      } else {
-        return(NA_real_)
-      }
+    if ((anyNA(x) || anyNA(w)) && na.rm) {
+      na <- is.na(x) | is.na(w)
+      x <- x[!na]
+      w <- w[!na]
     }
     sum((x * w)[w != 0]) * (scale / sum(w) + 1 - scale)
   }
@@ -97,7 +89,7 @@ generalized_logmean <- function (a, b, r) {
     }
   }
   # set output to a when a = b
-  loc <- which(a == b) 
+  loc <- which(abs(a - b) < .Machine$double.eps^0.5) 
   out[loc] <- a[loc]
   out
 }

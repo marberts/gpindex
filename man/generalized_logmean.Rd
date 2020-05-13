@@ -21,7 +21,7 @@ logmean(a, b)
 }
 
 \value{
-A numeric vector, the same length as \code{a} and \code{b}.
+A numeric vector, the same length as \code{max(length(a), length(b)}.
 }
 
 \details{

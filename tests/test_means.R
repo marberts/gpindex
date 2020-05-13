@@ -27,17 +27,21 @@ stopifnot(
         seq(-10, 10, by = 0.25), 
         function(r) 
           abs(
-            generalized_mean(x, w, r) - 
-              if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(weighted.mean(log(x), w))
+            c(
+              generalized_mean(x, w, r) - 
+                if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(weighted.mean(log(x), w)),
+              generalized_mean(x, r = r) - 
+                if (r != 0) (mean(x^r))^(1 / r) else exp(mean(log(x)))
+            )
           ) < .Machine$double.eps^0.5, 
-        logical(1)
+        logical(2)
       )
     )
     # Is the general inequality satisfied?
     all(
       vapply(
         seq(-10, 10, by = 0.25), 
-        function(r)  generalized_mean(x, w, r - runif(1, 0, 5)) <= generalized_mean(x, w, r),
+        function(r) generalized_mean(x, w, r - runif(1, 0, 5)) <= generalized_mean(x, w, r),
         logical(1)
       )
     )
@@ -46,10 +50,14 @@ stopifnot(
     is.na(arithmetic_mean(NA, 1))
     is.na(arithmetic_mean(NA, 0.5, scale = FALSE))
     is.na(arithmetic_mean(1, NA))
+    is.nan(arithmetic_mean(NaN))
+    is.na(arithmetic_mean(1, NaN))
     is.nan(arithmetic_mean(NA, na.rm = TRUE))
+    is.nan(arithmetic_mean(NaN, na.rm = TRUE))
     is.nan(arithmetic_mean(NA, 1, na.rm = TRUE))
     is.nan(arithmetic_mean(NA, 0.5, na.rm = TRUE, scale = FALSE))
     is.nan(arithmetic_mean(1, NA, na.rm = TRUE))
+    is.nan(arithmetic_mean(1, NaN, na.rm = TRUE))
     is.nan(arithmetic_mean(numeric(0)))
     is.nan(arithmetic_mean(numeric(0), numeric(0)))
     abs(arithmetic_mean(c(1, NA), na.rm = TRUE) - 1) < .Machine$double.eps^0.5
@@ -65,17 +73,22 @@ stopifnot(
         expand.grid(a = seq(-3, 3, by = 0.25), b = seq(-3, 3, by = 0.25)), 
         1,
         function(p) {
-          abs(generalized_mean(x, w, p[1]) - generalized_mean(x, change_weights(x, w, p[1], p[2]), p[2])) < .Machine$double.eps^0.5
+          c(
+            abs(generalized_mean(x, w, p[1]) - generalized_mean(x, change_weights(x, w, p[1], p[2]), p[2])) < .Machine$double.eps^0.5,
+            abs(generalized_mean(x, r = p[1]) - generalized_mean(x, change_weights(x, r = p[1], k = p[2]), p[2])) < .Machine$double.eps^0.5
+          )
         }
       )
     )
+    abs(geometric_mean(c(2, sqrt(2)^2)) - arithmetic_mean(c(2, sqrt(2)^2), geometric_to_arithmetic(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
     # Change weights with NAs
     all(
       apply(
         expand.grid(a = seq(-2, 2, by = 0.5), b = seq(-2, 2, by = 0.5)), 
         1,
         function(p) {
-          abs(generalized_mean(xna, w, p[1], na.rm = TRUE) - generalized_mean(xna, change_weights(xna, w, p[1], p[2], na.rm = TRUE), p[2], na.rm = TRUE)) < .Machine$double.eps^0.5
+          abs(generalized_mean(xna, w, p[1], na.rm = TRUE) - 
+                generalized_mean(xna, change_weights(xna, w, p[1], p[2], na.rm = TRUE), p[2], na.rm = TRUE)) < .Machine$double.eps^0.5
         }
       )
     )
@@ -114,8 +127,10 @@ stopifnot(
     # Checks for NA and length-0 inputs
     identical(logmean(numeric(0), numeric(0)), numeric(0))
     is.na(logmean(1, NA_real_))
+    is.nan(logmean(1, NaN))
     # Test of a == b
     logmean(0.00001, 1 / 100000) == 1 / 100000
+    logmean(2, sqrt(2)^2) == 2
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
   },
