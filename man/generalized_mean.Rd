@@ -53,7 +53,7 @@ Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
 }
 
 \seealso{
-See \code{\link[gpindex]{generalized_logmean}} for the generalized logarithmic mean. \code{\link[gpindex]{change_weights}} can be used to turn an r-generalized mean into a k-generalized mean.
+See \code{\link[gpindex]{generalized_logmean}} for the generalized logarithmic mean. \code{\link[gpindex]{change_weights}} can be used to turn an r-generalized mean into a k-generalized mean, and \code{\link[gpindex]{factor_weights}} can be used to factor the weights to a turn a mean of products into a product of means.
 }
 
 \examples{

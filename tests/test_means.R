@@ -74,13 +74,16 @@ stopifnot(
         1,
         function(p) {
           c(
-            abs(generalized_mean(x, w, p[1]) - generalized_mean(x, change_weights(x, w, p[1], p[2]), p[2])) < .Machine$double.eps^0.5,
-            abs(generalized_mean(x, r = p[1]) - generalized_mean(x, change_weights(x, r = p[1], k = p[2]), p[2])) < .Machine$double.eps^0.5
+            abs(generalized_mean(x, w, p[1]) - 
+                  generalized_mean(x, change_weights(x, w, p[1], p[2]), p[2])) < .Machine$double.eps^0.5,
+            abs(generalized_mean(x, r = p[1]) - 
+                  generalized_mean(x, change_weights(x, r = p[1], k = p[2]), p[2])) < .Machine$double.eps^0.5
           )
         }
       )
     )
-    abs(geometric_mean(c(2, sqrt(2)^2)) - arithmetic_mean(c(2, sqrt(2)^2), geometric_to_arithmetic(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
+    abs(geometric_mean(c(2, sqrt(2)^2)) - 
+          arithmetic_mean(c(2, sqrt(2)^2), geometric_to_arithmetic(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
     # Change weights with NAs
     all(
       apply(
@@ -92,7 +95,21 @@ stopifnot(
         }
       )
     )
-    
+    # Factor weights
+    all(factor_weights(x, w, 0) == w)
+    all(
+      vapply(
+        seq(-10, 10, by = 0.25), 
+        function(r) 
+          c(
+            abs(generalized_mean(x * a, w, r) - 
+                  generalized_mean(x, w, r) * generalized_mean(a, factor_weights(x, w, r), r)) < .Machine$double.eps^0.5,
+            abs(generalized_mean(x * a, r = r) - 
+                  generalized_mean(x, r = r) * generalized_mean(a, factor_weights(x, r = r), r)) < .Machine$double.eps^0.5
+          ),
+        logical(2)
+      )
+    )
   },
   local = getNamespace("gpindex")
 )
