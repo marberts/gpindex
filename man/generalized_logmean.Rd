@@ -9,15 +9,17 @@ Calculate a generalized logarithmic mean.
 }
 
 \usage{
-logmean_generalized(a, b, r)
+logmean_generalized(a, b, r, tol = .Machine$double.eps^0.5)
 
-logmean(a, b)
+logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \arguments{
 \item{a, b}{A numeric vector.}
 
 \item{r}{A number giving the order of the generalized logarithmic mean.}
+
+\item{tol}{The tolerance used to determine if \code{a == b}.}
 }
 
 \value{

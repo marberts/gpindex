@@ -8,17 +8,19 @@ mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
   if (missing(w)) {
-    if (anyNA(x) && na.rm) {
-      x <- x[!is.na(x)]
+    if (!na.rm && anyNA(x)) {
+      return(NA_real_)
+    } else {
+      denom <- if (anyNA(x)) sum(!is.na(x), na.rm = TRUE) else length(x)
+      return(sum(x, na.rm = TRUE) * (scale / denom  + 1 - scale))
     }
-    return(sum(x) * (scale / length(x) + 1 - scale))
   } else {
-    if ((anyNA(x) || anyNA(w)) && na.rm) {
-      na <- is.na(x) | is.na(w)
-      x <- x[!na]
-      w <- w[!na]
+    if (!na.rm && (anyNA(x) || anyNA(w))) {
+      return(NA_real_)
+    } else {
+      denom <- if (anyNA(x)) sum(w[!is.na(x)], na.rm = TRUE) else sum(w, na.rm = TRUE)
+      sum(x * w, na.rm = na.rm) * (scale / denom + 1 - scale)
     }
-    sum((x * w)[w != 0]) * (scale / sum(w) + 1 - scale)
   }
 }
 
@@ -56,12 +58,13 @@ mean_geometric <- function (x, w, na.rm = FALSE, scale = TRUE) mean_generalized(
 mean_harmonic <- function (x, w, na.rm = FALSE, scale = TRUE) mean_generalized(x, w, -1, na.rm, scale)
 
 #---- Generalized logarithmic mean ----
-logmean_generalized <- function (a, b, r) {
+logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
   # check input
   stopifnot(
     "a must be numeric" = is.numeric(a), 
     "b must be numeric" = is.numeric(b),
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
+    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
+    "tol must be a length 1 numeric" = length(tol) == 1L && is.numeric(tol) && is.finite(tol)
   )
   # return numeric(0) if either a or b is length 0
   if (length(a) == 0L || length(b) == 0L) return(numeric(0))
@@ -89,12 +92,12 @@ logmean_generalized <- function (a, b, r) {
     }
   }
   # set output to a when a = b
-  loc <- which(abs(a - b) < .Machine$double.eps^0.5) 
+  loc <- which(abs(a - b) <= tol) 
   out[loc] <- a[loc]
   out
 }
 
 #---- Logarithmic mean ----
-logmean <- function (a, b) logmean_generalized(a, b, 0)
+logmean <- function (a, b, tol = .Machine$double.eps^0.5) logmean_generalized(a, b, 0, tol)
 
 

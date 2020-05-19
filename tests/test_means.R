@@ -50,7 +50,7 @@ stopifnot(
     is.na(mean_arithmetic(NA, 1))
     is.na(mean_arithmetic(NA, 0.5, scale = FALSE))
     is.na(mean_arithmetic(1, NA))
-    is.nan(mean_arithmetic(NaN))
+    is.na(mean_arithmetic(NaN))
     is.na(mean_arithmetic(1, NaN))
     is.nan(mean_arithmetic(NA, na.rm = TRUE))
     is.nan(mean_arithmetic(NaN, na.rm = TRUE))
