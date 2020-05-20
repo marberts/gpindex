@@ -1,12 +1,13 @@
 # Some data for tests
+set.seed(1234)
 x <- rlnorm(15)
 xna <- rlnorm(15)
 xna[sample(15, 4)] <- NA
 w <- runif(15)
-a <- runif(15)
+a <- runif(15, 0, 5)
 b <- rlnorm(15)
 
-# Tests for generalized means
+#---- Tests for generalized means ----
 stopifnot(
   exprs = {
     # Simple checks against known values
@@ -114,7 +115,7 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
-# Tests for generalized log means
+#---- Tests for generalized log means ----
 
 stopifnot(
   exprs = {
@@ -144,10 +145,15 @@ stopifnot(
     # Checks for NA and length-0 inputs
     identical(logmean(numeric(0), numeric(0)), numeric(0))
     is.na(logmean(1, NA_real_))
+    is.na(logmean(NA_real_, 1))
+    is.na(logmean(NA_real_, NA_real_))
     is.nan(logmean(1, NaN))
+    is.nan(logmean(NaN, 1))
+    is.nan(logmean(NaN, NaN))
     # Test of a == b
     logmean(0.00001, 1 / 100000) == 1 / 100000
     logmean(2, sqrt(2)^2) == 2
+    logmean_generalized(2, sqrt(2)^2, 0.9) == 2
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
   },

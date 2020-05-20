@@ -1,83 +1,86 @@
-index_weights <- function (p1, p0, q1, q0, pb, qb, type) {
+#---- Weights to turn an r-generalized mean into a k-generalized mean
+weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
   # check input
-  check_weights_arguments(p1, p0, q1, q0, pb, qb, type)
-  # match type arguments
-  type <- match.arg(type, types$weight_types)
-  # Calculate weights
-  if (length(p0) == 0L) return(numeric(0))
-  switch(type,
-         Carli = ,
-         Jevons = ,
-         Coggeshall = rep.int(1, length(p0)), 
-         Dutot = p0,
-         Laspeyres = p0 * q0,
-         HybridLaspeyres = p1 * q0,
-         Palgrave = ,
-         Paasche = p1 * q1,
-         HybridPaasche = p0 * q1,
-         Drobish = 0.5 * p0 * q0 / sum(p0 * q0, na.rm = TRUE) + 0.5 * p0 * q1 / sum(p0 * q1, na.rm = TRUE),
-         Unnamed = ,
-         Tornqvist = 0.5 * p0 * q0 / sum(p0 * q0, na.rm = TRUE) + 0.5 * p1 * q1 / sum(p1 * q1, na.rm = TRUE),
-         Walsh1 = p0 * sqrt(q0 * q1),
-         Walsh2 = sqrt(p0 * q0 * p1 * q1),
-         MarshallEdgeworth = p0 * (q0 + q1),
-         GearyKhamis = p0 / (1 / p0 + 1 / p1),
-         Vartia1 = ,
-         MontgomeryVartia = logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
-         Vartia2 = ,
-         SatoVartia = logmean(p0 * q0 / sum(p0 * q0, na.rm = TRUE), p1 * q1 / sum(p1 * q1, na.rm = TRUE)),
-         Lowe = p0 * qb,
-         Young = pb * qb,
-  ) 
+  stopifnot(
+    "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
+    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
+  )
+  # set w if equally weighted 
+  if (missing(w)) {
+    w <- if (length(x)) 1 else numeric(0)
+    # Calculate r-mean with equal weights
+    if (missing(M)) {
+      M <- mean_generalized(x, r = r, na.rm = na.rm)
+    }
+  # Calculate r-mean with unequal weights
+  } else if (missing(M)) {
+    M <- mean_generalized(x, w, r, na.rm = na.rm)
+  }
+  # all the different cases are to avoid negative exponents and unnecessary calculations
+  if (r < 1 && k < 1) {
+    w * logmean_generalized(x, M, k)^(1 - k) / logmean_generalized(x, M, r)^(1 - r)
+  } else if (r < 1 && k >= 1) {
+    if (k == 1) {
+      w / logmean_generalized(x, M, r)^(1 - r)
+    } else {
+      w / (logmean_generalized(x, M, r)^(1 - r) * logmean_generalized(x, M, k)^(k - 1))
+    }
+  } else if (r >= 1 && k < 1) {
+    if (r == 1) {
+      w * logmean_generalized(x, M, k)^(1 - k)
+    } else {
+      w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)^(1 - k)
+    }
+  } else if (r >= 1 && k >= 1) {
+    if (r == 1 && k == 1) {
+      rep_len(w, length(x))
+    } else if (r == 1) {
+      w / logmean_generalized(x, M, k)^(k - 1)
+    } else if (k == 1){
+      w * logmean_generalized(x, M, r)^(r - 1)
+    } else {
+      w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
+    }
+  } 
+}
+  
+#---- Common cases ----
+weights_g2a <- function (x, w, na.rm = FALSE, M) weights_change(x, w, 0, 1, na.rm, M)
+
+weights_h2a <- function (x, w, na.rm = FALSE, M) weights_change(x, w, -1, 1, na.rm, M)
+
+weights_a2g<- function (x, w, na.rm = FALSE, M) weights_change(x, w, 1, 0, na.rm, M)
+
+weights_h2g <- function (x, w, na.rm = FALSE, M) weights_change(x, w, -1, 0, na.rm, M)
+
+#---- Weights to factor a mean of products into the product of means ----
+weights_factor <- function (x, w, r) {
+  # check inputs
+  stopifnot(
+    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
+    "x and w must be the same length" = missing(w) || length(x) == length(w), 
+    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
+  )
+  # set w if equally weighted 
+  if (missing(w)) {
+    w <- if (length(x)) 1 else numeric(0)
+  }
+  # all the different cases are to avoid negative exponents and unnecessary calculations
+  if (r == 0) {
+    rep_len(w, length(x))
+  } else if (abs(r) == 1) {
+    if (r == 1) {
+      w * x
+    } else {
+      w / x
+    }
+  } else if (r < 0) {
+    w / x^abs(r)
+  } else {
+    w * x^r # the general equation
+  }
 }
 
-# index_weights <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
-#   # check input
-#   check_weights_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
-#   # match type arguments
-#   type <- match.arg(type, types$weight_types)
-#   # Calculate weights
-#   if (length(p0) == 0L) return(numeric(0))
-#   if (type %in% types$value_weights) {
-#     if (anyNA(list(p1, p0, q0, q1), TRUE)) {
-#       if (na.rm) {
-#         comp <- stats::complete.cases(p1, p0, q1, q0)
-#         v0 <- sum((p0 * q0)[comp])
-#         v1 <- if (type == "Drobish") sum((p0 * q1)[comp]) else sum((p1 * q1)[comp])
-#       } else {
-#         return(rep.int(NA_real_, length(p0)))
-#       }
-#     } else {
-#       v0 <- sum(p0 * q0)
-#       v1 <- if (type == "Drobish") sum(p0 * q1) else sum(p1 * q1)
-#     }
-#     switch(type,
-#            Drobish = 0.5 * p0 * q0 / v0 + 0.5 * p0 * q1 / v1,
-#            Unnamed = ,
-#            Tornqvist = 0.5 * p0 * q0 / v0 + 0.5 * p1 * q1 / v1,
-#            Vartia1 = ,
-#            MontgomeryVartia = logmean(p0 * q0, p1 * q1) / logmean(v0, v1),
-#            Vartia2 = ,
-#            SatoVartia = logmean(p0 * q0 / v0, p1 * q1 / v1),
-#     )
-#   } else {
-#     switch(type,
-#            Carli = ,
-#            Jevons = ,
-#            Coggeshall = rep.int(1, length(p0)), 
-#            Dutot = p0,
-#            Laspeyres = p0 * q0,
-#            HybridLaspeyres = p1 * q0,
-#            Palgrave = ,
-#            Paasche = p1 * q1,
-#            HybridPaasche = p0 * q1,
-#            Walsh1 = p0 * sqrt(q0 * q1),
-#            Walsh2 = sqrt(p0 * q0 * p1 * q1),
-#            MarshallEdgeworth = p0 * (q0 + q1),
-#            GearyKhamis = p0 / (1 / p0 + 1 / p1),
-#            Lowe = p0 * qb,
-#            Young = pb * qb
-#     ) 
-#   }
-# }
-
+#---- Common case ----
+index_price_update <- function (x, w) weights_factor(x, w, 1)

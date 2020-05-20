@@ -1,12 +1,12 @@
 Package: gpindex
 Title: Generalized+ price and quantity indices
 Version: 0.0.0.9007
-Date: 2020-05-13
+Date: 2020-05-20
 Authors@R: c(
     person(given = "Steve", family = "Martin", role = c("aut", "cre"), email = "stevemartin041@gmail.com")
     )
 Description: A small package for calculating lots of different price and quantity indices.
-Depends: R (>= 3.4)
+Depends: R (>= 3.5)
 Imports: base, stats
 License: MIT + file LICENSE
 Encoding: UTF-8

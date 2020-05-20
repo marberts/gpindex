@@ -47,7 +47,7 @@ mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
   } else if (r < 0) { 
     1 / (mean_arithmetic((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
   } else {
-    (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r)
+    (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r) # the general equation
   }
 }
 
@@ -79,16 +79,15 @@ logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
     # regular logmean if r = 0
     (a - b) / log(a / b)
   } else if (r == 1) {
-    # r = 1
     (a^a / b^b)^(1 / (a - b)) / exp(1)
   } else {
     # general case
-    if (r > 0 & r < 1) {
+    if (r > 0 && r < 1) {
       (r * (a - b) / (a^r - b^r))^(1 / (1 - r))
     } else if (r < 0) {
       (r * (a - b) / (1 / a^abs(r) - 1 / b^abs(r)))^(1 / (1 - r))
     } else {
-      ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1))
+      ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1)) # the general equation
     }
   }
   # set output to a when a = b
