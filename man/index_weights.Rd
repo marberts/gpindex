@@ -143,7 +143,7 @@ p0 * (q0 + q1)
 # Geary-Khamis
 
 index_weights(p1, p0, q1, q0, type = "GearyKhamis")
-p0 / (1 / p0 + 1 / p1) 
+p0 / (1 / q0 + 1 / q1) 
 
 # Montgomery-Vartia / Vartia-I
 

@@ -36,6 +36,10 @@ stopifnot(
     is.nan(weights_g2a(1, NaN))
     is.na(weights_g2a(NA_real_, na.rm = TRUE))
     is.nan(weights_g2a(NaN, na.rm = TRUE))
+    identical(weights_g2a(c(1, NA_real_)), c(NA_real_, NA_real_))
+    identical(weights_g2a(c(1, NaN)), c(NA, NaN))
+    identical(weights_g2a(c(1, NA_real_), na.rm = TRUE), c(1, NA))
+    identical(weights_g2a(c(1, NaN), na.rm = TRUE), c(1, NaN))
   },
   local = getNamespace("gpindex")
 )
@@ -43,9 +47,10 @@ stopifnot(
 #---- Test for weights_factor ----
 stopifnot(
   exprs = {
+    # test against known cases
     all(weights_factor(x, r = 0) == 1)
     all(weights_factor(x, w, r = 0) == w)
-    # Test against a simple implementation
+    # test against a simple implementation
     all(
       vapply(
         seq(-10, 10, by = 0.25), 
@@ -57,20 +62,6 @@ stopifnot(
         logical(1)
       )
     )
-    # check that it works with small differences
-    all(abs(weights_change(rep.int(sqrt(2)^2, length(x)), r = 0.9, k = 1.1) - 
-              weights_change(rep.int(sqrt(2)^2, length(x)), r = 0.9, k = 1.1, M = 2)) < .Machine$double.eps^0.5)
-    # length 0 inputs
-    length(weights_g2a(numeric(0))) == 0L
-    length(weights_g2a(numeric(0), numeric(0))) == 0L
-    # NA inputs
-    is.na(weights_g2a(NA_real_))
-    is.na(weights_g2a(NA_real_, 1))
-    is.na(weights_g2a(1, NA_real_))
-    is.nan(weights_g2a(NaN, 1))
-    is.nan(weights_g2a(1, NaN))
-    is.na(weights_g2a(NA_real_, na.rm = TRUE))
-    is.nan(weights_g2a(NaN, na.rm = TRUE))
   },
   local = getNamespace("gpindex")
 )

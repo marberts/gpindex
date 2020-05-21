@@ -147,6 +147,8 @@ stopifnot(
     is.na(logmean(1, NA_real_))
     is.na(logmean(NA_real_, 1))
     is.na(logmean(NA_real_, NA_real_))
+    is.na(logmean(NA_real_, NaN))
+    is.nan(logmean(NaN, NA_real_))
     is.nan(logmean(1, NaN))
     is.nan(logmean(NaN, 1))
     is.nan(logmean(NaN, NaN))

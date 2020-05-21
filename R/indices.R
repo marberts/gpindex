@@ -7,7 +7,7 @@ index_arithmetic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
 index_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   type <- match.arg(type, types$geometric_index_types)
-  mean_geometric(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm, scale = !type %in% c("Vartia1", "Montgomery-Vartia"))
+  mean_geometric(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm, scale = !type %in% c("Vartia1", "MontgomeryVartia"))
 }
 
 index_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {

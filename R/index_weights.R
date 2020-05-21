@@ -22,7 +22,7 @@ index_weights <- function (p1, p0, q1, q0, pb, qb, type) {
          Walsh1 = p0 * sqrt(q0 * q1),
          Walsh2 = sqrt(p0 * q0 * p1 * q1),
          MarshallEdgeworth = p0 * (q0 + q1),
-         GearyKhamis = p0 / (1 / p0 + 1 / p1),
+         GearyKhamis = p0 / (1 / q0 + 1 / q1),
          Vartia1 = ,
          MontgomeryVartia = logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
          Vartia2 = ,
