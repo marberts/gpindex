@@ -6,7 +6,7 @@
 \title{Quote contributions}
 
 \description{
-Calculate the additive decomposition on an index.
+Calculate the additive decomposition of an index.
 }
 
 \usage{

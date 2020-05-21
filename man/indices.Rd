@@ -62,10 +62,10 @@ A numeric value.
 \details{
 The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
 \itemize{
+\item \bold{Arithmetic indices}
 \item Carli
 \item Dutot
 \item Laspeyres
-\item Paasche
 \item Palgrave
 \item Unnamed index (arithmetic analog of the Fisher)
 \item Drobish
@@ -74,6 +74,7 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Geary-Khamis
 \item Lowe
 \item Young
+\item \bold{Geometric indices}
 \item Jevons
 \item Geometric Laspeyres
 \item Geometric Paasche
@@ -82,7 +83,9 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Walsh-II (geometric Walsh)
+\item \bold{Harmonic indices}
 \item Coggeshall (equally weighted harmonic index)
+\item Paasche
 \item Harmonic Laspeyres
 }
 In addition to these generalized indices, there are also functions for calculating a variety of non-generalized indices. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indices; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indices are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 

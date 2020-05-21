@@ -74,6 +74,7 @@ See \code{\link[gpindex]{mean_generalized}} for the generalized mean. \code{\lin
 \examples{
 # Make some data
 
+set.seed(1234)
 p0 <- runif(5)
 p1 <- runif(5)
 q0 <- runif(5)
@@ -85,6 +86,11 @@ qb <- runif(5)
 # arithmetic Laspeyres index
 
 mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
+
+# trivial to turn this into a basket-style index
+
+qs <- index_weights(p1, p0, q1, q0, type = "Laspeyres") / p0
+sum(p1 * qs) / sum(p0 * qs)
 
 # harmonic calculation
 mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 

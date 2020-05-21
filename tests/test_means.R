@@ -142,6 +142,18 @@ stopifnot(
         logical(1)
       )
     )
+    # Test symmetry
+    all(
+      vapply(
+        seq(-5, 5, by = 0.25),
+        function(r) 
+          all(
+            abs(
+              logmean_generalized(a, b, r) - logmean_generalized(b, a, r)) < .Machine$double.eps^0.5
+          ),
+        logical(1)
+      )
+    )
     # Checks for NA and length-0 inputs
     identical(logmean(numeric(0), numeric(0)), numeric(0))
     is.na(logmean(1, NA_real_))
