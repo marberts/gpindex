@@ -1,4 +1,5 @@
 \name{price indices}
+\alias{index}
 \alias{index_arithmetic}
 \alias{index_geometric}
 \alias{index_harmonic}
@@ -12,7 +13,7 @@
 \title{Calculate a variety of price indices}
 
 \description{
-Calculate a variety of price indices using information on prices and quantites.
+Calculate a variety of price indices using information on prices and quantities.
 }
 
 \usage{
@@ -60,7 +61,7 @@ A numeric value.
 }
 
 \details{
-The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
+The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convenient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
 \itemize{
 \item \bold{Arithmetic indices}
 \item Carli
@@ -104,7 +105,13 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manua
 }
 
 \seealso{
-See \code{\link[gpindex]{mean_generalized}} for the generalized mean. \code{\link[gpindex]{index_weights}} calculates weights for the different types of indices.
+\code{\link[gpindex]{mean_generalized}} for the generalized mean. 
+
+\code{\link[gpindex]{index_weights}} calculates weights for the different types of indices. 
+
+\code{\link[gpindex]{index_price_update}} can be used to price update weights for an arithmetic index. 
+
+\code{\link[gpindex]{contribution}} calculates quote contributions.
 }
 
 \examples{
@@ -120,7 +127,27 @@ mean_geometric(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
 
 # If only weights are available (no quantity information), then use one of the generalized means
 
-mean_geometric(p1 / p0, c(0.1, 0.2, 0.4, 0.15, 0.15))
+w <- c(0.1, 0.2, 0.4, 0.15, 0.15)
+mean_geometric(p1 / p0, w)
+
+# Chain an index by price updating the weights
+
+p2 <- 3:7
+index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
+
+I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
+w_pu <- index_price_update(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+I2 <- mean_arithmetic(p2 / p1, w_pu)
+I1 * I2
+
+# Works for other types of indices, too
+
+index_harmonic(p2, p0, q0 = q0, type = "Laspeyres")
+
+I1 <- index_harmonic(p1, p0, q0 = q0, type = "Laspeyres") 
+w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"), r = -1)
+I2 <- mean_harmonic(p2 / p1, w_pu)
+I1 * I2
 
 # NAs get special treatment
 
@@ -135,6 +162,5 @@ index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = TRUE)
 # Only drops the last period-0 price
 
 sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
-
 
 }

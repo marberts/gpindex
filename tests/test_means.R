@@ -20,8 +20,8 @@ stopifnot(
     abs(mean_harmonic(1:2) - 4 / 3) < .Machine$double.eps^0.5
     abs(mean_harmonic(1:3, 1:3) - 2) < .Machine$double.eps^0.5
     # Is the fundamental inequality satisfied?
-    mean_geometric(1:100, 100:1) <= mean_arithmetic(1:100, 100:1)
-    mean_geometric(1:100, 100:1) >= mean_harmonic(1:100, 100:1)
+    mean_geometric(1:10, 10:1) <= mean_arithmetic(1:10, 10:1)
+    mean_geometric(1:10, 10:1) >= mean_harmonic(1:10, 10:1)
     # Tests against a simple implementation with stats::weighted.mean
     all(
       vapply(
@@ -30,7 +30,7 @@ stopifnot(
           abs(
             c(
               mean_generalized(x, w, r) - 
-                if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(weighted.mean(log(x), w)),
+                if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(stats::weighted.mean(log(x), w)),
               mean_generalized(x, r = r) - 
                 if (r != 0) (mean(x^r))^(1 / r) else exp(mean(log(x)))
             )
@@ -97,7 +97,6 @@ stopifnot(
       )
     )
     # Factor weights
-    all(weights_factor(x, w, 0) == w)
     all(
       vapply(
         seq(-5, 5, by = 0.25), 
@@ -168,6 +167,7 @@ stopifnot(
     logmean(0.00001, 1 / 100000) == 1 / 100000
     logmean(2, sqrt(2)^2) == 2
     logmean_generalized(2, sqrt(2)^2, 0.9) == 2
+    logmean_generalized(2, sqrt(2)^2, 1.1) == 2
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
   },

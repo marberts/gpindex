@@ -31,7 +31,7 @@ Returns the value of the generalized logarithmic mean of \code{a} and \code{b} o
 
 The usual definition of the generalized logarithmic mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{a} and \code{b}. This is not implemented here, as it does not seem to be of practical value.
 
-As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
+As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense otherwise.
 }
 
 \references{
@@ -39,11 +39,13 @@ Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
 }
 
 \seealso{
-See \code{\link[gpindex]{mean_generalized}} for the generalized mean. The generalized logarithmic means is used in \code{\link[gpindex]{weights_change}} to turn an r-generalized mean into a k-generalized mean.
+\code{\link[gpindex]{mean_generalized}} for the generalized mean. 
+
+\code{\link[gpindex]{weights_change}} uses the generalized logarithmic mean to turn an r-generalized mean into a k-generalized mean.
 }
 
 \examples{
-## A useful identity (should be all zero)
+# A useful identity (should be all zero)
 
 x <- 8:5
 y <- 4:1

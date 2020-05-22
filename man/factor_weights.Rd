@@ -31,7 +31,7 @@ Returns a vector of weights \code{v} such that \code{mean_generalized(x * y, w, 
 
 Factoring the weights for an average often gets called price-updating the weights for an arithmetic price index; \code{index_price_update(x, w)} is a simple wrapper for \code{weights_factor(x, w, 1)}.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense otherwise.
 }
 
 \references{
@@ -39,7 +39,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manua
 }
 
 \seealso{
-See \code{\link[gpindex]{mean_generalized}} for the generalized mean.
+\code{\link[gpindex]{mean_generalized}} for the generalized mean.
 }
 
 \examples{

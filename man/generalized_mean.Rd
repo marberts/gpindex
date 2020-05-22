@@ -47,7 +47,7 @@ The usual definition of the generalized mean lets \code{r} take on values from t
 
 For the geometric and harmonic means in particular, the implementation and performance is similar to the \code{geometric.mean} and \code{harmonic.mean} functions in the \code{psych} package, the \code{geomean} function in the FSA package, the \code{GMean} and \code{HMean} functions in the \code{DescTools} package, and the \code{geoMean} function in the \code{EnvStats} package, with the exception that weights are allowed.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforeced here, but the results may not make sense otherwise. Similarly, the weights should almost always be scaled to sum to 1.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense otherwise. Similarly, the weights should almost always be scaled to sum to 1.
 }
 
 \references{
@@ -55,11 +55,15 @@ Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
 }
 
 \seealso{
-See \code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. \code{\link[gpindex]{weights_change}} can be used to turn an r-generalized mean into a k-generalized mean, and \code{\link[gpindex]{weights_factor}} can be used to factor the weights to a turn a mean of products into a product of means.
+\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
+
+\code{\link[gpindex]{weights_change}} can be used to turn an r-generalized mean into a k-generalized mean. 
+
+\code{\link[gpindex]{weights_factor}} can be used to factor the weights to a turn a mean of products into a product of means.
 }
 
 \examples{
-## Geometric mean
+# Geometric mean
 
 mean_geometric(2:3)
 
@@ -77,7 +81,7 @@ mean_geometric(1:1000)
 x <- runif(1000000)
 system.time(prod(x^(1/length(x)))) - system.time(mean_geometric(x))
 
-## Harmonic mean
+# Harmonic mean
 
 mean_harmonic(2:3)
 
@@ -85,7 +89,7 @@ mean_harmonic(2:3)
 
 (sum((2:3)^(-1)) / 2)^(-1)
 
-## Quadratic mean
+# Quadratic mean
 
 mean_generalized(2:3, r = 2)
 

@@ -35,9 +35,9 @@ stopifnot(
     abs(index_geometric(p1, p0, q1, q0, pb, qb, "Young") - mean_geometric(p1 / p0, pb * qb / sum(pb * qb))) < .Machine$double.eps^0.5
     abs(index_geometric(p1, p0, q1, q0, pb, qb, "Tornqvist") - mean_geometric(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 *p1 * q1 / sum(p1 * q1))) < .Machine$double.eps^0.5
     abs(index_geometric(p1, p0, q1, q0, pb, qb, "Vartia1") - mean_geometric(p1 / p0, logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1), sum(p1 * q1)), scale = FALSE)) < .Machine$double.eps^0.5
-    abs(index_geometric(p1, p0, q1, q0, pb, qb, "Vartia1") - index_geometric(p1, p0, q1, q0, pb, qb, "MontgomeryVartia")) < .Machine$double.eps^0.5
+    index_geometric(p1, p0, q1, q0, pb, qb, "Vartia1") == index_geometric(p1, p0, q1, q0, pb, qb, "MontgomeryVartia")
     abs(index_geometric(p1, p0, q1, q0, pb, qb, "Vartia2") - mean_geometric(p1 / p0, logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))) < .Machine$double.eps^0.5
-    abs(index_geometric(p1, p0, q1, q0, pb, qb, "Vartia2") - index_geometric(p1, p0, q1, q0, pb, qb, "SatoVartia")) < .Machine$double.eps^0.5
+    index_geometric(p1, p0, q1, q0, pb, qb, "Vartia2") == index_geometric(p1, p0, q1, q0, pb, qb, "SatoVartia")
     abs(index_geometric(p1, p0, q1, q0, pb, qb, "Walsh2") - mean_geometric(p1 / p0, sqrt(p1 * q1 * p0 * q0))) < .Machine$double.eps^0.5
     },
   local = getNamespace("gpindex")
@@ -60,6 +60,14 @@ stopifnot(
     abs(index_fisher(p1, p0, q1, q0) - mean_geometric(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))) < .Machine$double.eps^0.5
     abs(index_hlp(p1, p0, q1, q0) - mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))) < .Machine$double.eps^0.5
     
+  },
+  local = getNamespace("gpindex")
+)
+
+#---- Tests for contributions ----
+stopifnot(
+  exprs = {
+    abs(index_fisher(p1, p0, q1, q0) - sum(contribution_fisher(p1, p0, q1, q0))) < .Machine$double.eps^0.5
   },
   local = getNamespace("gpindex")
 )

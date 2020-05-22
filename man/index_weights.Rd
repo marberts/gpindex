@@ -4,7 +4,7 @@
 \title{Calculate the weights for a variety of price indices}
 
 \description{
-Calculate the weights for a variety of price indices using information on prices and quantites.
+Calculate the weights for a variety of price indices using information on prices and quantities.
 }
 
 \usage{
@@ -52,7 +52,7 @@ Weights for the following types of indices can be calculated.
 \item Young
 }
 
-Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calcuations are given in the examples.
+Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 
 The weights need not sum to 1, as this normalization isn't always appropriate (e.g., for the Vartia-I weights). The \code{\link[gpindex]{mean_generalized}} function that powers most price-index calculations scales weights by default, so this is not an issue.
 
@@ -68,7 +68,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manua
 }
 
 \seealso{
-See \code{\link[gpindex]{mean_generalized}} for the generalized mean. \code{\link[gpindex]{index_arithmetic}}, \code{\link[gpindex]{index_geometric}}, and \code{\link[gpindex]{index_harmonic}} provide a wrapper for common indices.
+\code{\link[gpindex]{mean_generalized}} for the generalized mean.
+
+\code{\link[gpindex]{index}} provides a wrapper for common indices.
 }
 
 \examples{
