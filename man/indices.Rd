@@ -13,7 +13,7 @@
 \title{Calculate a variety of price indices}
 
 \description{
-Calculate a variety of price indices using information on prices and quantities.
+Calculate a variety of price indices using information on prices and quantities. It is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 }
 
 \usage{

@@ -11,14 +11,14 @@ b <- rlnorm(15)
 stopifnot(
   exprs = {
     # Simple checks against known values
-    abs(mean_arithmetic(1:5) - 3) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(1:4, 4:1) - 2) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(1:4, scale = FALSE) - 10) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(1:4, 4:1, scale = FALSE) - 20) < .Machine$double.eps^0.5
-    abs(mean_geometric(c(1, 4)) - 2) < .Machine$double.eps^0.5
-    abs(mean_geometric(1:3, 1:3) - prod((1:3)^(1:3 / 6))) < .Machine$double.eps^0.5
-    abs(mean_harmonic(1:2) - 4 / 3) < .Machine$double.eps^0.5
-    abs(mean_harmonic(1:3, 1:3) - 2) < .Machine$double.eps^0.5
+    all.equal(mean_arithmetic(1:5), 3)
+    all.equal(mean_arithmetic(1:4, 4:1), 2)
+    all.equal(mean_arithmetic(1:4, scale = FALSE), 10)
+    all.equal(mean_arithmetic(1:4, 4:1, scale = FALSE), 20)
+    all.equal(mean_geometric(c(1, 4)), 2)
+    all.equal(mean_geometric(1:3, 1:3), prod((1:3)^(1:3 / 6)))
+    all.equal(mean_harmonic(1:2), 4 / 3)
+    all.equal(mean_harmonic(1:3, 1:3), 2)
     # Is the fundamental inequality satisfied?
     mean_geometric(1:10, 10:1) <= mean_arithmetic(1:10, 10:1)
     mean_geometric(1:10, 10:1) >= mean_harmonic(1:10, 10:1)
@@ -61,9 +61,9 @@ stopifnot(
     is.nan(mean_arithmetic(1, NaN, na.rm = TRUE))
     is.nan(mean_arithmetic(numeric(0)))
     is.nan(mean_arithmetic(numeric(0), numeric(0)))
-    abs(mean_arithmetic(c(1, NA), na.rm = TRUE) - 1) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE) - 1) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE, scale = FALSE) - 2) < .Machine$double.eps^0.5
+    all.equal(mean_arithmetic(c(1, NA), na.rm = TRUE), 1)
+    all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE), 1)
+    all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE, scale = FALSE), 2)
     is.na(mean_geometric(NA))
     is.na(mean_harmonic(NA))
     is.nan(mean_geometric(NA, na.rm = TRUE))
@@ -76,26 +76,17 @@ stopifnot(
         function(p) {
           c(
             abs(mean_generalized(x, w, p[1]) - 
-                  mean_generalized(x, weights_change(x, w, p[1], p[2]), p[2])) < .Machine$double.eps^0.5,
+                  mean_generalized(x, weights_change(x, w, p[1], p[2]), p[2])),
             abs(mean_generalized(x, r = p[1]) - 
-                  mean_generalized(x, weights_change(x, r = p[1], k = p[2]), p[2])) < .Machine$double.eps^0.5
-          )
+                  mean_generalized(x, weights_change(x, r = p[1], k = p[2]), p[2])),
+            abs(mean_generalized(xna, w, p[1], na.rm = TRUE) - 
+                  mean_generalized(xna, weights_change(xna, w, p[1], p[2], na.rm = TRUE), p[2], na.rm = TRUE))
+          ) < .Machine$double.eps^0.5
         }
       )
     )
     abs(mean_geometric(c(2, sqrt(2)^2)) - 
           mean_arithmetic(c(2, sqrt(2)^2), weights_g2a(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
-    # Change weights with NAs
-    all(
-      apply(
-        expand.grid(a = seq(-2, 2, by = 0.5), b = seq(-2, 2, by = 0.5)), 
-        1,
-        function(p) {
-          abs(mean_generalized(xna, w, p[1], na.rm = TRUE) - 
-                mean_generalized(xna, weights_change(xna, w, p[1], p[2], na.rm = TRUE), p[2], na.rm = TRUE)) < .Machine$double.eps^0.5
-        }
-      )
-    )
     # Factor weights
     all(
       vapply(
@@ -103,14 +94,16 @@ stopifnot(
         function(r) 
           c(
             abs(mean_generalized(x * a, w, r) - 
-                  mean_generalized(x, w, r) * mean_generalized(a, weights_factor(x, w, r), r)) < .Machine$double.eps^0.5,
+                  mean_generalized(x, w, r) * mean_generalized(a, weights_factor(x, w, r), r)),
             abs(mean_generalized(x * a, r = r) - 
-                  mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)) < .Machine$double.eps^0.5
-          ),
-        logical(2)
+                  mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)),
+            abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) - 
+                  mean_generalized(xna, w, r = r, na.rm = TRUE) * mean_generalized(a, weights_factor(xna, w, r = r), r, na.rm = TRUE))
+          ) < .Machine$double.eps^0.5,
+        logical(3)
       )
     )
-  },
+  }, 
   local = getNamespace("gpindex")
 )
 
@@ -121,6 +114,7 @@ stopifnot(
     # Checks against known values
     logmean(1, 1) == 1
     logmean(1, 0) == 0
+    all.equal(logmean(2, 1), 1 / log(2))
     # Test against a simple implementation
     all(
       vapply(
@@ -170,6 +164,12 @@ stopifnot(
     logmean_generalized(2, sqrt(2)^2, 1.1) == 2
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
-  },
+    # Some identities
+    all.equal(logmean_generalized(a, b, -1), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
+    all.equal(logmean_generalized(a, b, 2), apply(matrix(c(a, b), ncol = 2), 1, mean_arithmetic))
+    all.equal(logmean_generalized(a, b, -2), apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_harmonic(x) * mean_geometric(x)^2)^(1/3)))
+    all.equal(logmean_generalized(a, b, 0.5), apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_arithmetic(x) + mean_geometric(x)) / 2))
+    all.equal(logmean(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric)^2 * logmean(1 / a, 1 / b))
+   },
   local = getNamespace("gpindex")
 )

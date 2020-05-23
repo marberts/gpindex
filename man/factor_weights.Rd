@@ -27,7 +27,11 @@ A numeric vector, the same length as \code{w}.
 }
 
 \details{
-Returns a vector of weights \code{v} such that \code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}. This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index.
+Returns a vector of weights \code{v}, as a function of \code{x} and \code{w}, such that 
+
+\code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}.
+
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index.
 
 Factoring the weights for an average often gets called price-updating the weights for an arithmetic price index; \code{index_price_update(x, w)} is a simple wrapper for \code{weights_factor(x, w, 1)}.
 

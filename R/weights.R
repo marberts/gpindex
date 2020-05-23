@@ -17,7 +17,7 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
   # all the different cases are to avoid negative exponents and unnecessary calculations
-  if (r == k) return(rep_len(w, length(x)))
+  if (r == k) return(rep_len(w, length(x))) * !is.na(x)
   if (r < 1 && k < 1) {
     w * logmean_generalized(x, M, k)^(1 - k) / logmean_generalized(x, M, r)^(1 - r)
   } else if (r < 1 && k >= 1) {
@@ -67,7 +67,7 @@ weights_factor <- function (x, w, r) {
   }
   # all the different cases are to avoid negative exponents and unnecessary calculations
   if (r == 0) {
-    rep_len(w, length(x))
+    rep_len(w, length(x)) * !is.na(x)
   } else if (abs(r) == 1) {
     if (r == 1) {
       w * x
