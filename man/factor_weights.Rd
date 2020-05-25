@@ -23,13 +23,13 @@ index_price_update(x, w)
 }
 
 \value{
-A numeric vector, the same length as \code{w}.
+A numeric vector, the same length as \code{x}.
 }
 
 \details{
-Returns a vector of weights \code{v}, as a function of \code{x} and \code{w}, such that 
+Returns a vector of weights \code{v} such that 
 
-\code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}.
+\code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}. 
 
 This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index.
 

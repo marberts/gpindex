@@ -13,7 +13,7 @@
 \title{Calculate a variety of price indices}
 
 \description{
-Calculate a variety of price indices using information on prices and quantities. It is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
+Calculate a variety of price indices using information on prices and quantities.
 }
 
 \usage{
@@ -88,6 +88,7 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Coggeshall (equally weighted harmonic index)
 \item Paasche
 \item Harmonic Laspeyres
+\item Harmonic Young
 }
 In addition to these generalized indices, there are also functions for calculating a variety of non-generalized indices. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indices; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indices are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
 

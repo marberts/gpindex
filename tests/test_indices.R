@@ -13,7 +13,7 @@ stopifnot(
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Carli") - mean(p1 / p0)) < .Machine$double.eps^0.5
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Dutot") - sum(p1) / sum(p0)) < .Machine$double.eps^0.5
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Laspeyres") - sum(p1 * q0) / sum(p0 * q0)) < .Machine$double.eps^0.5
-    abs(mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, "HybridPaasche")) - sum(p1 * q1) / sum(p0 * q1)) < .Machine$double.eps^0.5
+    abs(mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridPaasche")) - sum(p1 * q1) / sum(p0 * q1)) < .Machine$double.eps^0.5
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Palgrave") - weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1))) < .Machine$double.eps^0.5
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Drobish") - 0.5 * sum(p1 * q0) / sum(p0 * q0) - 0.5 * sum(p1 * q1) / sum(p0 * q1)) < .Machine$double.eps^0.5
     abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Unnamed") - weighted.mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 *p1 * q1 / sum(p1 * q1))) < .Machine$double.eps^0.5
@@ -49,7 +49,8 @@ stopifnot(
     abs(index_harmonic(p1, p0, q1, q0, pb, qb, "Coggeshall") - mean_harmonic(p1 / p0)) < .Machine$double.eps^0.5
     abs(index_harmonic(p1, p0, q1, q0, pb, qb, "Laspeyres") - mean_harmonic(p1 / p0, p0 * q0 / sum(p0 * q0))) < .Machine$double.eps^0.5
     abs(index_harmonic(p1, p0, q1, q0, pb, qb, "Paasche") - mean_harmonic(p1 / p0, p1 * q1 / sum(p1 * q1))) < .Machine$double.eps^0.5
-    abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Laspeyres") - mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, "HybridLaspeyres"))) < .Machine$double.eps^0.5
+    abs(index_arithmetic(p1, p0, q1, q0, pb, qb, "Laspeyres") - mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridLaspeyres"))) < .Machine$double.eps^0.5
+    abs(index_harmonic(p1, p0, q1, q0, pb, qb, "Young") - mean_harmonic(p1 / p0, pb * qb / sum(pb * qb))) < .Machine$double.eps^0.5
   },
   local = getNamespace("gpindex")
 )

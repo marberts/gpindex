@@ -1,16 +1,19 @@
-index_weights <- function (p1, p0, q1, q0, pb, qb, type) {
+index_weights <- function (p1, p0, q1, q0, type) {
   # check input
-  check_weights_arguments(p1, p0, q1, q0, pb, qb, type)
+  check_weights_arguments(p1, p0, q1, q0, type)
   # match type arguments
   type <- match.arg(type, types$weight_types)
   # always return a length-0 output if inputs are length 0
-  if (length(p0) == 0L) return(numeric(0))
+  n <- if (missing(p1)) length(p0) else length(p1)
+  if (n == 0L) return(numeric(0))
   # calculate weights
   switch(type,
          Carli = ,
          Jevons = ,
-         Coggeshall = rep.int(1, length(p0)), 
+         Coggeshall = rep.int(1, n), 
          Dutot = p0,
+         Young = ,
+         Lowe = ,
          Laspeyres = p0 * q0,
          HybridLaspeyres = p1 * q0,
          Palgrave = ,
@@ -26,9 +29,7 @@ index_weights <- function (p1, p0, q1, q0, pb, qb, type) {
          Vartia1 = ,
          MontgomeryVartia = logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
          Vartia2 = ,
-         SatoVartia = logmean(p0 * q0 / sum(p0 * q0, na.rm = TRUE), p1 * q1 / sum(p1 * q1, na.rm = TRUE)),
-         Lowe = p0 * qb,
-         Young = pb * qb,
+         SatoVartia = logmean(p0 * q0 / sum(p0 * q0, na.rm = TRUE), p1 * q1 / sum(p1 * q1, na.rm = TRUE))
   ) 
 }
 

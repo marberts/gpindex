@@ -1,5 +1,6 @@
 #---- Arithmetic mean ----
 mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
+  # check input
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
     "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
@@ -7,17 +8,27 @@ mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
     "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
+  # unweighted case
   if (missing(w)) {
+    # return NA if there are any NAs in x
+    # this means that NaN returns NA, not NaN as with stats::weighted.mean
     if (!na.rm && anyNA(x)) {
       return(NA_real_)
     } else {
+      # anyNA(x) gets called twice when na.rm = FALSE, 
+      # but this seems to be faster than x <- x[!is.na(x)]
       denom <- if (anyNA(x)) sum(!is.na(x), na.rm = TRUE) else length(x)
       return(sum(x, na.rm = TRUE) * (scale / denom  + 1 - scale))
     }
+  # weighted case
   } else {
+    # return NA if there are any NAs in x or w
+    # again differents from weighted.mean when there are NaNs
     if (!na.rm && (anyNA(x) || anyNA(w))) {
       return(NA_real_)
     } else {
+      # anyNA(x) gets called twice when na.rm = FALSE, 
+      # but this seems to be faster than x <- x[!is.na(x) && !is.na(w)]
       denom <- if (anyNA(x)) sum(w[!is.na(x)], na.rm = TRUE) else sum(w, na.rm = TRUE)
       sum(x * w, na.rm = na.rm) * (scale / denom + 1 - scale)
     }
@@ -42,16 +53,21 @@ mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
     } else { 
       1 / mean_arithmetic(1 / x, w, na.rm, scale)
     }
-  } else if (abs(r) == 0.5) {
-    if (r == 0.5) {
-      mean_arithmetic(sqrt(x), w, na.rm, scale)^(1 / r)
-    } else {
-      1 / (mean_arithmetic(1 / sqrt(x), w, na.rm, scale))^(1 / abs(r))
-    }
+    
+  # # there are some ways to boost performance, but I don't think it's worth the complexity  
+  # # if r = 0.5 then sqrt(x) is faster than x^0.5
+  # } else if (abs(r) == 0.5) {
+  #   if (r == 0.5) {
+  #     mean_arithmetic(sqrt(x), w, na.rm, scale)^(1 / r)
+  #   } else {
+  #     1 / (mean_arithmetic(1 / sqrt(x), w, na.rm, scale))^(1 / abs(r))
+  #   }
+  # # if r == -2 then 1 / x^2 is faster than x^(-2)
+  # } else if (r == -2) { 
+  #   1 / (mean_arithmetic((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
+  # }  
+    
   # generalized mean otherwise
-  # if r == -2 then 1 / x^2 is faster than x^(-2)
-  } else if (r == -2) { 
-    1 / (mean_arithmetic((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
   } else {
     (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r) # the general equation
   }
@@ -81,32 +97,38 @@ logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
     a <- rep_len(a, length(b))
   }
   # calculate generalized logmean
+  # regular logmean if r = 0
   out <- if (r == 0) {
-    # regular logmean if r = 0
     (a - b) / log(a / b)
-  } else if (r == 1) {
-    (a^a / b^b)^(1 / (a - b)) / exp(1)
-  } else {
-    # general case
-    if (abs(r) == 2) {
-      if (r == 2) {
-        (a^r - b^r) / (r * (a - b))
-      } else {
-        (r * (a - b) / (1 / a^abs(r) - 1 / b^abs(r)))^(1 / (1 - r))
-      }
-    } else if (r == -1) {
-      sqrt((r * (a - b) / (1 / a - 1 / b)))
-    } else if (abs(r) == 0.5) {
-      if (r == 0.5) {
-        (r * (a - b) / (sqrt(a) - sqrt(b)))^(1 / (1 - r))
-      } else {
-        ((1 / sqrt(a) - 1 / sqrt(b)) / (r * (a - b)))^(1 / (r - 1))
-      }
-    } else if (r == 3) {
-      sqrt(((a^r - b^r) / (r * (a - b))))
+  # r = +-1 cases are faster on their own without needless ^1
+  } else if (abs(r) == 1) {
+    if (r == 1) {
+      (a^a / b^b)^(1 / (a - b)) / exp(1)
     } else {
-      ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1)) # the general equation
+      sqrt((r * (a - b) / (1 / a - 1 / b)))
     }
+  # general case otherwise  
+  } else {
+    
+    # there are a number of ways to boost performance is some cases, but I don't think it's worth it
+    # if (abs(r) == 2) {
+    #   if (r == 2) {
+    #     (a^r - b^r) / (r * (a - b))
+    #   } else {
+    #     (r * (a - b) / (1 / a^abs(r) - 1 / b^abs(r)))^(1 / (1 - r))
+    #   }
+    # } else if (abs(r) == 0.5) {
+    #   if (r == 0.5) {
+    #     (r * (a - b) / (sqrt(a) - sqrt(b)))^(1 / (1 - r))
+    #   } else {
+    #     ((1 / sqrt(a) - 1 / sqrt(b)) / (r * (a - b)))^(1 / (r - 1))
+    #   }
+    # } else if (r == 3) {
+    #   sqrt(((a^r - b^r) / (r * (a - b))))
+    # }
+    
+    ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1)) # the general equation
+    # this is marginally slower than a cpp implementation
   }
   # set output to a when a = b
   loc <- which(abs(a - b) <= tol) 

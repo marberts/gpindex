@@ -8,7 +8,7 @@ Calculate the weights for a variety of price indices using information on prices
 }
 
 \usage{
-index_weights(p1, p0, q1, q0, pb, qb, type)
+index_weights(p1, p0, q1, q0, type)
 }
 
 \arguments{
@@ -20,15 +20,11 @@ index_weights(p1, p0, q1, q0, pb, qb, type)
 
 \item{q0}{Base-period quantities.}
 
-\item{pb}{Period-b prices for the Lowe/Young index.}
-
-\item{qb}{Period-b quantities for the Lowe/Young index.}
-
 \item{type}{The name of the index. See details.}
 }
 
 \value{
-A numeric vector, the same length as \code{p0}.
+A numeric vector, the same length as either \code{p0} or \code{p1}.
 }
 
 \details{
@@ -170,12 +166,12 @@ sqrt(p0 * q0 * p1 * q1)
 
 # Lowe
 
-index_weights(p1, p0, pb = pb, qb = qb, type = "Lowe")
+index_weights(p0 = p0, q0 = qb, type = "Lowe")
 p0 * qb
 
 # Young
 
-index_weights(p1, p0, pb = pb, qb = qb, type = "Young")
+index_weights(p0 = pb, q0 = qb, type = "Young")
 pb * qb
 
 }

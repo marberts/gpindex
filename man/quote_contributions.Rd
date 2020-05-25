@@ -41,7 +41,11 @@ A numeric vector, the same length as \code{p1}.
 }
 
 \details{
-For a given set of weights \code{w}, the additive contribution that each price relative (quote) \code{p1 / p0} has towards the value of a generalized price index can be calculated as \code{weights_change(p1 / p0, w, r, 1) / sum(weights_change(p1 / p0, w, r, 1)) * p1 / p0}. The \code{contribution_geometric} and \code{contribution_harmonic} functions simply call this, calculating the weights with \code{\link[gpindex]{index_weights}}.
+For a given set of weights \code{w}, the additive contribution that each price relative (quote) \code{p1 / p0} has towards the value of a generalized price index can be calculated as 
+
+\code{weights_change(p1 / p0, w, r, 1) / sum(weights_change(p1 / p0, w, r, 1)) * p1 / p0}. 
+
+The \code{contribution_geometric} and \code{contribution_harmonic} functions simply call this, calculating the weights with \code{\link[gpindex]{index_weights}}.
 
 The Fisher index is not a generalized index, but nonetheless has an additive decomposition (Balk, 2008, Section 4.2.2) that can be calculated with \code{contribution_fisher}.
 }

@@ -8,39 +8,42 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
   # set w if equally weighted 
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
-    # Calculate r-mean with equal weights
+    # calculate r-mean with equal weights
     if (missing(M)) {
       M <- mean_generalized(x, r = r, na.rm = na.rm)
     }
-  # Calculate r-mean with unequal weights
+  # calculate r-mean with unequal weights
   } else if (missing(M)) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
-  # all the different cases are to avoid negative exponents and unnecessary calculations
-  if (r == k) return(rep_len(w, length(x))) * !is.na(x)
-  if (r < 1 && k < 1) {
-    w * logmean_generalized(x, M, k)^(1 - k) / logmean_generalized(x, M, r)^(1 - r)
-  } else if (r < 1 && k >= 1) {
-    if (k == 1) {
-      w / logmean_generalized(x, M, r)^(1 - r)
+  # return w when r = k
+  if (r == k) {
+    rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
+  # r, k = 2 cases are faster on their own without needless ^1
+  } else if (r == 2 || k == 2) {
+    if (r == 2) {
+      w * logmean_generalized(x, M, r) / logmean_generalized(x, M, k)^(k - 1)
     } else {
-      w / (logmean_generalized(x, M, r)^(1 - r) * logmean_generalized(x, M, k)^(k - 1))
+      w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)
     }
-  } else if (r >= 1 && k < 1) {
-    if (r == 1) {
-      w * logmean_generalized(x, M, k)^(1 - k)
-    } else {
-      w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)^(1 - k)
-    }
-  } else if (r >= 1 && k >= 1) {
+  # r, k = 1 cases are faster on their own without needless ^0 
+  } else if (r == 1 || k == 1) {
     if (r == 1) {
       w / logmean_generalized(x, M, k)^(k - 1)
-    } else if (k == 1){
-      w * logmean_generalized(x, M, r)^(r - 1)
     } else {
-      w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
+      w * logmean_generalized(x, M, r)^(r - 1)
     }
-  } 
+  # r, k = 0 cases are faster on their own without needless ^-1
+  } else if (r == 0 || k == 0) {
+    if (r == 0) {
+      w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k)^(k - 1))
+    } else {
+      w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)
+    }
+  # general case otherwise
+  } else {
+    w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
+  }
 }
   
 #---- Common cases ----
@@ -65,23 +68,24 @@ weights_factor <- function (x, w, r) {
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
   }
-  # all the different cases are to avoid negative exponents and unnecessary calculations
+  # return w when r = 0
   if (r == 0) {
-    rep_len(w, length(x)) * !is.na(x)
+    rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
+  # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
-    if (r == 1) {
-      w * x
-    } else {
-      w / x
-    }
-  } else if (abs(r) == 0.5) {
-    if (r == 0.5) {
-      w * sqrt(x)
-    } else {
-      w / sqrt(x)
-    }
-  } else if (r == -2) {
-    w / x^abs(r)
+    if (r == 1) w * x else w / x
+    
+  # # there are some ways to boost performance, but I don't think it's worth it 
+  # } else if (abs(r) == 0.5) {
+  #   if (r == 0.5) {
+  #     w * sqrt(x)
+  #   } else {
+  #     w / sqrt(x)
+  #   }
+  # } else if (r == -2) {
+  #   w / x^abs(r)
+  
+  # general case otherwise  
   } else {
     w * x^r # the general equation
   }

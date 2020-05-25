@@ -1,14 +1,24 @@
 contribution_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   type <- match.arg(type, types$geometric_index_types)
-  w <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm)
+  w <- if (type == "Young") {
+    index_weights(p0 = pb, q0 = qb, type = type)
+  } else {
+    index_weights(p1, p0, q1, q0, type)
+  }
+  w <- weights_g2a(p1 / p0, w, na.rm)
   w / sum(w) * p1 / p0
 }
 
 contribution_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   type <- match.arg(type, types$harmonic_index_types)
-  w <- weights_h2a(p1 / p0, index_weights(p1, p0, q1, q0, pb, qb, type), na.rm) 
+  w <- if (type == "Young") {
+    index_weights(p0 = pb, q0 = qb, type = type)
+  } else {
+    index_weights(p1, p0, q1, q0, type)
+  }
+  w <- weights_h2a(p1 / p0, w, na.rm) 
   w / sum(w) * p1 / p0
 }
 

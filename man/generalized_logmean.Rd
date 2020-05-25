@@ -56,5 +56,10 @@ logmean(x, y) * log(x / y)  - (x - y)
 r <- 2
 
 logmean_generalized(x, y, r) * (r * (x - y))^(1 / (r - 1)) - (x^r - y^r)^(1 / (r - 1))
-}
 
+# Some other identities from Bullen (example iii on page 385)
+
+logmean_generalized(1, 2, -2) - (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1/3)
+logmean_generalized(1, 2, 0.5) - (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2
+logmean(1, 2) - mean_geometric(1:2)^2 * logmean(1, 1/2)
+}

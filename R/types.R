@@ -47,5 +47,6 @@ types <- list(
   
   harmonic_index_types = c("Coggeshall",
                            "Laspeyres",
-                           "Paasche")
+                           "Paasche",
+                           "Young")
 )

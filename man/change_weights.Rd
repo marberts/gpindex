@@ -38,7 +38,7 @@ weights_h2g(x, w, na.rm = FALSE, M)
 }
 
 \value{
-A numeric vector, the same length as \code{w}.
+A numeric vector, the same length as \code{x}.
 }
 
 \details{
