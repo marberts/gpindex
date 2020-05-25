@@ -98,7 +98,8 @@ stopifnot(
             abs(mean_generalized(x * a, r = r) - 
                   mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)),
             abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) - 
-                  mean_generalized(xna, w, r = r, na.rm = TRUE) * mean_generalized(a, weights_factor(xna, w, r = r), r, na.rm = TRUE))
+                  mean_generalized(xna, w, r = r, na.rm = TRUE) * 
+                  mean_generalized(a, weights_factor(xna, w, r = r), r, na.rm = TRUE))
           ) < .Machine$double.eps^0.5,
         logical(3)
       )
@@ -165,11 +166,16 @@ stopifnot(
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
     # Some identities
-    all.equal(logmean_generalized(a, b, -1), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
-    all.equal(logmean_generalized(a, b, 2), apply(matrix(c(a, b), ncol = 2), 1, mean_arithmetic))
-    all.equal(logmean_generalized(a, b, -2), apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_harmonic(x) * mean_geometric(x)^2)^(1/3)))
-    all.equal(logmean_generalized(a, b, 0.5), apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_arithmetic(x) + mean_geometric(x)) / 2))
-    all.equal(logmean(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric)^2 * logmean(1 / a, 1 / b))
+    all.equal(logmean_generalized(a, b, -1), 
+              apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
+    all.equal(logmean_generalized(a, b, 2), 
+              apply(matrix(c(a, b), ncol = 2), 1, mean_arithmetic))
+    all.equal(logmean_generalized(a, b, -2), 
+              apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_harmonic(x) * mean_geometric(x)^2)^(1/3)))
+    all.equal(logmean_generalized(a, b, 0.5), 
+              apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_arithmetic(x) + mean_geometric(x)) / 2))
+    all.equal(logmean(a, b), 
+              apply(matrix(c(a, b), ncol = 2), 1, mean_geometric)^2 * logmean(1 / a, 1 / b))
    },
   local = getNamespace("gpindex")
 )

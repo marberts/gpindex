@@ -98,11 +98,11 @@ Dealing with missing values when making a price index is cumbersome, and best av
 }
 
 \references{
-Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press.
+Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Consumer Price Index Manual: Theory and Practice. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manual: Theory and Practice. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
 }
 
 \seealso{

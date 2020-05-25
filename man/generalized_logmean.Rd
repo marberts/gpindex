@@ -35,7 +35,7 @@ As a matter of definition, both \code{a} and \code{b} should be strictly positiv
 }
 
 \references{
-Bullen, P. S. (2003). Handbook of Means and Their Inequalities. Springer.
+Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 }
 
 \seealso{

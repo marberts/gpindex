@@ -17,7 +17,8 @@ stopifnot(
         function(p) {
           w2 <- weights_change(x, w, p[1], p[2]) 
           M <- mean_generalized(x, w, p[1])
-          w3 <- w * logmean_generalized(x, M, p[1])^(p[1] - 1) / logmean_generalized(x, M, p[2])^(p[2] - 1)
+          w3 <- w * logmean_generalized(x, M, p[1])^(p[1] - 1) / 
+            logmean_generalized(x, M, p[2])^(p[2] - 1)
           abs(w2 / sum(w2) - w3 / sum(w3)) < .Machine$double.eps^0.5
         }
       )

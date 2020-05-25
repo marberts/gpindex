@@ -51,7 +51,7 @@ The Fisher index is not a generalized index, but nonetheless has an additive dec
 }
 
 \references{
-Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press.
+Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 }
 
 \seealso{

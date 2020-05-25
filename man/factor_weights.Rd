@@ -39,7 +39,7 @@ As a matter of definition, both \code{x} and \code{w} should be strictly positiv
 }
 
 \references{
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). Producer Price Index Manual: Theory and Practice. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
 }
 
 \seealso{

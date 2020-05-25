@@ -60,7 +60,7 @@ As the return value is the same length as \code{w}, any NAs in \code{x} or \code
 }
 
 \references{
-Balk, B. M. (2008). Price and Quantity Index Numbers. Cambridge University Press.
+Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 }
 
 \seealso{
