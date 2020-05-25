@@ -1,3 +1,51 @@
+# #---- Weights to turn an r-generalized mean into a k-generalized mean
+# weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
+#   # check input
+#   stopifnot(
+#     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
+#     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
+#   )
+#   # set w if equally weighted 
+#   if (missing(w)) {
+#     w <- if (length(x)) 1 else numeric(0)
+#     # calculate r-mean with equal weights
+#     if (missing(M)) {
+#       M <- mean_generalized(x, r = r, na.rm = na.rm)
+#     }
+#   # calculate r-mean with unequal weights
+#   } else if (missing(M)) {
+#     M <- mean_generalized(x, w, r, na.rm = na.rm)
+#   }
+#   # return w when r = k
+#   if (r == k) {
+#     rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
+#   # r, k = 2 cases are faster on their own without needless ^1
+#   } else if (r == 2 || k == 2) {
+#     if (r == 2) {
+#       w * logmean_generalized(x, M, r) / logmean_generalized(x, M, k)^(k - 1)
+#     } else {
+#       w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)
+#     }
+#   # r, k = 1 cases are faster on their own without needless ^0 
+#   } else if (r == 1 || k == 1) {
+#     if (r == 1) {
+#       w / logmean_generalized(x, M, k)^(k - 1)
+#     } else {
+#       w * logmean_generalized(x, M, r)^(r - 1)
+#     }
+#   # r, k = 0 cases are faster on their own without needless ^-1
+#   } else if (r == 0 || k == 0) {
+#     if (r == 0) {
+#       w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k)^(k - 1))
+#     } else {
+#       w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)
+#     }
+#   # general case otherwise
+#   } else {
+#     w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
+#   }
+# }
+
 #---- Weights to turn an r-generalized mean into a k-generalized mean
 weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
   # check input
@@ -12,35 +60,41 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
     if (missing(M)) {
       M <- mean_generalized(x, r = r, na.rm = na.rm)
     }
-  # calculate r-mean with unequal weights
+    # calculate r-mean with unequal weights
   } else if (missing(M)) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
   # return w when r = k
   if (r == k) {
     rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
-  # r, k = 2 cases are faster on their own without needless ^1
-  } else if (r == 2 || k == 2) {
-    if (r == 2) {
+    # r, k = 2 cases are faster on their own without needless ^1
+  } else if (r == 2) {
+    if (k == 1) {
+      w * logmean_generalized(x, M, r) 
+    } else if (k == 0) {
+      w * logmean_generalized(x, M, r) * logmean_generalized(x, M, k)
+    } else {
       w * logmean_generalized(x, M, r) / logmean_generalized(x, M, k)^(k - 1)
-    } else {
-      w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)
     }
-  # r, k = 1 cases are faster on their own without needless ^0 
-  } else if (r == 1 || k == 1) {
-    if (r == 1) {
+    # r, k = 1 cases are faster on their own without needless ^0 
+  } else if (r == 1) {
+    if (k == 2) {
+      w / logmean_generalized(x, M, k)
+    } else if (k == 0){
+      w * logmean_generalized(x, M, k)
+    } else {
       w / logmean_generalized(x, M, k)^(k - 1)
-    } else {
-      w * logmean_generalized(x, M, r)^(r - 1)
     }
-  # r, k = 0 cases are faster on their own without needless ^-1
-  } else if (r == 0 || k == 0) {
-    if (r == 0) {
+    # r, k = 0 cases are faster on their own without needless ^-1
+  } else if (r == 0) {
+    if (k == 2) {
+      w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k))
+    } else if (k == 1) {
+      w / logmean_generalized(x, M, r)
+    } else {
       w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k)^(k - 1))
-    } else {
-      w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)
     }
-  # general case otherwise
+    # general case otherwise
   } else {
     w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
   }
