@@ -74,7 +74,13 @@ weights_factor <- function (x, w, r) {
     } else {
       w / x
     }
-  } else if (r < 0) {
+  } else if (abs(r) == 0.5) {
+    if (r == 0.5) {
+      w * sqrt(x)
+    } else {
+      w / sqrt(x)
+    }
+  } else if (r == -2) {
     w / x^abs(r)
   } else {
     w * x^r # the general equation

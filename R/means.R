@@ -42,9 +42,15 @@ mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
     } else { 
       1 / mean_arithmetic(1 / x, w, na.rm, scale)
     }
+  } else if (abs(r) == 0.5) {
+    if (r == 0.5) {
+      mean_arithmetic(sqrt(x), w, na.rm, scale)^(1 / r)
+    } else {
+      1 / (mean_arithmetic(1 / sqrt(x), w, na.rm, scale))^(1 / abs(r))
+    }
   # generalized mean otherwise
-  # if r < 0 then 1 / x^r is faster than x^(-r)
-  } else if (r < 0) { 
+  # if r == -2 then 1 / x^2 is faster than x^(-2)
+  } else if (r == -2) { 
     1 / (mean_arithmetic((1 / x^abs(r)), w, na.rm, scale))^(1 / abs(r)) 
   } else {
     (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r) # the general equation
@@ -82,10 +88,22 @@ logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
     (a^a / b^b)^(1 / (a - b)) / exp(1)
   } else {
     # general case
-    if (r > 0 && r < 1) {
-      (r * (a - b) / (a^r - b^r))^(1 / (1 - r))
-    } else if (r < 0) {
-      (r * (a - b) / (1 / a^abs(r) - 1 / b^abs(r)))^(1 / (1 - r))
+    if (abs(r) == 2) {
+      if (r == 2) {
+        (a^r - b^r) / (r * (a - b))
+      } else {
+        (r * (a - b) / (1 / a^abs(r) - 1 / b^abs(r)))^(1 / (1 - r))
+      }
+    } else if (r == -1) {
+      sqrt((r * (a - b) / (1 / a - 1 / b)))
+    } else if (abs(r) == 0.5) {
+      if (r == 0.5) {
+        (r * (a - b) / (sqrt(a) - sqrt(b)))^(1 / (1 - r))
+      } else {
+        ((1 / sqrt(a) - 1 / sqrt(b)) / (r * (a - b)))^(1 / (r - 1))
+      }
+    } else if (r == 3) {
+      sqrt(((a^r - b^r) / (r * (a - b))))
     } else {
       ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1)) # the general equation
     }
