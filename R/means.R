@@ -35,6 +35,8 @@ mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
   }
 }
 
+# Exponents of -1, 0, 1, and 2 are the most important, so there are some optimizations for these cases.
+
 #---- Generalized mean ----
 mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
@@ -100,13 +102,16 @@ logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
   # regular logmean if r = 0
   out <- if (r == 0) {
     (a - b) / log(a / b)
-  # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
     if (r == 1) {
       (a^a / b^b)^(1 / (a - b)) / exp(1)
+      # 1/x is faster than x^(-1) and sqrt is faster than x^0.5
     } else {
       sqrt((r * (a - b) / (1 / a - 1 / b)))
     }
+  } else if (r == 2) {
+    # r = 2 case is faster without needless ^1
+    (a^r - b^r) / (r * (a - b))
   # general case otherwise  
   } else {
     

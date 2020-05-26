@@ -91,7 +91,10 @@ stopifnot(
               mean_geometric(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))) 
     all.equal(index_hlp(p1, p0, q1, q0),
               mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))) 
-    
+    all.equal(index_lm(p1, p0, q1, q0, 1.5), mean_generalized(p1 / p0, p0 * q0 / sum(p0 * q0), -0.5))
+    all.equal(index_cswd(p1, p0), sqrt(mean_arithmetic(p1 / p0) * mean_harmonic(p1 / p0)))
+    all.equal(index_cswdb(p1, p0, q1, q0), sqrt(mean_arithmetic(p1 / p0,) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
+    all.equal(index_bw(p1, p0), mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
   },
   local = getNamespace("gpindex")
 )

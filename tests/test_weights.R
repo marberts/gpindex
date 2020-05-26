@@ -73,12 +73,12 @@ stopifnot(
     is.na(weights_factor(NA_real_, NA_real_, r = 1))
     is.nan(weights_factor(NaN, r = 1))
     is.nan(weights_factor(NaN, NaN, r = 1))
-    is.na(weights_factor(NA_real_, NaN, r = 1))
+    is.nan(weights_factor(NA_real_, NaN, r = 1))
     is.na(weights_factor(NaN, NA_real_, r = 1))
     is.nan(weights_factor(1, NaN, r = 1))
     is.na(weights_factor(1, NA_real_, r = 1))
     is.na(weights_factor(NA_real_, 1, r = 1))
-    is.na(weights_factor(NaN, 1, r = 1))
+    is.nan(weights_factor(NaN, 1, r = 1))
     length(weights_factor(numeric(0), r = 1)) == 0L
     length(weights_factor(numeric(0), numeric(0), r = 1)) == 0L
     

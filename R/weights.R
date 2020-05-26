@@ -50,6 +50,10 @@
 weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
   # check input
   stopifnot(
+    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
+    "x and w must be the same length" = missing(w) || length(x) == length(w), 
+    "r must be length 1 numeric " = length(r) == 1L && is.numeric(r) && is.finite(r),
     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
   )
@@ -65,38 +69,24 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
   # return w when r = k
-  if (r == k) {
-    rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
-    # r, k = 2 cases are faster on their own without needless ^1
-  } else if (r == 2) {
-    if (k == 1) {
-      w * logmean_generalized(x, M, r) 
-    } else if (k == 0) {
-      w * logmean_generalized(x, M, r) * logmean_generalized(x, M, k)
-    } else {
-      w * logmean_generalized(x, M, r) / logmean_generalized(x, M, k)^(k - 1)
-    }
-    # r, k = 1 cases are faster on their own without needless ^0 
-  } else if (r == 1) {
-    if (k == 2) {
-      w / logmean_generalized(x, M, k)
-    } else if (k == 0){
-      w * logmean_generalized(x, M, k)
-    } else {
-      w / logmean_generalized(x, M, k)^(k - 1)
-    }
-    # r, k = 0 cases are faster on their own without needless ^-1
-  } else if (r == 0) {
-    if (k == 2) {
-      w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k))
-    } else if (k == 1) {
-      w / logmean_generalized(x, M, r)
-    } else {
-      w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k)^(k - 1))
-    }
-    # general case otherwise
+  if (r == k) return(rep_len(w, length(x)) * !is.na(x)) # make sure NAs propegate
+  # calculate logmeans
+  # r,k = 1 case does not need to be calculated because it's always 1
+  lmr <- if (r != 1) logmean_generalized(x, M, r) else 1
+  lmk <- if (k != 1) logmean_generalized(x, M, k) else 1
+  # calculate exponent on logmeans
+  # no exponents needed when r,k = 0 or 2
+  plmr <- if (r == 2 || r == 0) lmr else lmr^abs(r - 1)
+  plmk <- if (k == 2 || k == 0) lmk else lmk^abs(k - 1)
+  # it's faster in key cases to do 1/x^y than x^(-y) (i.e., when y = 1 or 2)
+  if (r >= 1 && k >= 1) {
+    w * plmr / plmk
+  } else if (r < 1 && k >= 1) {
+    w / (plmr * plmk)
+  } else if (r >= 1 & k < 1) {
+    w * plmr * plmk
   } else {
-    w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
+    w / plmr * plmk
   }
 }
   

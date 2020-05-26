@@ -67,5 +67,5 @@ index_cswdb <- function (p1, p0, q1, q0, na.rm = FALSE) {
 index_bw <- function (p1, p0, na.rm = FALSE) {
   check_index_arguments(p1, p0, na.rm = na.rm)
   mean_arithmetic(sqrt(p1 / p0), na.rm = na.rm) * 
-    index_harmonic(sqrt(p1 / p0), na.rm = na.rm)
+    mean_harmonic(sqrt(p1 / p0), na.rm = na.rm)
 }

@@ -70,13 +70,10 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 }
 
 \examples{
-# The geometric mean
+# Calculate the geometric mean as an arithmetic mean and harmonic mean by changing the weights
 
 x <- 1:10
 mean_geometric(x)
-
-# Calculate the geometric mean as an arithmetic mean and harmonic mean by changing the weights
-
 mean_arithmetic(x, weights_g2a(x))
 mean_harmonic(x, weights_change(x, r = 0, k = -1))
 
