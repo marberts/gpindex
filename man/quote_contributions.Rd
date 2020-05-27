@@ -62,11 +62,11 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 
 \examples{
 # Make some data
-set.seed(1234)
-p0 <- runif(5)
-p1 <- runif(5)
-q0 <- runif(5)
-q1 <- runif(5)
+
+p0 <- price6[1, ]
+p1 <- price6[2, ]
+q0 <- quantity6[1, ]
+q1 <- quantity6[2, ]
 
 # Additive decomposition of the Tornqvist index
 
@@ -82,7 +82,7 @@ sum(contrib)
 
 # Can be done manually if only weights are known
 
-w <- runif(5)
+w <- runif(6)
 contrib <- weights_h2a(p1 / p0, w)
 (contrib <- contrib / sum(contrib) * p1 / p0)
 mean_harmonic(p1 / p0, w)

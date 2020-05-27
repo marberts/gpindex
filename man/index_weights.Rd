@@ -72,7 +72,6 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \examples{
 # Make some data
 
-set.seed(1234)
 p0 <- runif(5)
 p1 <- runif(5)
 q0 <- runif(5)
