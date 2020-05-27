@@ -9,9 +9,9 @@ Calculate the weights to turn the generalized mean of a product into the product
 }
 
 \usage{
-weights_factor(x, w, r)
+weights_factor(x, w, r, scale = TRUE)
 
-index_price_update(x, w)
+index_price_update(x, w, scale = TRUE)
 }
 
 \arguments{
@@ -20,6 +20,8 @@ index_price_update(x, w)
 \item{w}{An optional vector of numeric weights, the same length as \code{x}.}
 
 \item{r}{A number giving the exponent of the generalized mean.}
+
+\item{scale}{Should the weights be scaled to sum to 1?}
 }
 
 \value{

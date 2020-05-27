@@ -7,7 +7,7 @@ contribution_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE)
     index_weights(p1, p0, q1, q0, type)
   }
   w <- weights_g2a(p1 / p0, w, na.rm)
-  w / sum(w) * p1 / p0
+  w * p1 / p0
 }
 
 contribution_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
@@ -19,7 +19,7 @@ contribution_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) 
     index_weights(p1, p0, q1, q0, type)
   }
   w <- weights_h2a(p1 / p0, w, na.rm) 
-  w / sum(w) * p1 / p0
+  w * p1 / p0
 }
 
 contribution_fisher <- function (p1, p0, q1, q0, na.rm = FALSE) {

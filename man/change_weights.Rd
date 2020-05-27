@@ -12,15 +12,15 @@ Calculate the weights to turn an r-generalized mean into a k-generalized mean.
 }
 
 \usage{
-weights_change(x, w, r, k, na.rm = FALSE, M)
+weights_change(x, w, r, k, na.rm = FALSE, scale = TRUE, M)
 
-weights_g2a(x, w, na.rm = FALSE, M)
+weights_g2a(x, w, na.rm = FALSE, scale = TRUE, M)
 
-weights_h2a(x, w, na.rm = FALSE, M)
+weights_h2a(x, w, na.rm = FALSE, scale = TRUE, M)
 
-weights_a2g(x, w, na.rm = FALSE, M)
+weights_a2g(x, w, na.rm = FALSE, scale = TRUE, M)
 
-weights_h2g(x, w, na.rm = FALSE, M)
+weights_h2g(x, w, na.rm = FALSE, scale = TRUE, M)
 }
 
 \arguments{
@@ -33,6 +33,8 @@ weights_h2g(x, w, na.rm = FALSE, M)
 \item{k}{A number giving the exponent of the generalized mean for which weights are desired. See details.}
 
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{mean_generalized}}?}
+
+\item{scale}{Should the weights be scaled to sum to 1?}
 
 \item{M}{The value of the r-generalized mean, if known.}
 }
@@ -76,5 +78,17 @@ x <- 1:10
 mean_geometric(x)
 mean_arithmetic(x, weights_g2a(x))
 mean_harmonic(x, weights_change(x, r = 0, k = -1))
+
+# Works for nested means, too
+
+w1 <- runif(10)
+w2 <- runif(10)
+
+mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
+
+v0 <- weights_g2a(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
+v1 <- w1 / sum(w1)
+v2 <- weights_h2a(x, w2)
+mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 
 }

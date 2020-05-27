@@ -53,9 +53,9 @@ stopifnot(
 stopifnot(
   exprs = {
     # test against known cases
-    all(weights_factor(x, r = 0) == 1)
-    all(weights_factor(x, w, r = 0) == w)
-    all(weights_factor(x, w, r = 1) == x * w)
+    all(weights_factor(x, r = 0) == 1 / length(x))
+    all(weights_factor(x, w, r = 0, FALSE) == w)
+    all(weights_factor(x, w, r = 1) == x * w / sum(x * w))
     # test against a simple implementation
     all(
       vapply(
