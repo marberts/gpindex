@@ -17,7 +17,7 @@ A small R package for calculating lots of different price and quantity indices. 
 ## Installation
 
 ```{r, eval = FALSE}
-devtools::install_github("/marberts/gpindex")
+devtools::install_github("marberts/gpindex")
 ```
 
 ## Useage

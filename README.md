@@ -10,7 +10,7 @@ family.
 ## Installation
 
 ``` r
-devtools::install_github("/marberts/gpindex")
+devtools::install_github("marberts/gpindex")
 ```
 
 ## Useage
