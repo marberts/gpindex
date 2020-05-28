@@ -1,51 +1,3 @@
-# #---- Weights to turn an r-generalized mean into a k-generalized mean
-# weights_change <- function (x, w, r, k, na.rm = FALSE, M) {
-#   # check input
-#   stopifnot(
-#     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
-#     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
-#   )
-#   # set w if equally weighted 
-#   if (missing(w)) {
-#     w <- if (length(x)) 1 else numeric(0)
-#     # calculate r-mean with equal weights
-#     if (missing(M)) {
-#       M <- mean_generalized(x, r = r, na.rm = na.rm)
-#     }
-#   # calculate r-mean with unequal weights
-#   } else if (missing(M)) {
-#     M <- mean_generalized(x, w, r, na.rm = na.rm)
-#   }
-#   # return w when r = k
-#   if (r == k) {
-#     rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
-#   # r, k = 2 cases are faster on their own without needless ^1
-#   } else if (r == 2 || k == 2) {
-#     if (r == 2) {
-#       w * logmean_generalized(x, M, r) / logmean_generalized(x, M, k)^(k - 1)
-#     } else {
-#       w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)
-#     }
-#   # r, k = 1 cases are faster on their own without needless ^0 
-#   } else if (r == 1 || k == 1) {
-#     if (r == 1) {
-#       w / logmean_generalized(x, M, k)^(k - 1)
-#     } else {
-#       w * logmean_generalized(x, M, r)^(r - 1)
-#     }
-#   # r, k = 0 cases are faster on their own without needless ^-1
-#   } else if (r == 0 || k == 0) {
-#     if (r == 0) {
-#       w / (logmean_generalized(x, M, r) * logmean_generalized(x, M, k)^(k - 1))
-#     } else {
-#       w * logmean_generalized(x, M, r)^(r - 1) * logmean_generalized(x, M, k)
-#     }
-#   # general case otherwise
-#   } else {
-#     w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1) # the general equation
-#   }
-# }
-
 #---- Weights to turn an r-generalized mean into a k-generalized mean
 weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
@@ -94,7 +46,7 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   }
   if (scale) out / sum(out, na.rm = TRUE) else out
 }
-  
+
 #---- Common cases ----
 weights_g2a <- function (x, w, na.rm = FALSE, scale = TRUE, M){
   weights_change(x, w, 0, 1, na.rm, scale, M)
@@ -129,21 +81,11 @@ weights_factor <- function (x, w, r, scale = TRUE) {
   # return w when r = 0
   out <- if (r == 0) {
     rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
-  # r = +-1 cases are faster on their own without needless ^1
+    # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
     if (r == 1) w * x else w / x
-    
-  # # there are some ways to boost performance, but I don't think it's worth it 
-  # } else if (abs(r) == 0.5) {
-  #   if (r == 0.5) {
-  #     w * sqrt(x)
-  #   } else {
-  #     w / sqrt(x)
-  #   }
-  # } else if (r == -2) {
-  #   w / x^abs(r)
-  
-  # general case otherwise  
+    # general case otherwise  
+    # there are some ways to boost performance when r =-2, 0.5, but I don't think it's worth it 
   } else {
     w * x^r # the general equation
   }

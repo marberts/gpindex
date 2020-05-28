@@ -63,10 +63,10 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 \examples{
 # Make some data
 
-p0 <- price6[1, ]
-p1 <- price6[2, ]
-q0 <- quantity6[1, ]
-q1 <- quantity6[2, ]
+p0 <- price6[[1]]
+p1 <- price6[[2]]
+q0 <- quantity6[[1]]
+q1 <- quantity6[[2]]
 
 # Additive decomposition of the Tornqvist index
 

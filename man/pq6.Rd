@@ -15,11 +15,11 @@ quantity6
 }
 
 \format{
-Each matrix has 5 rows and 6 columns, with each row corresponding to a time period and each column corresponding to a product.
+Each data has 6 rows and 5 columns, with each row corresponding to a product and each column corresponding to a time period.
 }
 
 \note{
-Recreated from tables 3.1 and 3.2 in Balk (2008), which were recreated from tables 19.1 and 19.2 in the PPI manual.
+Adapted from tables 3.1 and 3.2 in Balk (2008), which were adapted from tables 19.1 and 19.2 in the PPI manual.
 }
 
 \source{

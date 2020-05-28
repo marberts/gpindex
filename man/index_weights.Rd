@@ -72,12 +72,12 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \examples{
 # Make some data
 
-p0 <- runif(5)
-p1 <- runif(5)
-q0 <- runif(5)
-q1 <- runif(5)
-pb <- runif(5)
-qb <- runif(5)
+p0 <- price6[[2]]
+p1 <- price6[[3]]
+q0 <- quantity6[[2]]
+q1 <- quantity6[[3]]
+pb <- price6[[1]]
+qb <- quantity6[[1]]
 
 # Can be used with the mean_generalized function to make most types of price indices
 # arithmetic Laspeyres index

@@ -73,13 +73,13 @@ sqrt(2 * 3)
 
 # Using prod to manually calculate the geometric mean can give misleading results
 
-prod(1:1000)^(1/1000)
-mean_geometric(1:1000)
+x <- 1:1000
+prod(x)^(1/length(x)) # overflow
+mean_geometric(x) # mean_geometric is usually a bit faster anyways
 
-# mean_geometric is usually a bit faster anyways
-
-x <- runif(1000000)
-system.time(prod(x^(1/length(x)))) - system.time(mean_geometric(x))
+x <- seq(0.0001, by = 0.0005, length.out = 1000)
+prod(x)^(1/length(x)) # underflow
+mean_geometric(x)
 
 # Harmonic mean
 

@@ -119,9 +119,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 # Most of these indices can be calculated by combining the 
 # appropriate weights with the correct type of mean
 
-p0 <- price6[1, ]
-p1 <- price6[2, ]
-q0 <- quantity6[1, ]
+p0 <- price6[[1]]
+p1 <- price6[[2]]
+q0 <- quantity6[[1]]
 
 index_geometric(p1, p0, q0 = q0, type = "Laspeyres")
 mean_geometric(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
@@ -133,7 +133,7 @@ mean_geometric(p1 / p0, w)
 
 # Chain an index by price updating the weights
 
-p2 <- price6[3, ]
+p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
