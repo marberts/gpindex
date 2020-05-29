@@ -25,23 +25,23 @@ stopifnot(
     # Tests against a simple implementation with stats::weighted.mean
     all(
       vapply(
-        seq(-10, 10, by = 0.25), 
-        function(r) 
+        seq(-10, 10, by = 0.25),
+        function(r)
           abs(
             c(
-              mean_generalized(x, w, r) - 
+              mean_generalized(x, w, r) -
                 if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(stats::weighted.mean(log(x), w)),
-              mean_generalized(x, r = r) - 
+              mean_generalized(x, r = r) -
                 if (r != 0) (mean(x^r))^(1 / r) else exp(mean(log(x)))
             )
-          ) < .Machine$double.eps^0.5, 
+          ) < .Machine$double.eps^0.5,
         logical(2)
       )
     )
     # Is the general inequality satisfied?
     all(
       vapply(
-        seq(-10, 10, by = 0.25), 
+        seq(-10, 10, by = 0.25),
         function(r) mean_generalized(x, w, r - runif(1, 0, 5)) <= mean_generalized(x, w, r),
         logical(1)
       )
@@ -74,40 +74,40 @@ stopifnot(
     # Change weights
     all(
       apply(
-        expand.grid(a = seq(-3, 3, by = 0.25), b = seq(-3, 3, by = 0.25)), 
+        expand.grid(a = seq(-3, 3, by = 0.25), b = seq(-3, 3, by = 0.25)),
         1,
         function(p) {
           c(
-            abs(mean_generalized(x, w, p[1]) - 
+            abs(mean_generalized(x, w, p[1]) -
                   mean_generalized(x, weights_change(x, w, p[1], p[2]), p[2])),
-            abs(mean_generalized(x, r = p[1]) - 
+            abs(mean_generalized(x, r = p[1]) -
                   mean_generalized(x, weights_change(x, r = p[1], k = p[2]), p[2])),
-            abs(mean_generalized(xna, w, p[1], na.rm = TRUE) - 
+            abs(mean_generalized(xna, w, p[1], na.rm = TRUE) -
                   mean_generalized(xna, weights_change(xna, w, p[1], p[2], na.rm = TRUE), p[2], na.rm = TRUE))
           ) < .Machine$double.eps^0.5
         }
       )
     )
-    abs(mean_geometric(c(2, sqrt(2)^2)) - 
+    abs(mean_geometric(c(2, sqrt(2)^2)) -
           mean_arithmetic(c(2, sqrt(2)^2), weights_g2a(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
     # Factor weights
     all(
       vapply(
-        seq(-5, 5, by = 0.25), 
-        function(r) 
+        seq(-5, 5, by = 0.25),
+        function(r)
           c(
-            abs(mean_generalized(x * a, w, r) - 
+            abs(mean_generalized(x * a, w, r) -
                   mean_generalized(x, w, r) * mean_generalized(a, weights_factor(x, w, r), r)),
-            abs(mean_generalized(x * a, r = r) - 
+            abs(mean_generalized(x * a, r = r) -
                   mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)),
-            abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) - 
-                  mean_generalized(xna, w, r = r, na.rm = TRUE) * 
+            abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) -
+                  mean_generalized(xna, w, r = r, na.rm = TRUE) *
                   mean_generalized(a, weights_factor(xna, w, r = r, na.rm = TRUE), r, na.rm = TRUE))
           ) < .Machine$double.eps^0.5,
         logical(3)
       )
     )
-  }, 
+  },
   local = getNamespace("gpindex")
 )
 
@@ -123,16 +123,16 @@ stopifnot(
     all(
       vapply(
         seq(-10, 10, by = 0.25),
-        function(r) 
+        function(r)
           all(
             abs(
-              logmean_generalized(a, b, r) - 
+              logmean_generalized(a, b, r) -
                 if (r == 0) {
                   (b - a) / log(b / a)
                 } else if (r == 1) {
-                  1 / exp(1) * (b^b / a^a)^(1 / (b - a)) 
-                } else { 
-                  ((b^r - a^r)/(r * (b - a)))^(1 / (r - 1))
+                  1 / exp(1) * (b^b / a^a)^(1 / (b - a))
+                } else {
+                  ((b^r - a^r) / (r * (b - a)))^(1 / (r - 1))
                 }
             ) < .Machine$double.eps^0.5
           ),
@@ -143,7 +143,7 @@ stopifnot(
     all(
       vapply(
         seq(-5, 5, by = 0.25),
-        function(r) 
+        function(r)
           all(
             abs(
               logmean_generalized(a, b, r) - logmean_generalized(b, a, r)) < .Machine$double.eps^0.5
@@ -169,15 +169,15 @@ stopifnot(
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
     # Some identities
-    all.equal(logmean_generalized(a, b, -1), 
+    all.equal(logmean_generalized(a, b, -1),
               apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
-    all.equal(logmean_generalized(a, b, 2), 
+    all.equal(logmean_generalized(a, b, 2),
               apply(matrix(c(a, b), ncol = 2), 1, mean_arithmetic))
-    all.equal(logmean_generalized(a, b, -2), 
-              apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_harmonic(x) * mean_geometric(x)^2)^(1/3)))
-    all.equal(logmean_generalized(a, b, 0.5), 
+    all.equal(logmean_generalized(a, b, -2),
+              apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_harmonic(x) * mean_geometric(x)^2)^(1 / 3)))
+    all.equal(logmean_generalized(a, b, 0.5),
               apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_arithmetic(x) + mean_geometric(x)) / 2))
-    all.equal(logmean(a, b), 
+    all.equal(logmean(a, b),
               apply(matrix(c(a, b), ncol = 2), 1, mean_geometric)^2 * logmean(1 / a, 1 / b))
    },
   local = getNamespace("gpindex")

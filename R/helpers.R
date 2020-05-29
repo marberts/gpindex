@@ -1,6 +1,6 @@
-check_index_arguments <- function (p1, p0, q1, q0, pb, qb, type, na.rm) {
+check_index_arguments <- function(p1, p0, q1, q0, pb, qb, type, na.rm) {
   stopifnot(
-    "p1 must be numeric" = is.numeric(p1), 
+    "p1 must be numeric" = is.numeric(p1),
     "p0 must be numeric" = is.numeric(p0),
     "q1 must be numeric" = missing(q1) || is.numeric(q1),
     "q0 must be numeric" = missing(q0) || is.numeric(q0),
@@ -15,7 +15,7 @@ check_index_arguments <- function (p1, p0, q1, q0, pb, qb, type, na.rm) {
   )
 }
 
-check_weights_arguments <- function (p1, p0, q1, q0, type) {
+check_weights_arguments <- function(p1, p0, q1, q0, type) {
   stopifnot(
     "p0 must be numeric" = missing(p0) || is.numeric(p0),
     "p1 must be numeric" = missing(p1) || is.numeric(p1),

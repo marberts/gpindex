@@ -1,17 +1,17 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
-weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
+weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
-    "x and w must be the same length" = missing(w) || length(x) == length(w), 
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
+    "x and w must be the same length" = missing(w) || length(x) == length(w),
     "r must be length 1 numeric " = length(r) == 1L && is.numeric(r) && is.finite(r),
     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
     "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale),
     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
   )
-  # set w if equally weighted 
+  # set w if equally weighted
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
     # calculate r-mean with equal weights
@@ -49,34 +49,34 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
 }
 
 #---- Common cases ----
-weights_g2a <- function (x, w, na.rm = FALSE, scale = TRUE, M){
+weights_g2a <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
   weights_change(x, w, 0, 1, na.rm, scale, M)
 }
 
-weights_h2a <- function (x, w, na.rm = FALSE, scale = TRUE, M) {
+weights_h2a <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
   weights_change(x, w, -1, 1, na.rm, scale, M)
-} 
+}
 
-weights_a2g <- function (x, w, na.rm = FALSE, scale = TRUE, M) {
+weights_a2g <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
   weights_change(x, w, 1, 0, na.rm, scale, M)
-} 
+}
 
-weights_h2g <- function (x, w, na.rm = FALSE, scale = TRUE, M) {
+weights_h2g <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
   weights_change(x, w, -1, 0, na.rm, scale, M)
-} 
+}
 
 #---- Weights to factor a mean of products into the product of means ----
-weights_factor <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
+weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
-    "x and w must be the same length" = missing(w) || length(x) == length(w), 
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
+    "x and w must be the same length" = missing(w) || length(x) == length(w),
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
     "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
-  # set w if equally weighted 
+  # set w if equally weighted
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
   }
@@ -86,8 +86,8 @@ weights_factor <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
     # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
     if (r == 1) w * x else w / x
-    # general case otherwise  
-    # there are some ways to boost performance when r =-2, 0.5, but I don't think it's worth it 
+    # general case otherwise
+    # there are some ways to boost performance when r =-2, 0.5, but I don't think it's worth it
   } else {
     w * x^r # the general equation
   }
@@ -95,7 +95,9 @@ weights_factor <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
 }
 
 #---- Common case ----
-index_price_update <- function (x, w, na.rm = FALSE, scale = TRUE) weights_factor(x, w, 1, na.rm, scale)
+index_price_update <- function(x, w, na.rm = FALSE, scale = TRUE) {
+  weights_factor(x, w, 1, na.rm, scale)
+}
 
 #---- Scale weights ----
 weights_scale <- function(w, na.rm = FALSE) {

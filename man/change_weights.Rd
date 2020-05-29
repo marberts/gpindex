@@ -50,7 +50,9 @@ Returns a vector of weights \code{v} such that
 
 These weights are calculated as 
 
-\code{w * logmean_generalized(x, mean_generalized(x, w, r), r)^(r - 1) / logmean_generalized(x, mean_generalized(x, w, r), k)^(k - 1)}.
+\code{M <- mean_generalized(x, w, r)}
+
+\code{w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1)}.
 
 This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a} and \code{weights_h2a} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{k = 1} in \code{weights_change}). The functions \code{weights_a2g} and \code{weights_h2g} are similarly for turning an arithmetic and harmonic average into a geometric average.
 

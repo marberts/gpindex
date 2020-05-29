@@ -1,10 +1,10 @@
 #---- Arithmetic mean ----
-mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
+mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
   # check input
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
-    "x and w must be the same length" = missing(w) || length(x) == length(w), 
+    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
+    "x and w must be the same length" = missing(w) || length(x) == length(w),
     "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
@@ -46,45 +46,45 @@ mean_arithmetic <- function (x, w, na.rm = FALSE, scale = TRUE) {
 # Exponents of -1, 0, 1, and 2 are the most important, so there are some optimizations for these cases
 
 #---- Generalized mean ----
-mean_generalized <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
+mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
   stopifnot(
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
   )
   # geomean if r = 0
-  if (r == 0) { 
+  if (r == 0) {
     exp(mean_arithmetic(log(x), w, na.rm, scale))
     # r = +-1 cases are faster on their own without needless ^1
-  } else if (abs(r) == 1) { 
+  } else if (abs(r) == 1) {
     # arithmetic mean if r = 1
-    if (r == 1) { 
+    if (r == 1) {
       mean_arithmetic(x, w, na.rm, scale)
       # harmonic mean if r = -1
-    } else { 
+    } else {
       1 / mean_arithmetic(1 / x, w, na.rm, scale)
     }
     # generalized mean otherwise
-    # there are some ways to boost performance when r = -2, 0.5, but I don't think it's worth the complexity  
+    # there are some ways to boost performance when r = -2, 0.5, but I don't think it's worth the complexity
   } else {
     (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r) # the general equation
   }
 }
 
 #---- Geometric mean ----
-mean_geometric <- function (x, w, na.rm = FALSE, scale = TRUE) {
+mean_geometric <- function(x, w, na.rm = FALSE, scale = TRUE) {
   mean_generalized(x, w, 0, na.rm, scale)
-} 
+}
 
 #---- Harmonic mean ----
-mean_harmonic <- function (x, w, na.rm = FALSE, scale = TRUE) {
-  mean_generalized(x, w, -1, na.rm, scale)  
+mean_harmonic <- function(x, w, na.rm = FALSE, scale = TRUE) {
+  mean_generalized(x, w, -1, na.rm, scale)
 }
 
 #---- Generalized logarithmic mean ----
-logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
+logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
   # check input
   stopifnot(
-    "a must be numeric" = is.numeric(a), 
+    "a must be numeric" = is.numeric(a),
     "b must be numeric" = is.numeric(b),
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
     "tol must be a length 1 numeric" = length(tol) == 1L && is.numeric(tol) && is.finite(tol)
@@ -111,19 +111,19 @@ logmean_generalized <- function (a, b, r, tol = .Machine$double.eps^0.5) {
   } else if (r == 2) {
     # r = 2 case is faster without needless ^1
     (a^r - b^r) / (r * (a - b))
-    # general case otherwise  
+    # general case otherwise
     # there are some ways to boost performance when r = -2, 0.5, 3, but I don't think it's worth it
   } else {
     ((a^r - b^r) / (r * (a - b)))^(1 / (r - 1)) # the general equation
     # this is marginally slower than a cpp implementation
   }
   # set output to a when a = b
-  loc <- which(abs(a - b) <= tol) 
+  loc <- which(abs(a - b) <= tol)
   out[loc] <- a[loc]
   out
 }
 
 #---- Logarithmic mean ----
-logmean <- function (a, b, tol = .Machine$double.eps^0.5) {
+logmean <- function(a, b, tol = .Machine$double.eps^0.5) {
   logmean_generalized(a, b, 0, tol)
-} 
+}

@@ -3,7 +3,7 @@
 \title{Scale weights}
 
 \description{
-Scale a vector weights so they sum to 1.
+Scale a vector of weights so they sum to 1.
 }
 
 \usage{

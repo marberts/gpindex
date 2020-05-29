@@ -12,19 +12,19 @@ stopifnot(
     # Test against a simple implementation
     all(
       apply(
-        expand.grid(a = seq(-10, 10, by = 0.5), b = seq(-10, 10, by = 0.5)), 
+        expand.grid(a = seq(-10, 10, by = 0.5), b = seq(-10, 10, by = 0.5)),
         1,
         function(p) {
-          w2 <- weights_change(x, w, p[1], p[2]) 
+          w2 <- weights_change(x, w, p[1], p[2])
           M <- mean_generalized(x, w, p[1])
-          w3 <- w * logmean_generalized(x, M, p[1])^(p[1] - 1) / 
+          w3 <- w * logmean_generalized(x, M, p[1])^(p[1] - 1) /
             logmean_generalized(x, M, p[2])^(p[2] - 1)
           abs(w2 - weights_scale(w3)) < .Machine$double.eps^0.5
         }
       )
     )
     # check that it works with small differences
-    all.equal(weights_change(rep.int(sqrt(2)^2, length(x)), r = 0.9, k = 1.1), 
+    all.equal(weights_change(rep.int(sqrt(2)^2, length(x)), r = 0.9, k = 1.1),
           weights_change(rep.int(sqrt(2)^2, length(x)), r = 0.9, k = 1.1, M = 2))
     # length 0 inputs
     length(weights_g2a(numeric(0))) == 0L
@@ -59,12 +59,12 @@ stopifnot(
     # test against a simple implementation
     all(
       vapply(
-        seq(-10, 10, by = 0.25), 
+        seq(-10, 10, by = 0.25),
         function(r) {
           w2 <- weights_factor(x, w, r)
           w3 <- w * x^r
           all(abs(w2 - weights_scale(w3)) < .Machine$double.eps^0.5)
-        }, 
+        },
         logical(1)
       )
     )
@@ -81,7 +81,6 @@ stopifnot(
     is.nan(weights_factor(NaN, 1, r = 1))
     length(weights_factor(numeric(0), r = 1)) == 0L
     length(weights_factor(numeric(0), numeric(0), r = 1)) == 0L
-    
   },
   local = getNamespace("gpindex")
 )

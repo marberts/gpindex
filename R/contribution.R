@@ -1,4 +1,4 @@
-contribution_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
+contribution_geometric <- function(p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   type <- match.arg(type, types$geometric_index_types)
   w <- if (type == "Young") {
@@ -10,7 +10,7 @@ contribution_geometric <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE)
   w * p1 / p0
 }
 
-contribution_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
+contribution_harmonic <- function(p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, pb, qb, type, na.rm)
   type <- match.arg(type, types$harmonic_index_types)
   w <- if (type == "Young") {
@@ -18,11 +18,11 @@ contribution_harmonic <- function (p1, p0, q1, q0, pb, qb, type, na.rm = FALSE) 
   } else {
     index_weights(p1, p0, q1, q0, type)
   }
-  w <- weights_h2a(p1 / p0, w, na.rm) 
+  w <- weights_h2a(p1 / p0, w, na.rm)
   w * p1 / p0
 }
 
-contribution_fisher <- function (p1, p0, q1, q0, na.rm = FALSE) {
+contribution_fisher <- function(p1, p0, q1, q0, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, na.rm = na.rm)
   Qf <- index_fisher(q1, q0, p1, p0, na.rm)
   Ql <- index_arithmetic(q1, q0, p1, p0, type = "Laspeyres", na.rm = na.rm)

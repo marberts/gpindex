@@ -3,7 +3,7 @@
 \alias{gpindex-package}
 \alias{gpindex}
 
-\title{Generalized+ price and quantity indices}
+\title{Generalized+ Price and Quantity Indices}
 
 \description{
 A small package for calculating lots of different price and quantity indices. Provides tools to build and work with any type of generalized bilateral index (of which most price and quantity indices are), along with a few important indices that don't belong to the generalized family. 

@@ -1,4 +1,4 @@
-index_weights <- function (p1, p0, q1, q0, type) {
+index_weights <- function(p1, p0, q1, q0, type) {
   # check input
   check_weights_arguments(p1, p0, q1, q0, type)
   # match type arguments
@@ -10,7 +10,7 @@ index_weights <- function (p1, p0, q1, q0, type) {
   switch(type,
          Carli = ,
          Jevons = ,
-         Coggeshall = rep.int(1, n), 
+         Coggeshall = rep.int(1, n),
          Dutot = p0,
          Young = ,
          Lowe = ,
@@ -30,6 +30,5 @@ index_weights <- function (p1, p0, q1, q0, type) {
          MontgomeryVartia = logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
          Vartia2 = ,
          SatoVartia = logmean(p0 * q0 / sum(p0 * q0, na.rm = TRUE), p1 * q1 / sum(p1 * q1, na.rm = TRUE))
-  ) 
+  )
 }
-
