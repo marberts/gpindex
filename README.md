@@ -13,7 +13,7 @@ family.
 devtools::install_github("marberts/gpindex")
 ```
 
-## Useage
+## Usage
 
 ``` r
 library(gpindex)

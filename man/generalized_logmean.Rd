@@ -23,11 +23,11 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \value{
-A numeric vector, the same length as \code{max(length(a), length(b)}.
+A numeric vector, the same length as \code{max(length(a), length(b))}.
 }
 
 \details{
-Returns the value of the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a precise statement. The logarithmic mean corresponds to the generalized logarithmic mean of order 0. The function \code{logmean} simply calls \code{logmean_generalized} with \code{r = 0}.
+Returns the value of the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a precise statement. The logarithmic mean corresponds to the generalized logarithmic mean of order 0. The function \code{logmean} simply calls \code{logmean_generalized(a, b, 0)}.
 
 The usual definition of the generalized logarithmic mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{a} and \code{b}. This is not implemented here, as it does not seem to be of practical value.
 
@@ -45,21 +45,21 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 }
 
 \examples{
-# A useful identity (should be all zero)
+# A useful identity (should be TRUE)
 
 x <- 8:5
 y <- 4:1
-logmean(x, y) * log(x / y)  - (x - y) 
+all.equal(logmean(x, y) * log(x / y), x - y) 
 
 # Works for other orders, too
 
 r <- 2
 
-logmean_generalized(x, y, r) * (r * (x - y))^(1 / (r - 1)) - (x^r - y^r)^(1 / (r - 1))
+all.equal(logmean_generalized(x, y, r) * (r * (x - y))^(1 / (r - 1)), (x^r - y^r)^(1 / (r - 1)))
 
 # Some other identities from Bullen (example iii on page 385)
 
-logmean_generalized(1, 2, -2) - (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1/3)
-logmean_generalized(1, 2, 0.5) - (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2
-logmean(1, 2) - mean_geometric(1:2)^2 * logmean(1, 1/2)
+all.equal(logmean_generalized(1, 2, -2), (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1/3))
+all.equal(logmean_generalized(1, 2, 0.5), (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2)
+all.equal(logmean(1, 2), mean_geometric(1:2)^2 * logmean(1, 1/2))
 }

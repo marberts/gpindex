@@ -9,9 +9,9 @@ Calculate the weights to turn the generalized mean of a product into the product
 }
 
 \usage{
-weights_factor(x, w, r, scale = TRUE)
+weights_factor(x, w, r, na.rm = FALSE, scale = TRUE)
 
-index_price_update(x, w, scale = TRUE)
+index_price_update(x, w, na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -20,6 +20,8 @@ index_price_update(x, w, scale = TRUE)
 \item{w}{An optional vector of numeric weights, the same length as \code{x}.}
 
 \item{r}{A number giving the exponent of the generalized mean.}
+
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{weights_scale}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
 }
@@ -46,6 +48,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean.
+
+\code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
 
 \examples{

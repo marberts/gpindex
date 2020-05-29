@@ -83,14 +83,23 @@ sum(contrib)
 # Can be done manually if only weights are known
 
 w <- runif(6)
-contrib <- weights_h2a(p1 / p0, w)
-(contrib <- contrib / sum(contrib) * p1 / p0)
+(contrib <- weights_h2a(p1 / p0, w) * p1 / p0)
 mean_harmonic(p1 / p0, w)
 sum(contrib)
 
 # Manual approaches can be used to make a multiplicative decomposition
 
-contrib <- weights_h2g(p1 / p0, w)
-(contrib <- (p1 / p0) ^ (contrib / sum(contrib)))
+(contrib <- (p1 / p0)^weights_h2g(p1 / p0, w))
 prod(contrib)
+
+# Manual approach also works for nested indices (e.g., CSWD index)
+
+v0 <- weights_g2a(c(mean_arithmetic(p1 / p0), mean_harmonic(p1 / p0)))
+v1 <- weights_scale(rep(1, 6))
+v2 <- weights_h2a(p1 / p0)
+
+(contrib <- (v0[1] * v1 + v0[2] * v2) * p1 / p0)
+sum(contrib)
+
+index_cswd(p1, p0)
 }

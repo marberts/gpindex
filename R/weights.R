@@ -7,6 +7,7 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
     "x and w must be the same length" = missing(w) || length(x) == length(w), 
     "r must be length 1 numeric " = length(r) == 1L && is.numeric(r) && is.finite(r),
     "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
+    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale),
     "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
   )
@@ -44,7 +45,7 @@ weights_change <- function (x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
       w / plmr * plmk
     }
   }
-  if (scale) out / sum(out, na.rm = TRUE) else out
+  if (scale) weights_scale(out, na.rm) else out
 }
 
 #---- Common cases ----
@@ -65,13 +66,14 @@ weights_h2g <- function (x, w, na.rm = FALSE, scale = TRUE, M) {
 } 
 
 #---- Weights to factor a mean of products into the product of means ----
-weights_factor <- function (x, w, r, scale = TRUE) {
+weights_factor <- function (x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
   stopifnot(
     "x must be numeric or logical" = is.numeric(x) || is.logical(x),
     "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)), 
     "x and w must be the same length" = missing(w) || length(x) == length(w), 
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
+    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
     "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
   )
   # set w if equally weighted 
@@ -89,8 +91,17 @@ weights_factor <- function (x, w, r, scale = TRUE) {
   } else {
     w * x^r # the general equation
   }
-  if (scale) out / sum(out, na.rm = TRUE) else out
+  if (scale) weights_scale(out, na.rm) else out
 }
 
 #---- Common case ----
-index_price_update <- function (x, w, scale = TRUE) weights_factor(x, w, 1, scale)
+index_price_update <- function (x, w, na.rm = FALSE, scale = TRUE) weights_factor(x, w, 1, na.rm, scale)
+
+#---- Scale weights ----
+weights_scale <- function(w, na.rm = FALSE) {
+  stopifnot(
+    "w must be numeric or logical" = is.numeric(w) || is.logical(w),
+    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm)
+  )
+  w / sum(w, na.rm = na.rm)
+}

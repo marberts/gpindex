@@ -102,7 +102,7 @@ stopifnot(
                   mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)),
             abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) - 
                   mean_generalized(xna, w, r = r, na.rm = TRUE) * 
-                  mean_generalized(a, weights_factor(xna, w, r = r), r, na.rm = TRUE))
+                  mean_generalized(a, weights_factor(xna, w, r = r, na.rm = TRUE), r, na.rm = TRUE))
           ) < .Machine$double.eps^0.5,
         logical(3)
       )

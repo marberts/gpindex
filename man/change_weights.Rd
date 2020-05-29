@@ -32,7 +32,7 @@ weights_h2g(x, w, na.rm = FALSE, scale = TRUE, M)
 
 \item{k}{A number giving the exponent of the generalized mean for which weights are desired. See details.}
 
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{mean_generalized}}?}
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{mean_generalized}} and \code{\link[gpindex]{weights_scale}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
 
@@ -50,7 +50,7 @@ Returns a vector of weights \code{v} such that
 
 These weights are calculated as 
 
-\code{w * logmean_generalized(x, mean_generalized(x, w, r), r)^(r - 1) / logmean_generalized(x, mean_generalized(x, w, r), k)^(k - 1)}. 
+\code{w * logmean_generalized(x, mean_generalized(x, w, r), r)^(r - 1) / logmean_generalized(x, mean_generalized(x, w, r), k)^(k - 1)}.
 
 This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a} and \code{weights_h2a} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{k = 1} in \code{weights_change}). The functions \code{weights_a2g} and \code{weights_h2g} are similarly for turning an arithmetic and harmonic average into a geometric average.
 
@@ -58,7 +58,7 @@ As a matter of definition, both \code{x} and \code{w} should be strictly positiv
 
 The weights depend on the value of \code{mean_generalized(x, w, r)}. In many cases this value is known prior to calling the function, and can be supplied to save some computations. Otherwise, it will be calculated from the values of \code{x} and \code{w}.
 
-As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex]{mean_generalized}}.
+As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex]{mean_generalized}}, and \code{\link[gpindex]{weights_scale}} if \code{scale = TRUE}.
 }
 
 \references{
@@ -69,6 +69,8 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
 \code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
+
+\code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
 
 \examples{
@@ -87,7 +89,7 @@ w2 <- runif(10)
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
 v0 <- weights_g2a(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
-v1 <- w1 / sum(w1)
+v1 <- weights_scale(w1)
 v2 <- weights_h2a(x, w2)
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 

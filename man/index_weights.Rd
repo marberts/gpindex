@@ -67,6 +67,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \code{\link[gpindex]{mean_generalized}} for the generalized mean.
 
 \code{\link[gpindex]{index}} provides a wrapper for common indices.
+
+\code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
 
 \examples{
