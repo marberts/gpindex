@@ -1,15 +1,11 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
 weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
+  check_mean_arguments(x, w, na.rm, scale) 
   stopifnot(
-    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
-    "x and w must be the same length" = missing(w) || length(x) == length(w),
-    "r must be length 1 numeric " = length(r) == 1L && is.numeric(r) && is.finite(r),
-    "k must be length 1 numeric " = length(k) == 1L && is.numeric(k) && is.finite(k),
-    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
-    "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale),
-    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M))
+    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
+    "k must be a length 1 numeric" = length(k) == 1L && is.numeric(k) && is.finite(k),
+    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M) && is.finite(M))
   )
   # set w if equally weighted
   if (missing(w)) {
@@ -68,13 +64,9 @@ weights_h2g <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
 #---- Weights to factor a mean of products into the product of means ----
 weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
+  check_mean_arguments(x, w, na.rm, scale) 
   stopifnot(
-    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
-    "x and w must be the same length" = missing(w) || length(x) == length(w),
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
-    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
-    "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
+    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
   )
   # set w if equally weighted
   if (missing(w)) {
@@ -95,8 +87,11 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
 }
 
 #---- Common case ----
-index_price_update <- function(x, w, na.rm = FALSE, scale = TRUE) {
-  weights_factor(x, w, 1, na.rm, scale)
+index_price_update <- function(p1, p0, q1, q0, type, na.rm = FALSE, scale = TRUE) {
+  check_weights_arguments(p1, p0, q1, q0)
+  type <- match.arg(type, types$arithmetic_index_types)
+  w <- index_weights(p1, p0, q1, q0, type)
+  weights_factor(p1 / p0, w, 1, na.rm, scale)
 }
 
 #---- Scale weights ----

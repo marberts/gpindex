@@ -11,9 +11,9 @@ Calculate the additive decomposition of an index to get the contribution of each
 }
 
 \usage{
-contribution_geometric(p1, p0, q1, q0, pb, qb, type, na.rm = FALSE)
+contribution_geometric(p1, p0, q1, q0, type, na.rm = FALSE)
 
-contribution_harmonic(p1, p0, q1, q0, pb, qb, type, na.rm = FALSE)
+contribution_harmonic(p1, p0, q1, q0, type, na.rm = FALSE)
 
 contribution_fisher(p1, p0, q1, q0, na.rm = FALSE)
 }
@@ -26,10 +26,6 @@ contribution_fisher(p1, p0, q1, q0, na.rm = FALSE)
 \item{q1}{Current-period quantities.}
 
 \item{q0}{Base-period quantities.}
-
-\item{pb}{Period-b prices for the Lowe/Young index.}
-
-\item{qb}{Period-b quantities for the Lowe/Young index.}
 
 \item{type}{The name of the index. See \code{\link[gpindex]{index}}.}
 

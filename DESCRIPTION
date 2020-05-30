@@ -1,13 +1,12 @@
 Package: gpindex
 Title: Generalized+ Price and Quantity Indices
-Version: 0.0.0.9013
-Date: 2020-05-29
+Version: 0.0.0.9014
+Date: 2020-05-30
 Authors@R: c(
     person(given = "Steve", family = "Martin", role = c("aut", "cre"), email = "stevemartin041@gmail.com")
     )
 Description: A small package for calculating lots of different price and quantity indices. Provides tools to build and work with any type of generalized bilateral index (of which most price and quantity indices are), along with a few important indices that don't belong to the generalized family. 
 Depends: R (>= 3.5)
-Imports: stats
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/marberts/gpindex

@@ -1,13 +1,7 @@
 #---- Arithmetic mean ----
 mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
   # check input
-  stopifnot(
-    "x must be numeric or logical" = is.numeric(x) || is.logical(x),
-    "weights must be numeric or logical" = missing(w) || (is.numeric(w) || is.logical(w)),
-    "x and w must be the same length" = missing(w) || length(x) == length(w),
-    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm),
-    "scale must be a length 1 logical" = length(scale) == 1L && is.logical(scale)
-  )
+  check_mean_arguments(x, w, na.rm, scale)
   # unweighted case
   if (missing(w)) {
     if (!na.rm) {

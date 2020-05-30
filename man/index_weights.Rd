@@ -1,5 +1,6 @@
 \name{index weights}
 \alias{index_weights}
+\alias{index_price_update}
 
 \title{Calculate the weights for a variety of price indices}
 
@@ -9,6 +10,8 @@ Calculate the weights for a variety of price indices using information on prices
 
 \usage{
 index_weights(p1, p0, q1, q0, type)
+
+index_price_update(p1, p0, q1, q0, type, na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -21,6 +24,10 @@ index_weights(p1, p0, q1, q0, type)
 \item{q0}{Base-period quantities.}
 
 \item{type}{The name of the index. See details.}
+
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{weights_scale}}?}
+
+\item{scale}{Should the weights be scaled to sum to 1?}
 }
 
 \value{
@@ -46,13 +53,16 @@ Weights for the following types of indices can be calculated.
 \item Sato-Vartia / Vartia-II
 \item Lowe
 \item Young
+\item Lloyd-Moulton
 }
 
 Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 
-The weights need not sum to 1, as this normalization isn't always appropriate (e.g., for the Vartia-I weights). The \code{\link[gpindex]{mean_generalized}} function that powers most price-index calculations scales weights by default, so this is not an issue.
+The weights need not sum to 1, as this normalization isn't always appropriate (e.g., for the Vartia-I weights). The \code{\link[gpindex]{mean_generalized}} function that powers most price-index calculations scales weights by default, so this is not an issue. See also \code{\link[gpindex]{weights_scale}}.
 
 Dealing with missing values when making weights is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating weights.
+
+The \code{index_price_update} function can be used to price update the weights for an arithmetic index. It is a simple wrapper for calling \code{\link[gpindex]{weights_factor}} on \code{index_weights}.
 }
 
 \references{

@@ -1,6 +1,8 @@
 \name{price indices}
 \alias{index}
 \alias{index_arithmetic}
+\alias{index_lowe}
+\alias{index_young}
 \alias{index_geometric}
 \alias{index_harmonic}
 \alias{index_fisher}
@@ -17,17 +19,21 @@ Calculate a variety of price indices using information on prices and quantities.
 }
 
 \usage{
-index_arithmetic(p1, p0, q1, q0, pb, qb, type, na.rm)
+index_arithmetic(p1, p0, q1, q0, type, na.rm)
 
-index_geometric(p1, p0, q1, q0, pb, qb, type, na.rm)
+index_lowe(p1, p0, qb, na.rm)
 
-index_harmonic(p1, p0, q1, q0, pb, qb, type, na.rm)
+index_young(p1, p0, pb, qb, na.rm)
+
+index_geometric(p1, p0, q1, q0, type, na.rm)
+
+index_harmonic(p1, p0, q1, q0, type, na.rm)
 
 index_fisher(p1, p0, q1, q0, na.rm)
 
 index_hlp(p1, p0, q1, q0, na.rm)
 
-index_lm(p1, p0, q1, q0, elasticity, na.rm)
+index_lm(p1, p0, q0, elasticity, na.rm)
 
 index_cswd(p1, p0, na.rm)
 
@@ -79,7 +85,6 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Jevons
 \item Geometric Laspeyres
 \item Geometric Paasche
-\item Geometric Young
 \item Tornqvist
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
@@ -88,7 +93,6 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Coggeshall (equally weighted harmonic index)
 \item Paasche
 \item Harmonic Laspeyres
-\item Harmonic Young
 }
 In addition to these generalized indices, there are also functions for calculating a variety of non-generalized indices. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indices; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indices are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
 
@@ -137,7 +141,7 @@ p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- index_price_update(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+w_pu <- index_price_update(p1, p0, q0 = q0, type = "Laspeyres")
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 

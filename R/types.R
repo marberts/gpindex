@@ -20,7 +20,8 @@ types <- list(
                    "Vartia2",
                    "SatoVartia",
                    "Lowe",
-                   "Young"),
+                   "Young",
+                   "LloydMoulton"),
   arithmetic_index_types = c("Carli",
                              "Dutot",
                              "Laspeyres",
@@ -29,13 +30,10 @@ types <- list(
                              "Unnamed",
                              "Walsh1",
                              "MarshallEdgeworth",
-                             "GearyKhamis",
-                             "Lowe",
-                             "Young"),
+                             "GearyKhamis"),
   geometric_index_types = c("Jevons",
                             "Laspeyres",
                             "Paasche",
-                            "Young",
                             "Tornqvist",
                             "Vartia1",
                             "MontgomeryVartia",
@@ -44,6 +42,5 @@ types <- list(
                             "Walsh2"),
   harmonic_index_types = c("Coggeshall",
                            "Laspeyres",
-                           "Paasche",
-                           "Young")
+                           "Paasche")
 )
