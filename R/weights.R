@@ -87,12 +87,12 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
 }
 
 #---- Common case ----
-index_price_update <- function(p1, p0, q1, q0, type, na.rm = FALSE, scale = TRUE) {
-  check_weights_arguments(p1, p0, q1, q0)
-  type <- match.arg(type, types$arithmetic_index_types)
-  w <- index_weights(p1, p0, q1, q0, type)
-  weights_factor(p1 / p0, w, 1, na.rm, scale)
-}
+# index_price_update <- function(p1, p0, q1, q0, type, na.rm = FALSE, scale = TRUE) {
+#   check_weights_arguments(p1, p0, q1, q0)
+#   type <- match.arg(type, types$arithmetic_index_types)
+#   w <- index_weights(p1, p0, q1, q0, type)
+#   weights_factor(p1 / p0, w, 1, na.rm, scale)
+# }
 
 #---- Scale weights ----
 weights_scale <- function(w, na.rm = FALSE) {

@@ -30,7 +30,11 @@ stopifnot(
           abs(
             c(
               mean_generalized(x, w, r) -
-                if (r != 0) (stats::weighted.mean(x^r, w))^(1 / r) else exp(stats::weighted.mean(log(x), w)),
+                if (r != 0) {
+                  (stats::weighted.mean(x^r, w))^(1 / r) 
+                } else {
+                  exp(stats::weighted.mean(log(x), w))
+                },
               mean_generalized(x, r = r) -
                 if (r != 0) (mean(x^r))^(1 / r) else exp(mean(log(x)))
             )
@@ -42,7 +46,10 @@ stopifnot(
     all(
       vapply(
         seq(-10, 10, by = 0.25),
-        function(r) mean_generalized(x, w, r - runif(1, 0, 5)) <= mean_generalized(x, w, r),
+        function(r) {
+          mean_generalized(x, w, r - runif(1, 0, 5)) <= 
+            mean_generalized(x, w, r)
+          },
         logical(1)
       )
     )
@@ -53,24 +60,20 @@ stopifnot(
     is.na(mean_arithmetic(1, NA))
     is.na(mean_arithmetic(NaN))
     is.na(mean_arithmetic(1, NaN))
-    is.nan(mean_arithmetic(NA, na.rm = TRUE))
-    is.nan(mean_arithmetic(NaN, na.rm = TRUE))
-    is.nan(mean_arithmetic(NA, 1, na.rm = TRUE))
-    is.nan(mean_arithmetic(NA, 0.5, na.rm = TRUE, scale = FALSE))
-    is.nan(mean_arithmetic(1, NA, na.rm = TRUE))
-    is.nan(mean_arithmetic(1, NaN, na.rm = TRUE))
-    is.nan(mean_arithmetic(numeric(0)))
-    is.nan(mean_arithmetic(numeric(0), numeric(0)))
+    is.na(mean_arithmetic(NA, na.rm = TRUE))
+    is.na(mean_arithmetic(NaN, na.rm = TRUE))
+    is.na(mean_arithmetic(NA, 1, na.rm = TRUE))
+    is.na(mean_arithmetic(NA, 0.5, na.rm = TRUE, scale = FALSE))
+    is.na(mean_arithmetic(1, NA, na.rm = TRUE))
+    is.na(mean_arithmetic(1, NaN, na.rm = TRUE))
+    is.na(mean_arithmetic(numeric(0)))
+    is.na(mean_arithmetic(numeric(0), numeric(0)))
     all.equal(mean_arithmetic(c(1, NA), na.rm = TRUE), 1)
     all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE), 1)
     all.equal(mean_arithmetic(c(1, NA), c(1, 2), na.rm = TRUE), 1)
-    is.nan(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE))
+    is.na(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE))
     all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE, scale = FALSE), 2)
-    is.nan(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE, scale = FALSE))
-    is.na(mean_geometric(NA))
-    is.na(mean_harmonic(NA))
-    is.nan(mean_geometric(NA, na.rm = TRUE))
-    is.nan(mean_harmonic(NA, na.rm = TRUE))
+    is.na(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE, scale = FALSE))
     # Change weights
     all(
       apply(
@@ -157,10 +160,10 @@ stopifnot(
     is.na(logmean(NA_real_, 1))
     is.na(logmean(NA_real_, NA_real_))
     is.na(logmean(NA_real_, NaN))
-    is.nan(logmean(NaN, NA_real_))
-    is.nan(logmean(1, NaN))
-    is.nan(logmean(NaN, 1))
-    is.nan(logmean(NaN, NaN))
+    is.na(logmean(NaN, NA_real_))
+    is.na(logmean(1, NaN))
+    is.na(logmean(NaN, 1))
+    is.na(logmean(NaN, NaN))
     # Test of a == b
     logmean(0.00001, 1 / 100000) == 1 / 100000
     logmean(2, sqrt(2)^2) == 2

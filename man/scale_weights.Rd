@@ -21,7 +21,9 @@ A numeric vector, the same length as \code{w}.
 }
 
 \details{
-This function is a simple way to call \code{sum(w) / sum(w)}.
+This function is a simple way to call \code{w / sum(w)}.
+
+To speed up execution when there are NAs in \code{w}, the return value is always a vector of NAs whenever \code{na.rm = FALSE} and \code{anyNA(w) == TRUE}. This means that NaNs are handled slightly differently than \code{w / sum(w)}.
 }
 
 \seealso{

@@ -186,25 +186,3 @@ stopifnot(
   },
   local = getNamespace("gpindex")
 )
-
-#---- Test price update ----
-
-stopifnot(
-  exprs = {
-    all(
-      vapply(
-        setdiff(types$arithmetic_index_types,
-                c("Palgrave", "Unnamed")),
-        function(i) {
-          all.equal(
-            index_arithmetic(pb, p0, q1, q0, i),
-            index_arithmetic(p1, p0, q1, q0, i) *
-            mean_arithmetic(pb / p1, index_price_update(p1, p0, q1, q0, i))
-          )
-        },
-        logical(1)
-      )
-    )
-  },
-  local = getNamespace("gpindex")
-)

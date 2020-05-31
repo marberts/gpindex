@@ -114,8 +114,6 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 \code{\link[gpindex]{index_weights}} calculates weights for the different types of indices. 
 
-\code{\link[gpindex]{index_price_update}} can be used to price update weights for an arithmetic index. 
-
 \code{\link[gpindex]{contribution}} calculates quote contributions.
 }
 
@@ -141,7 +139,7 @@ p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- index_price_update(p1, p0, q0 = q0, type = "Laspeyres")
+w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"), r = 1)
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
