@@ -1,6 +1,9 @@
 contribution_geometric <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
   check_index_arguments(p1, p0, q1, q0, na.rm)
-  type <- match.arg(type, types$geometric_index_types)
+  type <- match.arg(type, 
+                    setdiff(types$geometric_index_types, 
+                            c("Vartia1", "MontgomeryVartia"))
+                    )
   w <- index_weights(p1, p0, q1, q0, type)
   weights_g2a(p1 / p0, w, na.rm) * p1 / p0
 }

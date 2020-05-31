@@ -87,10 +87,14 @@ stopifnot(
               mean_geometric(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
     all.equal(index_hlp(p1, p0, q1, q0),
               mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
-    all.equal(index_lm(p1, p0, q0, 1.5), mean_generalized(p1 / p0, p0 * q0 / sum(p0 * q0), -0.5))
-    all.equal(index_cswd(p1, p0), sqrt(mean_arithmetic(p1 / p0) * mean_harmonic(p1 / p0)))
-    all.equal(index_cswdb(p1, p0, q1, q0), sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
-    all.equal(index_bw(p1, p0), mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
+    all.equal(index_lm(p1, p0, q0, 1.5), 
+              mean_generalized(p1 / p0, p0 * q0 / sum(p0 * q0), -0.5))
+    all.equal(index_cswd(p1, p0), 
+              sqrt(mean_arithmetic(p1 / p0) * mean_harmonic(p1 / p0)))
+    all.equal(index_cswdb(p1, p0, q1, q0), 
+              sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
+    all.equal(index_bw(p1, p0), 
+              mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
   },
   local = getNamespace("gpindex")
 )
@@ -100,6 +104,107 @@ stopifnot(
   exprs = {
     all.equal(index_fisher(p1, p0, q1, q0),
               sum(contribution_fisher(p1, p0, q1, q0)))
+    all(
+      vapply(
+        setdiff(types$geometric_index_types, c("Vartia1", "MontgomeryVartia")),
+        function(i)
+          all.equal(
+            index_geometric(p1, p0, q1, q0, i),
+              sum(contribution_geometric(p1, p0, q1, q0, type = i))
+            ),
+        logical(1)
+      )
+    )
+    all(
+      vapply(
+        types$harmonic_index_types,
+        function(i)
+          all.equal(
+            index_harmonic(p1, p0, q1, q0, i),
+            sum(contribution_harmonic(p1, p0, q1, q0, type = i))
+          ),
+        logical(1)
+      )
+    )
+  },
+  local = getNamespace("gpindex")
+)
+
+# Test against values from tables 3.4 and 3.6 in Balk (2008)
+# Column P in table 3.4 is 1.3823 because of a rounding error
+
+# Table 3.1 in Balk (2008), adapted from table 19.1 in PPI manual
+price6 <- data.frame(t1 = c(1.0, 1.0, 1.0, 1.0, 1.0, 1.0),
+                     t2 = c(1.2, 3.0, 1.3, 0.7, 1.4, 0.8),
+                     t3 = c(1.0, 1.0, 1.5, 0.5, 1.7, 0.6),
+                     t4 = c(0.8, 0.5, 1.6, 0.3, 1.9, 0.4),
+                     t5 = c(1.0, 1.0, 1.6, 0.1, 2.0, 0.2)
+)
+
+# Table 3.2 in Balk (2008), adapted from table 19.2 in PPI manual
+quantity6 <- data.frame(t1 = c(1.0, 1.0, 2.0, 1.0, 4.5, 0.5),
+                        t2 = c(0.8, 0.9, 1.9, 1.3, 4.7, 0.6),
+                        t3 = c(1.0, 1.1, 1.8, 3.0, 5.0, 0.8),
+                        t4 = c(1.2, 1.2, 1.9, 6.0, 5.6, 1.3),
+                        t5 = c(0.9, 1.2, 2.0, 12.0, 6.5, 2.5)
+)
+
+stopifnot(
+  exprs = {
+    all(
+    mapply(
+      function(p1, p0, q1, q0) {
+        round(
+          c(
+            index_harmonic(p1, p0, q1, q0, "Laspeyres"),
+            index_geometric(p1, p0, q1, q0, "Laspeyres"),
+            index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
+            index_harmonic(p1, p0, q1, q0, "Paasche"),
+            index_geometric(p1, p0, q1, q0, "Paasche"),
+            index_arithmetic(p1, p0, q1, q0, "Palgrave"),
+            index_fisher(p1, p0, q1, q0),
+            index_geometric(p1, p0, q1, q0, "Tornqvist"),
+            index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
+            index_arithmetic(p1, p0, q1, q0, "Walsh1")
+          ), 4)
+        },
+        price6, price6[1], quantity6, quantity6[1]
+    ) ==
+      matrix(c(
+        1.0000, 1.2542, 1.1346, 0.8732, 0.5556,
+        1.0000, 1.3300, 1.2523, 1.1331, 1.0999,
+        1.0000, 1.4200, 1.3450, 1.3550, 1.4400,
+        1.0000, 1.3824, 1.2031, 1.0209, 0.7968,
+        1.0000, 1.4846, 1.3268, 1.3282, 1.4153,
+        1.0000, 1.6096, 1.4161, 1.5317, 1.6720,
+        1.0000, 1.4011, 1.2721, 1.1762, 1.0712,
+        1.0000, 1.4052, 1.2890, 1.2268, 1.2477,
+        1.0000, 1.4010, 1.2656, 1.1438, 0.9801,
+        1.0000, 1.4017, 1.2850, 1.2193, 1.1850
+      ), ncol = 5, byrow = TRUE)
+    )
+  },
+  local = getNamespace("gpindex")
+)
+
+#---- Test price update ----
+
+stopifnot(
+  exprs = {
+    all(
+      vapply(
+        setdiff(types$arithmetic_index_types,
+                c("Palgrave", "Unnamed")),
+        function(i) {
+          all.equal(
+            index_arithmetic(pb, p0, q1, q0, i),
+            index_arithmetic(p1, p0, q1, q0, i) *
+            mean_arithmetic(pb / p1, index_price_update(p1, p0, q1, q0, i))
+          )
+        },
+        logical(1)
+      )
+    )
   },
   local = getNamespace("gpindex")
 )
