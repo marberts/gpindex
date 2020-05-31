@@ -21,7 +21,7 @@ A numeric vector, the same length as \code{w}.
 }
 
 \details{
-This function is a simple way to call \code{sum(w) / sum(w, na.rm = na.rm)}.
+This function is a simple way to call \code{sum(w) / sum(w)}.
 }
 
 \seealso{

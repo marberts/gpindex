@@ -33,16 +33,17 @@ stopifnot(
     is.na(weights_g2a(NA_real_))
     is.na(weights_g2a(NA_real_, 1))
     is.na(weights_g2a(1, NA_real_))
-    is.nan(weights_g2a(NaN, 1))
-    is.nan(weights_g2a(1, NaN))
+    is.na(weights_g2a(NaN, 1))
+    is.na(weights_g2a(1, NaN))
     is.na(weights_g2a(NA_real_, NA_real_))
-    is.nan(weights_g2a(NaN, NaN))
-    is.nan(weights_g2a(NA_real_, NaN))
+    is.na(weights_g2a(NaN, NaN))
+    is.na(weights_g2a(NA_real_, NaN))
     is.na(weights_g2a(NaN, NA_real_))
     is.na(weights_g2a(NA_real_, na.rm = TRUE))
     is.nan(weights_g2a(NaN, na.rm = TRUE))
+    is.nan(weights_g2a(numeric(0)))
     identical(weights_g2a(c(1, NA_real_)), c(NA_real_, NA_real_))
-    identical(weights_g2a(c(1, NaN)), c(NA, NaN))
+    identical(weights_g2a(c(1, NaN)), c(NA_real_, NA_real_))
     identical(weights_g2a(c(1, NA_real_), na.rm = TRUE), c(1, NA))
     identical(weights_g2a(c(1, NaN), na.rm = TRUE), c(1, NaN))
   },
@@ -71,14 +72,14 @@ stopifnot(
     # test NA and length-0 inputs
     is.na(weights_factor(NA_real_, r = 1))
     is.na(weights_factor(NA_real_, NA_real_, r = 1))
-    is.nan(weights_factor(NaN, r = 1))
-    is.nan(weights_factor(NaN, NaN, r = 1))
-    is.nan(weights_factor(NA_real_, NaN, r = 1))
+    is.na(weights_factor(NaN, r = 1))
+    is.na(weights_factor(NaN, NaN, r = 1))
+    is.na(weights_factor(NA_real_, NaN, r = 1))
     is.na(weights_factor(NaN, NA_real_, r = 1))
-    is.nan(weights_factor(1, NaN, r = 1))
+    is.na(weights_factor(1, NaN, r = 1))
     is.na(weights_factor(1, NA_real_, r = 1))
     is.na(weights_factor(NA_real_, 1, r = 1))
-    is.nan(weights_factor(NaN, 1, r = 1))
+    is.na(weights_factor(NaN, 1, r = 1))
     length(weights_factor(numeric(0), r = 1)) == 0L
     length(weights_factor(numeric(0), numeric(0), r = 1)) == 0L
   },
@@ -91,7 +92,7 @@ stopifnot(
     all.equal(weights_scale(1:4), 1:4 / 10)
     all.equal(sum(weights_scale(w)), 1)
     is.na(weights_scale(c(1:2, NA)))
-    is.nan(weights_scale(c(1:2, NaN)))
+    is.na(weights_scale(c(1:2, NaN)))
     all.equal(weights_scale(c(1:2, NA), TRUE), c(1:2, NA) / 3)
     length(weights_scale(numeric(0))) == 0L
   },

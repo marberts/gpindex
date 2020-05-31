@@ -100,5 +100,6 @@ weights_scale <- function(w, na.rm = FALSE) {
     "w must be numeric or logical" = is.numeric(w) || is.logical(w),
     "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm)
   )
-  w / sum(w, na.rm = na.rm)
+  if (!na.rm && anyNA(w)) return(rep.int(NA_real_, length(w)))
+  w / sum(w, na.rm = TRUE)
 }
