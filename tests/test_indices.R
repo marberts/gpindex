@@ -7,7 +7,7 @@ q0 <- rnorm(15, mean = 2)^2
 pb <- rlnorm(15)
 qb <- runif(15, 2, 4)
 
-#---- Tests for arithmetic indices ----
+#---- Tests for arithmetic indexes ----
 stopifnot(
   exprs = {
     all.equal(index_arithmetic(p1, p0, q1, q0, "Carli"),
@@ -38,7 +38,7 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
-#---- Tests for geometric indices ----
+#---- Tests for geometric indexes ----
 stopifnot(
   exprs = {
     all.equal(index_geometric(p1, p0, q1, q0, "Jevons"),
@@ -65,7 +65,7 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
-#---- Tests for harmonic indices ----
+#---- Tests for harmonic indexes ----
 stopifnot(
   exprs = {
     all.equal(index_harmonic(p1, p0, q1, q0, "Coggeshall"),
@@ -80,7 +80,7 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
-#---- Tests for the other indices ----
+#---- Tests for the other indexes ----
 stopifnot(
   exprs = {
     all.equal(index_fisher(p1, p0, q1, q0),
@@ -183,6 +183,15 @@ stopifnot(
         1.0000, 1.4017, 1.2850, 1.2193, 1.1850
       ), ncol = 5, byrow = TRUE)
     )
+  },
+  local = getNamespace("gpindex")
+)
+
+#---- Tests for weights ----
+stopifnot(
+  exprs = {
+    sum(index_weights(p1, p0, q0, q1, type = "Vartia1")) < 1
+    all.equal(sum(index_weights(p1, p0, q0, q1, type = "Laspeyres")), 1)
   },
   local = getNamespace("gpindex")
 )

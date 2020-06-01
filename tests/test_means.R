@@ -19,6 +19,10 @@ stopifnot(
     all.equal(mean_geometric(1:3, 1:3), prod((1:3)^(1:3 / 6)))
     all.equal(mean_harmonic(1:2), 4 / 3)
     all.equal(mean_harmonic(1:3, 1:3), 2)
+    # Test with logicals
+    all.equal(mean_arithmetic(c(TRUE, FALSE)), 0.5)
+    all.equal(mean_arithmetic(c(TRUE, FALSE), scale = FALSE), 1)
+    all.equal(mean_arithmetic(c(TRUE, FALSE), c(FALSE, TRUE)), 0)
     # Is the fundamental inequality satisfied?
     mean_geometric(1:10, 10:1) <= mean_arithmetic(1:10, 10:1)
     mean_geometric(1:10, 10:1) >= mean_harmonic(1:10, 10:1)

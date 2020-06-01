@@ -10,6 +10,8 @@ stopifnot(
     all(weights_change(x, w, -2 , -2, scale = FALSE) == w)
     any(weights_change(x, w, -2, 3, M = mean_generalized(x, w, -2) + 1) !=
                weights_change(x, w, -2, 3))
+    !anyNA(weights_change(c(1, NA), r = 1, k = 1))
+    anyNA(weights_change(c(1, NA), r = 2, k = 1))
     # Test against a simple implementation
     all(
       apply(
@@ -55,6 +57,7 @@ stopifnot(
 #---- Test for weights_factor ----
 stopifnot(
   exprs = {
+    anyNA(weights_factor(c(1, NA), r = 0))
     # test against known cases
     all(weights_factor(x, r = 0) == 1 / length(x))
     all(weights_factor(x, w, r = 0, scale = FALSE) == w)

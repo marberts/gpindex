@@ -1,4 +1,4 @@
-\name{price indices}
+\name{price indexes}
 \alias{index}
 \alias{index_arithmetic}
 \alias{index_lowe}
@@ -12,10 +12,10 @@
 \alias{index_cswdb}
 \alias{index_bw}
 
-\title{Calculate a variety of price indices}
+\title{Calculate a variety of price indexes}
 
 \description{
-Calculate a variety of price indices using information on prices and quantities.
+Calculate a variety of price indexes using information on prices and quantities.
 }
 
 \usage{
@@ -67,9 +67,9 @@ A numeric value.
 }
 
 \details{
-The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices are just convenient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indices.
+The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indexes are just convenient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indexes.
 \itemize{
-\item \bold{Arithmetic indices}
+\item \bold{Arithmetic indexes}
 \item Carli
 \item Dutot
 \item Laspeyres
@@ -81,7 +81,7 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Geary-Khamis
 \item Lowe
 \item Young
-\item \bold{Geometric indices}
+\item \bold{Geometric indexes}
 \item Jevons
 \item Geometric Laspeyres
 \item Geometric Paasche
@@ -89,14 +89,14 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indices
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Walsh-II (geometric Walsh)
-\item \bold{Harmonic indices}
+\item \bold{Harmonic indexes}
 \item Coggeshall (equally weighted harmonic index)
 \item Paasche
 \item Harmonic Laspeyres
 }
-In addition to these generalized indices, there are also functions for calculating a variety of non-generalized indices. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indices; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indices are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
+In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
 
-Naming for the indices follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual.
+Naming for the indexes follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual.
 
 Dealing with missing values when making a price index is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. The approach taken here when \code{na.rm = TRUE} is to remove price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in e.g., a Tornqvist or Sato-Vartia index).
 }
@@ -112,11 +112,11 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{index_weights}} calculates weights for the different types of indices. 
+\code{\link[gpindex]{index_weights}} calculates weights for the different types of indexes. 
 }
 
 \examples{
-# Most of these indices can be calculated by combining the 
+# Most of these indexes can be calculated by combining the 
 # appropriate weights with the correct type of mean
 
 p0 <- price6[[1]]
@@ -142,7 +142,7 @@ w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
-# Works for other types of indices, too
+# Works for other types of indexes, too
 
 index_harmonic(p2, p0, q0 = q0, type = "Laspeyres")
 

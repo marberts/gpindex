@@ -1,10 +1,10 @@
 \name{index weights}
 \alias{index_weights}
 
-\title{Calculate the weights for a variety of price indices}
+\title{Calculate the weights for a variety of price indexes}
 
 \description{
-Calculate the weights for a variety of price indices using information on prices and quantities.
+Calculate the weights for a variety of price indexes using information on prices and quantities.
 }
 
 \usage{
@@ -33,7 +33,7 @@ A numeric vector, the same length as either \code{p0} or \code{p1}.
 }
 
 \details{
-Weights for the following types of indices can be calculated.
+Weights for the following types of indexes can be calculated.
 \itemize{
 \item Carli/Jevons/Coggeshall
 \item Dutot
@@ -54,7 +54,7 @@ Weights for the following types of indices can be calculated.
 \item Lloyd-Moulton
 }
 
-Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indices not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
+Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
 
@@ -72,7 +72,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean.
 
-\code{\link[gpindex]{index}} provides a wrapper for common indices.
+\code{\link[gpindex]{index}} provides a wrapper for common indexes.
 
 \code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
@@ -87,7 +87,7 @@ q1 <- quantity6[[3]]
 pb <- price6[[1]]
 qb <- quantity6[[1]]
 
-# Can be used with the mean_generalized function to make most types of price indices
+# Can be used with the mean_generalized function to make most types of price indexes
 # arithmetic Laspeyres index
 
 mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
