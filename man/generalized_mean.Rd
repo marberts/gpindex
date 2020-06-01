@@ -41,9 +41,9 @@ Returns the value of the generalized mean of \code{x} with weights \code{w} and 
 
 The underlying calculation is done with \code{mean_arithmetic}, which is mostly identical to \code{\link[stats]{weighted.mean}}. Other than doing more checks on input values and often being faster, missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. 
 
-To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs are handled slightly differently than \code{\link[stats]{weighted.mean}}.
+To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats]{weighted.mean}}.
 
-The functions \code{mean_geometric} and \code{mean_harmonic} are probably the two most useful generalized means, other than \code{mean_arithmetic}, and correspond to setting \code{r = 0} and \code{r = -1} in \code{mean_generalized}.
+The functions \code{mean_geometric} and \code{mean_harmonic} are probably the two most useful generalized means, other than \code{mean_arithmetic}, and correspond to setting \code{r = 0} and \code{r = -1} in \code{mean_generalized} (the arithmetic mean corresponds to \code{r = 1}).
 
 The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
 

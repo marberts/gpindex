@@ -34,7 +34,7 @@ check_index_arguments <- function(p1, p0, q1, q0, na.rm) {
   )
 }
 
-check_weights_arguments <- function(p1, p0, q1, q0) {
+check_weights_arguments <- function(p1, p0, q1, q0, na.rm, scale) {
   stopifnot(
     "p0 must be numeric" = 
       missing(p0) || is.numeric(p0),
@@ -49,6 +49,10 @@ check_weights_arguments <- function(p1, p0, q1, q0) {
     "q1 must be the same length as p1 and p0" = 
       missing(q1) || ((missing(p0) || length(p0) == length(q1)) && (missing(p1) || length(p1) == length(q1))),
     "q0 must be the same length as p1 and p0" = 
-      missing(q0) || ((missing(p0) || length(p0) == length(q0)) && (missing(p1) || length(p1) == length(q0)))
+      missing(q0) || ((missing(p0) || length(p0) == length(q0)) && (missing(p1) || length(p1) == length(q0))),
+    "na.rm must be a length 1 logical" = 
+      length(na.rm) == 1L && is.logical(na.rm),
+    "scale must be a length 1 logical" = 
+      length(scale) == 1L && is.logical(scale)
   )
 }

@@ -20,7 +20,8 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   }
   # return w when r = k
   if (r == k) {
-    out <- rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
+    out <- rep_len(w, length(x))
+    #out[is.na(x)] <- NA # make sure NAs propegate
   } else {
     # calculate logmeans
     # r,k = 1 case does not need to be calculated because it's always 1
@@ -73,15 +74,20 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
     w <- if (length(x)) 1 else numeric(0)
   }
   # return w when r = 0
-  out <- if (r == 0) {
-    rep_len(w, length(x)) * !is.na(x) # make sure NAs propegate
+  if (r == 0) {
+    out <- rep_len(w, length(x))
+    out[is.na(x)] <- NA # make sure NAs propegate
     # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
-    if (r == 1) w * x else w / x
+    if (r == 1) {
+      out <- w * x
+    } else {
+      out <- w / x
+    }
     # general case otherwise
     # there are some ways to boost performance when r =-2, 0.5, but I don't think it's worth it
   } else {
-    w * x^r # the general equation
+    out <- w * x^r # the general equation
   }
   if (scale) weights_scale(out, na.rm) else out
 }

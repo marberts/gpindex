@@ -57,6 +57,7 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 }
 
 \examples{
+\dontrun{
 # Make some data
 
 p0 <- price6[[1]]
@@ -98,4 +99,4 @@ v2 <- weights_h2a(p1 / p0)
 sum(contrib)
 
 index_cswd(p1, p0)
-}
+}}
