@@ -1,10 +1,10 @@
 
-# Generalized+ price and quantity indices
+# Generalized+ price and quantity indexes
 
 A small R package for calculating lots of different price and quantity
-indices. Provides tools to build and work with any type of generalized
-bilateral index (of which most price and quantity indices are), along
-with a few important indices that don’t belong to the generalized
+indexes. Provides tools to build and work with any type of generalized
+bilateral index (of which most price and quantity indexes are), along
+with a few important indexes that don’t belong to the generalized
 family.
 
 ## Installation
@@ -65,7 +65,7 @@ prices <- split(price6[[2]] / price6[[1]], f)
 # Odd groups get a weight of 30% and even group gets 70%
 weight <- c(0.3, 0.7)
 
-# Calculate lower-level indices
+# Calculate lower-level indexes
 (lower <- unlist(Map(mean_geometric, prices)))
 #>        a        b 
 #> 1.297431 1.188784
@@ -74,7 +74,7 @@ weight <- c(0.3, 0.7)
 (upper <- mean_arithmetic(lower, weight))
 #> [1] 1.221378
 
-# Calculate quote contributions for lower-level indices
+# Calculate quote contributions for lower-level indexes
 (con_lower <- Map("*", Map(weights_g2a, prices), prices))
 #> $a
 #> [1] 0.4156788 0.4327620 0.4489901
