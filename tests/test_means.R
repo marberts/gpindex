@@ -22,7 +22,7 @@ stopifnot(
     # Is the fundamental inequality satisfied?
     mean_geometric(1:10, 10:1) <= mean_arithmetic(1:10, 10:1)
     mean_geometric(1:10, 10:1) >= mean_harmonic(1:10, 10:1)
-    # Tests against a simple implementation with stats::weighted.mean
+    # Tests against a simple implementation with stats::weighted.mean and base::mean
     all(
       vapply(
         seq(-10, 10, by = 0.25),
@@ -59,6 +59,7 @@ stopifnot(
     is.na(mean_arithmetic(NA, 0.5, scale = FALSE))
     is.na(mean_arithmetic(1, NA))
     is.na(mean_arithmetic(NaN))
+    is.na(mean_arithmetic(NaN, 1))
     is.na(mean_arithmetic(1, NaN))
     is.na(mean_arithmetic(NA, na.rm = TRUE))
     is.na(mean_arithmetic(NaN, na.rm = TRUE))
@@ -103,9 +104,9 @@ stopifnot(
                   mean_generalized(x, w, r) * mean_generalized(a, weights_factor(x, w, r), r)),
             abs(mean_generalized(x * a, r = r) -
                   mean_generalized(x, r = r) * mean_generalized(a, weights_factor(x, r = r), r)),
-            abs(mean_generalized(xna * a, w, r = r, na.rm = TRUE) -
-                  mean_generalized(xna, w, r = r, na.rm = TRUE) *
-                  mean_generalized(a, weights_factor(xna, w, r = r, na.rm = TRUE), r, na.rm = TRUE))
+            abs(mean_generalized(xna * a, w, r, TRUE) -
+                  mean_generalized(xna, w, r, TRUE) *
+                  mean_generalized(a, weights_factor(xna, w, r, TRUE), r, TRUE))
           ) < .Machine$double.eps^0.5,
         logical(3)
       )
@@ -149,7 +150,8 @@ stopifnot(
         function(r)
           all(
             abs(
-              logmean_generalized(a, b, r) - logmean_generalized(b, a, r)) < .Machine$double.eps^0.5
+              logmean_generalized(a, b, r) - logmean_generalized(b, a, r)
+              ) < .Machine$double.eps^0.5
           ),
         logical(1)
       )

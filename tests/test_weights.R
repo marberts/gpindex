@@ -2,13 +2,14 @@
 set.seed(4321)
 x <- rnorm(15)^2
 w <- runif(15, 0, 2)
-xna <- rlnorm(15)
-xna[sample(xna, 3)] <- NA
 
 #---- Tests for weights_change ----
 stopifnot(
   exprs = {
     diff(weights_change(x, r = 2, k = 2)) == 0
+    all(weights_change(x, w, -2 , -2, scale = FALSE) == w)
+    any(weights_change(x, w, -2, 3, M = mean_generalized(x, w, -2) + 1) !=
+               weights_change(x, w, -2, 3))
     # Test against a simple implementation
     all(
       apply(
@@ -33,6 +34,7 @@ stopifnot(
     is.na(weights_g2a(NA_real_))
     is.na(weights_g2a(NA_real_, 1))
     is.na(weights_g2a(1, NA_real_))
+    is.na(weights_g2a(NaN))
     is.na(weights_g2a(NaN, 1))
     is.na(weights_g2a(1, NaN))
     is.na(weights_g2a(NA_real_, NA_real_))
@@ -42,9 +44,9 @@ stopifnot(
     is.na(weights_g2a(NA_real_, na.rm = TRUE))
     is.na(weights_g2a(NaN, na.rm = TRUE))
     is.na(weights_g2a(numeric(0)))
-    identical(weights_g2a(c(1, NA_real_)), c(NA_real_, NA_real_))
+    identical(is.na(weights_g2a(c(1, NA_real_))), c(TRUE, TRUE))
     identical(is.na(weights_g2a(c(1, NaN))), c(TRUE, TRUE))
-    identical(weights_g2a(c(1, NA_real_), na.rm = TRUE), c(1, NA))
+    identical(is.na(weights_g2a(c(1, NA_real_), na.rm = TRUE)), c(FALSE, TRUE))
     identical(is.na(weights_g2a(c(1, NaN), na.rm = TRUE)), c(FALSE, TRUE))
   },
   local = getNamespace("gpindex")
@@ -64,7 +66,7 @@ stopifnot(
         function(r) {
           w2 <- weights_factor(x, w, r)
           w3 <- w * x^r
-          all(abs(w2 - weights_scale(w3)) < .Machine$double.eps^0.5)
+          all.equal(w2, weights_scale(w3))
         },
         logical(1)
       )
