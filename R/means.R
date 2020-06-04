@@ -22,7 +22,7 @@ mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
   } else {
     if (!na.rm) {
       # return NA if there are any NAs in x or w
-      # again differs from weighted.mean when there are NaNs
+      # again differs from weighted.mean
       if (anyNA(x) || anyNA(w)) {
         return(NA_real_)
       } else {

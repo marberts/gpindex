@@ -1,4 +1,6 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file. -->
+
 # Generalized+ price and quantity indexes
 
 A small R package for calculating lots of different price and quantity

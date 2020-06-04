@@ -18,7 +18,7 @@ weights_factor(x, w, r, na.rm = FALSE, scale = TRUE)
 
 \item{r}{A number giving the exponent of the generalized mean.}
 
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{weights_scale}}?}
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
 }

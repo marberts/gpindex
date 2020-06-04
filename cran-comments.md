@@ -1,7 +1,7 @@
 ## Test environments
 
 - local Ubuntu 20.04 installation, R 4.0.0
-- win-builder (devel, release, and oldrelease)
+- win-builder (devel, release)
 
 ## R CMD check results
 

@@ -23,7 +23,7 @@ index_weights(p1, p0, q1, q0, type, na.rm = FALSE,
 
 \item{type}{The name of the index. See details.}
 
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex]{weights_scale}}?}
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
 }
@@ -37,11 +37,11 @@ Weights for the following types of indexes can be calculated.
 \itemize{
 \item Carli/Jevons/Coggeshall
 \item Dutot
-\item Laspeyres
+\item Laspeyres / Lloyd-Moulton
 \item Hybrid Laspeyres (for use in a harmonic mean)
 \item Paasche / Palgrave
 \item Hybrid Paasche (for use in an arithmetic mean)
-\item Unnamed / Tornqvist
+\item Tornqvist / Unnamed
 \item Drobish
 \item Walsh-I (for an arithmetic Walsh index)
 \item Walsh-II (for a geometric Walsh index)
@@ -51,7 +51,6 @@ Weights for the following types of indexes can be calculated.
 \item Sato-Vartia / Vartia-II
 \item Lowe
 \item Young
-\item Lloyd-Moulton
 }
 
 Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
@@ -111,7 +110,7 @@ rep(1 / length(p0), length(p0))
 index_weights(p1, p0, q1, q0, type = "Dutot")
 p0 / sum(p0)
 
-# Laspeyres
+# Laspeyres / Lloyd-Moulton
 
 index_weights(p1, p0, q1, q0, type = "Laspeyres")
 p0 * q0 / sum(p0 * q0)
@@ -131,7 +130,7 @@ p1 * q1 / sum(p1 * q1)
 index_weights(p1, p0, q1, q0, type = "HybridPaasche")
 p0 * q1 / sum(p0 * q1)
 
-# Unnamed / Tornqvist
+# Tornqvist / Unnamed
 
 index_weights(p1, p0, q1, q0, type = "Tornqvist")
 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
