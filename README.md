@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
-# Generalized+ price and quantity indexes
+# Generalized price and quantity indexes
 
-A small R package for calculating lots of different price and quantity
-indexes. Provides tools to build and work with any type of generalized
-bilateral index (of which most price and quantity indexes are), along
-with a few important indexes that don’t belong to the generalized
+A small R package for calculating lots of different price indexes, and
+by extension quantity indexes. Provides tools to build and work with any
+type of generalized bilateral index (of which most price indexes are),
+along with a few important indexes that don’t belong to the generalized
 family.
 
 ## Installation

@@ -1,11 +1,11 @@
 Package: gpindex
-Title: Generalized+ Price and Quantity Indexes
-Version: 0.1.0
-Date: 2020-06-04
+Title: Generalized Price and Quantity Indexes
+Version: 0.1.1
+Date: 2020-06-09
 Authors@R: c(
-    person(given = "Steve", family = "Martin", role = c("aut", "cre"), email = "stevemartin041@gmail.com")
+    person(given = "Steve", family = "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com")
     )
-Description: A small package for calculating lots of different price and quantity indexes. Provides tools to build and work with any type of generalized bilateral index (of which most price and quantity indexes are), along with a few important indexes that don't belong to the generalized family. 
+Description: A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of generalized bilateral index (of which most price indexes are), along with a few important indexes that don't belong to the generalized family. Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0) and ILO, IMF, OECD, Eurostat, UN, and World Bank (2004, ISBN:92-2-113699-X) for bilateral price indexes.
 Depends: R (>= 4.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
