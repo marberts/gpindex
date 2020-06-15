@@ -78,8 +78,8 @@ mean_harmonic <- function(x, w, na.rm = FALSE, scale = TRUE) {
 logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
   # check input
   stopifnot(
-    "a must be a numeric vector" = is.numeric(a) && is.vector(a),
-    "b must be a numeric vector" = is.numeric(b) && is.vector(b),
+    "a must be a numeric vector" = is.vector(a, "numeric"),
+    "b must be a numeric vector" = is.vector(b, "numeric"),
     "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
     "tol must be a length 1 numeric" = length(tol) == 1L && is.numeric(tol) && is.finite(tol)
   )

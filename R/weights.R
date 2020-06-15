@@ -103,8 +103,8 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
 #---- Scale weights ----
 weights_scale <- function(w, na.rm = FALSE) {
   stopifnot(
-    "w must be a numeric or logical vector" = (is.numeric(w) || is.logical(w)) && is.vector(w),
-    "na.rm must be a length 1 logical" = length(na.rm) == 1L && is.logical(na.rm)
+    "w must be a numeric or logical vector" = is.vector(w, "numeric") || is.vector(w, "logical"),
+    "na.rm must be TRUE or FALSE" = length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   if (!na.rm && anyNA(w)) return(rep.int(NA_real_, length(w)))
   w / sum(w, na.rm = TRUE)
