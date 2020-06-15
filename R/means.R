@@ -43,7 +43,7 @@ mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
 mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
   stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
+    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r)
   )
   # geomean if r = 0
   if (r == 0) {
@@ -80,8 +80,8 @@ logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
   stopifnot(
     "a must be a numeric vector" = is.vector(a, "numeric"),
     "b must be a numeric vector" = is.vector(b, "numeric"),
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
-    "tol must be a length 1 numeric" = length(tol) == 1L && is.numeric(tol) && is.finite(tol)
+    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "tol must be a length 1 numeric" = length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol)
   )
   # return numeric(0) if either a or b is length 0
   if (length(a) == 0L || length(b) == 0L) return(numeric(0))

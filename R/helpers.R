@@ -2,13 +2,13 @@ check_mean_arguments <- function(x, w, na.rm, scale) {
   stopifnot(
     "x must be a numeric or logical vector" = 
       is.vector(x, "numeric") || is.vector(x, "logical"),
-    "weights must be numeric or logical vector" = 
+    "weights must be a numeric or logical vector" = 
       missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
     "x and w must be the same length" = 
       missing(w) || length(x) == length(w),
     "na.rm must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
-    "scale must be a TRUE or FALSE" = 
+    "scale must be TRUE or FALSE" = 
       length(scale) == 1L && is.logical(scale) && !is.na(scale)
   )
 }
@@ -29,7 +29,7 @@ check_index_arguments <- function(p1, p0, q1, q0, na.rm) {
       missing(q1) || length(p0) == length(q1),
     "q0 must be the same length as p1 and p0" = 
       missing(q0) || length(p0) == length(q0),
-    "na.rm must be a TRUE or FALSE" = 
+    "na.rm must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
 }
@@ -50,9 +50,9 @@ check_weights_arguments <- function(p1, p0, q1, q0, na.rm, scale) {
       missing(q1) || ((missing(p0) || length(p0) == length(q1)) && (missing(p1) || length(p1) == length(q1))),
     "q0 must be the same length as p1 and p0" = 
       missing(q0) || ((missing(p0) || length(p0) == length(q0)) && (missing(p1) || length(p1) == length(q0))),
-    "na.rm must be a TRUE or FALSE" = 
+    "na.rm must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
-    "scale must be a TRUE or FALSE" = 
+    "scale must be TRUE or FALSE" = 
       length(scale) == 1L && is.logical(scale) && !is.na(scale)
   )
 }

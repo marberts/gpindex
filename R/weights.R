@@ -3,9 +3,9 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
   check_mean_arguments(x, w, na.rm, scale) 
   stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r),
-    "k must be a length 1 numeric" = length(k) == 1L && is.numeric(k) && is.finite(k),
-    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.numeric(M) && is.finite(M))
+    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "k must be a length 1 numeric" = length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
+    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.vector(M, "numeric") && is.finite(M))
   )
   # set w if equally weighted
   if (missing(w)) {
@@ -67,7 +67,7 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
   check_mean_arguments(x, w, na.rm, scale) 
   stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.numeric(r) && is.finite(r)
+    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r)
   )
   # set w if equally weighted
   if (missing(w)) {
