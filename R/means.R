@@ -1,7 +1,5 @@
 #---- Arithmetic mean ----
-mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
-  # check input
-  check_mean_arguments(x, w, na.rm, scale)
+mean_arithmetic_ <- function(x, w, na.rm, scale) {
   # unweighted case
   if (missing(w)) {
     if (!na.rm) {
@@ -42,26 +40,29 @@ mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
 #---- Generalized mean ----
 mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
-  stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r)
-  )
+  check_mean_arguments(x, w, r, na.rm, scale)
   # geomean if r = 0
   if (r == 0) {
-    exp(mean_arithmetic(log(x), w, na.rm, scale))
+    exp(mean_arithmetic_(log(x), w, na.rm, scale))
     # r = +-1 cases are faster on their own without needless ^1
   } else if (abs(r) == 1) {
     # arithmetic mean if r = 1
     if (r == 1) {
-      mean_arithmetic(x, w, na.rm, scale)
+      mean_arithmetic_(x, w, na.rm, scale)
       # harmonic mean if r = -1
     } else {
-      1 / mean_arithmetic(1 / x, w, na.rm, scale)
+      1 / mean_arithmetic_(1 / x, w, na.rm, scale)
     }
     # generalized mean otherwise
     # there are some ways to boost performance when r = -2, 0.5, but I don't think it's worth the complexity
   } else {
-    (mean_arithmetic(x^r, w, na.rm, scale))^(1 / r) # the general equation
+    (mean_arithmetic_(x^r, w, na.rm, scale))^(1 / r) # the general equation
   }
+}
+
+#--- Arithmetic mean (exported) ---
+mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
+  mean_generalized(x, w, 1, na.rm, scale)
 }
 
 #---- Geometric mean ----
@@ -78,10 +79,14 @@ mean_harmonic <- function(x, w, na.rm = FALSE, scale = TRUE) {
 logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
   # check input
   stopifnot(
-    "a must be a numeric vector" = is.vector(a, "numeric"),
-    "b must be a numeric vector" = is.vector(b, "numeric"),
-    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
-    "tol must be a length 1 numeric" = length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol)
+    "'a' must be a numeric vector" = 
+      is.vector(a, "numeric"),
+    "'b' must be a numeric vector" = 
+      is.vector(b, "numeric"),
+    "'r' must be a length 1 numeric" = 
+      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "'tol' must be a length 1 numeric" = 
+      length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol)
   )
   # return numeric(0) if either a or b is length 0
   if (length(a) == 0L || length(b) == 0L) return(numeric(0))

@@ -39,11 +39,11 @@ A numeric value.
 \details{
 Returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement, or \url{https://en.wikipedia.org/wiki/Power_mean}.
 
-The underlying calculation is done with \code{mean_arithmetic}, which is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}. Other than doing more checks on input values and often being faster, missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. 
+The underlying calculation is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}. Other than doing more checks on input values and often being faster, missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. 
 
 To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats:weighted.mean]{weighted.mean()}}.
 
-The functions \code{mean_geometric} and \code{mean_harmonic} are probably the two most useful generalized means, other than \code{mean_arithmetic}, and correspond to setting \code{r = 0} and \code{r = -1} in \code{mean_generalized} (the arithmetic mean corresponds to \code{r = 1}).
+The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. In most cases, \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
 
 The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
 
@@ -65,13 +65,15 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 }
 
 \examples{
+# Arithmetic mean
+
+mean_arithmetic(2:3)
+mean(2:3) # same as base::mean
+
 # Geometric mean
 
 mean_geometric(2:3)
-
-# Same as manual calculation
-
-sqrt(2 * 3)
+sqrt(2 * 3) # same as manual calculation
 
 # Using prod to manually calculate the geometric mean can give misleading results
 
@@ -86,10 +88,7 @@ mean_geometric(x)
 # Harmonic mean
 
 mean_harmonic(2:3)
-
-# Same as manual calculation
-
-(sum((2:3)^(-1)) / 2)^(-1)
+(sum((2:3)^(-1)) / 2)^(-1) # same as manual calculation
 
 # Quadratic mean
 
@@ -99,4 +98,8 @@ mean_generalized(2:3, r = 2)
 
 sqrt(mean_generalized(2:3, r = 2))
 
+# Example of how missing values and handled
+
+mean_arithmetic(1:3, c(1, NA, 3))
+mean_arithmetic(1:3, c(1, NA, 3), na.rm = TRUE) # stats::weighted.mean returns NA
 }

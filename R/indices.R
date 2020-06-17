@@ -14,8 +14,10 @@ index_lowe <- function(p1, p0, qb, na.rm = FALSE) {
 index_young <- function(p1, p0, pb, qb, na.rm = FALSE) {
   check_index_arguments(p1, p0, q0 = qb, na.rm = na.rm)
   stopifnot(
-    "pb must be a numeric vector" = is.vector(pb, "numeric"),
-    "pb and p0 must be the same length" = length(pb) == length(p0)
+    "'pb' must be a numeric vector" = 
+      is.vector(pb, "numeric"),
+    "'pb' and 'p0' must be the same length" = 
+      length(pb) == length(p0)
   )
   w <- index_weights(p0 = pb, q0 = qb, type = "Young", scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)

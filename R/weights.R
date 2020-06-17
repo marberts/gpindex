@@ -1,11 +1,12 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
 weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
-  check_mean_arguments(x, w, na.rm, scale) 
+  check_mean_arguments(x, w, r, na.rm, scale) 
   stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
-    "k must be a length 1 numeric" = length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
-    "M must be a length 1 numeric" = missing(M) || (length(M) == 1L && is.vector(M, "numeric") && is.finite(M))
+    "'k' must be a length 1 numeric" = 
+      length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
+    "'M' must be a length 1 numeric" = 
+      missing(M) || (length(M) == 1L && is.vector(M, "numeric") && is.finite(M))
   )
   # set w if equally weighted
   if (missing(w)) {
@@ -65,10 +66,7 @@ weights_h2g <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
 #---- Weights to factor a mean of products into the product of means ----
 weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
-  check_mean_arguments(x, w, na.rm, scale) 
-  stopifnot(
-    "r must be a length 1 numeric" = length(r) == 1L && is.vector(r, "numeric") && is.finite(r)
-  )
+  check_mean_arguments(x, w, r, na.rm, scale)
   # set w if equally weighted
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
@@ -103,8 +101,10 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
 #---- Scale weights ----
 weights_scale <- function(w, na.rm = FALSE) {
   stopifnot(
-    "w must be a numeric or logical vector" = is.vector(w, "numeric") || is.vector(w, "logical"),
-    "na.rm must be TRUE or FALSE" = length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
+    "'w' must be a numeric or logical vector" = 
+      is.vector(w, "numeric") || is.vector(w, "logical"),
+    "'na.rm' must be TRUE or FALSE" = 
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   if (!na.rm && anyNA(w)) return(rep.int(NA_real_, length(w)))
   w / sum(w, na.rm = TRUE)
