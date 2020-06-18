@@ -6,7 +6,7 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
     "'k' must be a length 1 numeric" = 
       length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
     "'M' must be a length 1 numeric" = 
-      missing(M) || (length(M) == 1L && is.vector(M, "numeric") && is.finite(M))
+      missing(M) || (length(M) == 1L && is.vector(M, "numeric"))
   )
   # set w if equally weighted
   if (missing(w)) {
