@@ -3,9 +3,9 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
   check_mean_arguments(x, w, r, na.rm, scale) 
   stopifnot(
-    "'k' must be a length 1 numeric" = 
+    "'k' must be a finite length 1 numeric vector" = 
       length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
-    "'M' must be a length 1 numeric" = 
+    "'M' must be a length 1 numeric vector" = 
       missing(M) || (length(M) == 1L && is.vector(M, "numeric"))
   )
   # set w if equally weighted

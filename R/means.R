@@ -83,17 +83,23 @@ logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
       is.vector(a, "numeric"),
     "'b' must be a numeric vector" = 
       is.vector(b, "numeric"),
-    "'r' must be a length 1 numeric" = 
+    "'r' must be a finite length 1 numeric vector" = 
       length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
-    "'tol' must be a length 1 numeric" = 
-      length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol)
+    "'tol' must be a non-negative length 1 numeric vector" = 
+      length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol) && tol >= 0
   )
   # return numeric(0) if either a or b is length 0
   if (length(a) == 0L || length(b) == 0L) return(numeric(0))
   # a and b must be the same length, so manually recycle if necessary
   if (length(a) > length(b)) {
+    if (length(a) %% length(b)) {
+      warning("length of 'a' is not a multiple of length of 'b'")
+    }
     b <- rep_len(b, length(a))
   } else if (length(b) > length(a)) {
+    if (length(b) %% length(a)) {
+      warning("length of 'b' is not a multiple of length of 'a'")
+    }
     a <- rep_len(a, length(b))
   }
   # calculate generalized logmean

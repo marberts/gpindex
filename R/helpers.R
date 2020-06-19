@@ -6,7 +6,7 @@ check_mean_arguments <- function(x, w, r, na.rm, scale) {
       missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
     "'x' and 'w' must be the same length" = 
       missing(w) || length(x) == length(w),
-    "'r' must be a length 1 numeric" = 
+    "'r' must be a finite length 1 numeric vector" = 
       length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
