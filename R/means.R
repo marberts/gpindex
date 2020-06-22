@@ -41,7 +41,7 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
 mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
   # i've thought about making a function to check inputs, but this is more explicit
-  # it also producers nicer error messages
+  # it also produces nicer error messages
   stopifnot(
     "'x' must be a numeric or logical vector" = 
       is.vector(x, "numeric") || is.vector(x, "logical"),
