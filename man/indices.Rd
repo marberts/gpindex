@@ -122,7 +122,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 p0 <- price6[[1]]
 p1 <- price6[[2]]
 q0 <- quantity6[[1]]
-q1 <- quantity6[[1]]
+q1 <- quantity6[[2]]
 
 index_geometric(p1, p0, q0 = q0, type = "Laspeyres")
 mean_geometric(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
@@ -153,7 +153,7 @@ I1 * I2
 
 # Quote contribution for the Tornqvist index
 
-(con <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, "Tornqvist")) * p1 / p0)
+(con <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, "Tornqvist")) * (p1 / p0 - 1))
 
 sum(con)
 index_geometric(p1, p0, q1, q0, "Tornqvist")
@@ -162,7 +162,7 @@ index_geometric(p1, p0, q1, q0, "Tornqvist")
 wl <- index_weights(p1, p0, q1, q0, "Laspeyres")
 wp <- index_weights(p1, p0, q1, q0, "HybridPaasche")
 wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
-(con <- wf * (wl + wp) * p1 / p0)
+(con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
 sum(con)
 index_fisher(p1, p0, q1, q0)

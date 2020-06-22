@@ -1,10 +1,21 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
 weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   # check input
-  check_mean_arguments(x, w, r, na.rm, scale) 
   stopifnot(
+    "'x' must be a numeric or logical vector" = 
+      is.vector(x, "numeric") || is.vector(x, "logical"),
+    "'w' must be a numeric or logical vector" = 
+      missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
+    "'x' and 'w' must be the same length" = 
+      missing(w) || length(x) == length(w),
+    "'r' must be a finite length 1 numeric vector" = 
+      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
     "'k' must be a finite length 1 numeric vector" = 
       length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
+    "'na.rm' must be TRUE or FALSE" = 
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
+    "'scale' must be TRUE or FALSE" = 
+      length(scale) == 1L && is.logical(scale) && !is.na(scale),
     "'M' must be a length 1 numeric vector" = 
       missing(M) || (length(M) == 1L && is.vector(M, "numeric"))
   )
@@ -66,7 +77,20 @@ weights_h2g <- function(x, w, na.rm = FALSE, scale = TRUE, M) {
 #---- Weights to factor a mean of products into the product of means ----
 weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check inputs
-  check_mean_arguments(x, w, r, na.rm, scale)
+  stopifnot(
+    "'x' must be a numeric or logical vector" = 
+      is.vector(x, "numeric") || is.vector(x, "logical"),
+    "'w' must be a numeric or logical vector" = 
+      missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
+    "'x' and 'w' must be the same length" = 
+      missing(w) || length(x) == length(w),
+    "'r' must be a finite length 1 numeric vector" = 
+      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "'na.rm' must be TRUE or FALSE" = 
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
+    "'scale' must be TRUE or FALSE" = 
+      length(scale) == 1L && is.logical(scale) && !is.na(scale)
+  )
   # set w if equally weighted
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)

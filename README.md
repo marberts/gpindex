@@ -74,8 +74,8 @@ index_arithmetic(price6$t3, price6$t1, quantity6$t2, quantity6$t1, type = "Laspe
 #> [1] 1.345
 
 # Get quote contributions for the Paasche index
-with(price6, weights_h2a(t2 / t1, s2) * t2 / t1)
-#> [1] 0.09411765 0.26470588 0.24215686 0.08921569 0.64509804 0.04705882
+with(price6, weights_h2a(t2 / t1, s2) * (t2 / t1 - 1))
+#> [1]  0.01568627  0.17647059  0.05588235 -0.03823529  0.18431373 -0.01176471
 
 # Calculate a Fisher index over 5 periods
 mapply(index_fisher, price6[-1], price6[1], quantity6[-1], quantity6[1])
@@ -100,15 +100,15 @@ weight <- c(0.3, 0.7)
 #> [1] 1.221378
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- Map("*", Map(weights_g2a, prices), prices))
+(con_lower <- Map("*", Map(weights_g2a, prices), Map("-", prices, 1)))
 #> $even
-#> [1] 0.4156788 0.4327620 0.4489901
+#> [1] 0.06927979 0.09986815 0.12828288
 #> 
 #> $odd
-#> [1] 0.5866980 0.2902257 0.3118606
+#> [1]  0.39113201 -0.12438246 -0.07796516
 
 # Calculate quote contributions for upper-level index
 (con_upper <- unlist(Map("*", con_lower, weight)))
-#>     even1     even2     even3      odd1      odd2      odd3 
-#> 0.1247036 0.1298286 0.1346970 0.4106886 0.2031580 0.2183024
+#>       even1       even2       even3        odd1        odd2        odd3 
+#>  0.02078394  0.02996044  0.03848486  0.27379241 -0.08706772 -0.05457561
 ```

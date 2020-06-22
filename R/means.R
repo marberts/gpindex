@@ -40,7 +40,22 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
 #---- Generalized mean ----
 mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   # check input
-  check_mean_arguments(x, w, r, na.rm, scale)
+  # i've thought about making a function to check inputs, but this is more explicit
+  # it also produces nicer error messages
+  stopifnot(
+    "'x' must be a numeric or logical vector" = 
+      is.vector(x, "numeric") || is.vector(x, "logical"),
+    "'w' must be a numeric or logical vector" = 
+      missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
+    "'x' and 'w' must be the same length" = 
+      missing(w) || length(x) == length(w),
+    "'r' must be a finite length 1 numeric vector" = 
+      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "'na.rm' must be TRUE or FALSE" = 
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
+    "'scale' must be TRUE or FALSE" = 
+      length(scale) == 1L && is.logical(scale) && !is.na(scale)
+  )
   # geomean if r = 0
   if (r == 0) {
     exp(mean_arithmetic_(log(x), w, na.rm, scale))
