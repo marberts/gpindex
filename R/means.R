@@ -15,7 +15,7 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
       # this seems to be faster than x <- x[!is.na(x)]
       denom <- if (anyNA(x)) sum(!is.na(x), na.rm = TRUE) else length(x)
     }
-    return(sum(x, na.rm = TRUE) * (scale / denom  + 1 - scale))
+    s <- sum(x, na.rm = TRUE)
     # weighted case
   } else {
     if (!na.rm) {
@@ -31,8 +31,9 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
       # this seems to be faster than x <- x[!is.na(x) && !is.na(w)] (same for w)
       denom <- if (anyNA(x)) sum(w[!is.na(x)], na.rm = TRUE) else sum(w, na.rm = TRUE)
     }
-    return(sum(x * w, na.rm = TRUE) * (scale / denom + 1 - scale))
+    s <- sum(x * w, na.rm = TRUE)
   }
+  if (scale) s / denom else s
 }
 
 # Exponents of -1, 0, 1, and 2 are the most important, so there are some optimizations for these cases

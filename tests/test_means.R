@@ -68,7 +68,7 @@ stopifnot(
     is.na(mean_arithmetic(NA, na.rm = TRUE))
     is.na(mean_arithmetic(NaN, na.rm = TRUE))
     is.na(mean_arithmetic(NA, 1, na.rm = TRUE))
-    is.na(mean_arithmetic(NA, 0.5, na.rm = TRUE, scale = FALSE))
+    mean_arithmetic(NA, 0.5, na.rm = TRUE, scale = FALSE) == 0
     is.na(mean_arithmetic(1, NA, na.rm = TRUE))
     is.na(mean_arithmetic(1, NaN, na.rm = TRUE))
     is.na(mean_arithmetic(numeric(0)))
@@ -78,7 +78,7 @@ stopifnot(
     all.equal(mean_arithmetic(c(1, NA), c(1, 2), na.rm = TRUE), 1)
     is.na(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE))
     all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE, scale = FALSE), 2)
-    is.na(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE, scale = FALSE))
+    mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE, scale = FALSE) == 0
     # Change weights
     all(
       apply(

@@ -1,7 +1,7 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.1.1.9005
-Date: 2020-06-22
+Version: 0.1.1.9006
+Date: 2020-07-03
 Authors@R: c(
     person(given = "Steve", family = "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com")
     )
