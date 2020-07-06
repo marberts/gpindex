@@ -1,5 +1,6 @@
 \name{factor weights}
 \alias{weights_factor}
+\alias{weights_update}
 
 \title{Factor the weights in a generalized mean}
 
@@ -9,6 +10,8 @@ Calculate the weights to turn the generalized mean of a product into the product
 
 \usage{
 weights_factor(x, w, r, na.rm = FALSE, scale = TRUE)
+
+weights_update(x, w, na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -32,7 +35,7 @@ Returns a vector of weights \code{v} such that
 
 \code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}. 
 
-This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index.
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor()} with \code{r = 1}.
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense otherwise.
 }
@@ -66,6 +69,6 @@ mean_harmonic(x, w) * mean_harmonic(y, weights_factor(x, w, -1))
 
 mean_arithmetic(x * y, w)
 
-mean_arithmetic(x, w) * mean_arithmetic(y, weights_factor(x, w, 1))
+mean_arithmetic(x, w) * mean_arithmetic(y, weights_update(x, w))
 
 }

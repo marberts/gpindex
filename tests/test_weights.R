@@ -66,6 +66,7 @@ stopifnot(
     all(weights_factor(x, r = 0) == 1 / length(x))
     all(weights_factor(x, w, r = 0, scale = FALSE) == w)
     all(weights_factor(x, w, r = 1) == x * w / sum(x * w))
+    all(weights_update(x, w) == x * w / sum(x * w))
     # test against a simple implementation
     all(
       vapply(
