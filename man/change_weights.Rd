@@ -56,7 +56,7 @@ These weights are calculated as
 
 This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{k = 1} in \code{weights_change}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic average into a geometric average.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense otherwise.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
 The weights depend on the value of \code{mean_generalized(x, w, r)}. In many cases this value is known prior to calling the function, and can be supplied to save some computations. Otherwise, it will be calculated from the values of \code{x} and \code{w}.
 

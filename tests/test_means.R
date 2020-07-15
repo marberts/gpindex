@@ -115,6 +115,18 @@ stopifnot(
         logical(3)
       )
     )
+    # Zero values
+    all(
+      vapply(
+        seq(-10, 0, by = 0.5), 
+        function(r) mean_generalized(replace(x, 3, 0), w, r = r) == 0,
+        logical(1)
+        )
+      )
+    all.equal(mean_geometric(c(1, 0, 2), c(0.5, 0, 0.5)), sqrt(2))
+    all.equal(mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
+    mean_arithmetic(c(1, Inf), c(1, 0)) == 1
+    is.na(mean_arithmetic(c(1, NaN), c(1, 0)))
   },
   local = getNamespace("gpindex")
 )

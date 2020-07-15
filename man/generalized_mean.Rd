@@ -43,17 +43,19 @@ The underlying calculation is mostly identical to \code{\link[stats:weighted.mea
 
 To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats:weighted.mean]{weighted.mean()}}.
 
-The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. In most cases, \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
+The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. In most cases \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
 
 The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
 
 For the geometric and harmonic means in particular, the implementation and performance is similar to the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \code{'psych'} package, the \code{geomean()} function in the \code{'FSA'} package, the \code{GMean()} and \code{HMean()} functions in the \code{'DescTools'} package, and the \code{geoMean()} function in the \code{'EnvStats'} package, with the exception that weights are allowed.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense otherwise. Similarly, the weights should almost always be scaled to sum to 1.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. In cases where \code{x} has zeros, then the convention in Hardy et al. (1934, p. 13) is used: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}). Similarly, the weights should almost always be scaled to sum to 1.
 }
 
 \references{
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
+
+Hardy, G., Littlewood, J. E., and Polya, G. (1934). \emph{Inequalities}. Cambridge University Press.
 }
 
 \seealso{
@@ -78,17 +80,17 @@ sqrt(2 * 3) # same as manual calculation
 # Using prod to manually calculate the geometric mean can give misleading results
 
 x <- 1:1000
-prod(x)^(1/length(x)) # overflow
+prod(x)^(1 / length(x)) # overflow
 mean_geometric(x) # mean_geometric is usually a bit faster anyways
 
 x <- seq(0.0001, by = 0.0005, length.out = 1000)
-prod(x)^(1/length(x)) # underflow
+prod(x)^(1 / length(x)) # underflow
 mean_geometric(x)
 
 # Harmonic mean
 
 mean_harmonic(2:3)
-(sum((2:3)^(-1)) / 2)^(-1) # same as manual calculation
+1 / mean(1 / (2:3)) # same as manual calculation
 
 # Quadratic mean
 
