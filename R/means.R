@@ -144,6 +144,71 @@ logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
   out
 }
 
+`%^%` <- function(e1, e2) {
+  e1 <- substitute(e1)
+  out <- if (e2 == 1) {
+    e1
+  } else if (e2 == 0.5) {
+    call("sqrt", e1)
+  } else if (e2 == 0) {
+    call("(", 1)
+  } else if (e2 == -0.5) {
+    call("/", 1 , call("sqrt", e1))
+  } else if (e2 == -1) {
+    call("/", 1, e1)
+  } else if (e2 == -2) {
+    call("/", 1, call("^", e1, 2))
+  } else {
+    call("^", e1, e2)
+  }
+  eval(out, parent.frame())
+}
+
+
+logmean_generalized <- function(a, b, r, k, tol = .Machine$double.eps^0.5) {
+  # check input
+  stopifnot(
+    "'a' must be a numeric vector" = 
+      is.vector(a, "numeric"),
+    "'b' must be a numeric vector" = 
+      is.vector(b, "numeric"),
+    "'r' must be a finite length 1 numeric vector" = 
+      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "'k' must be a finite length 1 numeric vector" = 
+      length(k) == 1L && is.vector(k, "numeric") && is.finite(k),
+    "'tol' must be a non-negative length 1 numeric vector" = 
+      length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol) && tol >= 0
+  )
+  # return numeric(0) if either a or b is length 0
+  if (length(a) == 0L || length(b) == 0L) return(numeric(0))
+  # a and b must be the same length, so manually recycle if necessary
+  if (length(a) > length(b)) {
+    if (length(a) %% length(b)) {
+      warning("length of 'a' is not a multiple of length of 'b'")
+    }
+    b <- rep_len(b, length(a))
+  } else if (length(b) > length(a)) {
+    if (length(b) %% length(a)) {
+      warning("length of 'b' is not a multiple of length of 'a'")
+    }
+    a <- rep_len(a, length(b))
+  }
+  # calculate generalized logmean
+  out <- if (r == 0 && k != 0) {
+    ((a%^%k - b%^%k) / (k * log(a / b)))%^%(1 / k)
+  } else if (r == k && k != 0) {
+    ((a^a)%^%k / (b^b)%^%k)^(1 / (a%^%k - b%^%k)) / exp(1)^(1 / k)
+  } else if (r != 0 && k != 0) {
+    (k / r * (a%^%r - b%^%r) / (a%^%k - b%^%k))%^%(1 / (r - k))
+  } else {
+    sqrt(a * b)
+  }
+  # set output to a when a = b
+  loc <- which(abs(a - b) <= tol)
+  out[loc] <- a[loc]
+  out
+}
+
 #---- Logarithmic mean ----
 logmean <- function(a, b, tol = .Machine$double.eps^0.5) {
   logmean_generalized(a, b, 0, tol)
