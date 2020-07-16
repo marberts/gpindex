@@ -31,6 +31,7 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
   # return w when r = k
+  # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
   if (r == k) {
     out <- rep_len(w, length(x))
     #out[is.na(x)] <- NA # make sure NAs propegate
