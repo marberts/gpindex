@@ -30,30 +30,12 @@ weights_change <- function(x, w, r, k, na.rm = FALSE, scale = TRUE, M) {
   } else if (missing(M)) {
     M <- mean_generalized(x, w, r, na.rm = na.rm)
   }
-  # return w when r = k
   # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
   if (r == k) {
     out <- rep_len(w, length(x))
-    #out[is.na(x)] <- NA # make sure NAs propegate
   } else {
-    # calculate logmeans
-    # r,k = 1 case does not need to be calculated because it's always 1
-    lmr <- if (r != 1) logmean_generalized(x, M, r) else 1
-    lmk <- if (k != 1) logmean_generalized(x, M, k) else 1
-    # calculate exponent on logmeans
-    # no exponents needed when r,k = 0 or 2
-    plmr <- if (r == 2 || r == 0) lmr else lmr^abs(r - 1)
-    plmk <- if (k == 2 || k == 0) lmk else lmk^abs(k - 1)
-    # it's faster in key cases to do 1/x^y than x^(-y) (i.e., when y = 1 or 2)
-    out <- if (r >= 1 && k >= 1) {
-      w * plmr / plmk
-    } else if (r < 1 && k >= 1) {
-      w / (plmr * plmk)
-    } else if (r >= 1 & k < 1) {
-      w * plmr * plmk
-    } else {
-      w / plmr * plmk
-    }
+    out <- w * logmean_generalized(x, M, r) %^% (r - 1) / 
+      logmean_generalized(x, M, k) %^% (k - 1)
   }
   if (scale) weights_scale(out, na.rm) else out
 }
@@ -96,21 +78,13 @@ weights_factor <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   if (missing(w)) {
     w <- if (length(x)) 1 else numeric(0)
   }
-  # return w when r = 0
   if (r == 0) {
+    # return w when r = 0
     out <- rep_len(w, length(x))
     out[is.na(x)] <- NA # make sure NAs propegate
-    # r = +-1 cases are faster on their own without needless ^1
-  } else if (abs(r) == 1) {
-    if (r == 1) {
-      out <- w * x
-    } else {
-      out <- w / x
-    }
-    # general case otherwise
-    # there are some ways to boost performance when r =-2, 0.5, but I don't think it's worth it
   } else {
-    out <- w * x^r # the general equation
+    # general case otherwise
+    out <- w * x %^% r
   }
   if (scale) weights_scale(out, na.rm) else out
 }
