@@ -24,9 +24,9 @@ weights_h2g(x, w, na.rm = FALSE, scale = TRUE, M)
 }
 
 \arguments{
-\item{x}{A numeric vector.}
+\item{x}{A numeric or logical vector.}
 
-\item{w}{An optional vector of numeric weights, the same length as \code{x}.}
+\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{r}{A number giving the exponent of the generalized mean associated with \code{w}. See details.}
 
@@ -44,7 +44,7 @@ A numeric vector, the same length as \code{x}.
 }
 
 \details{
-Returns a vector of weights \code{v} such that
+The function \code{weights_change()} returns a vector of weights \code{v} such that
 
 \code{mean_generalized(x, w, r) = mean_generalized(x, v, k)}. 
 
@@ -54,7 +54,9 @@ These weights are calculated as
 
 \code{w * logmean_generalized(x, M, r)^(r - 1) / logmean_generalized(x, M, k)^(k - 1)}.
 
-This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{k = 1} in \code{weights_change}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic average into a geometric average.
+This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{k} are 0 or 1, although these are usually the most important cases. 
+
+The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{k = 1} in \code{weights_change()}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic average into a geometric average.
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 

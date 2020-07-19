@@ -27,16 +27,18 @@ A numeric vector, the same length as \code{max(length(a), length(b))}.
 }
 
 \details{
-Returns the value of the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The logarithmic mean corresponds to the generalized logarithmic mean of order 0. The function \code{logmean(a, b)} simply calls \code{logmean_generalized(a, b, 0)}.
+The function \code{logmean_generalized()} returns the value of the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, pp. 385, 393) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. 
 
-By definition, the generalized logarithmic mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[base:all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results in certain applications when \code{a} and \code{b} are computed values.
-
-The usual definition of the generalized logarithmic mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{a} and \code{b}. This is not implemented here, as it does not seem to be of practical value.
+The function \code{logmean()} returns the ordinary logarithmic mean, the most useful generalized logarithmic mean, and corresponds to setting \code{r = 0} in \code{logmean_generalized()}.
 
 As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense when the generalized logarithmic mean is not defined.
+
+By definition, the generalized logarithmic mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[base:all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results in certain applications when \code{a} and \code{b} are computed values.
 }
 
 \references{
+Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
+
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 }
 

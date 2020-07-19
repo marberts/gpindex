@@ -127,6 +127,14 @@ stopifnot(
     all.equal(mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
     mean_arithmetic(c(1, Inf), c(1, 0)) == 1
     is.na(mean_arithmetic(c(1, NaN), c(1, 0)))
+    # Limits
+    mean_generalized(1:5, r = Inf) == 5
+    mean_generalized(1:5, r = -Inf) == 1
+    mean_generalized(1:5, 5:1, r = Inf) == 5
+    mean_generalized(1:5, 5:1, r = -Inf) == 1
+    mean_generalized(c(2:3, NA), r = Inf, na.rm = TRUE) == 3
+    mean_generalized(c(2:3, NA), r = -Inf, na.rm = TRUE) == 2
+    
   },
   local = getNamespace("gpindex")
 )

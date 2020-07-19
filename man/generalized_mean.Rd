@@ -11,19 +11,19 @@ Calculate a generalized mean.
 }
 
 \usage{
-mean_generalized(x, w, r, na.rm = FALSE, scale = TRUE)
+mean_generalized(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE)
 
-mean_arithmetic(x, w, na.rm = FALSE, scale = TRUE)
+mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-mean_geometric(x, w, na.rm = FALSE, scale = TRUE)
+mean_geometric(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-mean_harmonic(x, w, na.rm = FALSE, scale = TRUE)
+mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
 \item{x}{A numeric or logical vector.}
 
-\item{w}{An optional vector of numeric or logical weights, the same length as \code{x}.}
+\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{r}{A number giving the exponent of the generalized mean.}
 
@@ -37,25 +37,32 @@ A numeric value.
 }
 
 \details{
-Returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement, or \url{https://en.wikipedia.org/wiki/Power_mean}.
+The function \code{mean_generalized()} returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement, or \url{https://en.wikipedia.org/wiki/Power_mean}. 
 
-The underlying calculation is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}. Other than doing more checks on input values and often being faster, missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. 
+The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
-To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats:weighted.mean]{weighted.mean()}}.
+As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. 
 
-The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. In most cases \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
+The convention in Hardy et al. (1934, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}). Similarly, the weights should almost always be scaled to sum to 1.
 
-The usual definition of the generalized mean lets \code{r} take on values from the extended real line, such that \code{r = -Inf/Inf} returns the minimum/maximum of \code{x}. This is not implemented here, as it does not seem to be of practical value.
+The underlying calculation is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}, with a few exceptions. 
+\enumerate{
+\item{Missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}.}
+\item{To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats:weighted.mean]{weighted.mean()}}.}
+}
+In most cases \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
+}
 
-For the geometric and harmonic means in particular, the implementation and performance is similar to the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \code{'psych'} package, the \code{geomean()} function in the \code{'FSA'} package, the \code{GMean()} and \code{HMean()} functions in the \code{'DescTools'} package, and the \code{geoMean()} function in the \code{'EnvStats'} package, with the exception that weights are allowed.
-
-As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. In cases where \code{x} has zeros, then the convention in Hardy et al. (1934, p. 13) is used: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}). Similarly, the weights should almost always be scaled to sum to 1.
+\note{
+There are a number of existing functions for calculating \emph{unweighted} geometric and harmonic means, namely the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \code{'psych'} package, the \code{geomean()} function in the \code{'FSA'} package, the \code{GMean()} and \code{HMean()} functions in the \code{'DescTools'} package, and the \code{geoMean()} function in the \code{'EnvStats'} package. 
 }
 
 \references{
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
 Hardy, G., Littlewood, J. E., and Polya, G. (1934). \emph{Inequalities}. Cambridge University Press.
+
+Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical Manual}. Springer.
 }
 
 \seealso{

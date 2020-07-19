@@ -1,5 +1,5 @@
 #---- Custom pow ----
-# There are a variety of optiminizations for calculating power means
+# There are a variety of optimizations for calculating power means
 `%^%` <- function(e1, e2) {
   e1 <- substitute(e1)
   out <- if (e2 == 1) {
@@ -22,44 +22,20 @@
 
 #---- Arithmetic mean ----
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
-  # unweighted case
-  if (missing(w)) {
-    if (!na.rm) {
-      # return NA if there are any NAs in x
-      # this means that NaN returns NA, not NaN as with stats::weighted.mean
-      if (anyNA(x)) {
-        return(NA_real_)
-        # otherwise the denominator is 1/n
-      } else {
-        denom <- length(x)
-      }
-    } else {
-      # this seems to be faster than x <- x[!is.na(x)]
-      denom <- if (anyNA(x)) sum(!is.na(x), na.rm = TRUE) else length(x)
-    }
-    s <- sum(x, na.rm = TRUE)
-    # weighted case
+  if (!na.rm) {
+    # return NA if there are any NAs in x or w (differs from weighted.mean)
+    if (anyNA(x) || anyNA(w)) return(NA_real_)
+    # otherwise the denominator is 1 / sum(w)
+    d <- if (scale) sum(w) else 1  
   } else {
-    if (!na.rm) {
-      # return NA if there are any NAs in x or w
-      # again differs from weighted.mean
-      if (anyNA(x) || anyNA(w)) {
-        return(NA_real_)
-      } else {
-        # otherwise the denominator is 1/sum(w)
-        denom <- sum(w, na.rm = TRUE)
-      }
-    } else {
-      # this seems to be faster than x <- x[!is.na(x) && !is.na(w)] (same for w)
-      denom <- if (anyNA(x)) sum(w[!is.na(x)], na.rm = TRUE) else sum(w, na.rm = TRUE)
-    }
-    s <- sum(x * w, na.rm = TRUE)
+    # this seems to be faster than x <- x[!is.na(x) && !is.na(w)] (same for w)
+    d <- if (scale) sum(w[!is.na(x)], na.rm = TRUE) else 1
   }
-  if (scale) s / denom else s
+  sum(x * w, na.rm = TRUE) / d
 }
 
 #---- Generalized mean ----
-mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
+mean_generalized <- function(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE) {
   # check input
   # i've thought about making a function to check inputs, but this is more explicit
   # it also produces nicer error messages
@@ -67,11 +43,11 @@ mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
     "'x' must be a numeric or logical vector" = 
       is.vector(x, "numeric") || is.vector(x, "logical"),
     "'w' must be a numeric or logical vector" = 
-      missing(w) || (is.vector(w, "numeric") || is.vector(w, "logical")),
+      is.vector(w, "numeric") || is.vector(w, "logical"),
     "'x' and 'w' must be the same length" = 
-      missing(w) || length(x) == length(w),
-    "'r' must be a finite length 1 numeric vector" = 
-      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+      length(x) == length(w),
+    "'r' must be a length 1 numeric vector" = 
+      length(r) == 1L && is.vector(r, "numeric") && !is.na(r),
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
     "'scale' must be TRUE or FALSE" = 
@@ -80,24 +56,30 @@ mean_generalized <- function(x, w, r, na.rm = FALSE, scale = TRUE) {
   if (abs(r) < .Machine$double.eps^0.5) {
     # geomean if r = 0 (can't do exact test or limits don't work well)
     exp(mean_arithmetic_(log(x), w, na.rm, scale))
-  } else {
+  } else if (is.finite(r)) {
     # the general equation otherwise
     mean_arithmetic_(x %^% r, w, na.rm, scale) %^% (1 / r) 
+  } else if (r == Inf) {
+    # +inf returns max
+    max(x, na.rm = na.rm)
+  } else {
+    # -inf returns min
+    min(x, na.rm = na.rm)
   }
 }
 
 #--- Arithmetic mean (exported) ---
-mean_arithmetic <- function(x, w, na.rm = FALSE, scale = TRUE) {
+mean_arithmetic <- function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
   mean_generalized(x, w, 1, na.rm, scale)
 }
 
 #---- Geometric mean ----
-mean_geometric <- function(x, w, na.rm = FALSE, scale = TRUE) {
+mean_geometric <- function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
   mean_generalized(x, w, 0, na.rm, scale)
 }
 
 #---- Harmonic mean ----
-mean_harmonic <- function(x, w, na.rm = FALSE, scale = TRUE) {
+mean_harmonic <- function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
   mean_generalized(x, w, -1, na.rm, scale)
 }
 
@@ -109,13 +91,13 @@ logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
       is.vector(a, "numeric"),
     "'b' must be a numeric vector" =
       is.vector(b, "numeric"),
-    "'r' must be a finite length 1 numeric vector" =
-      length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
+    "'r' must be a length 1 numeric vector" =
+      length(r) == 1L && is.vector(r, "numeric") && !is.na(r),
     "'tol' must be a non-negative length 1 numeric vector" =
       length(tol) == 1L && is.vector(tol, "numeric") && is.finite(tol) && tol >= 0
   )
   # return numeric(0) if either a or b is length 0
-  if (length(a) == 0L || length(b) == 0L) return(numeric(0))
+  if (!length(a) || !length(b)) return(numeric(0))
   # a and b must be the same length, so recycle if necessary
   if (length(a) > length(b)) {
     if (length(a) %% length(b)) {
@@ -134,9 +116,15 @@ logmean_generalized <- function(a, b, r, tol = .Machine$double.eps^0.5) {
     (a - b) / log(a / b)
   } else if (abs(r - 1) < .Machine$double.eps^0.5) {
     (a^a / b^b)^(1 / (a - b)) / exp(1)
-  } else {
+  } else if (is.finite(r)) {
     # general case otherwise
     ((a %^% r - b %^% r) / (a - b) / r) %^% (1 / (r - 1))
+  } else if (r == Inf) {
+    # +inf returns max
+    pmax(a, b)
+  } else {
+    # -inf returns min
+    pmin(a, b)
   }
   # set output to a when a = b
   loc <- which(abs(a - b) <= tol)
