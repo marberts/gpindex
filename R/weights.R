@@ -22,10 +22,10 @@ weights_change <- function(x, w = rep(1, length(x)), r, k, na.rm = FALSE, scale 
   # calculate M if not provided
   if (missing(M)) M <- mean_generalized(x, w, r, na.rm)
   # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
-  if (r == k) {
-    out <- rep_len(w, length(x))
+  out <- if (r == k) {
+    w
   } else {
-    out <- w * logmean_generalized(x, M, r) %^% (r - 1) / 
+    w * logmean_generalized(x, M, r) %^% (r - 1) / 
       logmean_generalized(x, M, k) %^% (k - 1)
   }
   if (scale) weights_scale(out, na.rm) else out
@@ -67,7 +67,7 @@ weights_factor <- function(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = T
   )
   if (r == 0) {
     # return w when r = 0
-    out <- rep_len(w, length(x))
+    out <- w
     out[is.na(x)] <- NA # make sure NAs propegate
   } else {
     # general case otherwise

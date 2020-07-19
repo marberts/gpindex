@@ -37,13 +37,17 @@ A numeric value.
 }
 
 \details{
-The function \code{mean_generalized()} returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise statement, or \url{https://en.wikipedia.org/wiki/Power_mean}. 
+The function \code{mean_generalized()} returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. 
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. 
 
-The convention in Hardy et al. (1934, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}). Similarly, the weights should almost always be scaled to sum to 1.
+The convention in Hardy et al. (1934, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. 
+
+Some authors let \code{w} belong to the unit simplex (e.g., Sydsaeter et al., 2005, p. 47). If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}). 
+
+The weights should almost always be scaled to sum to 1, although there are certain types of price indexes where the weight should not be scaled (e.g., the Vartia-I index).
 
 The underlying calculation is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}, with a few exceptions. 
 \enumerate{
@@ -62,7 +66,7 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
 Hardy, G., Littlewood, J. E., and Polya, G. (1934). \emph{Inequalities}. Cambridge University Press.
 
-Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical Manual}. Springer.
+Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical Manual} (4th edition). Springer.
 }
 
 \seealso{

@@ -12,15 +12,15 @@ Calculate the weights to turn an r-generalized mean into a k-generalized mean.
 }
 
 \usage{
-weights_change(x, w, r, k, na.rm = FALSE, scale = TRUE, M)
+weights_change(x, w = rep(1, length(x)), r, k, na.rm = FALSE, scale = TRUE, M)
 
-weights_g2a(x, w, na.rm = FALSE, scale = TRUE, M)
+weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
 
-weights_h2a(x, w, na.rm = FALSE, scale = TRUE, M)
+weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
 
-weights_a2g(x, w, na.rm = FALSE, scale = TRUE, M)
+weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
 
-weights_h2g(x, w, na.rm = FALSE, scale = TRUE, M)
+weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
 }
 
 \arguments{
