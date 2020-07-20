@@ -33,7 +33,7 @@ index_weights <- function(p1, p0, q1, q0, type, na.rm = FALSE,
   )
   # always return a length-0 output if inputs are length 0
   n <- if (missing(p1)) length(p0) else length(p1)
-  if (n == 0L) return(numeric(0))
+  if (!n) return(numeric(0))
   # calculate weights
   out <- switch(type,
                 Carli = ,

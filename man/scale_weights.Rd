@@ -11,7 +11,7 @@ weights_scale(w, na.rm = FALSE)
 }
 
 \arguments{
-\item{w}{A numeric vector.}
+\item{w}{A numeric or logical vector.}
 
 \item{na.rm}{Should missing values be removed?}
 }

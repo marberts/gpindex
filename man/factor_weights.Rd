@@ -9,15 +9,15 @@ Calculate the weights to turn the generalized mean of a product into the product
 }
 
 \usage{
-weights_factor(x, w, r, na.rm = FALSE, scale = TRUE)
+weights_factor(x, w  = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE)
 
-weights_update(x, w, na.rm = FALSE, scale = TRUE)
+weights_update(x, w  = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
-\item{x}{A numeric vector.}
+\item{x}{A numeric or logical vector.}
 
-\item{w}{An optional vector of numeric weights, the same length as \code{x}.}
+\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{r}{A number giving the exponent of the generalized mean.}
 
@@ -31,7 +31,7 @@ A numeric vector, the same length as \code{x}.
 }
 
 \details{
-Returns a vector of weights \code{v} such that 
+The function \code{weights_factor()} returns a vector of weights \code{v} such that 
 
 \code{mean_generalized(x * y, w, r) == mean_generalized(x, w, r) * mean_generalized(y, v, r)}. 
 
@@ -71,4 +71,8 @@ mean_arithmetic(x * y, w)
 
 mean_arithmetic(x, w) * mean_arithmetic(y, weights_update(x, w))
 
+# In cases where x and y have the same order, Chebyshev's inequality
+# implies that the chained calculation is too small
+
+mean_arithmetic(x * y, w) > mean_arithmetic(x, w) * mean_arithmetic(y, w)
 }

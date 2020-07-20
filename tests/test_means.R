@@ -127,6 +127,14 @@ stopifnot(
     all.equal(mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
     mean_arithmetic(c(1, Inf), c(1, 0)) == 1
     is.na(mean_arithmetic(c(1, NaN), c(1, 0)))
+    # Limits
+    mean_generalized(1:5, r = Inf) == 5
+    mean_generalized(1:5, r = -Inf) == 1
+    mean_generalized(1:5, 5:1, r = Inf) == 5
+    mean_generalized(1:5, 5:1, r = -Inf) == 1
+    mean_generalized(c(2:3, NA), r = Inf, na.rm = TRUE) == 3
+    mean_generalized(c(2:3, NA), r = -Inf, na.rm = TRUE) == 2
+    
   },
   local = getNamespace("gpindex")
 )
@@ -139,6 +147,8 @@ stopifnot(
     logmean(1, 1) == 1
     logmean(1, 0) == 0
     all.equal(logmean(2, 1), 1 / log(2))
+    logmean_generalized(1, 2, 2) == 1.5
+    all.equal(logmean_generalized(1, 2, -1), sqrt(2))
     # Test against a simple implementation
     all(
       vapply(

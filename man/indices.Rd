@@ -97,8 +97,12 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indexes
 In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
 
 Naming for the indexes follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual.
+}
 
-Dealing with missing values when making a price index is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. The approach taken here when \code{na.rm = TRUE} is to remove price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in e.g., a Tornqvist or Sato-Vartia index).
+\note{
+Dealing with missing values is cumbersome when making a price index, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. 
+
+The approach taken here when \code{na.rm = TRUE} is to remove price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Tornqvist or Sato-Vartia index).
 }
 
 \references{
@@ -138,7 +142,7 @@ p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"), r = 1)
+w_pu <- weights_update(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
@@ -156,7 +160,7 @@ I1 * I2
 (con <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, "Tornqvist")) * (p1 / p0 - 1))
 
 sum(con)
-index_geometric(p1, p0, q1, q0, "Tornqvist")
+index_geometric(p1, p0, q1, q0, "Tornqvist") - 1
 
 # Quote contribution for the Fisher index
 wl <- index_weights(p1, p0, q1, q0, "Laspeyres")
@@ -165,7 +169,7 @@ wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
 sum(con)
-index_fisher(p1, p0, q1, q0)
+index_fisher(p1, p0, q1, q0) - 1
 
 # NAs get special treatment
 
@@ -178,5 +182,4 @@ index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = TRUE)
 # Only drops the last period-0 price
 
 sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
-
 }

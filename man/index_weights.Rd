@@ -35,7 +35,7 @@ A numeric vector, the same length as either \code{p0} or \code{p1}.
 \details{
 Weights for the following types of indexes can be calculated.
 \itemize{
-\item Carli/Jevons/Coggeshall
+\item Carli / Jevons / Coggeshall
 \item Dutot
 \item Laspeyres / Lloyd-Moulton
 \item Hybrid Laspeyres (for use in a harmonic mean)
@@ -56,8 +56,10 @@ Weights for the following types of indexes can be calculated.
 Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
+}
 
-Dealing with missing values when making weights is cumbersome, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating weights. Setting \code{na.rm = TRUE} simply remove missing values when scaling the weights if \code{scale = TRUE}.
+\note{
+Dealing with missing values is cumbersome when making weights, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating weights. Setting \code{na.rm = TRUE} simply remove missing values when scaling the weights if \code{scale = TRUE}.
 }
 
 \references{
@@ -87,16 +89,16 @@ pb <- price6[[1]]
 qb <- quantity6[[1]]
 
 # Can be used with the mean_generalized function to make most types of price indexes
-# arithmetic Laspeyres index
+# Arithmetic Laspeyres index
 
 mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
 
-# trivial to turn this into a basket-style index
+# Trivial to turn this into a basket-style index
 
 qs <- index_weights(p1, p0, q1, q0, type = "Laspeyres") / p0
 sum(p1 * qs) / sum(p0 * qs)
 
-# harmonic calculation
+# Harmonic calculation
 mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
 
 # Explicit calculation for each of the different weights
@@ -180,5 +182,4 @@ p0 * qb / sum(p0 * qb)
 
 index_weights(p0 = pb, q0 = qb, type = "Young")
 pb * qb / sum(pb * qb)
-
 }
