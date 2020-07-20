@@ -96,5 +96,4 @@ v0 <- weights_g2a(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 v1 <- weights_scale(w1)
 v2 <- weights_h2a(x, w2)
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
-
 }

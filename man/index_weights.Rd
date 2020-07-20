@@ -89,16 +89,16 @@ pb <- price6[[1]]
 qb <- quantity6[[1]]
 
 # Can be used with the mean_generalized function to make most types of price indexes
-# arithmetic Laspeyres index
+# Arithmetic Laspeyres index
 
 mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
 
-# trivial to turn this into a basket-style index
+# Trivial to turn this into a basket-style index
 
 qs <- index_weights(p1, p0, q1, q0, type = "Laspeyres") / p0
 sum(p1 * qs) / sum(p0 * qs)
 
-# harmonic calculation
+# Harmonic calculation
 mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
 
 # Explicit calculation for each of the different weights
@@ -182,5 +182,4 @@ p0 * qb / sum(p0 * qb)
 
 index_weights(p0 = pb, q0 = qb, type = "Young")
 pb * qb / sum(pb * qb)
-
 }

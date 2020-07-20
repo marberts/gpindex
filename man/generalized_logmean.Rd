@@ -49,10 +49,15 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 }
 
 \examples{
-# A useful identity (should be TRUE)
+# The arithmetic and geometric means are special cases of the generalized logarithmic mean
 
 x <- 8:5
-y <- 4:1
+y <- 1:4
+all.equal(logmean_generalized(x, y, 2), (x + y) / 2)
+all.equal(logmean_generalized(x, y, -1), sqrt(x * y))
+
+# A useful identity
+
 all.equal(logmean(x, y) * log(x / y), x - y) 
 
 # Works for other orders, too

@@ -40,7 +40,4 @@ index_formulas <- function(p1, p0, q1, q0) {
 }
 
 round(t(mapply(index_formulas, price6, price6[1], quantity6, quantity6[1])), 4)
-
 }
-
-

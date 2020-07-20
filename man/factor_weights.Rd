@@ -71,4 +71,8 @@ mean_arithmetic(x * y, w)
 
 mean_arithmetic(x, w) * mean_arithmetic(y, weights_update(x, w))
 
+# In cases where x and y have the same order, Chebyshev's inequality
+# implies that the chained calculation is too small
+
+mean_arithmetic(x * y, w) > mean_arithmetic(x, w) * mean_arithmetic(y, w)
 }

@@ -147,6 +147,8 @@ stopifnot(
     logmean(1, 1) == 1
     logmean(1, 0) == 0
     all.equal(logmean(2, 1), 1 / log(2))
+    logmean_generalized(1, 2, 2) == 1.5
+    all.equal(logmean_generalized(1, 2, -1), sqrt(2))
     # Test against a simple implementation
     all(
       vapply(

@@ -142,7 +142,7 @@ p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"), r = 1)
+w_pu <- weights_update(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
@@ -160,7 +160,7 @@ I1 * I2
 (con <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, "Tornqvist")) * (p1 / p0 - 1))
 
 sum(con)
-index_geometric(p1, p0, q1, q0, "Tornqvist")
+index_geometric(p1, p0, q1, q0, "Tornqvist") - 1
 
 # Quote contribution for the Fisher index
 wl <- index_weights(p1, p0, q1, q0, "Laspeyres")
@@ -169,7 +169,7 @@ wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
 sum(con)
-index_fisher(p1, p0, q1, q0)
+index_fisher(p1, p0, q1, q0) - 1
 
 # NAs get special treatment
 
@@ -182,5 +182,4 @@ index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = TRUE)
 # Only drops the last period-0 price
 
 sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
-
 }
