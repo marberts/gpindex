@@ -1,5 +1,9 @@
 #---- Arithmetic index ----
-index_arithmetic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
+index_arithmetic <- function(p1, p0, q1, q0, 
+                             type = c("Carli", "Dutot", "Laspeyres",
+                                      "Palgrave", "Drobish", "Unnamed",
+                                      "Walsh1", "MarshallEdgeworth", "GearyKhamis"), 
+                             na.rm = FALSE) {
   stopifnot(
     "'p1' and 'p0' must be numeric vectors" = 
       is.vector(p1, "numeric") && is.vector(p0, "numeric"),
@@ -16,7 +20,7 @@ index_arithmetic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  match.arg(type, types$arithmetic_index_types)
+  type <- match.arg(type)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)
 }
@@ -51,7 +55,11 @@ index_young <- function(p1, p0, pb, qb, na.rm = FALSE) {
 }
 
 #---- Geometric index ----
-index_geometric <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
+index_geometric <- function(p1, p0, q1, q0, 
+                            type = c("Jevons", "Laspeyres", "Paasche",
+                                     "Tornqvist", "Vartia1", "MontgomeryVartia",
+                                     "Vartia2", "SatoVartia", "Walsh2"), 
+                            na.rm = FALSE) {
   stopifnot(
     "'p1' and 'p0' must be numeric vectors" = 
       is.vector(p1, "numeric") && is.vector(p0, "numeric"),
@@ -68,14 +76,16 @@ index_geometric <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  match.arg(type, types$geometric_index_types)
+  type <- match.arg(type)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_geometric(p1 / p0, w, na.rm, 
                  scale = !type %in% c("Vartia1", "MontgomeryVartia"))
 }
 
 #---- Harmonic index ----
-index_harmonic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
+index_harmonic <- function(p1, p0, q1, q0, 
+                           type = c("Coggeshall", "Laspeyres", "Paasche"), 
+                           na.rm = FALSE) {
   stopifnot(
     "'p1' and 'p0' must be numeric vectors" = 
       is.vector(p1, "numeric") && is.vector(p0, "numeric"),
@@ -92,7 +102,7 @@ index_harmonic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  match.arg(type, types$harmonic_index_types)
+  type <- match.arg(type)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_harmonic(p1 / p0, w, na.rm)
 }

@@ -1,4 +1,13 @@
-index_weights <- function(p1, p0, q1, q0, type, na.rm = FALSE, 
+index_weights <- function(p1, p0, q1, q0, 
+                          type = c("Carli", "Jevons", "Coggeshall",
+                                   "Dutot", "Laspeyres", "HybridLaspeyres",
+                                   "Palgrave", "Paasche", "HybridPaasche",
+                                   "Drobish", "Unnamed", "Tornqvist",
+                                   "Walsh1", "Walsh2", "MarshallEdgeworth",
+                                   "GearyKhamis", "Vartia1", "MontgomeryVartia",
+                                   "Vartia2", "SatoVartia", "Lowe",
+                                   "Young", "LloydMoulton"), 
+                          na.rm = FALSE, 
                           scale = !is.element(type, c("Vartia1", "MontgomeryVartia"))) {
   # check input
   stopifnot(
@@ -17,12 +26,12 @@ index_weights <- function(p1, p0, q1, q0, type, na.rm = FALSE,
                         (missing(p1) || length(p1) == length(q1))),
     "'q0' must be the same length as 'p1' and 'p0'" = 
       missing(q0) || ((missing(p0) || length(p0) == length(q0)) && 
-                        (missing(p1) || length(p1) == length(q0)))
-  )
-  match.arg(type, types$weight_types)
-  stopifnot(
+                        (missing(p1) || length(p1) == length(q0))),
     "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
+  )
+  type <- match.arg(type)
+  stopifnot(
     "'scale' must be TRUE or FALSE" = 
       length(scale) == 1L && is.logical(scale) && !is.na(scale)
   )

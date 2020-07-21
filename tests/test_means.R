@@ -134,13 +134,11 @@ stopifnot(
     mean_generalized(1:5, 5:1, r = -Inf) == 1
     mean_generalized(c(2:3, NA), r = Inf, na.rm = TRUE) == 3
     mean_generalized(c(2:3, NA), r = -Inf, na.rm = TRUE) == 2
-    
   },
   local = getNamespace("gpindex")
 )
 
 #---- Tests for generalized log means ----
-
 stopifnot(
   exprs = {
     # Checks against known values
