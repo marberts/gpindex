@@ -16,11 +16,7 @@ index_arithmetic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  type <- tryCatch(
-    match.arg(type, types$arithmetic_index_types),
-    error = function(e) structure(TRUE, msg = e$message)
-  )
-  if (isTRUE(type)) stop(attr(type, "msg"))
+  match.arg(type, types$arithmetic_index_types)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)
 }
@@ -72,11 +68,7 @@ index_geometric <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  type <- tryCatch(
-    match.arg(type, types$geometric_index_types),
-    error = function(e) structure(TRUE, msg = e$message)
-  )
-  if (isTRUE(type)) stop(attr(type, "msg"))
+  match.arg(type, types$geometric_index_types)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_geometric(p1 / p0, w, na.rm, 
                  scale = !type %in% c("Vartia1", "MontgomeryVartia"))
@@ -100,11 +92,7 @@ index_harmonic <- function(p1, p0, q1, q0, type, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  type <- tryCatch(
-    match.arg(type, types$harmonic_index_types),
-    error = function(e) structure(TRUE, msg = e$message)
-  )
-  if (isTRUE(type)) stop(attr(type, "msg"))
+  match.arg(type, types$harmonic_index_types)
   w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
   mean_harmonic(p1 / p0, w, na.rm)
 }
@@ -195,4 +183,24 @@ index_bw <- function(p1, p0, na.rm = FALSE) {
   )
   mean_arithmetic(sqrt(p1 / p0), na.rm = na.rm) *
     mean_harmonic(sqrt(p1 / p0), na.rm = na.rm)
+}
+
+#---- Generalized Stuval index ----
+index_stuval <- function(p1, p0, q1, q0, a, b, na.rm = FALSE) {
+  stopifnot(
+    "'p1', 'p0', 'q1', and 'q0' must be numeric vectors" = 
+      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
+      is.vector(q1, "numeric") && is.vector(q0, "numeric"),
+    "'p1', 'p0', 'q1', and 'q0' must be the same length" = 
+      length(p1) == length(p0) && length(q1) == length(p0) && length(q0) == length(p0),
+    "'a' and 'b' must be length 1 numeric vectors" = 
+      length(a) == 1L && length(b) == 1L &&
+      is.vector(a, "numeric") && is.vector(b, "numeric"),
+    "'na.rm' must be TRUE or FALSE" = 
+      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
+  )
+  pl <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = na.rm)
+  ql <- index_arithmetic(q1, q0, q0 = p0, type = "Laspeyres", na.rm = na.rm)
+  v <- sum(p1 * q1, na.rm = na.rm) / sum(p0 * q0, na.rm = na.rm)
+  (pl - b / a * ql) / 2 + sqrt((pl - b / a * ql)^2 / 4 + b / a * v)
 }

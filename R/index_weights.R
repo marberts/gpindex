@@ -19,12 +19,7 @@ index_weights <- function(p1, p0, q1, q0, type, na.rm = FALSE,
       missing(q0) || ((missing(p0) || length(p0) == length(q0)) && 
                         (missing(p1) || length(p1) == length(q0)))
   )
-  # this displays a nicer error when type is not matched
-  type <- tryCatch(
-    match.arg(type, types$weight_types),
-    error = function(e) structure(TRUE, msg = e$message)
-  )
-  if (isTRUE(type)) stop(attr(type, "msg"))
+  match.arg(type, types$weight_types)
   stopifnot(
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm),
@@ -59,7 +54,7 @@ index_weights <- function(p1, p0, q1, q0, type, na.rm = FALSE,
                 GearyKhamis = p0 / (1 / q0 + 1 / q1),
                 Vartia1 = ,
                 MontgomeryVartia = logmean(p0 * q0, p1 * q1) / 
-                  logmean(sum(p0 * q1, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
+                  logmean(sum(p0 * q0, na.rm = TRUE), sum(p1 * q1, na.rm = TRUE)),
                 Vartia2 = ,
                 SatoVartia = logmean(p0 * q0 / sum(p0 * q0, na.rm = TRUE), 
                                      p1 * q1 / sum(p1 * q1, na.rm = TRUE))

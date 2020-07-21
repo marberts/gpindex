@@ -52,7 +52,7 @@ stopifnot(
                                0.5 * p1 * q1 / sum(p1 * q1)))
     all.equal(index_geometric(p1, p0, q1, q0, "Vartia1"),
               mean_geometric(p1 / p0, logmean(p0 * q0, p1 * q1) /
-                               logmean(sum(p0 * q1), sum(p1 * q1)), scale = FALSE))
+                               logmean(sum(p0 * q0), sum(p1 * q1)), scale = FALSE))
     index_geometric(p1, p0, q1, q0,  "Vartia1") ==
       index_geometric(p1, p0, q1, q0, "MontgomeryVartia")
     all.equal(index_geometric(p1, p0, q1, q0,  "Vartia2"),
@@ -95,6 +95,8 @@ stopifnot(
               sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
     all.equal(index_bw(p1, p0), 
               mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
+    all.equal(index_stuval(p1, p0, q1, q0, 4, 4), index_stuval(p1, p0, q1, q0, 1, 1))
+    index_stuval(p1, p0, q1, q0, 4, 4) != index_stuval(p1, p0, q1, q0, 2, 1)
   },
   local = getNamespace("gpindex")
 )
@@ -130,7 +132,7 @@ stopifnot(
 #   local = getNamespace("gpindex")
 # )
 
-# Test against values from tables 3.4 and 3.6 in Balk (2008)
+# Test against values from tables 3.4, 3.6, and 3.12 in Balk (2008)
 # Column P in table 3.4 is 1.3823 because of a rounding error
 
 # Table 3.1 in Balk (2008), adapted from table 19.1 in PPI manual
@@ -165,7 +167,10 @@ stopifnot(
             index_fisher(p1, p0, q1, q0),
             index_geometric(p1, p0, q1, q0, "Tornqvist"),
             index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
-            index_arithmetic(p1, p0, q1, q0, "Walsh1")
+            index_arithmetic(p1, p0, q1, q0, "Walsh1"),
+            index_geometric(p1, p0, q1, q0, "Vartia2"),
+            index_geometric(p1, p0, q1, q0, "Vartia1"),
+            index_stuval(p1, p0, q1, q0, 2, 2)
           ), 4)
         },
         price6, price6[1], quantity6, quantity6[1]
@@ -180,7 +185,10 @@ stopifnot(
         1.0000, 1.4011, 1.2721, 1.1762, 1.0712,
         1.0000, 1.4052, 1.2890, 1.2268, 1.2477,
         1.0000, 1.4010, 1.2656, 1.1438, 0.9801,
-        1.0000, 1.4017, 1.2850, 1.2193, 1.1850
+        1.0000, 1.4017, 1.2850, 1.2193, 1.1850,
+        1.0000, 1.4018, 1.2897, 1.2335, 1.2540,
+        1.0000, 1.4024, 1.2907, 1.2392, 1.2678,
+        1.0000, 1.4042, 1.2742, 1.1551, 0.9770
       ), ncol = 5, byrow = TRUE)
     )
   },

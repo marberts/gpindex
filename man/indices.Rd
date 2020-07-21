@@ -11,6 +11,7 @@
 \alias{index_cswd}
 \alias{index_cswdb}
 \alias{index_bw}
+\alias{index_stuval}
 
 \title{Calculate a variety of price indexes}
 
@@ -19,27 +20,29 @@ Calculate a variety of price indexes using information on prices and quantities.
 }
 
 \usage{
-index_arithmetic(p1, p0, q1, q0, type, na.rm)
+index_arithmetic(p1, p0, q1, q0, type, na.rm = FALSE)
 
-index_lowe(p1, p0, qb, na.rm)
+index_lowe(p1, p0, qb, na.rm = FALSE)
 
-index_young(p1, p0, pb, qb, na.rm)
+index_young(p1, p0, pb, qb, na.rm = FALSE)
 
-index_geometric(p1, p0, q1, q0, type, na.rm)
+index_geometric(p1, p0, q1, q0, type, na.rm = FALSE)
 
-index_harmonic(p1, p0, q1, q0, type, na.rm)
+index_harmonic(p1, p0, q1, q0, type, na.rm = FALSE)
 
-index_fisher(p1, p0, q1, q0, na.rm)
+index_fisher(p1, p0, q1, q0, na.rm = FALSE)
 
-index_hlp(p1, p0, q1, q0, na.rm)
+index_hlp(p1, p0, q1, q0, na.rm = FALSE)
 
-index_lm(p1, p0, q0, elasticity, na.rm)
+index_lm(p1, p0, q0, elasticity, na.rm = FALSE)
 
-index_cswd(p1, p0, na.rm)
+index_cswd(p1, p0, na.rm = FALSE)
 
-index_cswdb(p1, p0, q1, q0, na.rm)
+index_cswdb(p1, p0, q1, q0, na.rm = FALSE)
 
-index_bw(p1, p0, na.rm)
+index_bw(p1, p0, na.rm = FALSE)
+
+index_stuval(p1, p0, q1, q0, a, b, na.rm = FALSE)
 }
 
 \arguments{
@@ -55,11 +58,13 @@ index_bw(p1, p0, na.rm)
 
 \item{qb}{Period-b quantities for the Lowe/Young index.}
 
-\item{elasticity}{The elasticity of substitution for the Lloyd-Moulton index.}
-
 \item{type}{The name of the index. See details.}
 
 \item{na.rm}{Should missing values be removed?}
+
+\item{elasticity}{The elasticity of substitution for the Lloyd-Moulton index.}
+
+\item{a, b}{Parameters for the generalized Stuval index.}
 }
 
 \value{
@@ -163,6 +168,7 @@ sum(con)
 index_geometric(p1, p0, q1, q0, "Tornqvist") - 1
 
 # Quote contribution for the Fisher index
+
 wl <- index_weights(p1, p0, q1, q0, "Laspeyres")
 wp <- index_weights(p1, p0, q1, q0, "HybridPaasche")
 wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
