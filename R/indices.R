@@ -144,6 +144,8 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
       is.vector(p1, "numeric") && is.vector(p0, "numeric") && is.vector(q0, "numeric"),
     "'p1', 'p0', and 'q0' must be the same length" = 
       length(p1) == length(p0) && length(q0) == length(p0),
+    "'elasticity' must be a length 1 numeric vector" = 
+      length(elasticity) == 1L && is.vector(elasticity, "numeric"),
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )

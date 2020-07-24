@@ -9,9 +9,9 @@ Calculate the weights to turn the generalized mean of a product into the product
 }
 
 \usage{
-weights_factor(x, w  = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE)
+weights_factor(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE)
 
-weights_update(x, w  = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{

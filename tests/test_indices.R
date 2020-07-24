@@ -154,42 +154,44 @@ quantity6 <- data.frame(t1 = c(1.0, 1.0, 2.0, 1.0, 4.5, 0.5),
 stopifnot(
   exprs = {
     all(
-    mapply(
-      function(p1, p0, q1, q0) {
-        round(
-          c(
-            index_harmonic(p1, p0, q1, q0, "Laspeyres"),
-            index_geometric(p1, p0, q1, q0, "Laspeyres"),
-            index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
-            index_harmonic(p1, p0, q1, q0, "Paasche"),
-            index_geometric(p1, p0, q1, q0, "Paasche"),
-            index_arithmetic(p1, p0, q1, q0, "Palgrave"),
-            index_fisher(p1, p0, q1, q0),
-            index_geometric(p1, p0, q1, q0, "Tornqvist"),
-            index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
-            index_arithmetic(p1, p0, q1, q0, "Walsh1"),
-            index_geometric(p1, p0, q1, q0, "Vartia2"),
-            index_geometric(p1, p0, q1, q0, "Vartia1"),
-            index_stuval(p1, p0, q1, q0, 2, 2)
-          ), 4)
-        },
-        price6, price6[1], quantity6, quantity6[1]
-    ) ==
-      matrix(c(
-        1.0000, 1.2542, 1.1346, 0.8732, 0.5556,
-        1.0000, 1.3300, 1.2523, 1.1331, 1.0999,
-        1.0000, 1.4200, 1.3450, 1.3550, 1.4400,
-        1.0000, 1.3824, 1.2031, 1.0209, 0.7968,
-        1.0000, 1.4846, 1.3268, 1.3282, 1.4153,
-        1.0000, 1.6096, 1.4161, 1.5317, 1.6720,
-        1.0000, 1.4011, 1.2721, 1.1762, 1.0712,
-        1.0000, 1.4052, 1.2890, 1.2268, 1.2477,
-        1.0000, 1.4010, 1.2656, 1.1438, 0.9801,
-        1.0000, 1.4017, 1.2850, 1.2193, 1.1850,
-        1.0000, 1.4018, 1.2897, 1.2335, 1.2540,
-        1.0000, 1.4024, 1.2907, 1.2392, 1.2678,
-        1.0000, 1.4042, 1.2742, 1.1551, 0.9770
-      ), ncol = 5, byrow = TRUE)
+      abs(
+        mapply(
+          function(p1, p0, q1, q0) {
+            round(
+              c(
+                index_harmonic(p1, p0, q1, q0, "Laspeyres"),
+                index_geometric(p1, p0, q1, q0, "Laspeyres"),
+                index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
+                index_harmonic(p1, p0, q1, q0, "Paasche"),
+                index_geometric(p1, p0, q1, q0, "Paasche"),
+                index_arithmetic(p1, p0, q1, q0, "Palgrave"),
+                index_fisher(p1, p0, q1, q0),
+                index_geometric(p1, p0, q1, q0, "Tornqvist"),
+                index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
+                index_arithmetic(p1, p0, q1, q0, "Walsh1"),
+                index_geometric(p1, p0, q1, q0, "Vartia2"),
+                index_geometric(p1, p0, q1, q0, "Vartia1"),
+                index_stuval(p1, p0, q1, q0, 2, 2)
+              ), 4)
+          },
+          price6, price6[1], quantity6, quantity6[1]
+        ) -
+          matrix(c(
+            1.0000, 1.2542, 1.1346, 0.8732, 0.5556,
+            1.0000, 1.3300, 1.2523, 1.1331, 1.0999,
+            1.0000, 1.4200, 1.3450, 1.3550, 1.4400,
+            1.0000, 1.3824, 1.2031, 1.0209, 0.7968,
+            1.0000, 1.4846, 1.3268, 1.3282, 1.4153,
+            1.0000, 1.6096, 1.4161, 1.5317, 1.6720,
+            1.0000, 1.4011, 1.2721, 1.1762, 1.0712,
+            1.0000, 1.4052, 1.2890, 1.2268, 1.2477,
+            1.0000, 1.4010, 1.2656, 1.1438, 0.9801,
+            1.0000, 1.4017, 1.2850, 1.2193, 1.1850,
+            1.0000, 1.4018, 1.2897, 1.2335, 1.2540,
+            1.0000, 1.4024, 1.2907, 1.2392, 1.2678,
+            1.0000, 1.4042, 1.2742, 1.1551, 0.9770
+          ), ncol = 5, byrow = TRUE) 
+      ) <= 0.0001
     )
   },
   local = getNamespace("gpindex")
