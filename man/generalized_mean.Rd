@@ -125,7 +125,7 @@ mean_arithmetic(x, c(0.25, NA, 0.5), na.rm = TRUE) # stats::weighted.mean return
 # Example from Lord (2002) where the dispersion between arithmetic and geometric means
 # decreases as the variance increases
 
-x <- c((5 + sqrt(5)) / 4, (5 - sqrt(5)) / 4, 1/2)
+x <- c((5 + sqrt(5)) / 4, (5 - sqrt(5)) / 4, 1 / 2)
 y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
 
 stats::sd(x) > stats::sd(y)

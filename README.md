@@ -66,7 +66,7 @@ with(price6, mean_harmonic(t2 / t1, s2))
 
 # Chain the Laspeyres index by price-updating the weights
 with(price6, 
-     mean_arithmetic(t2 / t1, s1) * mean_arithmetic(t3 / t2, weights_factor(t2 / t1, s1, 1))
+     mean_arithmetic(t2 / t1, s1) * mean_arithmetic(t3 / t2, weights_update(t2 / t1, s1))
 )
 #> [1] 1.345
 

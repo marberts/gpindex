@@ -2,7 +2,9 @@ Changes in version 0.1.2
 
 - Lots of improvements to the documentation and examples.
 
-- Added the generalized Stuval index.
+- Added the generalized Stuval index with the index_stuval() function.
+
+- Added the weights_update() function for the common case of price-updating weights in an arithmetc index.
 
 - Functions that say the input should be a vector now check if the input is a vector. This prevents non-name attributes from causing problems in the calculations (like dim).
 
