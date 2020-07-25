@@ -160,7 +160,7 @@ p0 / (1 / q0 + 1 / q1) / sum(p0 / (1 / q0 + 1 / q1))
 # Montgomery-Vartia / Vartia-I
 
 index_weights(p1, p0, q1, q0, type = "MontgomeryVartia")
-logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q1), sum(p1 * q1))
+logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
 
 # Sato-Vartia / Vartia-II
 
