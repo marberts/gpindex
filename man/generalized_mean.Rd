@@ -43,7 +43,7 @@ The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
 \enumerate{
-\item{The convention in Hardy et al. (1934, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0.} 
+\item{The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0.} 
 
 \item{Some authors let \code{w} be non-negative and sum to 1 (e.g., Sydsaeter et al., 2005, p. 47). If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean, unless it is missing (unlike \code{\link[stats:weighted.mean]{weighted.mean()}}).} 
 }
@@ -65,7 +65,7 @@ There are a number of existing functions for calculating \emph{unweighted} geome
 \references{
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
-Hardy, G., Littlewood, J. E., and Polya, G. (1934). \emph{Inequalities}. Cambridge University Press.
+Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd edition). Cambridge University Press.
 
 Lord, N. (2002). Does Smaller Spread Always Mean Larger Product? \emph{The Mathematical Gazette}, 86(506): 273-274.
 
