@@ -19,12 +19,12 @@ weights_change <- function(x, w = rep(1, length(x)), r, k, na.rm = FALSE, scale 
     "'M' must be a length 1 numeric vector" = 
       missing(M) || (length(M) == 1L && is.vector(M, "numeric"))
   )
-  # calculate M if not provided
-  if (missing(M)) M <- mean_generalized(x, w, r, na.rm)
   # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
   out <- if (r == k) {
     as.numeric(w)
   } else {
+    # calculate M if not provided
+    if (missing(M)) M <- mean_generalized(x, w, r, na.rm)
     w * logmean_generalized(x, M, r) %^% (r - 1) / 
       logmean_generalized(x, M, k) %^% (k - 1)
   }
