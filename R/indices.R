@@ -150,7 +150,7 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   w <- index_weights(p1, p0, q0 = q0, type = "LloydMoulton", scale = FALSE)
-  mean_generalized(p1 / p0, w, 1 - elasticity, na.rm)
+  mean_generalized(1 - elasticity)(p1 / p0, w, na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
