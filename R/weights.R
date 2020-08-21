@@ -67,8 +67,7 @@ weights_factor <- function(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = T
   )
   if (r == 0) {
     # return w when r = 0
-    out <- w
-    out[is.na(x)] <- NA # make sure NAs propegate
+    out <- w * (x / x)
   } else {
     # general case otherwise
     out <- w * x %^% r
