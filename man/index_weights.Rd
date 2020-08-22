@@ -8,11 +8,12 @@ Calculate the weights for a variety of price indexes using information on prices
 }
 
 \usage{
-index_weights(p1, p0, q1, q0, type, na.rm = FALSE, 
-              scale = !is.element(type, c("Vartia1", "MontgomeryVartia")))
+index_weights(type)
 }
 
 \arguments{
+\item{type}{The name of the index. See details.}
+
 \item{p1}{Current-period prices.}
 
 \item{p0}{Base-period prices.}
@@ -21,15 +22,13 @@ index_weights(p1, p0, q1, q0, type, na.rm = FALSE,
 
 \item{q0}{Base-period quantities.}
 
-\item{type}{The name of the index. See details.}
-
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
 }
 
 \value{
-A numeric vector, the same length as either \code{p0} or \code{p1}.
+A function.
 }
 
 \details{
@@ -91,95 +90,95 @@ qb <- quantity6[[1]]
 # Can be used with the mean_generalized function to make most types of price indexes
 # Arithmetic Laspeyres index
 
-mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, type = "Laspeyres")) 
+mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p1, p0, q1, q0)) 
 
 # Trivial to turn this into a basket-style index
 
-qs <- index_weights(p1, p0, q1, q0, type = "Laspeyres") / p0
+qs <- index_weights("Laspeyres")(p1, p0, q1, q0) / p0
 sum(p1 * qs) / sum(p0 * qs)
 
 # Harmonic calculation
-mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")) 
+mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, p0, q1, q0)) 
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
-index_weights(p1, p0, q1, q0, type = "Carli")
+index_weights("Carli")(p1, p0, q1, q0)
 rep(1 / length(p0), length(p0))
 
 # Dutot
 
-index_weights(p1, p0, q1, q0, type = "Dutot")
+index_weights("Dutot")(p1, p0, q1, q0)
 p0 / sum(p0)
 
 # Laspeyres / Lloyd-Moulton
 
-index_weights(p1, p0, q1, q0, type = "Laspeyres")
+index_weights("Laspeyres")(p1, p0, q1, q0)
 p0 * q0 / sum(p0 * q0)
 
 # Hybrid Laspeyres
 
-index_weights(p1, p0, q1, q0, type = "HybridLaspeyres")
+index_weights("HybridLaspeyres")(p1, p0, q1, q0)
 p1 * q0 / sum(p1 * q0)
 
 # Paasche / Palgrave
 
-index_weights(p1, p0, q1, q0, type = "Paasche")
+index_weights("Paasche")(p1, p0, q1, q0)
 p1 * q1 / sum(p1 * q1)
 
 # Hybrid Paasche
 
-index_weights(p1, p0, q1, q0, type = "HybridPaasche")
+index_weights("HybridPaasche")(p1, p0, q1, q0)
 p0 * q1 / sum(p0 * q1)
 
 # Tornqvist / Unnamed
 
-index_weights(p1, p0, q1, q0, type = "Tornqvist")
+index_weights("Tornqvist")(p1, p0, q1, q0)
 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
 
 # Drobish
 
-index_weights(p1, p0, q1, q0, type = "Drobish")
+index_weights("Drobish")(p1, p0, q1, q0)
 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
 
 # Walsh-I
 
-index_weights(p1, p0, q1, q0, type = "Walsh1")
+index_weights("Walsh1")(p1, p0, q1, q0)
 p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
 
 # Marshall-Edgeworth
 
-index_weights(p1, p0, q1, q0, type = "MarshallEdgeworth")
+index_weights("MarshallEdgeworth")(p1, p0, q1, q0)
 p0 * (q0 + q1) / sum(p0 * (q0 + q1))
 
 # Geary-Khamis
 
-index_weights(p1, p0, q1, q0, type = "GearyKhamis")
+index_weights("GearyKhamis")(p1, p0, q1, q0)
 p0 / (1 / q0 + 1 / q1) / sum(p0 / (1 / q0 + 1 / q1))
 
 # Montgomery-Vartia / Vartia-I
 
-index_weights(p1, p0, q1, q0, type = "MontgomeryVartia")
+index_weights("MontgomeryVartia")(p1, p0, q1, q0)
 logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
 
 # Sato-Vartia / Vartia-II
 
-index_weights(p1, p0, q1, q0, type = "SatoVartia")
+index_weights("SatoVartia")(p1, p0, q1, q0)
 logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)) / 
 sum(logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
 
 # Walsh-II
 
-index_weights(p1, p0, q1, q0, type = "Walsh2")
+index_weights("Walsh2")(p1, p0, q1, q0)
 sqrt(p0 * q0 * p1 * q1) / sum(sqrt(p0 * q0 * p1 * q1))
 
 # Lowe
 
-index_weights(p0 = p0, q0 = qb, type = "Lowe")
+index_weights("Lowe")(p0 = p0, q0 = qb)
 p0 * qb / sum(p0 * qb)
 
 # Young
 
-index_weights(p0 = pb, q0 = qb, type = "Young")
+index_weights("Young")(p0 = pb, q0 = qb)
 pb * qb / sum(pb * qb)
 }

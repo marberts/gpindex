@@ -135,7 +135,7 @@ q0 <- quantity6[[1]]
 q1 <- quantity6[[2]]
 
 index_geometric(p1, p0, q0 = q0, type = "Laspeyres")
-mean_geometric(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+mean_geometric(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
 
 # If only weights are available (no quantity information), then use one of the generalized means
 
@@ -148,7 +148,7 @@ p2 <- price6[[3]]
 index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_update(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+w_pu <- weights_update(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
@@ -157,21 +157,21 @@ I1 * I2
 index_harmonic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_harmonic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_factor(-1)(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
+w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
 I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 
 # Quote contribution for the Tornqvist index
 
-(con <- weights_g2a(p1 / p0, index_weights(p1, p0, q1, q0, "Tornqvist")) * (p1 / p0 - 1))
+(con <- weights_g2a(p1 / p0, index_weights("Tornqvist")(p1, p0, q1, q0)) * (p1 / p0 - 1))
 
 sum(con)
 index_geometric(p1, p0, q1, q0, "Tornqvist") - 1
 
 # Quote contribution for the Fisher index
 
-wl <- index_weights(p1, p0, q1, q0, "Laspeyres")
-wp <- index_weights(p1, p0, q1, q0, "HybridPaasche")
+wl <- index_weights("Laspeyres")(p1, p0, q1, q0)
+wp <- index_weights("HybridPaasche")(p1, p0, q1, q0)
 wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 

@@ -16,7 +16,7 @@ stopifnot(
               sum(p1) / sum(p0))
     all.equal(index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
               sum(p1 * q0) / sum(p0 * q0))
-    all.equal(mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridPaasche")),
+    all.equal(mean_arithmetic(p1 / p0, index_weights("HybridPaasche")(p1, p0, q1, q0)),
               sum(p1 * q1) / sum(p0 * q1))
     all.equal(index_arithmetic(p1, p0, q1, q0, "Palgrave"),
               weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
@@ -75,7 +75,7 @@ stopifnot(
     all.equal(index_harmonic(p1, p0, q1, q0, "Paasche"),
               mean_harmonic(p1 / p0, p1 * q1 / sum(p1 * q1)))
     all.equal(index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
-              mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridLaspeyres")))
+              mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, p0, q1, q0)))
   },
   local = getNamespace("gpindex")
 )
@@ -200,9 +200,9 @@ stopifnot(
 #---- Tests for weights ----
 stopifnot(
   exprs = {
-    sum(index_weights(p1, p0, q0, q1, type = "Vartia1")) < 1
-    all.equal(sum(index_weights(p1, p0, q0, q1, type = "Laspeyres")), 1)
-    length(index_weights(integer(0), type = "Carli")) == 0
+    sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1
+    all.equal(sum(index_weights("Laspeyres")(p1, p0, q0, q1)), 1)
+    length(index_weights("Carli")(integer(0))) == 0
   },
   local = getNamespace("gpindex")
 )

@@ -21,7 +21,7 @@ index_arithmetic <- function(p1, p0, q1, q0,
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
+  w <- index_weights(type)(p1, p0, q1, q0, scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)
 }
 
@@ -35,7 +35,7 @@ index_lowe <- function(p1, p0, qb, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  w <- index_weights(p0 = p0, q0 = qb, type = "Lowe", scale = FALSE)
+  w <- index_weights("Lowe")(p0 = p0, q0 = qb, scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)
 }
 
@@ -50,7 +50,7 @@ index_young <- function(p1, p0, pb, qb, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  w <- index_weights(p0 = pb, q0 = qb, type = "Young", scale = FALSE)
+  w <- index_weights("Young")(p0 = pb, q0 = qb, scale = FALSE)
   mean_arithmetic(p1 / p0, w, na.rm)
 }
 
@@ -77,7 +77,7 @@ index_geometric <- function(p1, p0, q1, q0,
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
+  w <- index_weights(type)(p1, p0, q1, q0, scale = FALSE)
   mean_geometric(p1 / p0, w, na.rm, 
                  scale = !type %in% c("Vartia1", "MontgomeryVartia"))
 }
@@ -103,7 +103,7 @@ index_harmonic <- function(p1, p0, q1, q0,
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
+  w <- index_weights(type)(p1, p0, q1, q0, scale = FALSE)
   mean_harmonic(p1 / p0, w, na.rm)
 }
 
@@ -149,7 +149,7 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
     "'na.rm' must be TRUE or FALSE" = 
       length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
   )
-  w <- index_weights(p1, p0, q0 = q0, type = "LloydMoulton", scale = FALSE)
+  w <- index_weights("LloydMoulton")(p1, p0, q0 = q0, scale = FALSE)
   mean_generalized(1 - elasticity)(p1 / p0, w, na.rm)
 }
 
