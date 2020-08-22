@@ -157,7 +157,7 @@ I1 * I2
 index_harmonic(p2, p0, q0 = q0, type = "Laspeyres")
 
 I1 <- index_harmonic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_factor(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"), r = -1)
+w_pu <- weights_factor(-1)(p1 / p0, index_weights(p1, p0, q0 = q0, type = "Laspeyres"))
 I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 

@@ -9,25 +9,25 @@ Calculate a generalized logarithmic mean.
 }
 
 \usage{
-logmean_generalized(a, b, r, tol = .Machine$double.eps^0.5)
+logmean_generalized(r)
 
 logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \arguments{
-\item{a, b}{A numeric vector.}
-
 \item{r}{A number giving the order of the generalized logarithmic mean.}
+
+\item{a, b}{Numeric vectors.}
 
 \item{tol}{The tolerance used to determine if \code{a == b}.}
 }
 
 \value{
-A numeric vector, the same length as \code{max(length(a), length(b))}.
+For \code{logmean_generalized()}, a function \code{function(a, b, tol)}. For \code{logmean()}, a numeric vector the same length as \code{max(length(a), length(b))}.
 }
 
 \details{
-The function \code{logmean_generalized()} returns the value of the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, pp. 385, 393) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. 
+The function \code{logmean_generalized()} returns a function to compute the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, pp. 385, 393) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. 
 
 The function \code{logmean()} returns the ordinary logarithmic mean, the most useful generalized logarithmic mean, and corresponds to setting \code{r = 0} in \code{logmean_generalized()}.
 
@@ -53,8 +53,8 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
 x <- 8:5
 y <- 1:4
-all.equal(logmean_generalized(x, y, 2), (x + y) / 2)
-all.equal(logmean_generalized(x, y, -1), sqrt(x * y))
+all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
+all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
 # A useful identity
 
@@ -64,15 +64,15 @@ all.equal(logmean(x, y) * log(x / y), x - y)
 
 r <- 2
 
-all.equal(logmean_generalized(x, y, r) * (r * (x - y))^(1 / (r - 1)), 
+all.equal(logmean_generalized(r)(x, y) * (r * (x - y))^(1 / (r - 1)), 
           (x^r - y^r)^(1 / (r - 1)))
 
 # Some other identities from Bullen (example iii on page 385)
 
-all.equal(logmean_generalized(1, 2, -2), 
+all.equal(logmean_generalized(-2)(1, 2), 
           (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1/3))
 
-all.equal(logmean_generalized(1, 2, 0.5), 
+all.equal(logmean_generalized(0.5)(1, 2), 
           (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2)
 
 all.equal(logmean(1, 2),

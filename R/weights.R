@@ -1,10 +1,10 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
-weights_change <- function(r, k){
+weights_change <- function(r, s){
   stopifnot(
     "'r' must be a finite length 1 numeric vector" = 
       length(r) == 1L && is.vector(r, "numeric") && is.finite(r),
-    "'k' must be a finite length 1 numeric vector" = 
-      length(k) == 1L && is.vector(k, "numeric") && is.finite(k)
+    "'s' must be a finite length 1 numeric vector" = 
+      length(s) == 1L && is.vector(s, "numeric") && is.finite(s)
   )
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M) {
@@ -24,13 +24,13 @@ weights_change <- function(r, k){
         missing(M) || (length(M) == 1L && is.vector(M, "numeric"))
     )
     # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
-    out <- if (r == k) {
+    out <- if (r == s) {
       as.numeric(w) # ensure result is numeric if input is logical
     } else {
       # calculate M if not provided
       if (missing(M)) M <- mean_generalized(r)(x, w, na.rm)
       w * logmean_generalized(r)(x, M) %^% (r - 1) / 
-        logmean_generalized(k)(x, M) %^% (k - 1)
+        logmean_generalized(s)(x, M) %^% (s - 1)
     }
     if (scale) weights_scale(out, na.rm) else out
   }
@@ -74,7 +74,6 @@ weights_factor <- function(r) {
         out[is.nan(x) & !is.na(w)] <- NaN
         out[is.na(x) & !is.na(w)] <- NA
       }
-      
     } else {
       # general case otherwise
       out <- w * x %^% r
