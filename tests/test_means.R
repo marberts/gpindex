@@ -123,13 +123,6 @@ stopifnot(
     all.equal(mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
     mean_arithmetic(c(1, Inf), c(1, 0)) == 1
     is.na(mean_arithmetic(c(1, NaN), c(1, 0)))
-    # Limits
-    mean_generalized(Inf)(1:5) == 5
-    mean_generalized(-Inf)(1:5) == 1
-    mean_generalized(Inf)(1:5, 5:1) == 5
-    mean_generalized(-Inf)(1:5, 5:1) == 1
-    mean_generalized(Inf)(c(2:3, NA_real_), na.rm = TRUE) == 3
-    mean_generalized(-Inf)(c(2:3, NA_real_), na.rm = TRUE) == 2
   },
   local = getNamespace("gpindex")
 )
@@ -178,6 +171,8 @@ stopifnot(
     )
     # Checks for NA_real_ and length-0 inputs
     identical(logmean(numeric(0), numeric(0)), numeric(0))
+    identical(logmean(1:5, numeric(0)), numeric(0))
+    identical(logmean(numeric(0), 5:1), numeric(0))
     is.na(logmean(1, NA_real_))
     is.na(logmean(NA_real_, 1))
     is.na(logmean(NA_real_, NA_real_))

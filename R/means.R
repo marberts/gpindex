@@ -30,7 +30,8 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
 
 #---- Generalized mean ----
 mean_generalized <- function(r) {
-  stopifnot("'r' must be a length 1 numeric vector" = length1(r, "numeric"))
+  stopifnot("'r' must be a finite length 1 numeric vector" = 
+              length1(r, "numeric") && is.finite(r))
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
     stopifnot("'x' and 'w' must be a numeric vectors" = is_numeric(x, w),
@@ -40,15 +41,9 @@ mean_generalized <- function(r) {
     if (abs(r) < .Machine$double.eps^0.5) {
       # geomean if r = 0 (can't do exact test or limits don't work well)
       exp(mean_arithmetic_(log(x), w, na.rm, scale))
-    } else if (is.finite(r)) {
+    } else {
       # the general equation otherwise
       mean_arithmetic_(x %^% r, w, na.rm, scale) %^% (1 / r) 
-    } else if (r == Inf) {
-      # +inf returns max
-      max(x, na.rm = na.rm)
-    } else {
-      # -inf returns min
-      min(x, na.rm = na.rm)
     }
   }
 }
@@ -64,21 +59,20 @@ mean_harmonic <- mean_generalized(-1)
 
 #---- Generalized logarithmic mean ----
 logmean_generalized <- function(r) {
-  stopifnot("'r' must be a length 1 numeric vector" = length1(r, "numeric"))
+  stopifnot("'r' must be a finite length 1 numeric vector" = 
+              length1(r, "numeric") && is.finite(r))
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
-    stopifnot("'a' and 'b' must be a numeric vector" = is_numeric(a, b),
+    stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
               "'tol' must be a non-negative length 1 numeric vector" = 
                 length1(tol, "numeric") && tol >= 0)
-    # return numeric(0) if either a or b is length 0
-    if (!length(a) || !length(b)) return(numeric(0))
     # a and b must be the same length, so recycle if necessary
-    if (length(a) > length(b)) {
+    if (length(a) > length(b) && length(b)) {
       if (length(a) %% length(b)) {
         warning("length of 'a' is not a multiple of length of 'b'")
       }
       b <- rep_len(b, length(a))
-    } else if (length(b) > length(a)) {
+    } else if (length(b) > length(a) && length(a)) {
       if (length(b) %% length(a)) {
         warning("length of 'b' is not a multiple of length of 'a'")
       }
@@ -89,15 +83,9 @@ logmean_generalized <- function(r) {
       (a - b) / log(a / b)
     } else if (abs(r - 1) < .Machine$double.eps^0.5) {
       (a^a / b^b)^(1 / (a - b)) / exp(1)
-    } else if (is.finite(r)) {
+    } else {
       # general case otherwise
       ((a %^% r - b %^% r) / (a - b) / r) %^% (1 / (r - 1))
-    } else if (r == Inf) {
-      # +inf returns max
-      pmax(a, b)
-    } else {
-      # -inf returns min
-      pmin(a, b)
     }
     # set output to a when a = b
     loc <- which(abs(a - b) <= tol)

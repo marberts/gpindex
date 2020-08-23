@@ -15,7 +15,7 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \arguments{
-\item{r}{A number giving the order of the generalized logarithmic mean.}
+\item{r}{A finite number giving the order of the generalized logarithmic mean.}
 
 \item{a, b}{Numeric vectors.}
 

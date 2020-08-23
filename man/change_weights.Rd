@@ -30,7 +30,7 @@ weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A vector of numeric weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:mean_generalized]{mean_generalized()}} and \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
@@ -38,13 +38,13 @@ weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{weights_change()} returns a function: \code{function(x, w, na.rm, scale, M)}; otherwise, a numeric vector the same length as \code{x}.
+\code{weights_change()} returns a function: \code{function(x, w, na.rm, scale)}; otherwise, a numeric vector the same length as \code{x}.
 }
 
 \details{
 The function \code{weights_change()} returns a function to compute a vector of weights \code{v(x, w)} such that
 
-\code{mean_generalized(r)(x, w) = mean_generalized(s)(x, v(x, w))}. 
+\code{mean_generalized(r)(x, w) == mean_generalized(s)(x, v(x, w))}. 
 
 These weights are calculated as 
 
@@ -54,7 +54,7 @@ These weights are calculated as
 
 This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. 
 
-The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_change()}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic average into a geometric average.
+The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_change()}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic mean into a geometric mean (i.e., setting \code{r = 1} and \code{r = -1} when \code{s = 0} in \code{weights_change()}).
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 

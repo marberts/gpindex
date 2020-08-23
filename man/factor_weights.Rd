@@ -19,7 +19,7 @@ weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A vector of numeric weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
