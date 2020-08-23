@@ -23,7 +23,7 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \value{
-For \code{logmean_generalized()}, a function \code{function(a, b, tol)}. For \code{logmean()}, a numeric vector the same length as \code{max(length(a), length(b))}.
+\code{logmean_generalized()} returns a function: \code{function(a, b, tol)}. \code{logmean()} returns a numeric vector the same length as \code{max(length(a), length(b))}.
 }
 
 \details{

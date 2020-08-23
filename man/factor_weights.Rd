@@ -19,7 +19,7 @@ weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A vector of numeric weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
@@ -27,13 +27,13 @@ weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-For \code{weights_factor()}, a function \code{function(x, w, na.rm, scale)}. For \code{weights_update()}, a numeric vector the same length as \code{x}.
+\code{weights_factor()} returns a function: \code{function(x, w, na.rm, scale)}. \code{weights_update()} returns a numeric vector the same length as \code{x}.
 }
 
 \details{
-The function \code{weights_factor()} returns a function to compute weights \code{v} such that 
+The function \code{weights_factor()} returns a function to compute weights \code{v(x, w)} such that 
 
-\code{mean_generalized(r)(x * y, w) == mean_generalized(r)(x, w) * mean_generalized(r)(y, v)}. 
+\code{mean_generalized(r)(x * y, w) == mean_generalized(r)(x, w) * mean_generalized(r)(y, v(x, w))}. 
 
 This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor()} with \code{r = 1}.
 

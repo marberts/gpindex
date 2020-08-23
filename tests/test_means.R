@@ -2,7 +2,7 @@
 set.seed(1234)
 x <- rlnorm(15)
 xna <- rlnorm(15)
-xna[sample(15, 4)] <- NA
+xna[sample(15, 4)] <- NA_real_
 w <- runif(15)
 a <- runif(15, 0, 5)
 b <- rlnorm(15)
@@ -19,9 +19,6 @@ stopifnot(
     all.equal(mean_geometric(1:3, 1:3), prod((1:3)^(1:3 / 6)))
     all.equal(mean_harmonic(1:2), 4 / 3)
     all.equal(mean_harmonic(1:3, 1:3), 2)
-    # Test with logicals
-    all.equal(mean_arithmetic(1:2, c(TRUE, FALSE)), 1)
-    all.equal(mean_arithmetic(2:1, c(TRUE, FALSE), scale = FALSE), 2)
     # Is the fundamental inequality satisfied?
     mean_geometric(1:10, 10:1) <= mean_arithmetic(1:10, 10:1)
     mean_geometric(1:10, 10:1) >= mean_harmonic(1:10, 10:1)
@@ -56,11 +53,11 @@ stopifnot(
         logical(1)
       )
     )
-    # Checks for NA and length-0 inputs
+    # Checks for NA_real_ and length-0 inputs
     is.na(mean_arithmetic(NA_real_))
     is.na(mean_arithmetic(NA_real_, 1))
     is.na(mean_arithmetic(NA_real_, 0.5, scale = FALSE))
-    is.na(mean_arithmetic(1, NA))
+    is.na(mean_arithmetic(1, NA_real_))
     is.na(mean_arithmetic(NaN))
     is.na(mean_arithmetic(NaN, 1))
     is.na(mean_arithmetic(1, NaN))
@@ -68,16 +65,16 @@ stopifnot(
     is.na(mean_arithmetic(NaN, na.rm = TRUE))
     is.na(mean_arithmetic(NA_real_, 1, na.rm = TRUE))
     mean_arithmetic(NA_real_, 0.5, na.rm = TRUE, scale = FALSE) == 0
-    is.na(mean_arithmetic(1, NA, na.rm = TRUE))
+    is.na(mean_arithmetic(1, NA_real_, na.rm = TRUE))
     is.na(mean_arithmetic(1, NaN, na.rm = TRUE))
     is.na(mean_arithmetic(numeric(0)))
     is.na(mean_arithmetic(numeric(0), numeric(0)))
-    all.equal(mean_arithmetic(c(1, NA), na.rm = TRUE), 1)
-    all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE), 1)
-    all.equal(mean_arithmetic(c(1, NA), c(1, 2), na.rm = TRUE), 1)
-    is.na(mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE))
-    all.equal(mean_arithmetic(1:2, c(2, NA), na.rm = TRUE, scale = FALSE), 2)
-    mean_arithmetic(c(1, NA), c(NA, 2), na.rm = TRUE, scale = FALSE) == 0
+    all.equal(mean_arithmetic(c(1, NA_real_), na.rm = TRUE), 1)
+    all.equal(mean_arithmetic(1:2, c(2, NA_real_), na.rm = TRUE), 1)
+    all.equal(mean_arithmetic(c(1, NA_real_), c(1, 2), na.rm = TRUE), 1)
+    is.na(mean_arithmetic(c(1, NA_real_), c(NA_real_, 2), na.rm = TRUE))
+    all.equal(mean_arithmetic(1:2, c(2, NA_real_), na.rm = TRUE, scale = FALSE), 2)
+    mean_arithmetic(c(1, NA_real_), c(NA_real_, 2), na.rm = TRUE, scale = FALSE) == 0
     # Change weights
     all(
       apply(
@@ -131,8 +128,8 @@ stopifnot(
     mean_generalized(-Inf)(1:5) == 1
     mean_generalized(Inf)(1:5, 5:1) == 5
     mean_generalized(-Inf)(1:5, 5:1) == 1
-    mean_generalized(Inf)(c(2:3, NA), na.rm = TRUE) == 3
-    mean_generalized(-Inf)(c(2:3, NA), na.rm = TRUE) == 2
+    mean_generalized(Inf)(c(2:3, NA_real_), na.rm = TRUE) == 3
+    mean_generalized(-Inf)(c(2:3, NA_real_), na.rm = TRUE) == 2
   },
   local = getNamespace("gpindex")
 )
@@ -179,7 +176,7 @@ stopifnot(
         logical(1)
       )
     )
-    # Checks for NA and length-0 inputs
+    # Checks for NA_real_ and length-0 inputs
     identical(logmean(numeric(0), numeric(0)), numeric(0))
     is.na(logmean(1, NA_real_))
     is.na(logmean(NA_real_, 1))

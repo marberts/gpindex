@@ -7,11 +7,9 @@ w <- runif(15, 0, 2)
 stopifnot(
   exprs = {
     all(diff(weights_change(2, 2)(x)) == 0)
-    all(weights_change(-2, -2)(x, w, scale = FALSE) == w)
-    any(weights_change(-2, 3)(x, w, M = mean_generalized(-2)(x, w) + 1) !=
-               weights_change(-2, 3)(x, w))
-    !anyNA(weights_change(1, 1)(c(1, NA)))
-    anyNA(weights_change(2, 1)(c(1, NA)))
+    all.equal(weights_change(-2, -2)(x, w, scale = FALSE), w)
+    !anyNA(weights_change(1, 1)(c(1, NA_real_)))
+    anyNA(weights_change(2, 1)(c(1, NA_real_)))
     # Test against a simple implementation
     all(
       apply(
@@ -26,13 +24,10 @@ stopifnot(
         }
       )
     )
-    # check that it works with small differences
-    all.equal(weights_change(0.9, 1.1)(rep.int(sqrt(2)^2, length(x))),
-          weights_change(0.9, 1.1)(rep.int(sqrt(2)^2, length(x)),M = 2))
     # length 0 inputs
     length(weights_g2a(numeric(0))) == 0L
     length(weights_g2a(numeric(0), numeric(0))) == 0L
-    # NA inputs
+    # NA_real_ inputs
     is.na(weights_g2a(NA_real_))
     is.na(weights_g2a(NA_real_, 1))
     is.na(weights_g2a(1, NA_real_))
@@ -45,11 +40,6 @@ stopifnot(
     is.na(weights_g2a(NaN, NA_real_))
     is.na(weights_g2a(NA_real_, na.rm = TRUE))
     is.na(weights_g2a(NaN, na.rm = TRUE))
-    is.na(weights_g2a(numeric(0)))
-    all(is.na(weights_g2a(1:5, 5:1, M = NaN)))
-    all(is.na(weights_g2a(1:5, 5:1, M = Inf)))
-    all(is.na(weights_g2a(1:5, 5:1, M = NA_real_)))
-    all(is.na(weights_g2a(1:5, 5:1, na.rm = TRUE, M = NA_real_)))
     identical(is.na(weights_g2a(c(1, NA_real_))), c(TRUE, TRUE))
     identical(is.na(weights_g2a(c(1, NaN))), c(TRUE, TRUE))
     identical(is.na(weights_g2a(c(1, NA_real_), na.rm = TRUE)), c(FALSE, TRUE))
@@ -61,7 +51,7 @@ stopifnot(
 #---- Test for weights_factor ----
 stopifnot(
   exprs = {
-    anyNA(weights_factor(0)(c(1, NA)))
+    anyNA(weights_factor(0)(c(1, NA_real_)))
     # test against known cases
     all(weights_factor(0)(x) == 1 / length(x))
     all(weights_factor(0)(x, w, scale = FALSE) == w)
@@ -79,7 +69,7 @@ stopifnot(
         logical(1)
       )
     )
-    # test NA and length-0 inputs
+    # test NA_real_ and length-0 inputs
     is.na(weights_update(NA_real_))
     is.na(weights_update(NA_real_, NA_real_))
     is.na(weights_update(NaN))
@@ -101,9 +91,9 @@ stopifnot(
   exprs = {
     all.equal(weights_scale(1:4), 1:4 / 10)
     all.equal(sum(weights_scale(w)), 1)
-    all(is.na(weights_scale(c(1:2, NA))))
+    all(is.na(weights_scale(c(1:2, NA_real_))))
     all(is.na(weights_scale(c(1:2, NaN))))
-    all.equal(weights_scale(c(1:2, NA), TRUE), c(1:2, NA) / 3)
+    all.equal(weights_scale(c(1:2, NA_real_), TRUE), c(1:2, NA_real_) / 3)
     length(weights_scale(numeric(0))) == 0L
   },
   local = getNamespace("gpindex")

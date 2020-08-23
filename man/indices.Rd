@@ -1,10 +1,12 @@
 \name{price indexes}
 \alias{index}
 \alias{index_arithmetic}
-\alias{index_lowe}
-\alias{index_young}
 \alias{index_geometric}
 \alias{index_harmonic}
+\alias{index_laspeyres}
+\alias{index_paasche}
+\alias{index_lowe}
+\alias{index_young}
 \alias{index_fisher}
 \alias{index_hlp}
 \alias{index_lm}
@@ -21,15 +23,21 @@ Calculate a variety of price indexes using information on prices and quantities.
 }
 
 \usage{
-index_arithmetic(p1, p0, q1, q0, type, na.rm = FALSE)
+index_arithmetic(type)
+
+index_geometric(type)
+
+index_harmonic(type)
+
+index_weights(type)
+
+index_laspeyres(p1, p0, q0, na.rm = FALSE)
+
+index_paasche(p1, p0, q1, na.rm = FALSE)
 
 index_lowe(p1, p0, qb, na.rm = FALSE)
 
 index_young(p1, p0, pb, qb, na.rm = FALSE)
-
-index_geometric(p1, p0, q1, q0, type, na.rm = FALSE)
-
-index_harmonic(p1, p0, q1, q0, type, na.rm = FALSE)
 
 index_fisher(p1, p0, q1, q0, na.rm = FALSE)
 
@@ -44,11 +52,11 @@ index_cswdb(p1, p0, q1, q0, na.rm = FALSE)
 index_bw(p1, p0, na.rm = FALSE)
 
 index_stuval(p1, p0, q1, q0, a, b, na.rm = FALSE)
-
-index_weights(type)
 }
 
 \arguments{
+\item{type}{The name of the index. See details.}
+
 \item{p1}{Current-period prices.}
 
 \item{p0}{Base-period prices.}
@@ -60,8 +68,6 @@ index_weights(type)
 \item{pb}{Period-b prices for the Lowe/Young index.}
 
 \item{qb}{Period-b quantities for the Lowe/Young index.}
-
-\item{type}{The name of the index. See details.}
 
 \item{na.rm}{Should missing values be removed?}
 
@@ -163,20 +169,20 @@ qb <- quantity6[[1]]
 # Most of these indexes can be calculated by combining the 
 # appropriate weights with the correct type of mean
 
-index_geometric(p1, p0, q0 = q0, type = "Laspeyres")
-mean_geometric(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
+index_geometric("Laspeyres")(p1, p0, q0)
+mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 # Arithmetic Laspeyres index
 
-mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p1, p0, q1, q0)) 
+mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
 # Trivial to turn this into a basket-style index
 
-qs <- index_weights("Laspeyres")(p1, p0, q1, q0) / p0
+qs <- index_weights("Laspeyres")(p0, q0) / p0
 sum(p1 * qs) / sum(p0 * qs)
 
 # Harmonic calculation
-mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, p0, q1, q0)) 
+mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)) 
 
 # If only weights are available (no quantity information), then use one of the generalized means
 
@@ -186,19 +192,19 @@ mean_geometric(p1 / p0, w)
 # Chain an index by price updating the weights
 
 p2 <- price6[[3]]
-index_arithmetic(p2, p0, q0 = q0, type = "Laspeyres")
+index_laspeyres(p2, p0, q0)
 
-I1 <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_update(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
+I1 <- index_laspeyres(p1, p0, q0) 
+w_pu <- weights_update(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- mean_arithmetic(p2 / p1, w_pu)
 I1 * I2
 
 # Works for other types of indexes, too
 
-index_harmonic(p2, p0, q0 = q0, type = "Laspeyres")
+index_harmonic("Laspeyres")(p2, p0, q0)
 
-I1 <- index_harmonic(p1, p0, q0 = q0, type = "Laspeyres") 
-w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p1, p0, q0 = q0))
+I1 <- index_harmonic("Laspeyres")(p1, p0, q0) 
+w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 
@@ -207,12 +213,12 @@ I1 * I2
 (con <- weights_g2a(p1 / p0, index_weights("Tornqvist")(p1, p0, q1, q0)) * (p1 / p0 - 1))
 
 sum(con)
-index_geometric(p1, p0, q1, q0, "Tornqvist") - 1
+index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
 
 # Quote contribution for the Fisher index
 
-wl <- index_weights("Laspeyres")(p1, p0, q1, q0)
-wp <- index_weights("HybridPaasche")(p1, p0, q1, q0)
+wl <- index_weights("Laspeyres")(p0, q0)
+wp <- index_weights("HybridPaasche")(p0, q1)
 wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
@@ -225,7 +231,7 @@ p0[6] <- NA
 
 # Drops the last price relative
 
-index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = TRUE)
+index_laspeyres(p1, p0, q0, na.rm = TRUE)
 
 # Only drops the last period-0 price
 
@@ -234,32 +240,32 @@ sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
-index_weights("Carli")(p1, p0, q1, q0)
+index_weights("Carli")(p1)
 rep(1 / length(p0), length(p0))
 
 # Dutot
 
-index_weights("Dutot")(p1, p0, q1, q0)
+index_weights("Dutot")(p0)
 p0 / sum(p0)
 
 # Laspeyres / Lloyd-Moulton
 
-index_weights("Laspeyres")(p1, p0, q1, q0)
+index_weights("Laspeyres")(p0, q0)
 p0 * q0 / sum(p0 * q0)
 
 # Hybrid Laspeyres
 
-index_weights("HybridLaspeyres")(p1, p0, q1, q0)
+index_weights("HybridLaspeyres")(p1, q0)
 p1 * q0 / sum(p1 * q0)
 
 # Paasche / Palgrave
 
-index_weights("Paasche")(p1, p0, q1, q0)
+index_weights("Paasche")(p1, q1)
 p1 * q1 / sum(p1 * q1)
 
 # Hybrid Paasche
 
-index_weights("HybridPaasche")(p1, p0, q1, q0)
+index_weights("HybridPaasche")(p0, q1)
 p0 * q1 / sum(p0 * q1)
 
 # Tornqvist / Unnamed
@@ -274,17 +280,17 @@ index_weights("Drobish")(p1, p0, q1, q0)
 
 # Walsh-I
 
-index_weights("Walsh1")(p1, p0, q1, q0)
+index_weights("Walsh1")(p0, q1, q0)
 p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
 
 # Marshall-Edgeworth
 
-index_weights("MarshallEdgeworth")(p1, p0, q1, q0)
+index_weights("MarshallEdgeworth")(p0, q1, q0)
 p0 * (q0 + q1) / sum(p0 * (q0 + q1))
 
 # Geary-Khamis
 
-index_weights("GearyKhamis")(p1, p0, q1, q0)
+index_weights("GearyKhamis")(p0, q1, q0)
 p0 / (1 / q0 + 1 / q1) / sum(p0 / (1 / q0 + 1 / q1))
 
 # Montgomery-Vartia / Vartia-I

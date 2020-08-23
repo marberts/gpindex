@@ -90,45 +90,45 @@ qb <- quantity6[[1]]
 # Can be used with the mean_generalized function to make most types of price indexes
 # Arithmetic Laspeyres index
 
-mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p1, p0, q1, q0)) 
+mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
 # Trivial to turn this into a basket-style index
 
-qs <- index_weights("Laspeyres")(p1, p0, q1, q0) / p0
+qs <- index_weights("Laspeyres")(p0, q0) / p0
 sum(p1 * qs) / sum(p0 * qs)
 
 # Harmonic calculation
-mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, p0, q1, q0)) 
+mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)) 
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
-index_weights("Carli")(p1, p0, q1, q0)
+index_weights("Carli")(p1)
 rep(1 / length(p0), length(p0))
 
 # Dutot
 
-index_weights("Dutot")(p1, p0, q1, q0)
+index_weights("Dutot")(p0)
 p0 / sum(p0)
 
 # Laspeyres / Lloyd-Moulton
 
-index_weights("Laspeyres")(p1, p0, q1, q0)
+index_weights("Laspeyres")(p0, q0)
 p0 * q0 / sum(p0 * q0)
 
 # Hybrid Laspeyres
 
-index_weights("HybridLaspeyres")(p1, p0, q1, q0)
+index_weights("HybridLaspeyres")(p1, q0)
 p1 * q0 / sum(p1 * q0)
 
 # Paasche / Palgrave
 
-index_weights("Paasche")(p1, p0, q1, q0)
+index_weights("Paasche")(p1, q1)
 p1 * q1 / sum(p1 * q1)
 
 # Hybrid Paasche
 
-index_weights("HybridPaasche")(p1, p0, q1, q0)
+index_weights("HybridPaasche")(p0, q1)
 p0 * q1 / sum(p0 * q1)
 
 # Tornqvist / Unnamed
@@ -143,17 +143,17 @@ index_weights("Drobish")(p1, p0, q1, q0)
 
 # Walsh-I
 
-index_weights("Walsh1")(p1, p0, q1, q0)
+index_weights("Walsh1")(p0, q1, q0)
 p0 * sqrt(q0 * q1) / sum(p0 * sqrt(q0 * q1))
 
 # Marshall-Edgeworth
 
-index_weights("MarshallEdgeworth")(p1, p0, q1, q0)
+index_weights("MarshallEdgeworth")(p0, q1, q0)
 p0 * (q0 + q1) / sum(p0 * (q0 + q1))
 
 # Geary-Khamis
 
-index_weights("GearyKhamis")(p1, p0, q1, q0)
+index_weights("GearyKhamis")(p0, q1, q0)
 p0 / (1 / q0 + 1 / q1) / sum(p0 / (1 / q0 + 1 / q1))
 
 # Montgomery-Vartia / Vartia-I

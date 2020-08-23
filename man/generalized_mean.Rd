@@ -25,7 +25,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A vector of numeric weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
 
@@ -33,7 +33,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-For \code{mean_generalized()}, a function \code{function(x, w, na.rm, scale)}. For \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()}, a numeric value.
+\code{mean_generalized()} returns a function: \code{function(x, w, na.rm, scale)}. \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }
 
 \details{

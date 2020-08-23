@@ -33,9 +33,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 index_formulas <- function(p1, p0, q1, q0) {
   c(fisher = index_fisher(p1, p0, q1, q0),
-    tornqvist = index_geometric(p1, p0, q1, q0, type = "Tornqvist"),
-    marshall_edgeworth = index_arithmetic(p1, p0, q1, q0, type = "MarshallEdgeworth"),
-    walsh1 = index_arithmetic(p1, p0, q1, q0, type = "Walsh1")
+    tornqvist = index_geometric("Tornqvist")(p1, p0, q1, q0),
+    marshall_edgeworth = index_arithmetic("MarshallEdgeworth")(p1, p0, q1, q0),
+    walsh1 = index_arithmetic("Walsh1")(p1, p0, q1, q0)
   )
 }
 

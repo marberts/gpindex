@@ -14,13 +14,13 @@ Calculate the weights to turn an r-generalized mean into an s-generalized mean.
 \usage{
 weights_change(r, s)
 
-weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
+weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
+weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
+weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
+weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -30,23 +30,21 @@ weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE, M)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A vector of numeric weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:mean_generalized]{mean_generalized()}} and \code{\link[gpindex:weights_scale]{weights_scale()}}?}
 
 \item{scale}{Should the weights be scaled to sum to 1?}
-
-\item{M}{The value of the r-generalized mean, if known.}
 }
 
 \value{
-For \code{weights_change()}, a function \code{function(x, w, na.rm, scale, M)}; otherwise, a numeric vector the same length as \code{x}.
+\code{weights_change()} returns a function: \code{function(x, w, na.rm, scale, M)}; otherwise, a numeric vector the same length as \code{x}.
 }
 
 \details{
-The function \code{weights_change()} returns a function to compute a vector of weights \code{v} such that
+The function \code{weights_change()} returns a function to compute a vector of weights \code{v(x, w)} such that
 
-\code{mean_generalized(r)(x, w) = mean_generalized(s)(x, v)}. 
+\code{mean_generalized(r)(x, w) = mean_generalized(s)(x, v(x, w))}. 
 
 These weights are calculated as 
 
@@ -59,8 +57,6 @@ This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \cod
 The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic average into an arithmetic average (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_change()}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic average into a geometric average.
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
-
-The weights depend on the value of \code{mean_generalized(r)(x, w)}. In many cases this value is known prior to calling the function, and can be supplied to save some computations. Otherwise, it will be calculated from the values of \code{x} and \code{w}.
 
 As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex:mean_generalized]{mean_generalized()}}, and \code{\link[gpindex:weights_scale]{weights_scale()}} if \code{scale = TRUE}.
 }
