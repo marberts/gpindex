@@ -25,7 +25,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{x}{A numeric vector.}
 
-\item{w}{A numeric vector weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
 

@@ -5,6 +5,7 @@
 \alias{index_harmonic}
 \alias{index_laspeyres}
 \alias{index_paasche}
+\alias{index_jevons}
 \alias{index_lowe}
 \alias{index_young}
 \alias{index_fisher}
@@ -29,11 +30,11 @@ index_geometric(type)
 
 index_harmonic(type)
 
-index_weights(type)
-
 index_laspeyres(p1, p0, q0, na.rm = FALSE)
 
 index_paasche(p1, p0, q1, na.rm = FALSE)
+
+index_jevons(p1, p0, na.rm = FALSE)
 
 index_lowe(p1, p0, qb, na.rm = FALSE)
 
@@ -51,7 +52,9 @@ index_cswdb(p1, p0, q1, q0, na.rm = FALSE)
 
 index_bw(p1, p0, na.rm = FALSE)
 
-index_stuval(p1, p0, q1, q0, a, b, na.rm = FALSE)
+index_stuval(a, b)
+
+index_weights(type)
 }
 
 \arguments{
@@ -77,11 +80,11 @@ index_stuval(p1, p0, q1, q0, a, b, na.rm = FALSE)
 }
 
 \value{
-A numeric value.
+\code{index_arithmetic()}, \code{index_geometric()}, \code{index_harmonic()}, \code{index_stuval()}, and \code{index_weights()} each return a function; the others return a numeric value.
 }
 
 \details{
-The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indexes are just convenient wrappers for \code{mean_generalized(p1 / p0, index_weights(p1, p0, q1, q0))}. Together, the arithmetic, geometric, and harmonic index functions can calculate the following indexes.
+The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} functions return a function to calculate a given type of arithmetic, geometric, and harmonc index. Together, these functions produce functions to calculate the following indexes.
 \itemize{
 \item \bold{Arithmetic indexes}
 \item Carli
@@ -99,6 +102,7 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indexes
 \item Jevons
 \item Geometric Laspeyres
 \item Geometric Paasche
+\item Geometric Young
 \item Tornqvist
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
@@ -109,9 +113,13 @@ The functions for the arithmetic, geometric, harmonic, and Lloyd-Moulton indexes
 \item Harmonic Laspeyres
 }
 
-In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. 
+Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{[gpindex:mean_generalized]{mean_generalized()}}. 
 
-Weights for the following types of indexes can be calculated.
+The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
+
+In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The \code{index_stuval()} function returns a function to calculate a Stuval index of the given parameters.
+
+The \code{index_weights()} function returns a function to calculate weights for a variety of price indexes. Weights for the following types of indexes can be calculated.
 \itemize{
 \item Carli / Jevons / Coggeshall
 \item Dutot
@@ -131,9 +139,9 @@ Weights for the following types of indexes can be calculated.
 \item Young
 }
 
-Naming for the weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
-
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
+
+Naming for the indexes and weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 }
 
 \note{
@@ -141,7 +149,7 @@ Dealing with missing values is cumbersome when making a price index, and best av
 
 The approach taken here when \code{na.rm = TRUE} is to remove price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Tornqvist or Sato-Vartia index).
 
-When making weights, setting \code{na.rm = TRUE} simply remove missing values when scaling the weights if \code{scale = TRUE}.
+When making weights, setting \code{na.rm = TRUE} simply removes missing values when scaling the weights if \code{scale = TRUE}.
 }
 
 \references{
@@ -191,7 +199,7 @@ mean_geometric(p1 / p0, w)
 
 # Chain an index by price updating the weights
 
-p2 <- price6[[3]]
+p2 <- price6[[4]]
 index_laspeyres(p2, p0, q0)
 
 I1 <- index_laspeyres(p1, p0, q0) 
@@ -227,15 +235,15 @@ index_fisher(p1, p0, q1, q0) - 1
 
 # NAs get special treatment
 
-p0[6] <- NA
+p_na <- replace(p0, 6, NA)
 
 # Drops the last price relative
 
-index_laspeyres(p1, p0, q0, na.rm = TRUE)
+index_laspeyres(p1, p_na, q0, na.rm = TRUE)
 
 # Only drops the last period-0 price
 
-sum(p1 * q0, na.rm = TRUE) / sum(p0 * q0, na.rm = TRUE)
+sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall

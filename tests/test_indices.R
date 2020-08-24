@@ -47,6 +47,8 @@ stopifnot(
               mean_geometric(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(index_geometric("Paasche")(p1, p0, q1),
               mean_geometric(p1 / p0, p1 * q1 / sum(p1 * q1)))
+    all.equal(index_geometric("Young")(p1, p0, pb, qb),
+              mean_geometric(p1 / p0, pb * qb / sum(pb * qb)))
     all.equal(index_geometric("Tornqvist")(p1, p0, q1, q0),
               mean_geometric(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
                                0.5 * p1 * q1 / sum(p1 * q1)))
@@ -95,8 +97,8 @@ stopifnot(
               sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
     all.equal(index_bw(p1, p0), 
               mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
-    all.equal(index_stuval(p1, p0, q1, q0, 4, 4), index_stuval(p1, p0, q1, q0, 1, 1))
-    index_stuval(p1, p0, q1, q0, 4, 4) != index_stuval(p1, p0, q1, q0, 2, 1)
+    all.equal(index_stuval(4, 4)(p1, p0, q1, q0), index_stuval(1, 1)(p1, p0, q1, q0))
+    index_stuval(4, 4)(p1, p0, q1, q0) != index_stuval(2, 1)(p1, p0, q1, q0)
   },
   local = getNamespace("gpindex")
 )
@@ -171,7 +173,7 @@ stopifnot(
                 index_arithmetic("Walsh1")(p1, p0, q1, q0),
                 index_geometric("Vartia2")(p1, p0, q1, q0),
                 index_geometric("Vartia1")(p1, p0, q1, q0),
-                index_stuval(p1, p0, q1, q0, 2, 2)
+                index_stuval(2, 2)(p1, p0, q1, q0)
               ), 4)
           },
           price6, price6[1], quantity6, quantity6[1]

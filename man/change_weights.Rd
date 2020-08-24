@@ -79,7 +79,7 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 x <- 1:10
 mean_geometric(x)
 mean_arithmetic(x, weights_g2a(x))
-mean_harmonic(x, weights_change(-1, 0)(x))
+mean_harmonic(x, weights_change(0, -1)(x))
 
 # Works for nested means, too
 
