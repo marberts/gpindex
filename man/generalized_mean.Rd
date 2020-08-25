@@ -11,7 +11,7 @@ Calculate a generalized mean.
 }
 
 \usage{
-mean_generalized(x, w = rep(1, length(x)), r, na.rm = FALSE, scale = TRUE)
+mean_generalized(r)
 
 mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
@@ -21,11 +21,11 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
-\item{x}{A numeric or logical vector.}
+\item{r}{A finite number giving the exponent of the generalized mean.}
 
-\item{w}{A vector of numeric or logical weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{x}{A numeric vector.}
 
-\item{r}{A number giving the exponent of the generalized mean.}
+\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
 
@@ -33,11 +33,11 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-A numeric value.
+\code{mean_generalized()} returns a function: \code{function(x, w, na.rm, scale)}. \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }
 
 \details{
-The function \code{mean_generalized()} returns the value of the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. 
+The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise definition, or \url{https://en.wikipedia.org/wiki/Power_mean}.
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
@@ -50,7 +50,7 @@ As a matter of definition, both \code{x} and \code{w} should be strictly positiv
 
 The weights should almost always be scaled to sum to 1 to satisfy the definition of a generalized mean, although there are certain types of price indexes where the weight should not be scaled (e.g., the Vartia-I index).
 
-The underlying calculation for \code{mean_generalized()} is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}, with a few exceptions. 
+The underlying calculation returned by \code{mean_generalized()} is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}, with a few exceptions. 
 \enumerate{
 \item{Missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}.}
 \item{To speed up execution when there are NAs in \code{x} or \code{w}, the return value is always NA whenever \code{na.rm = FALSE} and \code{anyNA(x) == TRUE} or \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{\link[stats:weighted.mean]{weighted.mean()}}.}
@@ -111,11 +111,11 @@ mean_harmonic(x, w)
 
 # Quadratic mean / root mean sqaure
 
-mean_generalized(x, w, r = 2)
+mean_generalized(2)(x, w)
 
 # Cubic mean
 
-mean_generalized(x, w, r = 3)
+mean_generalized(3)(x, w)
 
 # Example of how missing values are handled
 

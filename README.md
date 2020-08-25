@@ -7,6 +7,9 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
+[![Build
+Status](https://travis-ci.org/marberts/gpindex.svg?branch=ffs)](https://travis-ci.org/marberts/gpindex)
+[![codecov](https://codecov.io/gh/marberts/gpindex/branch/ffs/graph/badge.svg)](https://codecov.io/gh/marberts/gpindex)
 
 A small R package for calculating lots of different price indexes, and
 by extension quantity indexes. Provides tools to build and work with any
@@ -50,14 +53,14 @@ quantity6
 #> 6 0.5 0.6 0.8 1.3  2.5
 
 # Calculate a Laspeyres and Paasche index
-index_arithmetic(price6$t2, price6$t1, quantity6$t2, quantity6$t1, type = "Laspeyres")
+index_laspeyres(price6$t2, price6$t1, quantity6$t1)
 #> [1] 1.42
-index_harmonic(price6$t2, price6$t1, quantity6$t2, quantity6$t1, type = "Paasche")
+index_paasche(price6$t2, price6$t1, quantity6$t2)
 #> [1] 1.382353
 
 # Can also be done if only weights are available
-s1 <- index_weights(price6$t2, price6$t1, quantity6$t2, quantity6$t1, "Laspeyres")
-s2 <- index_weights(price6$t2, price6$t1, quantity6$t2, quantity6$t1, "Paasche")
+s1 <- index_weights("Laspeyres")(price6$t1, quantity6$t1)
+s2 <- index_weights("Paasche")(price6$t2, quantity6$t2)
 
 with(price6, mean_arithmetic(t2 / t1, s1))
 #> [1] 1.42
@@ -70,7 +73,7 @@ with(price6,
 )
 #> [1] 1.345
 
-index_arithmetic(price6$t3, price6$t1, quantity6$t2, quantity6$t1, type = "Laspeyres")
+index_laspeyres(price6$t3, price6$t1, quantity6$t1)
 #> [1] 1.345
 
 # Get quote contributions for the Paasche index

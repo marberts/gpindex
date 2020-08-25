@@ -1,183 +1,150 @@
 #---- Arithmetic index ----
-index_arithmetic <- function(p1, p0, q1, q0, 
-                             type = c("Carli", "Dutot", "Laspeyres",
+index_arithmetic <- function(type = c("Carli", "Dutot", "Laspeyres",
                                       "Palgrave", "Drobish", "Unnamed",
-                                      "Walsh1", "MarshallEdgeworth", "GearyKhamis"), 
-                             na.rm = FALSE) {
-  stopifnot(
-    "'p1' and 'p0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric"),
-    "'q1' must be a numeric vector" = 
-      missing(q1) || is.vector(q1, "numeric"),
-    "'q0' must be a numeric vector" = 
-      missing(q0) || is.vector(q0, "numeric"),
-    "'p1' and 'p0' must be the same length" = 
-      length(p1) == length(p0),
-    "'q1' must be the same length as 'p1' and 'p0'" = 
-      missing(q1) || length(p0) == length(q1),
-    "'q0' must be the same length as 'p1' and 'p0'" = 
-      missing(q0) || length(p0) == length(q0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
+                                      "Walsh1", "MarshallEdgeworth", "GearyKhamis",
+                                      "Lowe", "Young")) {
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
-  mean_arithmetic(p1 / p0, w, na.rm)
-}
-
-#---- Lowe index ----
-index_lowe <- function(p1, p0, qb, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', and 'qb' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && is.vector(qb, "numeric"),
-    "'p1', 'p0', and 'qb' must be the same length" = 
-      length(p1) == length(p0) && length(p0) == length(qb),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
+  weights <- index_weights(type)
+  res <- switch(
+    type,
+    Carli = ,
+    Dutot = function(p1, p0, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(p0, scale = FALSE), na.rm),
+    Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
+      mean_arithmetic(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+    Palgrave = function(p1, p0, q1, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(p1, q1, scale = FALSE), na.rm),
+    Drobish = ,
+    Unnamed = function(p1, p0, q1, q0, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm),
+    Walsh1 = ,
+    MarshallEdgeworth = ,
+    GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(p0, q1, q0, scale = FALSE), na.rm),
+    Lowe = function(p1, p0, qb, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(p0, qb, scale = FALSE), na.rm),
+    Young = function(p1, p0, pb, qb, na.rm = FALSE)
+      mean_arithmetic(p1 / p0, weights(pb, qb, scale = FALSE), na.rm)
   )
-  w <- index_weights(p0 = p0, q0 = qb, type = "Lowe", scale = FALSE)
-  mean_arithmetic(p1 / p0, w, na.rm)
-}
-
-#---- Young index ----
-index_young <- function(p1, p0, pb, qb, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', 'pb', and 'qb' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
-      is.vector(pb, "numeric") && is.vector(qb, "numeric"),
-    "'p1', 'p0', 'pb', and 'qb' must be the same length" = 
-      length(p1) == length(p0) && length(pb) == length(p0) && length(qb) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  w <- index_weights(p0 = pb, q0 = qb, type = "Young", scale = FALSE)
-  mean_arithmetic(p1 / p0, w, na.rm)
+  # all arguments except na.rm are price and quantity arguments
+  # extract them in a list
+  pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
+  # insert argument checking in body of res
+  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  errors <- c("prices/quantities must be numeric vectors",
+              "prices/quantites must be the same length")
+  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                    as.call(c(quote(same_length), pqs)))
+  res
 }
 
 #---- Geometric index ----
-index_geometric <- function(p1, p0, q1, q0, 
-                            type = c("Jevons", "Laspeyres", "Paasche",
+index_geometric <- function(type = c("Jevons", "Laspeyres", "Paasche",
                                      "Tornqvist", "Vartia1", "MontgomeryVartia",
-                                     "Vartia2", "SatoVartia", "Walsh2"), 
-                            na.rm = FALSE) {
-  stopifnot(
-    "'p1' and 'p0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric"),
-    "'q1' must be a numeric vector" = 
-      missing(q1) || is.vector(q1, "numeric"),
-    "'q0' must be a numeric vector" = 
-      missing(q0) || is.vector(q0, "numeric"),
-    "'p1' and 'p0' must be the same length" = 
-      length(p1) == length(p0),
-    "'q1' must be the same length as 'p1' and 'p0'" = 
-      missing(q1) || length(p0) == length(q1),
-    "'q0' must be the same length as 'p1' and 'p0'" = 
-      missing(q0) || length(p0) == length(q0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
+                                     "Vartia2", "SatoVartia", "Walsh2",
+                                     "Young")) {
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
-  mean_geometric(p1 / p0, w, na.rm, 
-                 scale = !type %in% c("Vartia1", "MontgomeryVartia"))
+  weights <- index_weights(type)
+  res <- switch(
+    type,
+    Jevons = function(p1, p0, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(p0, scale = FALSE), na.rm),
+    Laspeyres = function(p1, p0, q0, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+    Paasche = function(p1, p0, q1, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(p1, q1, scale = FALSE), na.rm),
+    Vartia2 = ,
+    SatoVartia = ,
+    Walsh2 = ,
+    Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm),
+    Vartia1 = ,
+    MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm, FALSE),
+    Young = function(p1, p0, pb, qb, na.rm = FALSE)
+      mean_geometric(p1 / p0, weights(pb, qb, scale = FALSE), na.rm)
+  )
+  # all arguments except na.rm are price and quantity arguments
+  # extract them in a list
+  pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
+  # insert argument checking in body of res
+  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  errors <- c("prices/quantities must be numeric vectors",
+              "prices/quantites must be the same length")
+  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                    as.call(c(quote(same_length), pqs)))
+  res
 }
 
 #---- Harmonic index ----
-index_harmonic <- function(p1, p0, q1, q0, 
-                           type = c("Coggeshall", "Laspeyres", "Paasche"), 
-                           na.rm = FALSE) {
-  stopifnot(
-    "'p1' and 'p0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric"),
-    "'q1' must be a numeric vector" = 
-      missing(q1) || is.vector(q1, "numeric"),
-    "'q0' must be a numeric vector" = 
-      missing(q0) || is.vector(q0, "numeric"),
-    "'p1' and 'p0' must be the same length" = 
-      length(p1) == length(p0),
-    "'q1' must be the same length as 'p1' and 'p0'" = 
-      missing(q1) || length(p0) == length(q1),
-    "'q0' must be the same length as 'p1' and 'p0'" = 
-      missing(q0) || length(p0) == length(q0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
+index_harmonic <- function(type = c("Coggeshall", "Laspeyres", "Paasche")) {
   type <- match.arg(type)
-  w <- index_weights(p1, p0, q1, q0, type, scale = FALSE)
-  mean_harmonic(p1 / p0, w, na.rm)
+  weights <- index_weights(type)
+  res <- switch(
+    type,
+    Coggeshall = function(p1, p0, na.rm = FALSE)
+      mean_harmonic(p1 / p0, weights(p0, scale = FALSE), na.rm),
+    Laspeyres = function(p1, p0, q0, na.rm = FALSE)
+      mean_harmonic(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+    Paasche = function(p1, p0, q1, na.rm = FALSE)
+      mean_harmonic(p1 / p0, weights(p1, q1, scale = FALSE), na.rm)
+  )
+  # all arguments except na.rm are price and quantity arguments
+  # extract them in a list
+  pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
+  # insert argument checking in body of res
+  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  errors <- c("prices/quantities must be numeric vectors",
+              "prices/quantites must be the same length")
+  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                    as.call(c(quote(same_length), pqs)))
+  res
 }
+
+#---- Common indexes ----
+index_laspeyres <- index_arithmetic("Laspeyres")
+
+index_paasche <- index_harmonic("Paasche")
+
+index_jevons <- index_geometric("Jevons")
+
+index_lowe <- index_arithmetic("Lowe")
+
+index_young <- index_arithmetic("Young")
 
 #---- Fisher index ----
 index_fisher <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', 'q1', and 'q0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
-      is.vector(q1, "numeric") && is.vector(q0, "numeric"),
-    "'p1', 'p0', 'q1', and 'q0' must be the same length" = 
-      length(p1) == length(p0) && length(q1) == length(p0) && length(q0) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  sqrt(index_arithmetic(p1, p0, q1, q0, "Laspeyres", na.rm) *
-         index_harmonic(p1, p0, q1, q0, "Paasche",  na.rm))
+  sqrt(index_laspeyres(p1, p0, q0, na.rm) * index_paasche(p1, p0, q1, na.rm))
 }
 
 #---- Harmonic Laspeyres Paasche index ----
 index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', 'q1', and 'q0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
-      is.vector(q1, "numeric") && is.vector(q0, "numeric"),
-    "'p1', 'p0', 'q1', and 'q0' must be the same length" = 
-      length(p1) == length(p0) && length(q1) == length(p0) && length(q0) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  2 / (1 / index_arithmetic(p1, p0, q1, q0, "Laspeyres", na.rm) +
-         1 / index_harmonic(p1, p0, q1, q0, "Paasche", na.rm))
+  2 / (1 / index_laspeyres(p1, p0, q0, na.rm) + 1 / index_paasche(p1, p0, q1, na.rm))
 }
 
 #---- Lloyd Moulton index ----
 index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', and 'q0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && is.vector(q0, "numeric"),
-    "'p1', 'p0', and 'q0' must be the same length" = 
-      length(p1) == length(p0) && length(q0) == length(p0),
-    "'elasticity' must be a length 1 numeric vector" = 
-      length(elasticity) == 1L && is.vector(elasticity, "numeric"),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  w <- index_weights(p1, p0, q0 = q0, type = "LloydMoulton", scale = FALSE)
-  mean_generalized(1 - elasticity)(p1 / p0, w, na.rm)
+  stopifnot("prices/quantities must be numeric vectors" = 
+              is_numeric(p1, p0, q0),
+            "prices/quantities must be be the same length" = 
+              same_length(p1, p0, q0))
+  weights <- index_weights("LloydMoulton")
+  mean_generalized(1 - elasticity)(p1 / p0, weights(p0, q0, scale = FALSE), na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
 index_cswd <- function(p1, p0, na.rm = FALSE) {
-  stopifnot(
-    "'p1' and 'p0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric"),
-    "'p1' and 'p0' must be the same length" = 
-      length(p1) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) *
-         mean_harmonic(p1 / p0, na.rm = na.rm))
+  stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0),
+            "prices/quantities must be the same length" = same_length(p1, p0))
+  sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) * mean_harmonic(p1 / p0, na.rm = na.rm))
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
 index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', 'q1', and 'q0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
-      is.vector(q1, "numeric") && is.vector(q0, "numeric"),
-    "'p1', 'p0', 'q1', and 'q0' must be the same length" = 
-      length(p1) == length(p0) && length(q1) == length(p0) && length(q0) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
+  stopifnot("prices/quantities must be numeric vectors" = 
+              is_numeric(p1, p0, q1, q0),
+            "prices/quantities must be the same length" = 
+              same_length(p1, p0, q1, q0))
   sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) /
          mean_arithmetic(q1 / q0, na.rm = na.rm) *
          mean_arithmetic(p1 * q1 / (p0 * q0), na.rm = na.rm))
@@ -185,34 +152,20 @@ index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
 
 #---- Balk Walsh index ----
 index_bw <- function(p1, p0, na.rm = FALSE) {
-  stopifnot(
-    "'p1' and 'p0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric"),
-    "'p1' and 'p0' must be the same length" = 
-      length(p1) == length(p0),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
+  stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0),
+            "prices/quantities must be numeric vectors" = same_length(p1, p0))
   mean_arithmetic(sqrt(p1 / p0), na.rm = na.rm) *
     mean_harmonic(sqrt(p1 / p0), na.rm = na.rm)
 }
 
 #---- Generalized Stuval index ----
-index_stuval <- function(p1, p0, q1, q0, a, b, na.rm = FALSE) {
-  stopifnot(
-    "'p1', 'p0', 'q1', and 'q0' must be numeric vectors" = 
-      is.vector(p1, "numeric") && is.vector(p0, "numeric") && 
-      is.vector(q1, "numeric") && is.vector(q0, "numeric"),
-    "'p1', 'p0', 'q1', and 'q0' must be the same length" = 
-      length(p1) == length(p0) && length(q1) == length(p0) && length(q0) == length(p0),
-    "'a' and 'b' must be length 1 numeric vectors" = 
-      length(a) == 1L && length(b) == 1L &&
-      is.vector(a, "numeric") && is.vector(b, "numeric"),
-    "'na.rm' must be TRUE or FALSE" = 
-      length(na.rm) == 1L && is.logical(na.rm) && !is.na(na.rm)
-  )
-  pl <- index_arithmetic(p1, p0, q0 = q0, type = "Laspeyres", na.rm = na.rm)
-  ql <- index_arithmetic(q1, q0, q0 = p0, type = "Laspeyres", na.rm = na.rm)
-  v <- sum(p1 * q1, na.rm = na.rm) / sum(p0 * q0, na.rm = na.rm)
-  (pl - b / a * ql) / 2 + sqrt((pl - b / a * ql)^2 / 4 + b / a * v)
+index_stuval <- function(a, b) {
+  stopifnot("'a' must be a length 1 numeric vector" = length1(a, "numeric"),
+            "'b' must be a length 1 numeric vector" = length1(b, "numeric"))
+  function(p1, p0, q1, q0, na.rm = FALSE) {
+    pl <- index_laspeyres(p1, p0, q0, na.rm)
+    ql <- index_laspeyres(q1, q0, p0, na.rm)
+    v <- sum(p1 * q1, na.rm = na.rm) / sum(p0 * q0, na.rm = na.rm)
+    (pl - b / a * ql) / 2 + sqrt((pl - b / a * ql)^2 / 4 + b / a * v)
+  }
 }

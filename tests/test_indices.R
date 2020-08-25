@@ -10,29 +10,29 @@ qb <- runif(15, 2, 4)
 #---- Tests for arithmetic indexes ----
 stopifnot(
   exprs = {
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Carli"),
+    all.equal(index_arithmetic("Carli")(p1, p0),
               mean(p1 / p0))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Dutot"),
+    all.equal(index_arithmetic("Dutot")(p1, p0),
               sum(p1) / sum(p0))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
+    all.equal(index_arithmetic("Laspeyres")(p1, p0, q0),
               sum(p1 * q0) / sum(p0 * q0))
-    all.equal(mean_arithmetic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridPaasche")),
+    all.equal(mean_arithmetic(p1 / p0, index_weights("HybridPaasche")(p0, q1)),
               sum(p1 * q1) / sum(p0 * q1))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Palgrave"),
+    all.equal(index_arithmetic("Palgrave")(p1, p0, q1),
               weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Drobish"),
+    all.equal(index_arithmetic("Drobish")(p1, p0, q1, q0),
               0.5 * sum(p1 * q0) / sum(p0 * q0) + 0.5 * sum(p1 * q1) / sum(p0 * q1))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Unnamed"),
+    all.equal(index_arithmetic("Unnamed")(p1, p0, q1, q0),
               weighted.mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Walsh1"),
+    all.equal(index_arithmetic("Walsh1")(p1, p0, q1, q0),
               sum(p1 * sqrt(q0 * q1)) / sum(p0 * sqrt(q0 * q1)))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
+    all.equal(index_arithmetic("MarshallEdgeworth")(p1, p0, q1, q0),
               sum(p1 * (q0 + q1) / 2) / sum(p0 * (q0 + q1) / 2))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "GearyKhamis"),
+    all.equal(index_arithmetic("GearyKhamis")(p1, p0, q1, q0),
               sum(p1 * 1 / (0.5 / q0 + 0.5 / q1)) / sum(p0 * 1 / (0.5 / q0 + 0.5 / q1)))
-    all.equal(index_lowe(p1, p0, qb),
+    all.equal(index_arithmetic("Lowe")(p1, p0, qb),
               sum(p1 * qb) / sum(p0 * qb))
-    all.equal(index_young(p1, p0, pb, qb),
+    all.equal(index_arithmetic("Young")(p1, p0, pb, qb),
               weighted.mean(p1 / p0, pb * qb / sum(pb * qb)))
   },
   local = getNamespace("gpindex")
@@ -41,25 +41,27 @@ stopifnot(
 #---- Tests for geometric indexes ----
 stopifnot(
   exprs = {
-    all.equal(index_geometric(p1, p0, q1, q0, "Jevons"),
+    all.equal(index_geometric("Jevons")(p1, p0),
               prod((p1 / p0)^(1 / length(p0))))
-    all.equal(index_geometric(p1, p0, q1, q0,"Laspeyres"),
+    all.equal(index_geometric("Laspeyres")(p1, p0, q0),
               mean_geometric(p1 / p0, p0 * q0 / sum(p0 * q0)))
-    all.equal(index_geometric(p1, p0, q1, q0,  "Paasche"),
+    all.equal(index_geometric("Paasche")(p1, p0, q1),
               mean_geometric(p1 / p0, p1 * q1 / sum(p1 * q1)))
-    all.equal(index_geometric(p1, p0, q1, q0, "Tornqvist"),
+    all.equal(index_geometric("Young")(p1, p0, pb, qb),
+              mean_geometric(p1 / p0, pb * qb / sum(pb * qb)))
+    all.equal(index_geometric("Tornqvist")(p1, p0, q1, q0),
               mean_geometric(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
                                0.5 * p1 * q1 / sum(p1 * q1)))
-    all.equal(index_geometric(p1, p0, q1, q0, "Vartia1"),
+    all.equal(index_geometric("Vartia1")(p1, p0, q1, q0),
               mean_geometric(p1 / p0, logmean(p0 * q0, p1 * q1) /
                                logmean(sum(p0 * q0), sum(p1 * q1)), scale = FALSE))
-    index_geometric(p1, p0, q1, q0,  "Vartia1") ==
-      index_geometric(p1, p0, q1, q0, "MontgomeryVartia")
-    all.equal(index_geometric(p1, p0, q1, q0,  "Vartia2"),
+    index_geometric("Vartia1")(p1, p0, q1, q0) ==
+      index_geometric("MontgomeryVartia")(p1, p0, q1, q0)
+    all.equal(index_geometric("Vartia2")(p1, p0, q1, q0),
               mean_geometric(p1 / p0, logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))))
-    index_geometric(p1, p0, q1, q0, "Vartia2") ==
-      index_geometric(p1, p0, q1, q0, "SatoVartia")
-    all.equal(index_geometric(p1, p0, q1, q0, "Walsh2"),
+    index_geometric("Vartia2")(p1, p0, q1, q0) ==
+      index_geometric("SatoVartia")(p1, p0, q1, q0)
+    all.equal(index_geometric("Walsh2")(p1, p0, q1, q0),
               mean_geometric(p1 / p0, sqrt(p1 * q1 * p0 * q0)))
     },
   local = getNamespace("gpindex")
@@ -68,14 +70,14 @@ stopifnot(
 #---- Tests for harmonic indexes ----
 stopifnot(
   exprs = {
-    all.equal(index_harmonic(p1, p0, q1, q0, "Coggeshall"),
+    all.equal(index_harmonic("Coggeshall")(p1, p0),
               mean_harmonic(p1 / p0))
-    all.equal(index_harmonic(p1, p0, q1, q0, "Laspeyres"),
+    all.equal(index_harmonic("Laspeyres")(p1, p0, q0),
               mean_harmonic(p1 / p0, p0 * q0 / sum(p0 * q0)))
-    all.equal(index_harmonic(p1, p0, q1, q0, "Paasche"),
+    all.equal(index_harmonic("Paasche")(p1, p0, q1),
               mean_harmonic(p1 / p0, p1 * q1 / sum(p1 * q1)))
-    all.equal(index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
-              mean_harmonic(p1 / p0, index_weights(p1, p0, q1, q0, "HybridLaspeyres")))
+    all.equal(index_arithmetic("Laspeyres")(p1, p0, q0),
+              mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)))
   },
   local = getNamespace("gpindex")
 )
@@ -88,15 +90,15 @@ stopifnot(
     all.equal(index_hlp(p1, p0, q1, q0),
               mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
     all.equal(index_lm(p1, p0, q0, 1.5), 
-              mean_generalized(p1 / p0, p0 * q0 / sum(p0 * q0), -0.5))
+              mean_generalized(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(index_cswd(p1, p0), 
               sqrt(mean_arithmetic(p1 / p0) * mean_harmonic(p1 / p0)))
     all.equal(index_cswdb(p1, p0, q1, q0), 
               sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
     all.equal(index_bw(p1, p0), 
               mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
-    all.equal(index_stuval(p1, p0, q1, q0, 4, 4), index_stuval(p1, p0, q1, q0, 1, 1))
-    index_stuval(p1, p0, q1, q0, 4, 4) != index_stuval(p1, p0, q1, q0, 2, 1)
+    all.equal(index_stuval(4, 4)(p1, p0, q1, q0), index_stuval(1, 1)(p1, p0, q1, q0))
+    index_stuval(4, 4)(p1, p0, q1, q0) != index_stuval(2, 1)(p1, p0, q1, q0)
   },
   local = getNamespace("gpindex")
 )
@@ -159,19 +161,19 @@ stopifnot(
           function(p1, p0, q1, q0) {
             round(
               c(
-                index_harmonic(p1, p0, q1, q0, "Laspeyres"),
-                index_geometric(p1, p0, q1, q0, "Laspeyres"),
-                index_arithmetic(p1, p0, q1, q0, "Laspeyres"),
-                index_harmonic(p1, p0, q1, q0, "Paasche"),
-                index_geometric(p1, p0, q1, q0, "Paasche"),
-                index_arithmetic(p1, p0, q1, q0, "Palgrave"),
+                index_harmonic("Laspeyres")(p1, p0, q0),
+                index_geometric("Laspeyres")(p1, p0, q0),
+                index_arithmetic("Laspeyres")(p1, p0, q0),
+                index_harmonic("Paasche")(p1, p0, q1),
+                index_geometric("Paasche")(p1, p0, q1),
+                index_arithmetic("Palgrave")(p1, p0, q1),
                 index_fisher(p1, p0, q1, q0),
-                index_geometric(p1, p0, q1, q0, "Tornqvist"),
-                index_arithmetic(p1, p0, q1, q0, "MarshallEdgeworth"),
-                index_arithmetic(p1, p0, q1, q0, "Walsh1"),
-                index_geometric(p1, p0, q1, q0, "Vartia2"),
-                index_geometric(p1, p0, q1, q0, "Vartia1"),
-                index_stuval(p1, p0, q1, q0, 2, 2)
+                index_geometric("Tornqvist")(p1, p0, q1, q0),
+                index_arithmetic("MarshallEdgeworth")(p1, p0, q1, q0),
+                index_arithmetic("Walsh1")(p1, p0, q1, q0),
+                index_geometric("Vartia2")(p1, p0, q1, q0),
+                index_geometric("Vartia1")(p1, p0, q1, q0),
+                index_stuval(2, 2)(p1, p0, q1, q0)
               ), 4)
           },
           price6, price6[1], quantity6, quantity6[1]
@@ -200,9 +202,9 @@ stopifnot(
 #---- Tests for weights ----
 stopifnot(
   exprs = {
-    sum(index_weights(p1, p0, q0, q1, type = "Vartia1")) < 1
-    all.equal(sum(index_weights(p1, p0, q0, q1, type = "Laspeyres")), 1)
-    length(index_weights(integer(0), type = "Carli")) == 0
+    sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1
+    all.equal(sum(index_weights("Laspeyres")(p0, q0)), 1)
+    length(index_weights("Carli")(integer(0))) == 0
   },
   local = getNamespace("gpindex")
 )

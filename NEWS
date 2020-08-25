@@ -1,3 +1,13 @@
+Changes in version 0.2.0
+
+- This version doesn't add any new features, but makes a number of improvements and simplifications to the inferface. These changes can break old code.
+
+- Many functions are now function factories to make them easier to use. This means that there are a number of changes to existing functions that can break old code. This mostly affects the index_* functions; for example, calculating a geometric Laspeyres index is now done as index_geometric("Laspeyres")(p1, p0, q0), rather than index_geometric(p1, p0, q0 = q0, type = "Laspeyres"). The index_weights(), weights_change(), weights_factor(), mean_generalized(), and logmean_generalized() functions are also now function factories.
+
+- The mean_* and weights_* functions no longer accept logical inputs, nor do they accept infinite exponents.
+
+- The M argument has been removed from the weights_change() functions.
+
 Changes in version 0.1.2
 
 - Lots of improvements to the documentation and examples.
