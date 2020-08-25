@@ -6,7 +6,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
                                    "GearyKhamis", "Vartia1", "MontgomeryVartia",
                                    "Vartia2", "SatoVartia", "Lowe",
                                    "Young", "LloydMoulton")) {
-  # make function for weights formulad
+  # make function for weights formulas
   res <- switch(
     match.arg(type),
     Carli = ,
@@ -62,7 +62,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
   body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
                                     as.call(c(quote(same_length), pqs)),
                                     call("length1", quote(scale), "logical"))
-  # last line of body is always 4
+  # line 4 is always the last line of the body
   body(res)[4] <- expression(if (scale) weights_scale(res, na.rm) else res)
   res
 }

@@ -113,9 +113,9 @@ The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()
 \item Harmonic Laspeyres
 }
 
-Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{[gpindex:mean_generalized]{mean_generalized()}}. 
+Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[gpindex:mean_generalized]{mean_generalized()}}. 
 
-The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
+The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
 
 In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The \code{index_stuval()} function returns a function to calculate a Stuval index of the given parameters.
 
@@ -139,7 +139,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 \item Young
 }
 
-The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
+The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights), although this can be controlled with the \code{scale} argument.
 
 Naming for the indexes and weights follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
 }
