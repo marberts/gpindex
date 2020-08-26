@@ -30,11 +30,11 @@ index_arithmetic <- function(type = c("Carli", "Dutot", "Laspeyres",
   # extract them in a list
   pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
   # insert argument checking in body of res
-  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
   errors <- c("prices/quantities must be numeric vectors",
               "prices/quantites must be the same length")
-  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
-                                    as.call(c(quote(same_length), pqs)))
+  body(res)[[2]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                 as.call(c(quote(same_length), pqs)))
   res
 }
 
@@ -68,11 +68,11 @@ index_geometric <- function(type = c("Jevons", "Laspeyres", "Paasche",
   # extract them in a list
   pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
   # insert argument checking in body of res
-  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
   errors <- c("prices/quantities must be numeric vectors",
               "prices/quantites must be the same length")
-  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
-                                    as.call(c(quote(same_length), pqs)))
+  body(res)[[2]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                 as.call(c(quote(same_length), pqs)))
   res
 }
 
@@ -93,11 +93,11 @@ index_harmonic <- function(type = c("Coggeshall", "Laspeyres", "Paasche")) {
   # extract them in a list
   pqs <- lapply(setdiff(names(formals(res)), c("na.rm")), as.name)
   # insert argument checking in body of res
-  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
   errors <- c("prices/quantities must be numeric vectors",
               "prices/quantites must be the same length")
-  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
-                                    as.call(c(quote(same_length), pqs)))
+  body(res)[[2]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                 as.call(c(quote(same_length), pqs)))
   res
 }
 

@@ -55,13 +55,13 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
   # extract them in a list
   pqs <- lapply(setdiff(names(formals(res)), c("na.rm", "scale")), as.name)
   # insert argument checking in body of res
-  body(res) <- as.call(c(as.name("{"), call("stopifnot"), body(res)))
+  body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
   errors <- c("prices/quantities must be numeric vectors",
               "prices/quantites must be the same length",
               "'scale' must be TRUE or FALSE")
-  body(res)[2][[1]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
-                                    as.call(c(quote(same_length), pqs)),
-                                    call("length1", quote(scale), "logical"))
+  body(res)[[2]][errors] <- list(as.call(c(quote(is_numeric), pqs)),
+                                 as.call(c(quote(same_length), pqs)),
+                                 call("length1", quote(scale), "logical"))
   # line 4 is always the last line of the body
   body(res)[4] <- expression(if (scale) weights_scale(res, na.rm) else res)
   res
