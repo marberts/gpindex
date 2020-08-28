@@ -9,8 +9,9 @@ weights_change <- function(r, s){
     stopifnot("'scale' must be TRUE or FALSE" = length1(scale, "logical"))
     # the whole thing might be faster using the extended mean in Bullen (2003, p. 393)
     M <- mean_generalized(r)(x, w, na.rm)
-    res <- w * logmean_generalized(r)(x, M) %^% (r - 1) / 
-      logmean_generalized(s)(x, M) %^% (s - 1)
+    # res <- w * logmean_generalized(r)(x, M) %^% (r - 1) / 
+    #   logmean_generalized(s)(x, M) %^% (s - 1)
+    res <- w * mean_extended(r, s)(x, M) %^% (r - s)
     if (scale) weights_scale(res, na.rm) else res
   }
 }

@@ -199,6 +199,9 @@ stopifnot(
               apply(matrix(c(a, b), ncol = 2), 1, function(x) (mean_arithmetic(x) + mean_geometric(x)) / 2))
     all.equal(logmean(a, b),
               apply(matrix(c(a, b), ncol = 2), 1, mean_geometric)^2 * logmean(1 / a, 1 / b))
+    all.equal(mean_extended(-2, -1)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_harmonic))
+    all.equal(mean_extended(-2, 2)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
+    all.equal(mean_extended(3.5, -3.5)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
    },
   local = getNamespace("gpindex")
 )

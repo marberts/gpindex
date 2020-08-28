@@ -57,10 +57,12 @@ mean_geometric <- mean_generalized(0)
 #---- Harmonic mean ----
 mean_harmonic <- mean_generalized(-1)
 
-#---- Generalized logarithmic mean ----
-logmean_generalized <- function(r) {
+#---- Extended mean ----
+mean_extended <- function(r, s) {
   stopifnot("'r' must be a finite length 1 numeric vector" = 
-              length1(r, "numeric") && is.finite(r))
+              length1(r, "numeric") && is.finite(r),
+            "'s' must be a finite length 1 numeric vector" = 
+              length1(s, "numeric") && is.finite(s))
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
@@ -78,14 +80,16 @@ logmean_generalized <- function(r) {
       }
       a <- rep_len(a, length(b))
     }
-    res <- if (abs(r) < .Machine$double.eps^0.5) {
-      # regular logmean if r = 0
-      (a - b) / log(a / b)
-    } else if (abs(r - 1) < .Machine$double.eps^0.5) {
-      (a^a / b^b)^(1 / (a - b)) / exp(1)
+    res <- if (abs(r) < .Machine$double.eps^0.5 && abs(s) < .Machine$double.eps^0.5) {
+      sqrt(a * b)
+    } else if (abs(r) < .Machine$double.eps^0.5) {
+      ((a %^% s - b %^% s) / (log(a) - log(b)) / s) %^% (1 / s)
+    } else if (abs(s) < .Machine$double.eps^0.5) {
+      ((a %^% r - b %^% r) / (log(a) - log(b)) / r) %^% (1 / r)
+    } else if (abs(r - s) < .Machine$double.eps^0.5) {
+      (a^a^r / b^b^r)^(1 / (a %^% r - b %^% r)) / exp(1)^(1 / r)
     } else {
-      # general case otherwise
-      ((a %^% r - b %^% r) / (a - b) / r) %^% (1 / (r - 1))
+      ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))
     }
     # set output to a when a = b
     loc <- which(abs(a - b) <= tol)
@@ -93,6 +97,45 @@ logmean_generalized <- function(r) {
     res
   }
 }
+
+#---- Generalized logarithmic mean ----
+logmean_generalized <- function(r) mean_extended(r, 1)
+
+# logmean_generalized <- function(r) {
+#   stopifnot("'r' must be a finite length 1 numeric vector" = 
+#               length1(r, "numeric") && is.finite(r))
+#   # return function
+#   function(a, b, tol = .Machine$double.eps^0.5) {
+#     stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
+#               "'tol' must be a non-negative length 1 numeric vector" = 
+#                 length1(tol, "numeric") && tol >= 0)
+#     # a and b must be the same length, so recycle if necessary
+#     if (length(a) > length(b) && length(b)) {
+#       if (length(a) %% length(b)) {
+#         warning("length of 'a' is not a multiple of length of 'b'")
+#       }
+#       b <- rep_len(b, length(a))
+#     } else if (length(b) > length(a) && length(a)) {
+#       if (length(b) %% length(a)) {
+#         warning("length of 'b' is not a multiple of length of 'a'")
+#       }
+#       a <- rep_len(a, length(b))
+#     }
+#     res <- if (abs(r) < .Machine$double.eps^0.5) {
+#       # regular logmean if r = 0
+#       (a - b) / log(a / b)
+#     } else if (abs(r - 1) < .Machine$double.eps^0.5) {
+#       (a^a / b^b)^(1 / (a - b)) / exp(1)
+#     } else {
+#       # general case otherwise
+#       ((a %^% r - b %^% r) / (a - b) / r) %^% (1 / (r - 1))
+#     }
+#     # set output to a when a = b
+#     loc <- which(abs(a - b) <= tol)
+#     res[loc] <- a[loc]
+#     res
+#   }
+# }
 
 #---- Logarithmic mean ----
 logmean <- logmean_generalized(0)

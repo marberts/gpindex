@@ -1,5 +1,5 @@
 export(mean_arithmetic, mean_generalized, mean_geometric, mean_harmonic,
-       logmean_generalized, logmean,
+       mean_extended, logmean_generalized, logmean,
        weights_change, weights_factor, weights_update, weights_scale,
        weights_g2a, weights_h2a, weights_a2g, weights_h2g,
        index_weights,

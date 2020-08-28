@@ -48,9 +48,7 @@ The function \code{weights_change()} returns a function to compute a vector of w
 
 These weights are calculated as 
 
-\code{M <- mean_generalized(r)(x, w)}
-
-\code{w * logmean_generalized(r)(x, M)^(r - 1) / logmean_generalized(s)(x, M)^(s - 1)}.
+\code{w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
 This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. 
 
