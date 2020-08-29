@@ -41,6 +41,10 @@ As a matter of definition, both \code{a} and \code{b} should be strictly positiv
 By definition, the extended mean / generalized logarithmic mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[base:all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results in certain applications when \code{a} and \code{b} are computed values.
 }
 
+\section{Warning}{
+Passing very small values for \code{r} and \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. In general, \code{r} and \code{s} should not be computed values.
+}
+
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 

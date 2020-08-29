@@ -32,14 +32,17 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
 mean_generalized <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric vector" = 
               length1(r, "numeric") && is.finite(r))
+  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
+    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+  }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
     stopifnot("'x' and 'w' must be a numeric vectors" = is_numeric(x, w),
               "'x' and 'w' must be the same length" = same_length(x, w),
               "'na.rm' must be TRUE or FALSE" = length1(na.rm, "logical"),
               "'scale' must be TRUE or FALSE" = length1(na.rm, "logical"))
-    if (abs(r) < .Machine$double.eps^0.5) {
-      # geomean if r = 0 (can't do exact test or limits don't work well)
+    if (r == 0) {
+      # geomean if r = 0
       exp(mean_arithmetic_(log(x), w, na.rm, scale))
     } else {
       # the general equation otherwise
@@ -63,6 +66,15 @@ mean_extended <- function(r, s) {
               length1(r, "numeric") && is.finite(r),
             "'s' must be a finite length 1 numeric vector" = 
               length1(s, "numeric") && is.finite(s))
+  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
+    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+  }
+  if (abs(s) < .Machine$double.eps^0.5 && s != 0) {
+    warning("'s' is very small in absolute value, but not zero; this can give misleading results")
+  }
+  if (abs(r - s) < .Machine$double.eps^0.5 && r != s) {
+    warning("'r' and 's' are very close in value, but not equal; this can give misleading results")
+  }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
@@ -80,13 +92,13 @@ mean_extended <- function(r, s) {
       }
       a <- rep_len(a, length(b))
     }
-    res <- if (abs(r) < .Machine$double.eps^0.5 && abs(s) < .Machine$double.eps^0.5) {
+    res <- if (r == 0 && s == 0) {
       sqrt(a * b)
-    } else if (abs(r) < .Machine$double.eps^0.5) {
+    } else if (r == 0) {
       ((a %^% s - b %^% s) / (log(a) - log(b)) / s) %^% (1 / s)
-    } else if (abs(s) < .Machine$double.eps^0.5) {
+    } else if (s == 0) {
       ((a %^% r - b %^% r) / (log(a) - log(b)) / r) %^% (1 / r)
-    } else if (abs(r - s) < .Machine$double.eps^0.5) {
+    } else if (r == s) {
       (a^a^r / b^b^r)^(1 / (a %^% r - b %^% r)) / exp(1)^(1 / r)
     } else {
       ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))

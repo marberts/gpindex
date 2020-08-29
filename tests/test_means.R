@@ -136,6 +136,7 @@ stopifnot(
     all.equal(logmean(2, 1), 1 / log(2))
     logmean_generalized(2)(1, 2) == 1.5
     all.equal(logmean_generalized(-1)(1, 2), sqrt(2))
+    all.equal(mean_extended(0, 0)(4, 4), 4)
     # Test against a simple implementation
     all(
       vapply(
@@ -188,6 +189,7 @@ stopifnot(
     logmean_generalized(1.1)(2, sqrt(2)^2) == 2
     # Test of recycling
     logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
+    logmean(1:2, 1:5) == logmean(c(1, 2, 1, 2, 1), 1:5)
     # Some identities
     all.equal(logmean_generalized(-1)(a, b),
               apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
