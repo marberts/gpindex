@@ -188,8 +188,9 @@ stopifnot(
     logmean_generalized(0.9)(2, sqrt(2)^2) == 2
     logmean_generalized(1.1)(2, sqrt(2)^2) == 2
     # Test of recycling
-    logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5)
-    logmean(1:2, 1:5) == logmean(c(1, 2, 1, 2, 1), 1:5)
+    all(logmean(1, 1:5) == logmean(c(1, 1, 1, 1, 1), 1:5))
+    all(logmean(1:2, 1:5) == logmean(c(1, 2, 1, 2, 1), 1:5))
+    all(logmean(1:5, 1:2) == logmean(c(1, 2, 1, 2, 1), 1:5))
     # Some identities
     all.equal(logmean_generalized(-1)(a, b),
               apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))

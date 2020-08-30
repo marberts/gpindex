@@ -11,4 +11,3 @@ is_numeric <- function(...) {
   res <- vapply(list(...), is.vector, logical(1), mode = "numeric")
   all(res)
 }
-

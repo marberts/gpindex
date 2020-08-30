@@ -42,7 +42,7 @@ By definition, the extended mean / generalized logarithmic mean of \code{a} and 
 }
 
 \section{Warning}{
-Passing very small values for \code{r} and \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. In general, \code{r} and \code{s} should not be computed values.
+Passing very small values for \code{r} and \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. Similarly, values for \code{r} and \code{s} that are very close in value, but not equal, can give misleading results. In general, \code{r} and \code{s} should not be computed values.
 }
 
 \references{
