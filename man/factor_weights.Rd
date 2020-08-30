@@ -27,7 +27,9 @@ weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{weights_factor()} returns a function: \code{function(x, w, na.rm, scale)}. \code{weights_update()} returns a numeric vector the same length as \code{x}.
+\code{weights_factor()} returns a function: \code{function(x, w, na.rm, scale)}. 
+
+\code{weights_update()} returns a numeric vector the same length as \code{x}.
 }
 
 \details{

@@ -1,26 +1,4 @@
-#---- Custom pow ----
-# There are a variety of optimizations for calculating power means
-`%^%` <- function(e1, e2) {
-  e1 <- substitute(e1)
-  res <- if (e2 == 1) {
-    e1
-  } else if (e2 == 0.5) {
-    call("sqrt", e1)
-  } else if (e2 == 0) {
-    call("(", 1)
-  } else if (e2 == -0.5) {
-    call("/", 1, call("sqrt", e1))
-  } else if (e2 == -1) {
-    call("/", 1, e1)
-  } else if (e2 == -2) {
-    call("/", 1, call("^", e1, 2))
-  } else {
-    call("^", e1, e2)
-  }
-  eval(res, parent.frame())
-}
-
-#---- Arithmetic mean ----
+#---- Arithmetic mean (internal) ----
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
   # always return NA if there are any NAs in x or w
   # differs from stats::weighted.mean
@@ -92,7 +70,7 @@ mean_extended <- function(r, s) {
     }
     # set output to a when a = b
     loc <- which(abs(a - b) <= tol)
-    res[loc] <- a[(loc - 1L) %% length(a) + 1]
+    res[loc] <- a[(loc - 1L) %% length(a) + 1] # wrap-around indexing
     res
   }
 }

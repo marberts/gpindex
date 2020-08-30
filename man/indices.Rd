@@ -190,9 +190,11 @@ qs <- index_weights("Laspeyres")(p0, q0) / p0
 sum(p1 * qs) / sum(p0 * qs)
 
 # Harmonic calculation
+
 mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)) 
 
-# If only weights are available (no quantity information), then use one of the generalized means
+# If only weights are available (no quantity information), 
+# then use one of the generalized means
 
 w <- c(0.1, 0.2, 0.4, 0.15, 0.10, 0.05)
 mean_geometric(p1 / p0, w)
