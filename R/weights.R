@@ -3,8 +3,8 @@ weights_change <- function(r, s) {
   generalized_mean <- mean_generalized(r)
   extended_mean <- mean_extended(r, s)
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE) {
-    w * extended_mean(x, generalized_mean(x, w, na.rm)) %^% (r - s)
+  function(x, w = rep(1, length(x))) {
+    w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
   }
 }
 
@@ -35,9 +35,7 @@ weights_factor <- function(r) {
 weights_update <- weights_factor(1)
 
 #---- Scale weights ----
-weights_scale <- function(w, na.rm = FALSE) {
-  stopifnot("'w' must be a numeric vector" = is_numeric(w),
-            "'na.rm' must be TRUE or FALSE" = length1(na.rm, "logical"))
-  if (!na.rm && anyNA(w)) return(rep(NA_real_, length(w)))
+weights_scale <- function(w) {
+  stopifnot("'w' must be a numeric vector" = is_numeric(w))
   w / sum(w, na.rm = TRUE)
 }

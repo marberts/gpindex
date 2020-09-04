@@ -38,12 +38,8 @@ stopifnot(
     is.na(weights_g2a(NaN, NaN))
     is.na(weights_g2a(NA_real_, NaN))
     is.na(weights_g2a(NaN, NA_real_))
-    is.na(weights_g2a(NA_real_, na.rm = TRUE))
-    is.na(weights_g2a(NaN, na.rm = TRUE))
-    identical(is.na(weights_g2a(c(1, NA_real_))), c(TRUE, TRUE))
-    identical(is.na(weights_g2a(c(1, NaN))), c(TRUE, TRUE))
-    identical(is.na(weights_g2a(c(1, NA_real_), na.rm = TRUE)), c(FALSE, TRUE))
-    identical(is.na(weights_g2a(c(1, NaN), na.rm = TRUE)), c(FALSE, TRUE))
+    identical(is.na(weights_g2a(c(1, NA_real_))), c(FALSE, TRUE))
+    identical(is.na(weights_g2a(c(1, NaN))), c(FALSE, TRUE))
   },
   local = getNamespace("gpindex")
 )
@@ -91,9 +87,8 @@ stopifnot(
   exprs = {
     all.equal(weights_scale(1:4), 1:4 / 10)
     all.equal(sum(weights_scale(w)), 1)
-    all(is.na(weights_scale(c(1:2, NA_real_))))
-    all(is.na(weights_scale(c(1:2, NaN))))
-    all.equal(weights_scale(c(1:2, NA_real_), TRUE), c(1:2, NA_real_) / 3)
+    all.equal(weights_scale(c(1:2, NA_real_)), c(1:2, NA_real_) / 3)
+    all.equal(sum(weights_scale(c(1:2, NA_real_)), na.rm = TRUE), 1)
     length(weights_scale(numeric(0))) == 0L
   },
   local = getNamespace("gpindex")

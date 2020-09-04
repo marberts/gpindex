@@ -14,13 +14,13 @@ Calculate the weights to turn an r-generalized mean into an s-generalized mean.
 \usage{
 weights_change(r, s)
 
-weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE)
+weights_g2a(x, w = rep(1, length(x)))
 
-weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE)
+weights_h2a(x, w = rep(1, length(x)))
 
-weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE)
+weights_a2g(x, w = rep(1, length(x)))
 
-weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE)
+weights_h2g(x, w = rep(1, length(x)))
 }
 
 \arguments{
@@ -31,8 +31,6 @@ weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE)
 \item{x}{A numeric vector.}
 
 \item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
-
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:mean_generalized]{mean_generalized()}}?}
 }
 
 \value{
@@ -54,7 +52,7 @@ The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weight
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
-As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
+As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. The result, however, will still satisfy the above identify when \code{na.rm = TRUE} in \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
 }
 
 \references{

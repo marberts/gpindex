@@ -87,7 +87,7 @@ stopifnot(
             abs(mean_generalized(p[1])(x) -
                   mean_generalized(p[2])(x, weights_change(p[1], p[2])(x))),
             abs(mean_generalized(p[1])(xna, w, TRUE) -
-                  mean_generalized(p[2])(xna, weights_change(p[1], p[2])(xna, w, TRUE), TRUE))
+                  mean_generalized(p[2])(xna, weights_change(p[1], p[2])(xna, w), TRUE))
           ) < .Machine$double.eps^0.5
         }
       )

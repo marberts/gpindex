@@ -3,27 +3,19 @@
 \title{Scale weights}
 
 \description{
-Scale a vector of weights so they sum to 1.
+Scale a vector of weights so they sum to 1 by calling \code{w / sum(w, na.rm = TRUE)}.
 }
 
 \usage{
-weights_scale(w, na.rm = FALSE)
+weights_scale(w)
 }
 
 \arguments{
 \item{w}{A numeric vector.}
-
-\item{na.rm}{Should missing values be removed?}
 }
 
 \value{
 A numeric vector, the same length as \code{w}.
-}
-
-\details{
-This function is a simple way to call \code{w / sum(w)}.
-
-To speed up execution when there are NAs in \code{w}, the return value is always a vector of NAs whenever \code{na.rm = FALSE} and \code{anyNA(w) == TRUE}. This means that NaNs can be handled slightly differently than \code{w / sum(w)}.
 }
 
 \seealso{
