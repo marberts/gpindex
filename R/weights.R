@@ -3,10 +3,8 @@ weights_change <- function(r, s) {
   generalized_mean <- mean_generalized(r)
   extended_mean <- mean_extended(r, s)
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
-    stopifnot("'scale' must be TRUE or FALSE" = length1(scale, "logical"))
-    res <- w * extended_mean(x, generalized_mean(x, w, na.rm)) %^% (r - s)
-    if (scale) weights_scale(res, na.rm) else res
+  function(x, w = rep(1, length(x)), na.rm = FALSE) {
+    w * extended_mean(x, generalized_mean(x, w, na.rm)) %^% (r - s)
   }
 }
 
@@ -24,14 +22,13 @@ weights_factor <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric vector" = 
               length1(r, "numeric") && is.finite(r))
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
+  function(x, w = rep(1, length(x))) {
     stopifnot("'x' and 'w' must be numeric vectors" = is_numeric(x, w),
-              "'x' and 'w' must be the same length" = same_length(x, w),
-              "'scale' must be TRUE or FALSE" = length1(scale, "logical"))
+              "'x' and 'w' must be the same length" = same_length(x, w))
     res <- w * x %^% r
     # make sure NAs propegate
     if (r == 0) res[is.na(x) & !is.na(w)] <- NA
-    if (scale) weights_scale(res, na.rm) else res
+    res
   }
 }
 

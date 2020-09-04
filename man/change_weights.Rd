@@ -14,13 +14,13 @@ Calculate the weights to turn an r-generalized mean into an s-generalized mean.
 \usage{
 weights_change(r, s)
 
-weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_g2a(x, w = rep(1, length(x)), na.rm = FALSE)
 
-weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_h2a(x, w = rep(1, length(x)), na.rm = FALSE)
 
-weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_a2g(x, w = rep(1, length(x)), na.rm = FALSE)
 
-weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE)
 }
 
 \arguments{
@@ -32,13 +32,11 @@ weights_h2g(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:mean_generalized]{mean_generalized()}} and \code{\link[gpindex:weights_scale]{weights_scale()}}?}
-
-\item{scale}{Should the weights be scaled to sum to 1?}
+\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:mean_generalized]{mean_generalized()}}?}
 }
 
 \value{
-\code{weights_change()} returns a function: \code{function(x, w, na.rm, scale)}; otherwise, a numeric vector the same length as \code{x}.
+\code{weights_change()} returns a function: \code{function(x, w, na.rm)}; otherwise, a numeric vector the same length as \code{x}.
 }
 
 \details{
@@ -56,7 +54,7 @@ The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weight
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
-As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex:mean_generalized]{mean_generalized()}}, and \code{\link[gpindex:weights_scale]{weights_scale()}} if \code{scale = TRUE}.
+As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. Setting \code{na.rm = TRUE} simply sets \code{na.rm = TRUE} in the call to \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
 }
 
 \references{
@@ -87,7 +85,8 @@ w2 <- runif(10)
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
 v0 <- weights_g2a(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
+v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
-v2 <- weights_h2a(x, w2)
+v2 <- weights_scale(weights_h2a(x, w2))
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 }

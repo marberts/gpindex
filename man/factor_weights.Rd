@@ -11,7 +11,7 @@ Calculate the weights to turn the generalized mean of a product into the product
 \usage{
 weights_factor(r)
 
-weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+weights_update(x, w = rep(1, length(x)))
 }
 
 \arguments{
@@ -20,14 +20,10 @@ weights_update(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \item{x}{A numeric vector.}
 
 \item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
-
-\item{na.rm}{Should missing values be removed when calling \code{\link[gpindex:weights_scale]{weights_scale()}}?}
-
-\item{scale}{Should the weights be scaled to sum to 1?}
 }
 
 \value{
-\code{weights_factor()} returns a function: \code{function(x, w, na.rm, scale)}. 
+\code{weights_factor()} returns a function: \code{function(x, w)}. 
 
 \code{weights_update()} returns a numeric vector the same length as \code{x}.
 }

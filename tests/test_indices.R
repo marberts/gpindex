@@ -203,7 +203,6 @@ stopifnot(
 stopifnot(
   exprs = {
     sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1
-    all.equal(sum(index_weights("Laspeyres")(p0, q0)), 1)
     length(index_weights("Carli")(integer(0))) == 0
   },
   local = getNamespace("gpindex")

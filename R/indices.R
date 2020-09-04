@@ -9,22 +9,22 @@ index_arithmetic <- function(type = c("Carli", "Dutot", "Laspeyres",
     type,
     Carli = ,
     Dutot = function(p1, p0, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(p0, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p0), na.rm),
     Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-      mean_arithmetic(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p0, q0), na.rm),
     Palgrave = function(p1, p0, q1, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(p1, q1, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p1, q1), na.rm),
     Drobish = ,
     Unnamed = function(p1, p0, q1, q0, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p1, p0, q1, q0), na.rm),
     Walsh1 = ,
     MarshallEdgeworth = ,
     GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(p0, q1, q0, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p0, q1, q0), na.rm),
     Lowe = function(p1, p0, qb, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(p0, qb, scale = FALSE), na.rm),
+      mean_arithmetic(p1 / p0, weights(p0, qb), na.rm),
     Young = function(p1, p0, pb, qb, na.rm = FALSE)
-      mean_arithmetic(p1 / p0, weights(pb, qb, scale = FALSE), na.rm)
+      mean_arithmetic(p1 / p0, weights(pb, qb), na.rm)
   )
   # all arguments except na.rm are price and quantity arguments
   # extract them in a list
@@ -48,21 +48,21 @@ index_geometric <- function(type = c("Jevons", "Laspeyres", "Paasche",
   res <- switch(
     type,
     Jevons = function(p1, p0, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(p0, scale = FALSE), na.rm),
+      mean_geometric(p1 / p0, weights(p0), na.rm),
     Laspeyres = function(p1, p0, q0, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+      mean_geometric(p1 / p0, weights(p0, q0), na.rm),
     Paasche = function(p1, p0, q1, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(p1, q1, scale = FALSE), na.rm),
+      mean_geometric(p1 / p0, weights(p1, q1), na.rm),
     Vartia2 = ,
     SatoVartia = ,
     Walsh2 = ,
     Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm),
+      mean_geometric(p1 / p0, weights(p1, p0, q1, q0), na.rm),
     Vartia1 = ,
     MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(p1, p0, q1, q0, scale = FALSE), na.rm, FALSE),
+      mean_geometric(p1 / p0, weights(p1, p0, q1, q0), na.rm, FALSE),
     Young = function(p1, p0, pb, qb, na.rm = FALSE)
-      mean_geometric(p1 / p0, weights(pb, qb, scale = FALSE), na.rm)
+      mean_geometric(p1 / p0, weights(pb, qb), na.rm)
   )
   # all arguments except na.rm are price and quantity arguments
   # extract them in a list
@@ -83,11 +83,11 @@ index_harmonic <- function(type = c("Coggeshall", "Laspeyres", "Paasche")) {
   res <- switch(
     type,
     Coggeshall = function(p1, p0, na.rm = FALSE)
-      mean_harmonic(p1 / p0, weights(p0, scale = FALSE), na.rm),
+      mean_harmonic(p1 / p0, weights(p0), na.rm),
     Laspeyres = function(p1, p0, q0, na.rm = FALSE)
-      mean_harmonic(p1 / p0, weights(p0, q0, scale = FALSE), na.rm),
+      mean_harmonic(p1 / p0, weights(p0, q0), na.rm),
     Paasche = function(p1, p0, q1, na.rm = FALSE)
-      mean_harmonic(p1 / p0, weights(p1, q1, scale = FALSE), na.rm)
+      mean_harmonic(p1 / p0, weights(p1, q1), na.rm)
   )
   # all arguments except na.rm are price and quantity arguments
   # extract them in a list
@@ -129,7 +129,7 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
             "prices/quantities must be be the same length" = 
               same_length(p1, p0, q0))
   weights <- index_weights("LloydMoulton")
-  mean_generalized(1 - elasticity)(p1 / p0, weights(p0, q0, scale = FALSE), na.rm)
+  mean_generalized(1 - elasticity)(p1 / p0, weights(p0, q0), na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----

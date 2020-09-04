@@ -7,7 +7,7 @@ w <- runif(15, 0, 2)
 stopifnot(
   exprs = {
     all(diff(weights_change(2, 2)(x)) == 0)
-    all.equal(weights_change(-2, -2)(x, w, scale = FALSE), w)
+    all.equal(weights_change(-2, -2)(x, w), w)
     !anyNA(weights_change(1, 1)(c(1, NA_real_)))
     anyNA(weights_change(2, 1)(c(1, NA_real_)))
     # Test against a simple implementation
@@ -20,7 +20,7 @@ stopifnot(
           M <- mean_generalized(p[1])(x, w)
           w3 <- w * logmean_generalized(p[1])(x, M)^(p[1] - 1) /
             logmean_generalized(p[2])(x, M)^(p[2] - 1)
-          abs(w2 - weights_scale(w3)) < .Machine$double.eps^0.5
+          abs(weights_scale(w2) - weights_scale(w3)) < .Machine$double.eps^0.5
         }
       )
     )
@@ -53,10 +53,10 @@ stopifnot(
   exprs = {
     anyNA(weights_factor(0)(c(1, NA_real_)))
     # test against known cases
-    all(weights_factor(0)(x) == 1 / length(x))
-    all(weights_factor(0)(x, w, scale = FALSE) == w)
-    all(weights_factor(1)(x, w) == x * w / sum(x * w))
-    all(weights_update(x, w) == x * w / sum(x * w))
+    all(weights_factor(0)(x) == 1)
+    all(weights_factor(0)(x, w) == w)
+    all(weights_factor(1)(x, w) == x * w)
+    all(weights_update(x, w) == x * w)
     # test against a simple implementation
     all(
       vapply(
@@ -64,7 +64,7 @@ stopifnot(
         function(r) {
           w2 <- weights_factor(r)(x, w)
           w3 <- w * x^r
-          all.equal(w2, weights_scale(w3))
+          all.equal(w2, w3)
         },
         logical(1)
       )

@@ -8,7 +8,9 @@ Changes in version 0.2.0
 
 - The mean_* and weights_* functions no longer accept logical inputs, nor do they accept infinite exponents.
 
-- The M argument has been removed from the weights_change() functions.
+- The 'M' argument has been removed from the weights_change() functions.
+
+- The 'scale' argument no longer appears in the weight_* functions.
 
 Changes in version 0.1.2
 
