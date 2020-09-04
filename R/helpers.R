@@ -1,6 +1,6 @@
 #---- Argument checking ----
 length1 <- function(x, mode) {
-  length(x) == 1L && is.vector(x, mode) && !is.na(x)
+  length(x) == 1L && is.vector(x, mode) && is.finite(x)
 }
 
 same_length <- function(...) {

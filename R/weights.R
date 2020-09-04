@@ -19,8 +19,7 @@ weights_h2g <- weights_change(-1, 0)
 
 #---- Weights to factor a mean of products into the product of means ----
 weights_factor <- function(r) {
-  stopifnot("'r' must be a finite length 1 numeric vector" = 
-              length1(r, "numeric") && is.finite(r))
+  stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"))
   # return function
   function(x, w = rep(1, length(x))) {
     stopifnot("'x' and 'w' must be numeric vectors" = is_numeric(x, w),

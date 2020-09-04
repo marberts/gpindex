@@ -3,13 +3,13 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
   # always return NA if there are any NAs in x or w
   # differs from stats::weighted.mean
   if (!na.rm && (anyNA(x) || anyNA(w))) return(NA_real_)
-  sum(x * w, na.rm = TRUE) / if (scale) sum(w[!is.na(x)], na.rm = TRUE) else 1
+  den <- if (scale) sum(w[!is.na(x)], na.rm = TRUE) else 1
+  sum(x * w, na.rm = TRUE) / den
 }
 
 #---- Generalized mean ----
 mean_generalized <- function(r) {
-  stopifnot("'r' must be a finite length 1 numeric vector" = 
-              length1(r, "numeric") && is.finite(r))
+  stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"))
   if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
@@ -39,10 +39,8 @@ mean_harmonic <- mean_generalized(-1)
 
 #---- Extended mean ----
 mean_extended <- function(r, s) {
-  stopifnot("'r' must be a finite length 1 numeric vector" = 
-              length1(r, "numeric") && is.finite(r),
-            "'s' must be a finite length 1 numeric vector" = 
-              length1(s, "numeric") && is.finite(s))
+  stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"),
+            "'s' must be a finite length 1 numeric vector" = length1(s, "numeric"))
   if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
