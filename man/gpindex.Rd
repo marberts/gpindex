@@ -16,7 +16,7 @@ Generalized indexes are a large family of price indexes that are consistent in a
 
 All generalized indexes are based on the generalized mean, which is provided by the \code{\link[gpindex:mean_generalized]{mean_generalized()}} function. Given a set of price relatives and weights, any generalized price index is easily calculated as a generalized mean. 
 
-Two important functions for decomposing generalized means are given by \code{\link[gpindex:weights_change]{weights_change()}} and \code{\link[gpindex:weights_factor]{weights_factor()}}. These functions can be used to calculate quote contributions and price-update weights for generalized indexes. 
+Two important functions for decomposing generalized means are given by \code{\link[gpindex:weights_transmute]{weights_transmute()}} and \code{\link[gpindex:weights_factor]{weights_factor()}}. These functions can be used to calculate quote contributions and price-update weights for generalized indexes. 
 
 Together these functions, along with \code{\link[gpindex:logmean_generalized]{logmean_generalized()}}, provide the key mathematical apparatus to work with any type of generalized index, and those that are nested generalized indexes.
 

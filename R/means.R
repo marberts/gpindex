@@ -62,7 +62,7 @@ mean_extended <- function(r, s) {
     } else if (s == 0) {
       ((a %^% r - b %^% r) / (log(a) - log(b)) / r) %^% (1 / r)
     } else if (r == s) {
-      (a^a^r / b^b^r)^(1 / (a %^% r - b %^% r)) / exp(1)^(1 / r)
+      exp(((a %^% r) * log(a) - (b %^% r) * log(b)) / (a %^% r - b %^% r) - 1 / r)
     } else {
       ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))
     }

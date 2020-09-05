@@ -83,11 +83,11 @@ stopifnot(
         function(p) {
           c(
             abs(mean_generalized(p[1])(x, w) -
-                  mean_generalized(p[2])(x, weights_change(p[1], p[2])(x, w))),
+                  mean_generalized(p[2])(x, weights_transmute(p[1], p[2])(x, w))),
             abs(mean_generalized(p[1])(x) -
-                  mean_generalized(p[2])(x, weights_change(p[1], p[2])(x))),
+                  mean_generalized(p[2])(x, weights_transmute(p[1], p[2])(x))),
             abs(mean_generalized(p[1])(xna, w, TRUE) -
-                  mean_generalized(p[2])(xna, weights_change(p[1], p[2])(xna, w), TRUE))
+                  mean_generalized(p[2])(xna, weights_transmute(p[1], p[2])(xna, w), TRUE))
           ) < .Machine$double.eps^0.5
         }
       )
@@ -164,7 +164,7 @@ stopifnot(
         function(r)
           all(
             abs(
-              logmean_generalized(r)(a, b) - logmean_generalized(r)(b, a)
+              mean_extended(r, 2.5)(a, b) - mean_extended(r, 2.5)(b, a)
               ) < .Machine$double.eps^0.5
           ),
         logical(1)
@@ -206,6 +206,7 @@ stopifnot(
     all.equal(mean_extended(-2, -1)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_harmonic))
     all.equal(mean_extended(-2, 2)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
     all.equal(mean_extended(3.5, -3.5)(a, b), apply(matrix(c(a, b), ncol = 2), 1, mean_geometric))
-   },
+    all.equal(mean_extended(2, 2)(a, b), (a^a^2 / b^b^2)^(1 / (a^2 - b^2)) / exp(1)^(1 / 2))
+    },
   local = getNamespace("gpindex")
 )

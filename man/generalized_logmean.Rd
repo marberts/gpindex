@@ -60,11 +60,12 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{weights_change}} uses the extended mean to turn an r-generalized mean into a k-generalized mean.
+\code{\link[gpindex]{weights_transmute}} uses the extended mean to turn an r-generalized mean into a k-generalized mean.
 }
 
 \examples{
-# The arithmetic and geometric means are special cases of the generalized logarithmic mean
+# The arithmetic and geometric means are special cases 
+# of the generalized logarithmic mean
 
 x <- 8:5
 y <- 1:4

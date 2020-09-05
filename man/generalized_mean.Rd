@@ -83,7 +83,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \seealso{
 \code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
 
-\code{\link[gpindex]{weights_change}} can be used to turn an r-generalized mean into a k-generalized mean. 
+\code{\link[gpindex]{weights_transmute}} can be used to turn an r-generalized mean into a k-generalized mean. 
 
 \code{\link[gpindex]{weights_factor}} can be used to factor the weights to a turn a mean of products into a product of means.
 }

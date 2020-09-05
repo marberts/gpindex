@@ -10,7 +10,9 @@ Changes in version 0.2.0
 
 - The 'M' argument has been removed from the weights_change() functions.
 
-- The 'scale' argument no longer appears in the weight_* functions.
+- The 'na.rm' and 'scale' arguments no longer appear in the weight_* functions. Missing values are now always removed, and weights are never scaled.
+
+- weights_change() has been renamed to weights_transmute() to be more descriptive. The weights_a2g() and weights_h2g() functions have also been removed.
 
 Changes in version 0.1.2
 

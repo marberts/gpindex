@@ -1,5 +1,5 @@
 #---- Weights to turn an r-generalized mean into a k-generalized mean
-weights_change <- function(r, s) {
+weights_transmute <- function(r, s) {
   generalized_mean <- mean_generalized(r)
   extended_mean <- mean_extended(r, s)
   # return function
@@ -9,13 +9,9 @@ weights_change <- function(r, s) {
 }
 
 #---- Common cases ----
-weights_g2a <- weights_change(0, 1)
+weights_g2a <- weights_transmute(0, 1)
 
-weights_h2a <- weights_change(-1, 1)
-
-weights_a2g <- weights_change(1, 0)
-
-weights_h2g <- weights_change(-1, 0)
+weights_h2a <- weights_transmute(-1, 1)
 
 #---- Weights to factor a mean of products into the product of means ----
 weights_factor <- function(r) {

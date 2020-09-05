@@ -19,7 +19,7 @@ A numeric vector, the same length as \code{w}.
 }
 
 \seealso{
-\code{\link[gpindex]{weights_change}}, \code{\link[gpindex]{weights_factor}}, and \code{\link[gpindex]{index_weights}} for an application. 
+\code{\link[gpindex]{weights_transmute}}, \code{\link[gpindex]{weights_factor}}, and \code{\link[gpindex]{index_weights}} for situations when this function may be useful. 
 }
 
 \examples{
