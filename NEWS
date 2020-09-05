@@ -1,6 +1,6 @@
 Changes in version 0.2.0
 
-- This version doesn't add many new features, but makes a number of improvements and simplifications to the inferface and underlying functions. These changes can break old code.
+- This version doesn't add many new features, but makes a number of improvements and simplifications to the interface and underlying functions. These changes can break old code.
 
 - Many functions are now function factories to make them easier to use. This means that there are a number of changes to existing functions that can break old code. This mostly affects the index_* functions; for example, calculating a geometric Laspeyres index is now done as index_geometric("Laspeyres")(p1, p0, q0), rather than index_geometric(p1, p0, q0 = q0, type = "Laspeyres"). The index_weights(), weights_change(), weights_factor(), mean_generalized(), and logmean_generalized() functions are also now function factories.
 
@@ -14,13 +14,15 @@ Changes in version 0.2.0
 
 - weights_change() has been renamed to weights_transmute() to be more descriptive. The weights_a2g() and weights_h2g() functions have also been removed.
 
+- Documentation pages have been consolidated to make them easier to read.
+
 Changes in version 0.1.2
 
 - Lots of improvements to the documentation and examples.
 
 - Added the generalized Stuval index with the index_stuval() function.
 
-- Added the weights_update() function for the common case of price-updating weights in an arithmetc index.
+- Added the weights_update() function for the common case of price-updating weights in an arithmetic index.
 
 - Functions that say the input should be a vector now check if the input is a vector. This prevents non-name attributes from causing problems in the calculations (like dim).
 

@@ -1,14 +1,20 @@
-\name{change weights}
+\name{Transform weights}
 \alias{weights_transmute}
 \alias{weights_g2a}
 \alias{weights_h2a}
 \alias{weights_factor}
 \alias{weights_update}
+\alias{weights_scale}
 
-\title{Change the weights in a generalized mean}
+\title{Transformations for weights in a generalized mean}
 
 \description{
-Transmute weights to turn an r-generalized mean into an s-generalized mean, or factor weights to turn the generalized mean of a product into the product of generalized means.
+Useful transformations for the weights in a generalized mean. 
+\itemize{
+\item{Transmute weights to turn an r-generalized mean into an s-generalized mean.}
+\item{Factor weights to turn the generalized mean of a product into the product of generalized means.}
+\item{Scale weights so they sum to 1.}
+}
 }
 
 \usage{
@@ -21,6 +27,8 @@ weights_h2a(x, w = rep(1, length(x)))
 weights_factor(r)
 
 weights_update(x, w = rep(1, length(x)))
+
+weights_scale(x)
 }
 
 \arguments{
@@ -36,6 +44,9 @@ weights_update(x, w = rep(1, length(x)))
 }
 
 \details{
+As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
+
+\bold{Transmute weights}
 The function \code{weights_transmute()} returns a function to compute a vector of weights \code{v(x, w)} such that
 
 \code{mean_generalized(r)(x, w) == mean_generalized(s)(x, v(x, w))}. 
@@ -44,19 +55,23 @@ These weights are calculated as
 
 \code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
-This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_transmute()}).
+This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} in \code{weights_transmute(r, 1)}).
 
+\bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
 
 \code{mean_generalized(r)(x * y, w) == mean_generalized(r)(x, w) * mean_generalized(r)(y, u(x, w))}. 
 
 These weights are calculated as \code{u(x, w) = w * x^r}.
 
-This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor()} with \code{r = 1}.
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor(1)}.
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
+\bold{Scale weights}
+The function \code{weights_scale()} scales a vector of weights so they sum to 1 by calling \code{x / sum(x, na.rm = TRUE)}.
+}
 
-The return value is the same length as \code{w}, so any NAs in \code{x} or \code{w} will return NA. The result, however, will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
+\note{
+Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any NAs in \code{x} or \code{w} will return NA. Unless all values are NA, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[gpindex:mean_generalized]{mean_generalized()}}. Similarly, the result of scaling will sum to 1 when NAs are removed.
 }
 
 \references{
@@ -69,8 +84,6 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
 \code{\link[gpindex]{mean_extended}} for the extended mean. 
-
-\code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
 
 \examples{

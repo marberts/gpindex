@@ -36,7 +36,7 @@ The function \code{mean_extended()} returns a function to compute the extended m
 
 The function \code{logmean_generalized()} returns a function to compute the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, setting \code{s = 1} in \code{mean_extended()}, but is more commonly used for price indexes.
 
-The function \code{logmean()} returns the ordinary logarithmic mean, the most useful generalized logarithmic mean, and corresponds to setting \code{r = 0} in \code{logmean_generalized()}.
+The function \code{logmean()} returns the ordinary logarithmic mean, the most useful generalized logarithmic mean, and corresponds to \code{logmean_generalized(1)}.
 
 As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined.
 

@@ -84,7 +84,7 @@ index_weights(type)
 }
 
 \details{
-The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} functions return a function to calculate a given type of arithmetic, geometric, and harmonc index. Together, these functions produce functions to calculate the following indexes.
+The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} functions return a function to calculate a given type of arithmetic, geometric, and harmonic index. Together, these functions produce functions to calculate the following indexes.
 \itemize{
 \item \bold{Arithmetic indexes}
 \item Carli

@@ -1,4 +1,4 @@
-#---- Weights to turn an r-generalized mean into a k-generalized mean
+#---- Transmute weights ----
 weights_transmute <- function(r, s) {
   generalized_mean <- mean_generalized(r)
   extended_mean <- mean_extended(r, s)
@@ -8,12 +8,12 @@ weights_transmute <- function(r, s) {
   }
 }
 
-#---- Common cases ----
+#---- Common cases for transmute ----
 weights_g2a <- weights_transmute(0, 1)
 
 weights_h2a <- weights_transmute(-1, 1)
 
-#---- Weights to factor a mean of products into the product of means ----
+#---- Factor weights  ----
 weights_factor <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"))
   # return function
@@ -27,11 +27,11 @@ weights_factor <- function(r) {
   }
 }
 
-#---- Common case ----
+#---- Price-update weights ----
 weights_update <- weights_factor(1)
 
 #---- Scale weights ----
-weights_scale <- function(w) {
-  stopifnot("'w' must be a numeric vector" = is_numeric(w))
-  w / sum(w, na.rm = TRUE)
+weights_scale <- function(x) {
+  stopifnot("'w' must be a numeric vector" = is_numeric(x))
+  x / sum(x, na.rm = TRUE)
 }

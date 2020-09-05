@@ -5,8 +5,7 @@ index_arithmetic <- function(type = c("Carli", "Dutot", "Laspeyres",
                                       "Lowe", "Young")) {
   type <- match.arg(type)
   weights <- index_weights(type)
-  res <- switch(
-    type,
+  res <- switch(type,
     Carli = ,
     Dutot = function(p1, p0, na.rm = FALSE)
       mean_arithmetic(p1 / p0, weights(p0), na.rm),
@@ -45,8 +44,7 @@ index_geometric <- function(type = c("Jevons", "Laspeyres", "Paasche",
                                      "Young")) {
   type <- match.arg(type)
   weights <- index_weights(type)
-  res <- switch(
-    type,
+  res <- switch(type,
     Jevons = function(p1, p0, na.rm = FALSE)
       mean_geometric(p1 / p0, weights(p0), na.rm),
     Laspeyres = function(p1, p0, q0, na.rm = FALSE)
@@ -80,8 +78,7 @@ index_geometric <- function(type = c("Jevons", "Laspeyres", "Paasche",
 index_harmonic <- function(type = c("Coggeshall", "Laspeyres", "Paasche")) {
   type <- match.arg(type)
   weights <- index_weights(type)
-  res <- switch(
-    type,
+  res <- switch(type,
     Coggeshall = function(p1, p0, na.rm = FALSE)
       mean_harmonic(p1 / p0, weights(p0), na.rm),
     Laspeyres = function(p1, p0, q0, na.rm = FALSE)
@@ -124,10 +121,8 @@ index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
 
 #---- Lloyd Moulton index ----
 index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = 
-              is_numeric(p1, p0, q0),
-            "prices/quantities must be be the same length" = 
-              same_length(p1, p0, q0))
+  stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0, q0),
+            "prices/quantities must be be the same length" = same_length(p1, p0, q0))
   weights <- index_weights("LloydMoulton")
   mean_generalized(1 - elasticity)(p1 / p0, weights(p0, q0), na.rm)
 }
@@ -136,15 +131,14 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
 index_cswd <- function(p1, p0, na.rm = FALSE) {
   stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0),
             "prices/quantities must be the same length" = same_length(p1, p0))
-  sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) * mean_harmonic(p1 / p0, na.rm = na.rm))
+  rel <- p1 / p0
+  sqrt(mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm))
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
 index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = 
-              is_numeric(p1, p0, q1, q0),
-            "prices/quantities must be the same length" = 
-              same_length(p1, p0, q1, q0))
+  stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0, q1, q0),
+            "prices/quantities must be the same length" = same_length(p1, p0, q1, q0))
   sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) /
          mean_arithmetic(q1 / q0, na.rm = na.rm) *
          mean_arithmetic(p1 * q1 / (p0 * q0), na.rm = na.rm))
@@ -154,8 +148,8 @@ index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
 index_bw <- function(p1, p0, na.rm = FALSE) {
   stopifnot("prices/quantities must be numeric vectors" = is_numeric(p1, p0),
             "prices/quantities must be numeric vectors" = same_length(p1, p0))
-  mean_arithmetic(sqrt(p1 / p0), na.rm = na.rm) *
-    mean_harmonic(sqrt(p1 / p0), na.rm = na.rm)
+  rel <- sqrt(p1 / p0)
+  mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm)
 }
 
 #---- Generalized Stuval index ----

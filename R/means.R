@@ -19,6 +19,9 @@ mean_generalized <- function(r) {
               "'x' and 'w' must be the same length" = same_length(x, w),
               "'na.rm' must be TRUE or FALSE" = length1(na.rm, "logical"),
               "'scale' must be TRUE or FALSE" = length1(na.rm, "logical"))
+    if (any(x < 0 | w < 0, na.rm = TRUE)) {
+      warning("Some elements of 'x' or 'w' are negative")
+    }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
       exp(mean_arithmetic_(log(x), w, na.rm, scale))
@@ -55,6 +58,9 @@ mean_extended <- function(r, s) {
     stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
               "'tol' must be a non-negative length 1 numeric vector" = 
                 length1(tol, "numeric") && tol >= 0)
+    if (any(a <= 0 | b <= 0, na.rm = TRUE)) {
+      warning("Some elements 'a' or 'b' are non-positive")
+    }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
     } else if (r == 0) {
