@@ -1,32 +1,30 @@
 \name{change weights}
-\alias{weights_change}
+\alias{weights_transmute}
 \alias{weights_g2a}
 \alias{weights_h2a}
-\alias{weights_a2g}
-\alias{weights_h2g}
+\alias{weights_factor}
+\alias{weights_update}
 
 \title{Change the weights in a generalized mean}
 
 \description{
-Calculate the weights to turn an r-generalized mean into an s-generalized mean.
+Transmute weights to turn an r-generalized mean into an s-generalized mean, or factor weights to turn the generalized mean of a product into the product of generalized means.
 }
 
 \usage{
-weights_change(r, s)
+weights_transmute(r, s)
 
 weights_g2a(x, w = rep(1, length(x)))
 
 weights_h2a(x, w = rep(1, length(x)))
 
-weights_a2g(x, w = rep(1, length(x)))
+weights_factor(r)
 
-weights_h2g(x, w = rep(1, length(x)))
+weights_update(x, w = rep(1, length(x)))
 }
 
 \arguments{
-\item{r}{A number giving the exponent of the generalized mean associated with \code{w}. See details.}
-
-\item{s}{A number giving the exponent of the generalized mean for which weights are desired. See details.}
+\item{r, s}{A number giving the exponent of the generalized mean. See details.}
 
 \item{x}{A numeric vector.}
 
@@ -34,46 +32,60 @@ weights_h2g(x, w = rep(1, length(x)))
 }
 
 \value{
-\code{weights_change()} returns a function: \code{function(x, w, na.rm)}; otherwise, a numeric vector the same length as \code{x}.
+\code{weights_transmute()} and \code{weights_factor()} return a function: \code{function(x, w)}; otherwise, a numeric vector the same length as \code{x}.
 }
 
 \details{
-The function \code{weights_change()} returns a function to compute a vector of weights \code{v(x, w)} such that
+The function \code{weights_transmute()} returns a function to compute a vector of weights \code{v(x, w)} such that
 
 \code{mean_generalized(r)(x, w) == mean_generalized(s)(x, v(x, w))}. 
 
 These weights are calculated as 
 
-\code{w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
+\code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
-This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. 
+This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_transmute()}).
 
-The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} when \code{s = 1} in \code{weights_change()}). The functions \code{weights_a2g()} and \code{weights_h2g()} are similarly for turning an arithmetic and harmonic mean into a geometric mean (i.e., setting \code{r = 1} and \code{r = -1} when \code{s = 0} in \code{weights_change()}).
+The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
+
+\code{mean_generalized(r)(x * y, w) == mean_generalized(r)(x, w) * mean_generalized(r)(y, u(x, w))}. 
+
+These weights are calculated as \code{u(x, w) = w * x^r}.
+
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor()} with \code{r = 1}.
 
 As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
-As the return value is the same length as \code{w}, any NAs in \code{x} or \code{w} will return NA. The result, however, will still satisfy the above identify when \code{na.rm = TRUE} in \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
+The return value is the same length as \code{w}, so any NAs in \code{x} or \code{w} will return NA. The result, however, will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[gpindex:mean_generalized]{mean_generalized()}}.
 }
 
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
+
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
 }
 
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
+\code{\link[gpindex]{mean_extended}} for the extended mean. 
 
 \code{\link[gpindex]{weights_scale}} to scale the weights to sum to 1.
 }
 
 \examples{
-# Calculate the geometric mean as an arithmetic mean and harmonic mean by changing the weights
+# Make some data
 
 x <- 1:10
+y <- 11:20
+w <- runif(10)
+
+# Calculate the geometric mean as an arithmetic mean and harmonic mean 
+# by transmuting the weights
+
 mean_geometric(x)
 mean_arithmetic(x, weights_g2a(x))
-mean_harmonic(x, weights_change(0, -1)(x))
+mean_harmonic(x, weights_transmute(0, -1)(x))
 
 # Works for nested means, too
 
@@ -87,4 +99,19 @@ v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
 v2 <- weights_scale(weights_h2a(x, w2))
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
+
+# Factor the harmonic mean
+
+mean_harmonic(x * y, w)
+mean_harmonic(x, w) * mean_harmonic(y, weights_factor(-1)(x, w))
+
+# The common case of an arithmetic mean
+
+mean_arithmetic(x * y, w)
+mean_arithmetic(x, w) * mean_arithmetic(y, weights_update(x, w))
+
+# In cases where x and y have the same order, Chebyshev's inequality
+# implies that the chained calculation is too small
+
+mean_arithmetic(x * y, w) > mean_arithmetic(x, w) * mean_arithmetic(y, w)
 }

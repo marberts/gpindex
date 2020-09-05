@@ -3,20 +3,20 @@ set.seed(4321)
 x <- rnorm(15)^2
 w <- runif(15, 0, 2)
 
-#---- Tests for weights_change ----
+#---- Tests for weights_transmute ----
 stopifnot(
   exprs = {
-    all(diff(weights_change(2, 2)(x)) == 0)
-    all.equal(weights_change(-2, -2)(x, w), w)
-    !anyNA(weights_change(1, 1)(c(1, NA_real_)))
-    anyNA(weights_change(2, 1)(c(1, NA_real_)))
+    all(diff(weights_transmute(2, 2)(x)) == 0)
+    all.equal(weights_transmute(-2, -2)(x, w), w)
+    !anyNA(weights_transmute(1, 1)(c(1, NA_real_)))
+    anyNA(weights_transmute(2, 1)(c(1, NA_real_)))
     # Test against a simple implementation
     all(
       apply(
         expand.grid(a = seq(-10, 10, by = 0.5), b = seq(-10, 10, by = 0.5)),
         1,
         function(p) {
-          w2 <- weights_change(p[1], p[2])(x, w)
+          w2 <- weights_transmute(p[1], p[2])(x, w)
           M <- mean_generalized(p[1])(x, w)
           w3 <- w * logmean_generalized(p[1])(x, M)^(p[1] - 1) /
             logmean_generalized(p[2])(x, M)^(p[2] - 1)
