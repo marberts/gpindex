@@ -60,7 +60,7 @@ Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{weights_transmute}} uses the extended mean to turn an r-generalized mean into a k-generalized mean.
+\code{\link[gpindex]{weights_transmute}} uses the extended mean to turn an r-generalized mean into an s-generalized mean.
 }
 
 \examples{
@@ -91,11 +91,16 @@ all.equal(logmean_generalized(r)(x, y) * (r * (x - y))^(1 / (r - 1)),
 # Some other identities from Bullen (example iii on page 385)
 
 all.equal(logmean_generalized(-2)(1, 2), 
-          (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1/3))
+          (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1 / 3))
 
 all.equal(logmean_generalized(0.5)(1, 2), 
           (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2)
 
 all.equal(logmean(1, 2),
           mean_geometric(1:2)^2 * logmean(1, 1/2))
+          
+# Logarithmic means can be represented as integrals
+
+logmean(2, 3)
+stats::integrate(function(t) 2^(1 - t) * 3^t, 0, 1)
 }

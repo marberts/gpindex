@@ -217,6 +217,7 @@ I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 
 # Quote contributions for the Tornqvist index
+
 w <- index_weights("Tornqvist")(p1, p0, q1, q0)
 (con <- weights_scale(weights_g2a(p1 / p0, w)) * (p1 / p0 - 1))
 
@@ -310,8 +311,7 @@ logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
 # Sato-Vartia / Vartia-II
 
 index_weights("SatoVartia")(p1, p0, q1, q0)
-logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)) / 
-sum(logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
 
 # Walsh-II
 
@@ -320,11 +320,11 @@ sqrt(p0 * q0 * p1 * q1)
 
 # Lowe
 
-index_weights("Lowe")(p0 = p0, q0 = qb)
+index_weights("Lowe")(p0, qb)
 p0 * qb
 
 # Young
 
-index_weights("Young")(p0 = pb, q0 = qb)
+index_weights("Young")(pb, qb)
 pb * qb
 }

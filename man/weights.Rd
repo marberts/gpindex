@@ -1,4 +1,4 @@
-\name{Transform weights}
+\name{transform weights}
 \alias{weights_transmute}
 \alias{weights_g2a}
 \alias{weights_h2a}
@@ -55,7 +55,7 @@ These weights are calculated as
 
 \code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
-This generalizes the result in section 4.2 of Balk (2008) when \code{r} and \code{s} are 0 or 1, although these are usually the most important cases. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} in \code{weights_transmute(r, 1)}).
+This generalizes the result for calculating quote contributions for a geometric index in section 4.2 of Balk (2008), although this is usually the most important case. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} in \code{weights_transmute(r, 1)}), and can be used to calculate quote contributions for most types of price indexes.
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
@@ -64,7 +64,7 @@ The function \code{weights_factor()} returns a function to compute weights \code
 
 These weights are calculated as \code{u(x, w) = w * x^r}.
 
-This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for the Young index. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor(1)}.
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for chaining the Young index, and gives a way to chain generalized price indexes over time. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor(1)}.
 
 \bold{Scale weights}
 The function \code{weights_scale()} scales a vector of weights so they sum to 1 by calling \code{x / sum(x, na.rm = TRUE)}.
