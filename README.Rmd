@@ -61,7 +61,7 @@ with(price6,
 index_laspeyres(price6$t3, price6$t1, quantity6$t1)
 
 # Get quote contributions for the Paasche index
-with(price6, weights_scale(weights_h2a(t2 / t1, s2)) * (t2 / t1 - 1))
+with(price6, contributions_harmonic(t2 / t1, s2))
 
 # Calculate a Fisher index over 5 periods
 mapply(index_fisher, price6[-1], price6[1], quantity6[-1], quantity6[1])
@@ -81,9 +81,7 @@ weight <- c(0.3, 0.7)
 (upper <- mean_arithmetic(lower, weight))
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- Map("*", 
-                  Map(function(x) weights_scale(weights_g2a(x)), prices), 
-                  Map("-", prices, 1)))
+(con_lower <- Map(contributions_geometric, prices))
 
 # Calculate quote contributions for upper-level index
 (con_upper <- unlist(Map("*", con_lower, weight)))

@@ -1,7 +1,8 @@
 \name{transform weights}
 \alias{weights_transmute}
-\alias{weights_g2a}
-\alias{weights_h2a}
+\alias{contributions}
+\alias{contributions_geometric}
+\alias{contributions_harmonic}
 \alias{weights_factor}
 \alias{weights_update}
 \alias{weights_scale}
@@ -20,9 +21,11 @@ Useful transformations for the weights in a generalized mean.
 \usage{
 weights_transmute(r, s)
 
-weights_g2a(x, w = rep(1, length(x)))
+contributions(r)
 
-weights_h2a(x, w = rep(1, length(x)))
+contributions_geometric(x, w = rep(1, length(x)))
+
+contributions_harmonic(x, w = rep(1, length(x)))
 
 weights_factor(r)
 
@@ -40,7 +43,9 @@ weights_scale(x)
 }
 
 \value{
-\code{weights_transmute()} and \code{weights_factor()} return a function: \code{function(x, w)}; otherwise, a numeric vector the same length as \code{x}.
+\code{weights_transmute()}, \code{contributions()}, and \code{weights_factor()} return a function: \code{function(x, w = rep(1, length(x))}.
+
+\code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }
 
 \details{
@@ -55,7 +60,14 @@ These weights are calculated as
 
 \code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
-This generalizes the result for calculating quote contributions for a geometric index in section 4.2 of Balk (2008), although this is usually the most important case. The functions \code{weights_g2a()} and \code{weights_h2a()} calculate the weights to turn a geometric and harmonic mean into an arithmetic mean (i.e., setting \code{r = 0} and \code{r = -1} in \code{weights_transmute(r, 1)}), and can be used to calculate quote contributions for most types of price indexes.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case.
+
+\bold{Contributions}
+The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)} to calculate quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
+
+\code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
+
+That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases.
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
@@ -97,7 +109,7 @@ w <- runif(10)
 # by transmuting the weights
 
 mean_geometric(x)
-mean_arithmetic(x, weights_g2a(x))
+mean_arithmetic(x, weights_transmute(0, 1)(x))
 mean_harmonic(x, weights_transmute(0, -1)(x))
 
 # Works for nested means, too
@@ -107,10 +119,10 @@ w2 <- runif(10)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
-v0 <- weights_g2a(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
+v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
-v2 <- weights_scale(weights_h2a(x, w2))
+v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 
 # Factor the harmonic mean

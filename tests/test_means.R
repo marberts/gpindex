@@ -93,7 +93,7 @@ stopifnot(
       )
     )
     abs(mean_geometric(c(2, sqrt(2)^2)) -
-          mean_arithmetic(c(2, sqrt(2)^2), weights_g2a(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
+          mean_arithmetic(c(2, sqrt(2)^2), weights_transmute(0, 1)(c(2, sqrt(2)^2)))) < .Machine$double.eps^0.5
     # Factor weights
     all(
       vapply(

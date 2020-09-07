@@ -160,6 +160,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
+
+\code{\link[gpindex]{contributions}} for calculating quote contributions. 
 }
 
 \examples{
@@ -218,8 +220,7 @@ I1 * I2
 
 # Quote contributions for the Tornqvist index
 
-w <- index_weights("Tornqvist")(p1, p0, q1, q0)
-(con <- weights_scale(weights_g2a(p1 / p0, w)) * (p1 / p0 - 1))
+(con <- contributions_geometric(p1 / p0, index_weights("Tornqvist")(p1, p0, q1, q0)))
 
 sum(con)
 index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
@@ -228,7 +229,7 @@ index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
 
 wl <- weights_scale(index_weights("Laspeyres")(p0, q0))
 wp <- weights_scale(index_weights("HybridPaasche")(p0, q1))
-wf <- weights_g2a(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
+wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
 wf <- weights_scale(wf)
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 

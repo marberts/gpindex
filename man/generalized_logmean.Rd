@@ -10,9 +10,9 @@ Calculate a generalized logarithmic mean / extended mean.
 }
 
 \usage{
-logmean_generalized(r)
-
 mean_extended(r, s)
+
+logmean_generalized(r)
 
 logmean(a, b, tol = .Machine$double.eps^0.5)
 }
@@ -56,7 +56,7 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
-Stolarsky, K. B. (1975). Generalization of the Logartihmic Mean. \emph{Mathematics Magazine}, 48(2):87-92.
+Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathematics Magazine}, 48(2):87-92.
 }
 
 \seealso{

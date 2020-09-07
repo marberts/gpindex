@@ -33,7 +33,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{mean_generalized()} returns a function: \code{function(x, w, na.rm, scale)}. 
+\code{mean_generalized()} returns a function: \code{function(x, w = rep(1, length(x), na.rm = FALSE, scale = TRUE)}. 
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }
@@ -83,16 +83,18 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \seealso{
 \code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
 
-\code{\link[gpindex]{weights_transmute}} can be used to turn an r-generalized mean into a k-generalized mean. 
+\code{\link[gpindex]{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
-\code{\link[gpindex]{weights_factor}} can be used to factor the weights to a turn a mean of products into a product of means.
+\code{\link[gpindex]{weights_factor}} factors the weights to a turn a mean of products into a product of means.
 }
 
 \examples{
-# Arithmetic mean
+# Make some data
 
 x <- 1:3
 w <- c(0.25, 0.25, 0.5)
+
+# Arithmetic mean
 
 mean_arithmetic(x, w)
 stats::weighted.mean(x, w) # same as stats::weighted.mean

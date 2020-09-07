@@ -8,7 +8,7 @@ stopifnot(
   exprs = {
     all(diff(weights_transmute(2, 2)(x)) == 0)
     all.equal(weights_transmute(-2, -2)(x, w), w)
-    !anyNA(weights_transmute(1, 1)(c(1, NA_real_)))
+    anyNA(weights_transmute(1, 1)(c(1, NA_real_)))
     anyNA(weights_transmute(2, 1)(c(1, NA_real_)))
     # Test against a simple implementation
     all(
@@ -25,21 +25,39 @@ stopifnot(
       )
     )
     # length 0 inputs
-    length(weights_g2a(numeric(0))) == 0L
-    length(weights_g2a(numeric(0), numeric(0))) == 0L
+    length(weights_transmute(1, 0)(numeric(0))) == 0L
+    length(weights_transmute(1, 0)(numeric(0), numeric(0))) == 0L
     # NA_real_ inputs
-    is.na(weights_g2a(NA_real_))
-    is.na(weights_g2a(NA_real_, 1))
-    is.na(weights_g2a(1, NA_real_))
-    is.na(weights_g2a(NaN))
-    is.na(weights_g2a(NaN, 1))
-    is.na(weights_g2a(1, NaN))
-    is.na(weights_g2a(NA_real_, NA_real_))
-    is.na(weights_g2a(NaN, NaN))
-    is.na(weights_g2a(NA_real_, NaN))
-    is.na(weights_g2a(NaN, NA_real_))
-    identical(is.na(weights_g2a(c(1, NA_real_))), c(FALSE, TRUE))
-    identical(is.na(weights_g2a(c(1, NaN))), c(FALSE, TRUE))
+    is.na(weights_transmute(1, 0)(NA_real_))
+    is.na(weights_transmute(1, 0)(NA_real_, 1))
+    is.na(weights_transmute(1, 0)(1, NA_real_))
+    is.na(weights_transmute(1, 0)(NaN))
+    is.na(weights_transmute(1, 0)(NaN, 1))
+    is.na(weights_transmute(1, 0)(1, NaN))
+    is.na(weights_transmute(1, 0)(NA_real_, NA_real_))
+    is.na(weights_transmute(1, 0)(NaN, NaN))
+    is.na(weights_transmute(1, 0)(NA_real_, NaN))
+    is.na(weights_transmute(1, 0)(NaN, NA_real_))
+    identical(is.na(weights_transmute(1, 0)(c(1, NA_real_))), c(FALSE, TRUE))
+    identical(is.na(weights_transmute(1, 0)(c(1, NaN))), c(FALSE, TRUE))
+  },
+  local = getNamespace("gpindex")
+)
+
+#---- Tests for contributions ----
+stopifnot(
+  exprs = {
+    all(
+      vapply(
+        seq(-10, 10, by = 0.25),
+        function(r) {
+          x <- replace(x, 1, NA)
+          con <- contributions(r)(x, w)
+          all.equal(sum(con, na.rm = TRUE), mean_generalized(r)(x, w, na.rm = TRUE) - 1)
+        },
+        logical(1)
+      )
+    )
   },
   local = getNamespace("gpindex")
 )
