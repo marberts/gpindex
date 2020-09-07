@@ -55,6 +55,8 @@ Passing very small values for \code{r} or \code{s} can give misleading results, 
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
+
+Stolarsky, K. B. (1975). Generalization of the Logartihmic Mean. \emph{Mathematics Magazine}, 48(2):87-92.
 }
 
 \seealso{
@@ -71,6 +73,10 @@ x <- 8:5
 y <- 1:4
 all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
 all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
+
+# The loarithmic mean lies between the arithmetic and geometric means
+
+all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
 # The harmonic mean cannot be expressed as a logarithmic mean, 
 # but can be expressed as an extended mean
