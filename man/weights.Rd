@@ -101,9 +101,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \examples{
 # Make some data
 
-x <- 1:10
-y <- 11:20
-w <- runif(10)
+x <- 2:10
+y <- 11:19
+w <- runif(9)
 
 # Calculate the geometric mean as an arithmetic mean and harmonic mean 
 # by transmuting the weights
@@ -114,8 +114,8 @@ mean_harmonic(x, weights_transmute(0, -1)(x))
 
 # Works for nested means, too
 
-w1 <- runif(10)
-w2 <- runif(10)
+w1 <- runif(9)
+w2 <- runif(9)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
@@ -124,6 +124,29 @@ v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
 v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
+
+# Transmuted weights can be used to calculate quote contributions
+# for a geometric price index
+
+weights_scale(weights_transmute(0, 1)(x)) * (x - 1)
+contributions_geometric(x) # the more convenient way
+
+# Not the only way to calculate contributions
+
+transmute2 <- function(x) {
+  m <- mean_geometric(x)
+  (m - 1) / log(m) * log(x) / (x - 1) / length(x)
+}
+
+transmute2(x) * (x - 1) # this isn't proportional to the method above
+all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
+
+# But these "transmuted" weights don't recover the geometric mean!
+# Not a particularly good way to calculate contributions
+
+mean_arithmetic(x, transmute2(x))
+mean_geometric(x)
+mean_arithmetic(x, weights_transmute(0, 1)(x))
 
 # Factor the harmonic mean
 
