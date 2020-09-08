@@ -2,17 +2,17 @@ Changes in version 0.2.0
 
 - This version doesn't add many new features, but makes a number of improvements and simplifications to the interface and underlying functions. These changes can break old code.
 
-- Many functions are now function factories to make them easier to use. This means that there are a number of changes to existing functions that can break old code. This mostly affects the index_* functions; for example, calculating a geometric Laspeyres index is now done as index_geometric("Laspeyres")(p1, p0, q0), rather than index_geometric(p1, p0, q0 = q0, type = "Laspeyres"). The index_weights(), weights_change(), weights_factor(), mean_generalized(), and logmean_generalized() functions are also now function factories.
+- Many functions are now function factories to make them easier to use. This mostly affects the index_* functions; for example, calculating a geometric Laspeyres index is now done as index_geometric("Laspeyres")(p1, p0, q0), rather than index_geometric(p1, p0, q0 = q0, type = "Laspeyres"). The index_weights(), weights_change(), weights_factor(), mean_generalized(), and logmean_generalized() functions are also now function factories.
 
 - Added the mean_extended() function to simplify the implementation of the weights_change() function.
 
-- The mean_* and weights_* functions no longer accept logical inputs, nor do they accept infinite exponents.
+- Functions no longer accept logical inputs in place of numeric inputs, nor do they accept infinite exponents.
 
 - The 'M' argument has been removed from the weights_change() functions.
 
 - The 'na.rm' and 'scale' arguments no longer appear in the weight_* functions. Missing values are now always removed, and weights are never scaled.
 
-- weights_change() has been renamed to weights_transmute() to be more descriptive. The weights_a2g() and weights_h2g() functions have also been removed.
+- weights_change() has been renamed to weights_transmute() to be more descriptive. The weights_x2y() functions have also been removed and replaced with the contributions() functions. This makes it easier to calculate quote contributions.
 
 - Documentation pages have been consolidated to make them easier to read.
 

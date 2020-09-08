@@ -1,4 +1,4 @@
-\name{generalized logarithmic mean}
+\name{logarithmic means }
 \alias{logmean_generalized}
 \alias{logmean}
 \alias{mean_extended}
@@ -26,7 +26,8 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \value{
-\code{logmean_generalized()} and \code{mean_extended()} return a function: \code{function(a, b, tol)}. 
+\code{logmean_generalized()} and \code{mean_extended()} return a function: 
+\code{function(a, b, tol = .Machine$double.eps^0.5)}. 
 
 \code{logmean()} returns a numeric vector the same length as \code{max(length(a), length(b))}.
 }
@@ -56,7 +57,7 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
 
-Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathematics Magazine}, 48(2):87-92.
+Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathematics Magazine}, 48(2): 87-92.
 }
 
 \seealso{
@@ -74,7 +75,7 @@ y <- 1:4
 all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
 all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
-# The loarithmic mean lies between the arithmetic and geometric means
+# The logarithmic mean lies between the arithmetic and geometric means
 
 all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 

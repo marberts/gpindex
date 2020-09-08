@@ -67,7 +67,7 @@ The function \code{contributions()} is a simple wrapper for \code{weights_transm
 
 \code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
 
-That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases.
+That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 

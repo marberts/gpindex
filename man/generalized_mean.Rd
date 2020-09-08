@@ -4,7 +4,7 @@
 \alias{mean_geometric}
 \alias{mean_harmonic}
 
-\title{Generalized mean}
+\title{Generalized means}
 
 \description{
 Calculate a generalized mean.
@@ -33,7 +33,8 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{mean_generalized()} returns a function: \code{function(x, w = rep(1, length(x), na.rm = FALSE, scale = TRUE)}. 
+\code{mean_generalized()} returns a function: 
+\code{function(x, w = rep(1, length(x), na.rm = FALSE, scale = TRUE)}. 
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }
@@ -104,7 +105,8 @@ stats::weighted.mean(x, w) # same as stats::weighted.mean
 mean_geometric(x, w)
 prod(x^w) # same as manual calculation
 
-# Using prod to manually calculate the geometric mean can give misleading results
+# Using prod to manually calculate the geometric mean 
+# can give misleading results
 
 z <- 1:1000
 prod(z)^(1 / length(z)) # overflow
@@ -125,15 +127,15 @@ mean_generalized(2)(x, w)
 
 # Cubic mean
 
-mean_generalized(3)(x, w)
+mean_generalized(3)(x, w) # Notice how this is larger than the previous means
 
 # Example of how missing values are handled
 
 mean_arithmetic(x, c(0.25, NA, 0.5))
 mean_arithmetic(x, c(0.25, NA, 0.5), na.rm = TRUE) # stats::weighted.mean returns NA
 
-# Example from Lord (2002) where the dispersion between arithmetic and geometric means
-# decreases as the variance increases
+# Example from Lord (2002) where the dispersion between arithmetic 
+# and geometric means decreases as the variance increases
 
 x <- c((5 + sqrt(5)) / 4, (5 - sqrt(5)) / 4, 1 / 2)
 y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
