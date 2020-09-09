@@ -27,6 +27,7 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 
 \value{
 \code{logmean_generalized()} and \code{mean_extended()} return a function: 
+
 \code{function(a, b, tol = .Machine$double.eps^0.5)}. 
 
 \code{logmean()} returns a numeric vector the same length as \code{max(length(a), length(b))}.
@@ -67,11 +68,14 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 }
 
 \examples{
-# The arithmetic and geometric means are special cases 
-# of the generalized logarithmic mean
+# Make some data
 
 x <- 8:5
 y <- 1:4
+
+# The arithmetic and geometric means are special cases 
+# of the generalized logarithmic mean
+
 all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
 all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
@@ -84,7 +88,10 @@ all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
 all.equal(mean_extended(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
-# A useful identity
+#--------------------
+
+# A useful identity for turning a additive change into a
+# proportionate change
 
 all.equal(logmean(x, y) * log(x / y), x - y) 
 
@@ -105,6 +112,8 @@ all.equal(logmean_generalized(0.5)(1, 2),
 
 all.equal(logmean(1, 2),
           mean_geometric(1:2)^2 * logmean(1, 1/2))
+
+#--------------------
           
 # Logarithmic means can be represented as integrals
 

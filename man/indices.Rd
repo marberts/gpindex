@@ -174,7 +174,7 @@ q1 <- quantity6[[3]]
 pb <- price6[[1]]
 qb <- quantity6[[1]]
 
-# Most of these indexes can be calculated by combining the 
+# Most indexes can be calculated by combining the 
 # appropriate weights with the correct type of mean
 
 index_geometric("Laspeyres")(p1, p0, q0)
@@ -184,20 +184,25 @@ mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
-# Trivial to turn this into a basket-style index
+# Trivial to turn weights for an arithmetic index 
+# into a basket-style index
 
 qs <- index_weights("Laspeyres")(p0, q0) / p0
 sum(p1 * qs) / sum(p0 * qs)
 
-# Harmonic calculation
+# Harmonic calculation for the arithmetic Laspeyres
 
-mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)) 
+mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
+
+#--------------------
 
 # If only weights are available (no quantity information), 
 # then use one of the generalized means
 
 w <- c(0.1, 0.2, 0.4, 0.15, 0.10, 0.05)
 mean_geometric(p1 / p0, w)
+
+#--------------------
 
 # Chain an index by price updating the weights
 
@@ -218,6 +223,8 @@ w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 
+#--------------------
+
 # Quote contributions for the Tornqvist index
 
 (con <- contributions_geometric(p1 / p0, index_weights("Tornqvist")(p1, p0, q1, q0)))
@@ -236,6 +243,8 @@ wf <- weights_scale(wf)
 sum(con)
 index_fisher(p1, p0, q1, q0) - 1
 
+#--------------------
+
 # NAs get special treatment
 
 p_na <- replace(p0, 6, NA)
@@ -247,6 +256,8 @@ index_laspeyres(p1, p_na, q0, na.rm = TRUE)
 # Only drops the last period-0 price
 
 sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
+
+#--------------------
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall

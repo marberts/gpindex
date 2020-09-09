@@ -33,7 +33,8 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{mean_generalized()} returns a function: 
+\code{mean_generalized()} returns a function:
+
 \code{function(x, w = rep(1, length(x), na.rm = FALSE, scale = TRUE)}. 
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
@@ -98,12 +99,12 @@ w <- c(0.25, 0.25, 0.5)
 # Arithmetic mean
 
 mean_arithmetic(x, w)
-stats::weighted.mean(x, w) # same as stats::weighted.mean
+stats::weighted.mean(x, w)
 
 # Geometric mean
 
 mean_geometric(x, w)
-prod(x^w) # same as manual calculation
+prod(x^w)
 
 # Using prod to manually calculate the geometric mean 
 # can give misleading results
@@ -119,20 +120,18 @@ mean_geometric(z)
 # Harmonic mean
 
 mean_harmonic(x, w)
-1 / stats::weighted.mean(1 / x, w) # same as manual calculation
+1 / stats::weighted.mean(1 / x, w)
 
 # Quadratic mean / root mean sqaure
 
 mean_generalized(2)(x, w)
 
 # Cubic mean
+# Notice how this is larger than the previous means
 
-mean_generalized(3)(x, w) # Notice how this is larger than the previous means
+mean_generalized(3)(x, w)
 
-# Example of how missing values are handled
-
-mean_arithmetic(x, c(0.25, NA, 0.5))
-mean_arithmetic(x, c(0.25, NA, 0.5), na.rm = TRUE) # stats::weighted.mean returns NA
+#--------------------
 
 # Example from Lord (2002) where the dispersion between arithmetic 
 # and geometric means decreases as the variance increases
@@ -142,4 +141,14 @@ y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
 
 stats::sd(x) > stats::sd(y)
 mean_arithmetic(x) - mean_geometric(x) < mean_arithmetic(y) - mean_geometric(y)
+
+#--------------------
+
+# Example of how missing values are handled
+
+w <- replace(x, 2, NA)
+
+mean_arithmetic(x, w)
+mean_arithmetic(x, w, na.rm = TRUE)
+stats::weighted.mean(x, w, na.rm = TRUE)
 }

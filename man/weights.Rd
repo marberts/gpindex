@@ -43,7 +43,9 @@ weights_scale(x)
 }
 
 \value{
-\code{weights_transmute()}, \code{contributions()}, and \code{weights_factor()} return a function: \code{function(x, w = rep(1, length(x))}.
+\code{weights_transmute()}, \code{contributions()}, and \code{weights_factor()} return a function: 
+
+\code{function(x, w = rep(1, length(x))}.
 
 \code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }
@@ -101,9 +103,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \examples{
 # Make some data
 
-x <- 2:10
-y <- 11:19
-w <- runif(9)
+x <- 2:3
+y <- 4:5
+w <- runif(2)
 
 # Calculate the geometric mean as an arithmetic mean and harmonic mean 
 # by transmuting the weights
@@ -114,8 +116,8 @@ mean_harmonic(x, weights_transmute(0, -1)(x))
 
 # Works for nested means, too
 
-w1 <- runif(9)
-w2 <- runif(9)
+w1 <- runif(2)
+w2 <- runif(2)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
@@ -124,6 +126,8 @@ v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
 v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
 mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
+
+#--------------------
 
 # Transmuted weights can be used to calculate quote contributions
 # for a geometric price index
@@ -144,9 +148,23 @@ all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
 # But these "transmuted" weights don't recover the geometric mean!
 # Not a particularly good way to calculate contributions
 
-mean_arithmetic(x, transmute2(x))
-mean_geometric(x)
-mean_arithmetic(x, weights_transmute(0, 1)(x))
+isTRUE(all.equal(mean_arithmetic(x, transmute2(x)), mean_geometric(x)))
+
+# There are infinitely many ways to calculate contributions, but the 
+# weights from weights_transmute(0, 1) are the *unique* weights that
+# recover the geometric mean
+
+perturb <- function(w, e) {
+  w + c(e, -e) / (x - 1)
+}
+
+perturb(transmute2(x), 0.1) * (x - 1)
+all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
+          mean_geometric(x) - 1)
+isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
+                 mean_geometric(x)))
+
+#--------------------
 
 # Factor the harmonic mean
 
