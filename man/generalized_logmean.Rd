@@ -83,6 +83,13 @@ all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
 all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
+# It can be approximated as a weighted mean of the 
+# arithmetic and geometric means
+
+((x + y) / 2 + 2 * sqrt(x * y)) / 3 # closer to geometric mean
+((x + y) / 2 * sqrt(x * y)^2)^(1 / 3)
+logmean(x, y)
+
 # The harmonic mean cannot be expressed as a logarithmic mean, 
 # but can be expressed as an extended mean
 
