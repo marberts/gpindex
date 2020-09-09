@@ -80,6 +80,7 @@ all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
 all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
 # The logarithmic mean lies between the arithmetic and geometric means
+# because the generalized logarithmic mean is increasing in r
 
 all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
