@@ -14,7 +14,7 @@ Changes in version 0.2.0
 
 - weights_change() has been renamed to weights_transmute() to be more descriptive. The weights_x2y() functions have also been removed and replaced with the contributions() functions. This makes it easier to calculate quote contributions.
 
-- Documentation pages have been consolidated to make them easier to read.
+- Documentation pages have been consolidated to make them easier to read, along with more examples.
 
 Changes in version 0.1.2
 

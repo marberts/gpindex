@@ -106,7 +106,7 @@ stats::weighted.mean(x, w)
 mean_geometric(x, w)
 prod(x^w)
 
-# Using prod to manually calculate the geometric mean 
+# Using prod() to manually calculate the geometric mean 
 # can give misleading results
 
 z <- 1:1000
@@ -127,7 +127,8 @@ mean_harmonic(x, w)
 mean_generalized(2)(x, w)
 
 # Cubic mean
-# Notice how this is larger than the previous means
+# This is larger than the other means so far because the
+# generalized mean is increasing in r
 
 mean_generalized(3)(x, w)
 
@@ -141,6 +142,19 @@ y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
 
 stats::sd(x) > stats::sd(y)
 mean_arithmetic(x) - mean_geometric(x) < mean_arithmetic(y) - mean_geometric(y)
+
+#--------------------
+
+# When r < 1, the generalized mean is larger than the corresponding
+# counter-harmonic (Lehmer) mean
+
+r <- -1
+sum(w * x^r) / sum(w * x^(r - 1)) < mean_generalized(r)(x, w)
+
+# The reverse is true when r > 1
+
+r <- 2
+sum(w * x^r) / sum(w * x^(r - 1)) > mean_generalized(r)(x, w)
 
 #--------------------
 

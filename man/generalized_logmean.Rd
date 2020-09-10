@@ -84,21 +84,30 @@ all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
 all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
-# It can be approximated as a weighted mean of the 
-# arithmetic and geometric means
+# It can be approximated as a convex combination of the 
+# arithmetic and geometric means that gives more weight to
+# the geometric mean
 
-((x + y) / 2 + 2 * sqrt(x * y)) / 3 # closer to geometric mean
-((x + y) / 2 * sqrt(x * y)^2)^(1 / 3)
+1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) # always a positive approximation error
+((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) # can have a smaller approximation error
 logmean(x, y)
+
+# A better approximation
+
+(1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)) / (1 + (log(x / y) / pi)^4 / 32)
 
 # The harmonic mean cannot be expressed as a logarithmic mean, 
 # but can be expressed as an extended mean
 
 all.equal(mean_extended(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
+# The quadratic mean is also a type of extended mean
+
+all.equal(mean_extended(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
+
 #--------------------
 
-# A useful identity for turning a additive change into a
+# A useful identity for turning an additive change into a
 # proportionate change
 
 all.equal(logmean(x, y) * log(x / y), x - y) 
@@ -110,7 +119,7 @@ r <- 2
 all.equal(logmean_generalized(r)(x, y) * (r * (x - y))^(1 / (r - 1)), 
           (x^r - y^r)^(1 / (r - 1)))
 
-# Some other identities from Bullen (example iii on page 385)
+# Some other identities
 
 all.equal(logmean_generalized(-2)(1, 2), 
           (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1 / 3))
@@ -126,5 +135,6 @@ all.equal(logmean(1, 2),
 # Logarithmic means can be represented as integrals
 
 logmean(2, 3)
-stats::integrate(function(t) 2^(1 - t) * 3^t, 0, 1)
+stats::integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
+1 / stats::integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 }

@@ -130,7 +130,7 @@ mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 #--------------------
 
 # Transmuted weights can be used to calculate quote contributions
-# for a geometric price index
+# for, e.g., a geometric price index
 
 weights_scale(weights_transmute(0, 1)(x)) * (x - 1)
 contributions_geometric(x) # the more convenient way
