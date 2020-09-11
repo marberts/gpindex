@@ -6,7 +6,7 @@ Authors@R: c(
     )
 Description: A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of generalized bilateral index (of which most price indexes are), along with a few important indexes that don't belong to the generalized family. Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0) and ILO, IMF, OECD, Eurostat, UN, and World Bank (2004, ISBN:92-2-113699-X) for bilateral price indexes.
 Depends: R (>= 4.0)
-Imports: stats
+Suggests: stats
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/marberts/gpindex
