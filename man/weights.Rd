@@ -35,7 +35,7 @@ weights_scale(x)
 }
 
 \arguments{
-\item{r, s}{A number giving the exponent of the generalized mean. See details.}
+\item{r, s}{A number giving the order of the generalized mean. See details.}
 
 \item{x}{A numeric vector.}
 
@@ -51,7 +51,7 @@ weights_scale(x)
 }
 
 \details{
-As a matter of definition, both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
+Both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
 \bold{Transmute weights}
 The function \code{weights_transmute()} returns a function to compute a vector of weights \code{v(x, w)} such that
@@ -65,7 +65,7 @@ These weights are calculated as
 This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case.
 
 \bold{Contributions}
-The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)} to calculate quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
+The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
 
 \code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
 
@@ -107,8 +107,8 @@ x <- 2:3
 y <- 4:5
 w <- runif(2)
 
-# Calculate the geometric mean as an arithmetic mean and harmonic mean 
-# by transmuting the weights
+# Calculate the geometric mean as an arithmetic mean and harmonic mean by 
+# transmuting the weights
 
 mean_geometric(x)
 mean_arithmetic(x, weights_transmute(0, 1)(x))
@@ -121,7 +121,8 @@ w2 <- runif(2)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
-v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
+v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), 
+                                mean_harmonic(x, w2)))
 v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
 v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
@@ -129,8 +130,8 @@ mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
 
 #--------------------
 
-# Transmuted weights can be used to calculate quote contributions
-# for, e.g., a geometric price index
+# Transmuted weights can be used to calculate quote contributions for, 
+# e.g., a geometric price index
 
 weights_scale(weights_transmute(0, 1)(x)) * (x - 1)
 contributions_geometric(x) # the more convenient way
@@ -150,9 +151,9 @@ all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
 
 isTRUE(all.equal(mean_arithmetic(x, transmute2(x)), mean_geometric(x)))
 
-# There are infinitely many ways to calculate contributions, but the 
-# weights from weights_transmute(0, 1) are the *unique* weights that
-# recover the geometric mean
+# There are infinitely many ways to calculate contributions, but the weights
+# from weights_transmute(0, 1) are the *unique* weights that recover the 
+# geometric mean
 
 perturb <- function(w, e) {
   w + c(e, -e) / (x - 1)
@@ -166,7 +167,7 @@ isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
 
 #--------------------
 
-# Factor the harmonic mean
+# Factor the harmonic mean by chaining the calculation
 
 mean_harmonic(x * y, w)
 mean_harmonic(x, w) * mean_harmonic(y, weights_factor(-1)(x, w))
@@ -176,8 +177,8 @@ mean_harmonic(x, w) * mean_harmonic(y, weights_factor(-1)(x, w))
 mean_arithmetic(x * y, w)
 mean_arithmetic(x, w) * mean_arithmetic(y, weights_update(x, w))
 
-# In cases where x and y have the same order, Chebyshev's inequality
-# implies that the chained calculation is too small
+# In cases where x and y have the same order, Chebyshev's inequality implies
+# that the chained calculation is too small
 
 mean_arithmetic(x * y, w) > mean_arithmetic(x, w) * mean_arithmetic(y, w)
 }

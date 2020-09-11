@@ -1,7 +1,6 @@
 ## Test environments
 
-- local Ubuntu 20.04 installation, R 4.0.2
-- local Xubuntu 19.10 installation, R devel
+- local Xubuntu 20.04 installation, R 4.0.2
 - win-builder (devel, release)
 
 ## R CMD check results
@@ -10,4 +9,4 @@ There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
-There are no downsteam dependencies at this time.
+There are no downstream dependencies at this time.

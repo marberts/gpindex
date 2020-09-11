@@ -1,4 +1,4 @@
-\name{logarithmic means }
+\name{logarithmic means}
 \alias{logmean_generalized}
 \alias{logmean}
 \alias{mean_extended}
@@ -34,13 +34,13 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \details{
-The function \code{mean_extended()} returns a function to compute the extended mean of \code{a} and \code{b} of order \code{r} and \code{s}. See Bullen (2003, p. 393) for a precise statement. This is also called the difference mean, Stolarsky mean, or extended mean-value mean. 
+The function \code{mean_extended()} returns a function to compute the extended mean of \code{a} and \code{b} of order \code{r} and \code{s}. See Bullen (2003, p. 393) for a definition. This is also called the difference mean, Stolarsky mean, or extended mean-value mean. 
 
-The function \code{logmean_generalized()} returns a function to compute the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a precise statement, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, setting \code{s = 1} in \code{mean_extended()}, but is more commonly used for price indexes.
+The function \code{logmean_generalized()} returns a function to compute the generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a definition, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, \code{mean_extended(r, 1)}, but is more commonly used for price indexes.
 
-The function \code{logmean()} returns the ordinary logarithmic mean, the most useful generalized logarithmic mean, and corresponds to \code{logmean_generalized(1)}.
+The function \code{logmean()} returns the ordinary logarithmic mean, and corresponds to \code{logmean_generalized(1)}.
 
-As a matter of definition, both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined.
+Both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined.
 
 By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[base:all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results in certain applications when \code{a} and \code{b} are computed values.
 }
@@ -56,7 +56,7 @@ Passing very small values for \code{r} or \code{s} can give misleading results, 
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
-Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
+Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer Science+Business Media.
 
 Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathematics Magazine}, 48(2): 87-92.
 }
@@ -73,8 +73,8 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 x <- 8:5
 y <- 1:4
 
-# The arithmetic and geometric means are special cases 
-# of the generalized logarithmic mean
+# The arithmetic and geometric means are special cases of the generalized 
+# logarithmic mean
 
 all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
 all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
@@ -84,20 +84,22 @@ all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
 
 all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 
-# It can be approximated as a convex combination of the 
-# arithmetic and geometric means that gives more weight to
-# the geometric mean
+# It can be approximated as a convex combination of the arithmetic and 
+# geometric means that gives more weight to the geometric mean
 
-1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) # always a positive approximation error
-((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) # can have a smaller approximation error
+# always a positive approximation error
+1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
+# can have a smaller approximation error
+((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
 logmean(x, y)
 
 # A better approximation
 
-(1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)) / (1 + (log(x / y) / pi)^4 / 32)
+correction <- (log(x / y) / pi)^4 / 32
+(1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)) / (1 + correction)
 
-# The harmonic mean cannot be expressed as a logarithmic mean, 
-# but can be expressed as an extended mean
+# The harmonic mean cannot be expressed as a logarithmic mean, but can be 
+# expressed as an extended mean
 
 all.equal(mean_extended(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
@@ -107,8 +109,8 @@ all.equal(mean_extended(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 
 #--------------------
 
-# A useful identity for turning an additive change into a
-# proportionate change
+# A useful identity for turning an additive change into a proportionate 
+# change
 
 all.equal(logmean(x, y) * log(x / y), x - y) 
 

@@ -4,7 +4,7 @@
 \alias{mean_geometric}
 \alias{mean_harmonic}
 
-\title{Generalized means}
+\title{Generalized mean}
 
 \description{
 Calculate a generalized mean.
@@ -21,7 +21,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
-\item{r}{A finite number giving the exponent of the generalized mean.}
+\item{r}{A finite number giving the order of the generalized mean.}
 
 \item{x}{A numeric vector.}
 
@@ -35,17 +35,17 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \value{
 \code{mean_generalized()} returns a function:
 
-\code{function(x, w = rep(1, length(x), na.rm = FALSE, scale = TRUE)}. 
+\code{function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)}. 
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }
 
 \details{
-The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a precise definition, or \url{https://en.wikipedia.org/wiki/Power_mean}.
+The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}.
 
-The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} are the most useful generalized means, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
+The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the Pythagorean means, the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
-As a matter of definition, both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
+Both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
 \enumerate{
 \item{The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0.} 
 
@@ -73,7 +73,7 @@ There are a number of existing functions for calculating \emph{unweighted} geome
 }
 
 \references{
-Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer.
+Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer Science+Business Media.
 
 Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd edition). Cambridge University Press.
 
@@ -106,8 +106,8 @@ stats::weighted.mean(x, w)
 mean_geometric(x, w)
 prod(x^w)
 
-# Using prod() to manually calculate the geometric mean 
-# can give misleading results
+# Using prod() to manually calculate the geometric mean can give misleading
+# results
 
 z <- 1:1000
 prod(z)^(1 / length(z)) # overflow
@@ -122,26 +122,28 @@ mean_geometric(z)
 mean_harmonic(x, w)
 1 / stats::weighted.mean(1 / x, w)
 
-# Quadratic mean / root mean sqaure
+# Quadratic mean / root mean square
 
 mean_generalized(2)(x, w)
 
 # Cubic mean
-# This is larger than the other means so far because the
-# generalized mean is increasing in r
 
 mean_generalized(3)(x, w)
 
+# This is larger than the other means so far because the generalized mean is
+# increasing in r
+
 #--------------------
 
-# Example from Lord (2002) where the dispersion between arithmetic 
-# and geometric means decreases as the variance increases
+# Example from Lord (2002) where the dispersion between arithmetic and 
+# geometric means decreases as the variance increases
 
 x <- c((5 + sqrt(5)) / 4, (5 - sqrt(5)) / 4, 1 / 2)
 y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
 
 stats::sd(x) > stats::sd(y)
-mean_arithmetic(x) - mean_geometric(x) < mean_arithmetic(y) - mean_geometric(y)
+mean_arithmetic(x) - mean_geometric(x) < 
+    mean_arithmetic(y) - mean_geometric(y)
 
 #--------------------
 

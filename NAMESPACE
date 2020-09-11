@@ -1,4 +1,4 @@
-export(mean_arithmetic, mean_generalized, mean_geometric, mean_harmonic,
+export(mean_generalized, mean_arithmetic, mean_geometric, mean_harmonic,
        mean_extended, logmean_generalized, logmean,
        weights_transmute, weights_factor, weights_update, weights_scale,
        contributions, contributions_geometric, contributions_harmonic,

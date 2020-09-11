@@ -6,7 +6,7 @@ weights_transmute <- function(r, s) {
   function(x, w = rep(1, length(x))) {
     m <- generalized_mean(x, w, na.rm = TRUE)
     res <- w * extended_mean(x, m) %^% (r - s)
-    # make sure NAs propegate
+    # make sure NAs propagate
     if (r == s) res[is.na(x) & !is.na(w)] <- NA
     res
   }
@@ -20,7 +20,7 @@ weights_factor <- function(r) {
     stopifnot("'x' and 'w' must be numeric vectors" = is_numeric(x, w),
               "'x' and 'w' must be the same length" = same_length(x, w))
     res <- w * x %^% r
-    # make sure NAs propegate
+    # make sure NAs propagate
     if (r == 0) res[is.na(x) & !is.na(w)] <- NA
     res
   }
@@ -30,7 +30,7 @@ weights_update <- weights_factor(1)
 
 #---- Scale weights ----
 weights_scale <- function(x) {
-  stopifnot("'w' must be a numeric vector" = is_numeric(x))
+  stopifnot("'x' must be a numeric vector" = is_numeric(x))
   x / sum(x, na.rm = TRUE)
 }
 

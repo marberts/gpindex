@@ -141,7 +141,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
 
-Naming for the indexes and weights generally follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The explicit calculations are given in the examples.
+Naming for the indexes and weights generally follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
 }
 
 \note{
@@ -174,14 +174,15 @@ q1 <- quantity6[[3]]
 pb <- price6[[1]]
 qb <- quantity6[[1]]
 
-# Most indexes can be calculated by combining the 
-# appropriate weights with the correct type of mean
+# Most indexes can be calculated by combining the appropriate weights with
+# the correct type of mean
 
 index_geometric("Laspeyres")(p1, p0, q0)
 mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 # Arithmetic Laspeyres index
 
+index_laspeyres(p1, p0, q0)
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
 # Trivial to turn weights for an arithmetic index 
@@ -194,13 +195,13 @@ sum(p1 * qs) / sum(p0 * qs)
 
 mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
 
-#--------------------
+# Unlike its arithmetic counterpart, the geometric Laspeyres can increase
+# when base-period prices increase if some of these prices are small
 
-# If only weights are available (no quantity information), 
-# then use one of the generalized means
-
-w <- c(0.1, 0.2, 0.4, 0.15, 0.10, 0.05)
-mean_geometric(p1 / p0, w)
+p0_small <- replace(p0, 1, p0[1] / 5)
+p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
+index_geometric("Laspeyres")(p1, p0_small, q0) < 
+    index_geometric("Laspeyres")(p1, p0_dx, q0)
 
 #--------------------
 
@@ -227,7 +228,8 @@ I1 * I2
 
 # Quote contributions for the Tornqvist index
 
-(con <- contributions_geometric(p1 / p0, index_weights("Tornqvist")(p1, p0, q1, q0)))
+w <- index_weights("Tornqvist")(p1, p0, q1, q0)
+(con <- contributions_geometric(p1 / p0, w))
 
 sum(con)
 index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
@@ -236,12 +238,20 @@ index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
 
 wl <- weights_scale(index_weights("Laspeyres")(p0, q0))
 wp <- weights_scale(index_weights("HybridPaasche")(p0, q1))
-wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), mean_arithmetic(p1 / p0, wp)))
+wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), 
+                                mean_arithmetic(p1 / p0, wp)))
 wf <- weights_scale(wf)
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
 sum(con)
 index_fisher(p1, p0, q1, q0) - 1
+
+# The same as the decomposition in section 4.2.2 of Balk (2008)
+
+Qf <- index_fisher(q1, q0, p1, p0)
+Ql <- index_laspeyres(q1, q0, p0)
+con2 <- (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
+all.equal(con, con2)
 
 #--------------------
 
