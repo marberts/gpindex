@@ -1,10 +1,10 @@
 #---- Arithmetic mean (internal) ----
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
-  # always return NA if there are any NAs in x or w
-  # differs from stats::weighted.mean
+  # return NA if there are NAs in x or w; differs from stats::weighted.mean
   if (!na.rm && (anyNA(x) || anyNA(w))) return(NA_real_)
-  den <- if (scale) sum(w[!is.na(x)], na.rm = TRUE) else 1
-  sum(x * w, na.rm = TRUE) / den
+  tot <- sum(x * w, na.rm = TRUE)
+  if (!scale) return(tot)
+  tot / sum(if (na.rm) w[!is.na(x)] else w, na.rm = TRUE)
 }
 
 #---- Generalized mean ----

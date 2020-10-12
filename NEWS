@@ -1,3 +1,9 @@
+Changes in version 0.2.1
+
+- Added a vignette.
+
+- The mean_generalized() function is now faster.
+
 Changes in version 0.2.0
 
 - This version doesn't add many new features, but makes a number of improvements and simplifications to the interface and underlying functions. These changes can break old code!
