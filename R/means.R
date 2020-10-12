@@ -40,8 +40,8 @@ mean_geometric <- mean_generalized(0)
 #---- Harmonic mean ----
 mean_harmonic <- mean_generalized(-1)
 
-#---- Extended mean ----
-mean_extended <- function(r, s) {
+#---- Extended mean (internal) ----
+mean_extended_ <- function(r, s, transmute = FALSE) {
   stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"),
             "'s' must be a finite length 1 numeric vector" = length1(s, "numeric"))
   if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
@@ -61,23 +61,33 @@ mean_extended <- function(r, s) {
     if (any(a <= 0 | b <= 0, na.rm = TRUE)) {
       warning("Some elements 'a' or 'b' are non-positive")
     }
-    res <- if (r == 0 && s == 0) {
-      sqrt(a * b)
+    if (r == 0 && s == 0) {
+      e <- if (transmute) 0 else 1
+      res <- sqrt(a * b)
     } else if (r == 0) {
-      ((a %^% s - b %^% s) / (log(a) - log(b)) / s) %^% (1 / s)
+      e <- if (transmute) -1 else 1 / s
+      res <- (a %^% s - b %^% s) / (log(a) - log(b)) / s
     } else if (s == 0) {
-      ((a %^% r - b %^% r) / (log(a) - log(b)) / r) %^% (1 / r)
+      e <- if (transmute) 1 else 1 / r
+      res <- (a %^% r - b %^% r) / (log(a) - log(b)) / r
     } else if (r == s) {
-      exp(((a %^% r) * log(a) - (b %^% r) * log(b)) / (a %^% r - b %^% r) - 1 / r)
+      e <- if (transmute) 0 else 1
+      res <- exp(((a %^% r) * log(a) - (b %^% r) * log(b)) / 
+                   (a %^% r - b %^% r) - 1 / r)
     } else {
-      ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))
+      e <- if (transmute) 1 else 1 / (r - s)
+      res <- (a %^% r - b %^% r) / (a %^% s - b %^% s) * s / r
     }
+    res <- res %^% e
     # set output to a when a = b
     loc <- which(abs(a - b) <= tol)
     res[loc] <- a[(loc - 1L) %% length(a) + 1] # wrap-around indexing
     res
   }
 }
+
+#---- Extended mean (exported) ----
+mean_extended <- function(r, s) mean_extended_(r, s)
 
 #---- Generalized logarithmic mean ----
 logmean_generalized <- function(r) mean_extended(r, 1)

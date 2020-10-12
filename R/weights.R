@@ -1,11 +1,11 @@
 #---- Transmute weights ----
 weights_transmute <- function(r, s) {
   generalized_mean <- mean_generalized(r)
-  extended_mean <- mean_extended(r, s)
+  extended_mean <- mean_extended_(r, s, transmute = TRUE)
   # return function
   function(x, w = rep(1, length(x))) {
     m <- generalized_mean(x, w, na.rm = TRUE)
-    res <- w * extended_mean(x, m) %^% (r - s)
+    res <- w * extended_mean(x, m)
     # make sure NAs propagate
     if (r == s) res[is.na(x) & !is.na(w)] <- NA
     res
