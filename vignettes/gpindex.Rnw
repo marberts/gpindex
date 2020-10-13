@@ -1,0 +1,17 @@
+\documentclass[letter]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath}
+\usepackage{Sweave}
+
+\title{Generalized Price Indexes}
+\author{Steve Martin}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle
+
+
+
+
+\end{document}
