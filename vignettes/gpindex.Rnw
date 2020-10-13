@@ -4,6 +4,8 @@
 \usepackage{amsmath}
 \usepackage{Sweave}
 
+%\VignetteIndexEntry{Generalized Price Indexes}
+
 \title{Generalized Price Indexes}
 \author{Steve Martin}
 
