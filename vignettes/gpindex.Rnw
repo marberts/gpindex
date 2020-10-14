@@ -1,6 +1,7 @@
-\documentclass[letter]{article}
+\documentclass{article}
 \usepackage[margin=1in]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{Sweave}
 
@@ -13,7 +14,69 @@
 \SweaveOpts{concordance=TRUE}
 \maketitle
 
+Generalized price indexes are a large family of price indexes with nice properties. Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index). As it is trivial to turn a price index into its analogous quantity index by switching prices and quantities in the index-number formula, everything about generalized price indexes applies equally to generalizes quantity indexes. To keep things simple, I'll ignore quantity indexes.
 
+Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also satisfy other desirable properties, namely that: they are positive and continuous functions of prices and quantities, the index lies between the largest and smallest price change (mean value property), a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
 
+One nice, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R}.
+
+\subsection*{Generalized means}
+
+All generalized indexes are based on the generalized mean. Given a set of price relatives and weights, any generalized price index is simply a weighted (generalized) mean of price relatives. What distinguishes different generalized price indexes are the weights and the order of the generalized mean. See \citet[Chapter 3]{bullen2003} for an extensive discussion of generalized means and their properties.
+
+Given a collection of $i = 1,\ldots,n$ goods transacted a two points in time, period 0 (the base or reference period) and period 1 (the current or comparison period), let $p_t = (p_{1t}, p_{2t},\ldots, p_{nt})$ be the vector of prices in period $t=0,1$, and let $w = (w_1, w_2,\ldots,w_n)$ be a vector of weights associated with each good. Suppose that each $p_{i} > 0$, $w_{i} > 0$, and $\sum_{i=1}^{n} w_{i} = 1$. The generalized index of order $r$ is
+\begin{align*}
+I_r(p_1 / p_0, w) = 
+\begin{cases}
+\prod_{i = 1}^{n} (p_{i1} / p_{i0})^{w_{i}} & \text{if } r = 0 \\
+\left(\sum_{i = 1}^{n} w_{i} (p_{i1} / p_{i0})^{r} \right)^{1 / r} & \text{if } r \neq 0.
+\end{cases}
+\end{align*}
+A generalized index can equivalently be seen as the solution to the following prediction problem:
+\begin{align*}
+\min_{\substack{I}}
+\begin{cases}
+\sum_{i = 1}^{n} w_{i} \left(\log(I) - \log(p_{i1} / p_{i0}) \right)^2 & \text{if } r = 0\\
+\sum_{i = 1}^{n} w_{i} \left(I^r - (p_{i1} / p_{i0})^r \right)^2 & \text{if } r \neq 0.
+\end{cases}
+\end{align*}
+All generalized indexes attempt to best predict a change in price for a good under quadratic loss. This emphasizes that generalized indexes are not just mathematically similar; they are conceptually similar as well.
+
+Most index-number formulas used in practice correspond to a generalized index of degree $1$ (for arithmetic indexes), degree $0$ (for geometric indexes), or degree $-1$ (for harmonic indexes). For example, setting $r = 1$ and $w_{i} = s_{i0}$ results in the Laspeyeres index, and setting $r = -1$ and $w_{i} = s_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = s_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
+
+The \texttt{mean\_generalized()} function in \texttt{gpindex} takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{mean\_generalized(1)()} is the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{mean\_generalized(0)()} is the geometric mean, and \texttt{mean\_generalized(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{mean\_generalized()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
+
+<<>>=
+library(gpindex)
+p1 <- 2:4
+p0 <- 1:3
+mean_arithmetic(p1 / p0) # Carli index
+mean_geometric(p1 / p0) # Jevons index
+mean_harmonic(p1 / p0) # Coggeshall index
+@
+
+\section*{Named price indexes}
+
+A hallmark of the literature on price indexes is that most index-number formula are associated with a name. Although naming is often inconsistent, the each name usually corresponds to a specific weight in the generalized mean.
+
+\bibliographystyle{apalike}
+\begin{thebibliography}{}
+
+\bibitem[Balk, 2008]{balk2008}
+Balk, B.~M. (2008).
+\newblock {\em Price and Quantity Index Numbers}.
+\newblock Cambridge University Press.
+
+\bibitem[Bullen, 2003]{bullen2003}
+Bullen, P.~S. (2003).
+\newblock {\em Handbook of Means and their Inequalities}.
+\newblock Springer Science+Business Media.
+
+\bibitem[ILO et~al., 2004]{cpimanual}
+ILO, IMF, OECD, Eurostat, UN, and Bank, W. (2004).
+\newblock {\em Consumer price index manual: Theory and practice}.
+\newblock International Monetary Fund.
+
+\end{thebibliography}
 
 \end{document}
