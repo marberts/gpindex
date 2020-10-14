@@ -18,13 +18,13 @@ Generalized price indexes are a large family of price indexes with nice properti
 
 Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also satisfy other desirable properties, namely that: they are positive and continuous functions of prices and quantities, the index lies between the largest and smallest price change (mean value property), a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
 
-One nice, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R}.
+One nice, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R} using the \texttt{gpindex} package.
 
 \subsection*{Generalized means}
 
 All generalized indexes are based on the generalized mean. Given a set of price relatives and weights, any generalized price index is simply a weighted (generalized) mean of price relatives. What distinguishes different generalized price indexes are the weights and the order of the generalized mean. See \citet[Chapter 3]{bullen2003} for an extensive discussion of generalized means and their properties.
 
-Given a collection of $i = 1,\ldots,n$ goods transacted a two points in time, period 0 (the base or reference period) and period 1 (the current or comparison period), let $p_t = (p_{1t}, p_{2t},\ldots, p_{nt})$ be the vector of prices in period $t=0,1$, and let $w = (w_1, w_2,\ldots,w_n)$ be a vector of weights associated with each good. Suppose that each $p_{i} > 0$, $w_{i} > 0$, and $\sum_{i=1}^{n} w_{i} = 1$. The generalized index of order $r$ is
+Given a collection of $i = 1,\ldots,n$ goods transacted a two points in time, period 0 (the base or reference period) and period 1 (the current or comparison period), let $p_t = (p_{1t}, p_{2t},\ldots, p_{nt})$ be the vector of prices in period $t=0,1$, and let $w = (w_1, w_2,\ldots,w_n)$ be a vector of weights associated with each good. Suppose that each $p_{i} > 0$, $w_{i} > 0$, and $\sum_{i=1}^{n} w_{i} = 1$. The generalized price index of order $r$ is then
 \begin{align*}
 I_r(p_1 / p_0, w) = 
 \begin{cases}
@@ -42,14 +42,14 @@ A generalized index can equivalently be seen as the solution to the following pr
 \end{align*}
 All generalized indexes attempt to best predict a change in price for a good under quadratic loss. This emphasizes that generalized indexes are not just mathematically similar; they are conceptually similar as well.
 
-Most index-number formulas used in practice correspond to a generalized index of degree $1$ (for arithmetic indexes), degree $0$ (for geometric indexes), or degree $-1$ (for harmonic indexes). For example, setting $r = 1$ and $w_{i} = s_{i0}$ results in the Laspeyeres index, and setting $r = -1$ and $w_{i} = s_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = s_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
+Most index-number formulas used in practice correspond to a generalized index of degree $1$ (for arithmetic indexes), degree $0$ (for geometric indexes), or degree $-1$ (for harmonic indexes)---i.e., most price indexes are based on one of the Pythagorean means. For example, setting $r = 1$ and $w_{i} = s_{i0}$ results in the Laspeyeres index, and setting $r = -1$ and $w_{i} = s_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = s_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
 
-The \texttt{mean\_generalized()} function in \texttt{gpindex} takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{mean\_generalized(1)()} is the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{mean\_generalized(0)()} is the geometric mean, and \texttt{mean\_generalized(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{mean\_generalized()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
+Generalized means, and therefore generalized index, are calculated with the \texttt{mean\_generalized()} function in \texttt{gpindex}. This function takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{mean\_generalized(1)()} is the function to compute the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{mean\_generalized(0)()} is the geometric mean, and \texttt{mean\_generalized(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{mean\_generalized()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
 
 <<>>=
 library(gpindex)
-p1 <- 2:4
-p0 <- 1:3
+p1 <- price6[[2]]
+p0 <- price6[[1]]
 mean_arithmetic(p1 / p0) # Carli index
 mean_geometric(p1 / p0) # Jevons index
 mean_harmonic(p1 / p0) # Coggeshall index
@@ -57,7 +57,31 @@ mean_harmonic(p1 / p0) # Coggeshall index
 
 \section*{Named price indexes}
 
-A hallmark of the literature on price indexes is that most index-number formula are associated with a name. Although naming is often inconsistent, the each name usually corresponds to a specific weight in the generalized mean.
+A hallmark of the literature on price indexes is that most index-number formulas are associated with a name. Although naming is sometimes inconsistent, each name can be roughly mapped to a specific set of weights in the generalized mean of a specific order. For example, a Paasche index has weights given by current-period expenditure shares in the a generalized mean of order $-1$. It is important to note that the mapping between names and weights is not necessarily one-to-one, as indexes can have the same weights but receive different names by virtue of having different orders. For example, both the Paasche index and the Palgrave index have the same weights; the difference is that a Paasche index is of order $-1$, whereas a Palgrave index is of order $1$.\footnote{This is made more confusing because the geometric index with current-period expenditure shares are weights is a geometric Paasche index, whereas the arithmetic Paasche index has different (hybrid) weights.}
+
+The \texttt{index\_weights()} function in \texttt{gpindex} takes a name and returns a function to compute the corresponding weights. For example, the \texttt{index\_weights("Laspeyres")()} function takes information on prices and quantities to calculate Laspeyres weights (i.e., base-period expenditure shares). Plugging these weights into an arithmetic mean of price relatives gives the regular Laspeyres index, whereas plugging these weights into a geometric mean produces a geometric Laspeyres index.
+
+<<>>=
+q0 <- quantity6[[1]]
+index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
+mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
+@
+
+Naming follows \citet{balk2008} and \citet{cpimanual}, although it is unlikely to be exhaustive given the great many index-number formulas that exist. Having \texttt{index\_weights()} be a function factory, however, makes it easy to extend, without changing the interface for how other weights are calculated.
+
+Although most named generalized indexes can be calculated by combining the appropriate names in \texttt{index\_weights()} with the appropriate order in \texttt{mean\_generalized}, there are a number of wrappers to simplify doing this. For example, the \texttt{index\_arithmetic()} function takes the name of an arithmetic index and returns a function to calculate it, essentially passing the appropriate function to calculate the weights to \texttt{mean\_arithmetic()}.
+
+<<>>=
+index_arithmetic("Laspeyres")(p1, p0, q0)
+@
+
+In the interest of completeness, there are also a number of wrappers for non-generalized indexes, like the Fisher index, in \texttt{gpindex}. The documentation page for \texttt{?index} has more details.
+
+<<>>=
+q1 <- quantity6[[2]]
+index_fisher(p1, p0, q1, q0) 
+index_hlp(p1, p0, q1, q0) # Harmonic analogue of the Fisher index
+@
 
 \bibliographystyle{apalike}
 \begin{thebibliography}{}
