@@ -16,7 +16,7 @@
 
 Generalized price indexes are a large family of price indexes with nice properties. Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index). As it is trivial to turn a price index into its analogous quantity index by switching prices and quantities in the index-number formula, everything about generalized price indexes applies equally to generalizes quantity indexes.
 
-Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also satisfy other desirable properties, namely that: they are positive and continuous functions of prices and quantities, the index lies between the largest and smallest price change (mean value property), a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity property), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
+Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also have other desirable properties, namely that: they are positive and continuous functions of prices and quantities, the index lies between the largest and smallest price change (mean value property), a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity property), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
 
 One especially nice, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R} using the \texttt{gpindex} package.
 
@@ -24,25 +24,25 @@ One especially nice, although often overlooked, property of generalized indexes 
 
 All generalized indexes are based on the generalized mean. Given a set of price relatives and weights, any generalized price index is simply a generalized mean of price relatives. What distinguishes different generalized price indexes are the weights and the order of the generalized mean. See \citet[Chapter 3]{bullen2003} for an extensive discussion of generalized means and their properties.
 
-Given a collection of $i = 1,\ldots,n$ goods transacted a two points in time, period 0 (the base or reference period) and period 1 (the current or comparison period), let $p_t = (p_{1t}, p_{2t},\ldots, p_{nt})$ be the vector of prices in period $t=0,1$, and let $w = (w_1, w_2,\ldots,w_n)$ be a vector of weights associated with each good. Suppose that each $p_{i} > 0$, $w_{i} > 0$, and $\sum_{i=1}^{n} w_{i} = 1$. The generalized price index of order $r$ is then
+Given a collection of $i = 1,\ldots,n$ goods transacted at two points in time, period 0 (the base or reference period) and period 1 (the current or comparison period), let $p_t = (p_{1t}, p_{2t},\ldots, p_{nt})$ be the vector of prices in period $t=0,1$, and let $w = (w_1, w_2,\ldots,w_n)$ be a vector of weights associated with each good. Suppose that each $p_{i} > 0$, $w_{i} > 0$, and $\sum_{i=1}^{n} w_{i} = 1$. The generalized price index of order $r$ is simply the generalized mean
 \begin{align*}
-I_r(p_1 / p_0, w) = 
+I_{r}\left(\frac{p_1}{p_0}, w\right) = 
 \begin{cases}
-\prod_{i = 1}^{n} (p_{i1} / p_{i0})^{w_{i}} & \text{if } r = 0 \\
-\left(\sum_{i = 1}^{n} w_{i} (p_{i1} / p_{i0})^{r} \right)^{1 / r} & \text{if } r \neq 0.
+\prod_{i = 1}^{n} \left(\frac{p_{i1}}{p_{i0}}\right)^{w_{i}} & \text{if } r = 0 \\
+\left(\sum_{i = 1}^{n} w_{i} \left(\frac{p_{i1}}{p_{i0}}\right)^{r} \right)^{1 / r} & \text{if } r \neq 0.
 \end{cases}
 \end{align*}
 A generalized index can equivalently be seen as the solution to the following prediction problem:
 \begin{align*}
 \min_{\substack{I}}
 \begin{cases}
-\sum_{i = 1}^{n} w_{i} \left(\log(I) - \log(p_{i1} / p_{i0}) \right)^2 & \text{if } r = 0\\
-\sum_{i = 1}^{n} w_{i} \left(I^r - (p_{i1} / p_{i0})^r \right)^2 & \text{if } r \neq 0.
+\sum_{i = 1}^{n} w_{i} \left(\log(I) - \log\left(\frac{p_{i1}}{p_{i0}}\right) \right)^2 & \text{if } r = 0\\
+\sum_{i = 1}^{n} w_{i} \left(I^r - \left(\frac{p_{i1}}{p_{i0}}\right)^r \right)^2 & \text{if } r \neq 0.
 \end{cases}
 \end{align*}
 All generalized indexes attempt to best predict a change in price for a good under quadratic loss. This emphasizes that generalized indexes are not just mathematically similar; they are conceptually similar as well.
 
-Most price indexes used in practice correspond to a generalized index of degree $1$ (for arithmetic indexes), degree $0$ (for geometric indexes), or degree $-1$ (for harmonic indexes)---i.e., most price indexes are based on one of the Pythagorean means. For example, setting $r = 1$ and $w_{i} = s_{i0}$ results in the Laspeyeres index, and setting $r = -1$ and $w_{i} = s_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = s_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
+Most price indexes used in practice correspond to a generalized index of order $1$ (for arithmetic indexes), order $0$ (for geometric indexes), or order $-1$ (for harmonic indexes)---i.e., most price indexes are based on one of the Pythagorean means. For example, setting $r = 1$ and $w_{i} = s_{i0}$ results in the Laspeyeres index, and setting $r = -1$ and $w_{i} = s_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = s_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
 
 Generalized means, and therefore generalized indexes, are calculated with the \texttt{mean\_generalized()} function in the \texttt{gpindex} package. This function takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{mean\_generalized(1)()} is the function to compute the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{mean\_generalized(0)()} is the geometric mean, and \texttt{mean\_generalized(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{mean\_generalized()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
 
@@ -57,7 +57,7 @@ mean_harmonic(p1 / p0) # Coggeshall index
 
 \section*{Named price indexes}
 
-A hallmark of the literature on price indexes is that most price indexes are associated with a name. Although naming is sometimes inconsistent, each name can be roughly mapped to a specific set of weights in the generalized mean of a specific order. For example, a Laspeyres index has weights given by base-period expenditure shares in a generalized mean of order $1$, whereas a Paasche index has weights given by current-period expenditure shares in the a generalized mean of order $-1$. It is important to note that the mapping between names and weights is not necessarily one-to-one, as indexes can have the same weights but receive different names by virtue of having different orders. For example, both the Paasche index and the Palgrave index have the same weights; the difference is that a Paasche index is of order $-1$, whereas a Palgrave index is of order $1$.\footnote{This is made more confusing because the geometric index with current-period expenditure shares are weights is a geometric Paasche index, whereas the arithmetic Paasche index has different (hybrid) weights.}
+A hallmark of the literature on price indexes is that most price indexes are associated with a name. Although naming is sometimes inconsistent, each name can be roughly mapped to a specific set of weights in the generalized mean of a specific order. For example, a Laspeyres index has weights given by base-period expenditure shares in a generalized mean of order $1$, whereas a Paasche index has weights given by current-period expenditure shares in the a generalized mean of order $-1$. It is important to note that the mapping between names and weights is not necessarily one-to-one, as indexes can have the same weights but receive different names by virtue of having different orders. For example, both the Paasche index and the Palgrave index have the same weights; the difference is that the Paasche index is of order $-1$, whereas the Palgrave index is of order $1$.\footnote{This is made more confusing because the geometric index with current-period expenditure shares are weights is a geometric Paasche index, whereas the arithmetic Paasche index has different (hybrid) weights.}
 
 The \texttt{index\_weights()} function in \texttt{gpindex} takes a name and returns a function to compute the corresponding weights. For example, the \texttt{index\_weights("Laspeyres")()} function takes information on prices and quantities to calculate Laspeyres weights (i.e., base-period expenditure shares). Plugging these weights into an arithmetic mean of price relatives gives the regular Laspeyres index, whereas plugging these weights into a geometric mean produces a geometric Laspeyres index.
 
@@ -65,7 +65,7 @@ The \texttt{index\_weights()} function in \texttt{gpindex} takes a name and retu
 q0 <- quantity6[[1]]
 index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
-mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # geometric Laspeyres index
+mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
 @
 
 Note that the weights returned by \texttt{index\_weights()} need not sum to 1, like all functions in \texttt{gpindex} that operate on weights, as this isn't always appropriate for some indexes (namely the Vartia-I index). The \texttt{weights\_scale()} function scales a numeric vector so that it sums to 1, so unscaled weights in general pose no special challenges, and \texttt{mean\_generalized()} scales the weights by default.
@@ -91,12 +91,76 @@ index_hlp(p1, p0, q1, q0) # Harmonic analogue of the Fisher index
 
 \section*{Quote contributions}
 
-It is often useful to be able to decompose a price index into an additive contribution for each price relative. That is, for any number $r$, find a function $\tilde{w}_{r}$ of $p_{1} / p_{0}$ and $w$, such that $\sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) \equiv 1$ and
+It is often useful to be able to decompose a price index into an additive contribution for each price relative. That is, for any number $r$, find a collection of functions $\tilde{w}_{ir}$, $i = 1,\ldots,n$, of $p_{1} / p_{0}$ and $w$, such that $\sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) \equiv 1$ and
 \begin{align*}
-I_r(p_1 / p_0, w) \equiv \sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) p_1 / p_0.
+I_r\left(\frac{p_1}{p_0}, w\right) \equiv \sum_{i = 1}^{n} \tilde{w}_{ir}\left(\frac{p_1}{p_0}, w\right) \frac{p_{i1}}{p_{i0}}.
 \end{align*}
-If such a function exists, it must be unique (unless all price relatives are equal).\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} \neq p_{21} / p_{20}$. If there are positive numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$, then this implies that $w_{1} = w_{2}$. Any function \tilde{w}_{ir}(p_1 / p_0, w) must then be unique for all $p_{11} / p_{10} \neq p_{21} / p_{20}$.}
+If such functions exists, they must be unique whenever price relatives are not all equal.\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} \neq p_{21} / p_{20}$. If there are positive numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$, then this implies that $w_{1} = w_{2}$. Any function $\tilde{w}_{ir}(p_1 / p_0, w)$ must then be unique for all $p_{11} / p_{10} \neq p_{21} / p_{20}$.} With this decomposition, the contribution for a price relative is simply $\tilde{w}_{ir}(p_1 / p_0, w) (p_{i1} / p_{i0} - 1)$.
 
+\citet[Chapter 4]{balk2008} shows how this can be done for a geometric price index using logarithmic means. His approach can be generalized using the generalized logarithmic mean \citep[p.~385]{bullen2003}, which is defined for any $a > 0$ and $b > 0$ as
+\begin{align*}
+\mathcal{L}_{r}(a, b) =
+\begin{cases}
+\left(\frac{a^r - b^r}{r(a - b)}\right)^{1 / (r - 1)} & r \notin \{0,1\}, a \neq b \\
+\frac{a - b}{\log(a) - \log(b)} & r = 0, a \neq b \\
+\frac{1}{\exp(1)} \left(\frac{b^b}{a^a}\right)^{1 / (b - a)} & r = 1, a \neq b \\
+a & a = b.
+\end{cases}
+\end{align*}
+The proof is simple, and relies on the identity
+\begin{align*}
+\sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}\left[\frac{p_{i1}}{p_{i0}} - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right] \equiv 0,
+\end{align*}
+from which it follows that
+\begin{align*}
+\tilde{w}_{ir}(p_1 / p_0, w) =  w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}.
+\end{align*}
+Balk also shows that any arithmetic price index can be written as a geometric price index with a similar change in weights. This result can again be generalized as finding functions $\tilde{w_{is}}$ such that
+\begin{align*}
+\sum_{i = 1}^{n} w_{i} \frac{p_1}{p_0} \equiv I_s\left(\frac{p_1}{p_0}, \tilde{w}_{is}\left(\frac{p_1}{p_0}, w\right)\right)
+\end{align*}
+using the generalized logarithmic mean.
+
+As any price index of order $r$ can be expressed as an arithmetic index, and any arithmetic index can be expressed as an index for order $s$, these results can be combined to turn any index of order $r$ into an index of order $s$ with a suitable change of weights. Although these weights can be expressed using the generalized logarithmic mean, it is easier to express them with the more general extended mean \citep[p.~393]{bullen2003}
+\begin{align*}
+\mathcal{E}_{rs}(a, b) =
+\begin{cases}
+\left(\frac{s(a^r - b^r)}{r(a^s - b^s)}\right)^{1 / (r - s)} & r \neq s, r \neq 0, s \neq 0, a \neq b \\
+\left(\frac{a^r - b^r}{r(\log(a) - \log(b))}\right)^{1 / r} & r \neq 0, s = 0, a \neq b \\
+\left(\frac{a^s - b^s}{s(\log(a) - \log(b))}\right)^{1 / s} & r = 0, s \neq 0, a \neq b \\
+\frac{1}{\exp(1)^{1 / r}} \left(\frac{b^{b^r}}{a^{a^r}}\right)^{1 / (b^r - a^r)} & r = s \neq 0, a \neq b \\
+\sqrt{ab} & r = s = 0, a \neq b \\
+a & a = b.
+\end{cases}
+\end{align*}
+As with the generalized logarithmic mean, this satisfies the identity
+\begin{align*}
+0 \equiv
+\begin{cases}
+\sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}\left[\left(\frac{p_{i1}}{p_{i0}}\right)^s - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)^s\right] & \text{if } s \neq 0 \\
+\sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}\left[\log\left(\frac{p_{i1}}{p_{i0}}\right) - \log\left(I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right)\right] & \text{if } s = 0,
+\end{cases}
+\end{align*}
+from which it follows that
+\begin{align*}
+\tilde{w}_{irs}(p_1 / p_0, w) =  w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{E}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}.
+\end{align*}
+
+The \texttt{gpindex} package has functions for the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$.
+
+<<>>=
+mean_harmonic(p1 / p0)
+weights_transmute(-1, 1)(p1 / p0)
+mean_arithmetic(p1 / p0, weights_transmute(-1, 1)(p1 / p0))
+mean_geometric(p1 / p0, weights_transmute(-1, 0)(p1 / p0))
+@
+
+Quote contributions for an index are easy to calculate by transmuting the weights for the index to arithmetic weights with \texttt{weights\_transmute(r, 1)()}. The \texttt{contributions()} function saves from having to do the manual calculation.
+
+<<>>=
+contributions(-1)(p1 / p0)
+sum(contributions(-1)(p1 / p0))
+@
 
 \bibliographystyle{apalike}
 \begin{thebibliography}{}
