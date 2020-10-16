@@ -95,7 +95,7 @@ It is often useful to be able to decompose a price index into an additive contri
 \begin{align*}
 I_r(p_1 / p_0, w) \equiv \sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) p_1 / p_0.
 \end{align*}
-If such a function exists, it must be unique (unless all price relatives are equal).\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} > p_{21} / p_{20}$. If there are numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$ then this implies that $w_{1} = w_{2}$.}
+If such a function exists, it must be unique (unless all price relatives are equal).\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} \neq p_{21} / p_{20}$. If there are positive numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$, then this implies that $w_{1} = w_{2}$. Any function \tilde{w}_{ir}(p_1 / p_0, w) must then be unique for all $p_{11} / p_{10} \neq p_{21} / p_{20}$.}
 
 
 \bibliographystyle{apalike}
