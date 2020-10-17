@@ -89,6 +89,25 @@ index_hlp(p1, p0, q1, q0) # Harmonic analogue of the Fisher index
 
 \section*{Price-updating weights}
 
+Price indexes are usually calculated for many points in time, not just two, to construct a time-series that gives the evolution of prices over time with respect to a fixed base period. One way to do this with a bilateral index is to simply chain the index values for successive periods together, so that the index in period $t$ is
+\begin{align*}
+I_{r}\left(\frac{p_{t-1}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{t-1}}, w\right).
+\end{align*}
+This saves from having to hold onto the price information in the base period for the life of the index, and only the index value for the previous period and most recent price relatives are needed to compute the next index value in the time series.
+
+In general it is not the case the product of generalized means in the generalized mean of a product. But, it is the case that there is a collection of function $\hat{w}_{ir}$ that factor the generalized index into two terms
+\begin{align*}
+I_{r}\left(\frac{p_{t}}{p_{0}}, w\right) \equiv I_{r}\left(\frac{p_{s}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{s}}, \hat{w}_{r}\left(\frac{p_{s}}{p_{0}}, w\right)\right),
+\end{align*}
+where
+\begin{align*}
+\hat{w}_{ir} = w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r \Bigg/ \sum_{i=1}^{n} w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r.
+\end{align*}
+
+When $r = 0$, $\hat{w}_{ir} = 1$ so that no adjustment to the weights is needed; a geometric index can always be chained together. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this is important for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
+
+The \texttt{weights\_factor()} function takes a number \texttt{r} and returns the updated weights needed to chain an index of order \texttt{r}. The \texttt{weights\_update()} function covers the special case of \texttt{r = 1}.
+
 \section*{Quote contributions}
 
 It is often useful to be able to decompose a price index into an additive contribution for each price relative. That is, for any number $r$, find a collection of functions $\tilde{w}_{ir}$, $i = 1,\ldots,n$, of $p_{1} / p_{0}$ and $w$, such that $\sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) \equiv 1$ and
@@ -146,13 +165,22 @@ from which it follows that
 \tilde{w}_{irs}(p_1 / p_0, w) =  w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{E}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}.
 \end{align*}
 
-The \texttt{gpindex} package has functions for the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$.
+The \texttt{gpindex} package has functions for the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$. (There are other uses for logarithmic means, like constructing the weights for the Vartia-I and Vartia-II indexes.)
 
 <<>>=
 mean_harmonic(p1 / p0)
 weights_transmute(-1, 1)(p1 / p0)
 mean_arithmetic(p1 / p0, weights_transmute(-1, 1)(p1 / p0))
 mean_geometric(p1 / p0, weights_transmute(-1, 0)(p1 / p0))
+@
+
+This procedure for transmuting a generalized index is the same as the hybrid weights that allow a Paasche index to have an arithmetic, rather than harmonic, calculation.
+
+<<>>=
+hybrid <- index_weights("HybridPaasche")(p0, q1)
+weights_scale(hybrid)
+transmuted <- weights_transmute(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
+weights_scale(transmuted)
 @
 
 Quote contributions for an index are easy to calculate by transmuting the weights for the index to arithmetic weights with \texttt{weights\_transmute(r, 1)()}. The \texttt{contributions()} function saves from having to do the manual calculation.
