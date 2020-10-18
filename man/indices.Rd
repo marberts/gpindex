@@ -195,6 +195,13 @@ sum(p1 * qs) / sum(p0 * qs)
 
 mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
 
+# Same as transmuting the weights
+
+all.equal(
+  weights_scale(index_weights("HybridLaspeyres")(p1, q0)),
+  weights_scale(weights_transmute(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
+)
+
 # Unlike its arithmetic counterpart, the geometric Laspeyres can increase
 # when base-period prices increase if some of these prices are small
 
