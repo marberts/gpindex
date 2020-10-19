@@ -28,16 +28,16 @@ Given a collection of $i = 1,\ldots,n$ goods transacted at two points in time, p
 \begin{align*}
 I_{r}\left(\frac{p_1}{p_0}, w\right) = 
 \begin{cases}
-\prod_{i = 1}^{n} \left(\frac{p_{i1}}{p_{i0}}\right)^{w_{i}} & \text{if } r = 0 \\
-\left(\sum_{i = 1}^{n} w_{i} \left(\frac{p_{i1}}{p_{i0}}\right)^{r} \right)^{1 / r} & \text{if } r \neq 0.
+\left(\sum_{i = 1}^{n} w_{i} \left(\frac{p_{i1}}{p_{i0}}\right)^{r} \right)^{1 / r} & \text{if } r \neq 0 \\
+\prod_{i = 1}^{n} \left(\frac{p_{i1}}{p_{i0}}\right)^{w_{i}} & \text{if } r = 0.
 \end{cases}
 \end{align*}
 A generalized index can equivalently be seen as the solution to the following prediction problem:
 \begin{align*}
 \min_{\substack{I}}
 \begin{cases}
-\sum_{i = 1}^{n} w_{i} \left(\log(I) - \log\left(\frac{p_{i1}}{p_{i0}}\right) \right)^2 & \text{if } r = 0\\
-\sum_{i = 1}^{n} w_{i} \left(I^r - \left(\frac{p_{i1}}{p_{i0}}\right)^r \right)^2 & \text{if } r \neq 0.
+\sum_{i = 1}^{n} w_{i} \left(I^r - \left(\frac{p_{i1}}{p_{i0}}\right)^r \right)^2 & \text{if } r \neq 0 \\
+\sum_{i = 1}^{n} w_{i} \left(\log(I) - \log\left(\frac{p_{i1}}{p_{i0}}\right) \right)^2 & \text{if } r = 0.
 \end{cases}
 \end{align*}
 All generalized indexes attempt to best predict a change in price for a good under quadratic loss. This emphasizes that generalized indexes are not just mathematically similar; they are conceptually similar as well.
@@ -59,18 +59,19 @@ mean_harmonic(p1 / p0, runif(6)) # Harmonic index with random weights
 
 A hallmark of the literature on price indexes is that most price indexes are associated with a name. Although naming is sometimes inconsistent, each name can be roughly mapped to a specific set of weights in the generalized mean of a specific order. For example, a Laspeyres index has weights given by base-period expenditure shares in a generalized mean of order $1$, whereas a Paasche index has weights given by current-period expenditure shares in the a generalized mean of order $-1$. It is important to note that the mapping between names and weights is not necessarily one-to-one, as indexes can have the same weights but receive different names by virtue of having different orders. For example, both the Paasche index and the Palgrave index have the same weights; the difference is that the Paasche index is of order $-1$, whereas the Palgrave index is of order $1$.\footnote{This is made more confusing because the geometric index with current-period expenditure shares are weights is a geometric Paasche index, whereas the arithmetic Paasche index has different (hybrid) weights.}
 
-The \texttt{index\_weights()} function in \texttt{gpindex} takes the name of a price index and returns a function to compute the corresponding weights. For example, the \texttt{index\_weights("Laspeyres")()} function takes information on prices and quantities to calculate Laspeyres weights (i.e., base-period expenditure shares). Plugging these weights into an arithmetic mean of price relatives gives the regular Laspeyres index, whereas plugging these weights into a geometric mean produces a geometric Laspeyres index.
+The \texttt{index\_weights()} function in \texttt{gpindex} takes the name of a price index and returns a function to compute the corresponding weights. Each of these functions depend on some combination of prices and quantities for the goods for which an index is being calculated; consequently, these functions are useful for ``textbook" problems, but unhelpful for more complicated problems when weights are sourced separately from price data. For example, the \texttt{index\_weights("Laspeyres")()} function takes information on base-period prices and quantities to calculate Laspeyres weights (i.e., base-period expenditure shares). Plugging these weights into an arithmetic mean of price relatives gives the regular Laspeyres index, whereas plugging these weights into a geometric mean produces a geometric Laspeyres index.
 
 <<>>=
 q0 <- quantity6[[1]]
 index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
+sum(p1 * q0) / sum(p0 * q0) # Same the manual calculation
 mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
 @
 
 Note that the weights returned by \texttt{index\_weights()} need not sum to 1, like all functions in \texttt{gpindex} that operate on weights, as this isn't always appropriate for some indexes (namely the Vartia-I index). The \texttt{weights\_scale()} function scales a numeric vector so that it sums to 1, so unscaled weights in general pose no special challenges, and \texttt{mean\_generalized()} scales the weights by default.
 
-Naming for the weights follows \citet{balk2008} and \citet{cpimanual}, although it is unlikely to be exhaustive given the great many index-number formulas that exist. Having \texttt{index\_weights()} be a function factory, however, makes it easy to extend, without changing the interface for how other weights are calculated.
+Naming for the weights follows \citet{balk2008} and \citet{cpimanual}, although it is unlikely to be exhaustive given the great many index-number formulas that exist. Having \texttt{index\_weights()} be a function factory, however, makes it easy to extend without changing the interface for how other weights are calculated.
 
 Although most named generalized indexes can be calculated by combining the appropriate names in \texttt{index\_weights()} with the appropriate order in \texttt{mean\_generalized()}, there are a number of wrappers to simplify doing this. For example, the \texttt{index\_arithmetic()} function takes the name of an arithmetic index and returns a function to calculate it, essentially passing the appropriate function to calculate the weights to \texttt{mean\_arithmetic()}.
 
@@ -87,30 +88,9 @@ index_fisher(p1, p0, q1, q0)
 index_hlp(p1, p0, q1, q0) # Harmonic analogue of the Fisher index
 @
 
-\section*{Price-updating weights}
-
-Price indexes are usually calculated for many points in time, not just two, to construct a time-series that gives the evolution of prices over time with respect to a fixed base period. One way to do this with a bilateral index is to simply chain the index values for successive periods together, so that the index in period $t$ is
-\begin{align*}
-I_{r}\left(\frac{p_{t-1}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{t-1}}, w\right).
-\end{align*}
-This saves from having to hold onto the price information in the base period for the life of the index, and only the index value for the previous period and most recent price relatives are needed to compute the next index value in the time series.
-
-In general it is not the case that the product of generalized means in the generalized mean of a product. But, it is the case that there is a collection of function $\hat{w}_{ir}$ that factor the generalized mean into two terms
-\begin{align*}
-I_{r}\left(\frac{p_{t}}{p_{0}}, w\right) \equiv I_{r}\left(\frac{p_{s}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{s}}, \hat{w}_{r}\left(\frac{p_{s}}{p_{0}}, w\right)\right),
-\end{align*}
-where
-\begin{align*}
-\hat{w}_{ir} = w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r \Bigg/ \sum_{i=1}^{n} w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r.
-\end{align*}
-
-When $r = 0$, $\hat{w}_{ir} = 1$ so that no adjustment to the weights is needed; a geometric index can always be chained together. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this is important for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
-
-The \texttt{weights\_factor()} function takes a number \texttt{r} and returns a function to calculate the updated weights needed to chain an index of order \texttt{r}. The \texttt{weights\_update()} function covers the special case of \texttt{r = 1}.
-
 \section*{Quote contributions}
 
-It is often useful to be able to decompose a price index into an additive contribution for each price relative. That is, for any number $r$, find a collection of functions $\tilde{w}_{ir}$, $i = 1,\ldots,n$, of $p_{1} / p_{0}$ and $w$, such that $\sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) \equiv 1$ and
+It is often useful to be able to decompose a price index into an additive contribution for each price relative. This is made possible by finding appropriate weights to transmute a generalized index into an arithmetic index. That is, for any number $r$, finding a collection of functions $\tilde{w}_{ir}$, $i = 1,\ldots,n$, of $p_{1} / p_{0}$ and $w$, such that $\sum_{i = 1}^{n} \tilde{w}_{ir}(p_1 / p_0, w) \equiv 1$ and
 \begin{align*}
 I_r\left(\frac{p_1}{p_0}, w\right) \equiv \sum_{i = 1}^{n} \tilde{w}_{ir}\left(\frac{p_1}{p_0}, w\right) \frac{p_{i1}}{p_{i0}}.
 \end{align*}
@@ -122,21 +102,21 @@ If such functions exists, they must be unique whenever price relatives are not a
 \begin{cases}
 \left(\frac{a^r - b^r}{r(a - b)}\right)^{1 / (r - 1)} & r \notin \{0,1\}, a \neq b \\
 \frac{a - b}{\log(a) - \log(b)} & r = 0, a \neq b \\
-\frac{1}{\exp(1)} \left(\frac{b^b}{a^a}\right)^{1 / (b - a)} & r = 1, a \neq b \\
+\frac{1}{\exp(1)} \left(\frac{a^a}{b^b}\right)^{1 / (a - b)} & r = 1, a \neq b \\
 a & a = b.
 \end{cases}
 \end{align*}
 The proof is simple, and relies on the identity
 \begin{align*}
-\sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}\left[\frac{p_{i1}}{p_{i0}} - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right] \equiv 0,
+0 \equiv \sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}\left[\frac{p_{i1}}{p_{i0}} - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right],
 \end{align*}
 from which it follows that
 \begin{align*}
-\tilde{w}_{ir}(p_1 / p_0, w) =  w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}.
+\tilde{w}_{ir}\left(\frac{p_1}{p_0}, w \right) =  w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{L}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - 1}.
 \end{align*}
-Balk also shows that any arithmetic price index can be written as a geometric price index with a similar change in weights. This result can again be generalized as finding functions $\tilde{w_{is}}$ such that
+Balk also shows that any arithmetic price index can be written as a geometric price index with a similar change in weights, which is useful for calculating multiplicative contributions. This result can again be generalized as finding functions $\tilde{w}_{is}$ such that
 \begin{align*}
-\sum_{i = 1}^{n} w_{i} \frac{p_1}{p_0} \equiv I_s\left(\frac{p_1}{p_0}, \tilde{w}_{is}\left(\frac{p_1}{p_0}, w\right)\right)
+\sum_{i = 1}^{n} w_{i} \frac{p_{i1}}{p_{i0}} \equiv I_s\left(\frac{p_1}{p_0}, \tilde{w}_{is}\left(\frac{p_1}{p_0}, w\right)\right)
 \end{align*}
 using the generalized logarithmic mean.
 
@@ -147,25 +127,25 @@ As any price index of order $r$ can be expressed as an arithmetic index, and any
 \left(\frac{s(a^r - b^r)}{r(a^s - b^s)}\right)^{1 / (r - s)} & r \neq s, r \neq 0, s \neq 0, a \neq b \\
 \left(\frac{a^r - b^r}{r(\log(a) - \log(b))}\right)^{1 / r} & r \neq 0, s = 0, a \neq b \\
 \left(\frac{a^s - b^s}{s(\log(a) - \log(b))}\right)^{1 / s} & r = 0, s \neq 0, a \neq b \\
-\frac{1}{\exp(1)^{1 / r}} \left(\frac{b^{b^r}}{a^{a^r}}\right)^{1 / (b^r - a^r)} & r = s \neq 0, a \neq b \\
+\frac{1}{\exp(1)^{1 / r}} \left(\frac{a^{a^r}}{b^{b^r}}\right)^{1 / (a^r - b^r)} & r = s \neq 0, a \neq b \\
 \sqrt{ab} & r = s = 0, a \neq b \\
 a & a = b.
 \end{cases}
 \end{align*}
 As with the generalized logarithmic mean, this satisfies the identity
 \begin{align*}
-0 \equiv
+0 \equiv \sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \times
 \begin{cases}
-\sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}\left[\left(\frac{p_{i1}}{p_{i0}}\right)^s - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)^s\right] & \text{if } s \neq 0 \\
-\sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}\left[\log\left(\frac{p_{i1}}{p_{i0}}\right) - \log\left(I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right)\right] & \text{if } s = 0,
+ \left[\left(\frac{p_{i1}}{p_{i0}}\right)^s - I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)^s\right] & \text{if } s \neq 0 \\
+\left[\log\left(\frac{p_{i1}}{p_{i0}}\right) - \log\left(I_{r}\left(\frac{p_{1}}{p_{0}}, w\right)\right)\right] & \text{if } s = 0,
 \end{cases}
 \end{align*}
 from which it follows that
 \begin{align*}
-\tilde{w}_{irs}(p_1 / p_0, w) =  w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{E}_{r}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}.
+\tilde{w}_{irs}\left(\frac{p_1}{p_0}, w\right) =  w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}.
 \end{align*}
 
-The \texttt{gpindex} package has functions for the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$. (There are other uses for logarithmic means, like constructing the weights for the Vartia-I and Vartia-II indexes.)
+The \texttt{gpindex} package has functions for calculating the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$. (There are other uses for logarithmic means, like constructing the weights for the Vartia-I and Vartia-II indexes.)
 
 <<>>=
 mean_harmonic(p1 / p0)
@@ -187,7 +167,37 @@ Quote contributions for an index are easy to calculate by transmuting the weight
 
 <<>>=
 contributions(-1)(p1 / p0)
-sum(contributions(-1)(p1 / p0))
+all.equal(sum(contributions(-1)(p1 / p0)), mean_harmonic(p1 / p0) - 1)
+@
+
+\section*{Price-updating weights}
+
+Price indexes are usually calculated for many points in time, not just two, to construct a time-series that gives the evolution of prices over time with respect to a fixed base period. One way to do this with a bilateral index is to simply chain the index values for successive periods together, so that the index in period $t$ is
+\begin{align*}
+I_{r}\left(\frac{p_{t-1}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{t-1}}, w\right).
+\end{align*}
+This saves from having to hold onto the price information in the base period for the life of the index, and only the index value for the previous period and most recent price relatives are needed to compute the next index value in the time series.
+
+In general it is not the case that the product of generalized means in the generalized mean of a product. But, it is the case that there is a collection of function $\hat{w}_{ir}$ that factor the generalized mean into two terms
+\begin{align*}
+I_{r}\left(\frac{p_{t}}{p_{0}}, w\right) \equiv I_{r}\left(\frac{p_{s}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{s}}, \hat{w}_{r}\left(\frac{p_{s}}{p_{0}}, w\right)\right),
+\end{align*}
+where
+\begin{align*}
+\hat{w}_{ir} = w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r \Bigg/ \sum_{i=1}^{n} w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r.
+\end{align*}
+
+When $r = 0$, $\hat{w}_{ir} = 1$ so that no adjustment to the weights is needed; a geometric index can always be chained together over time. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this adjustment is essential for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
+
+The \texttt{weights\_factor()} function takes a number \texttt{r} and returns a function to calculate the updated weights needed to chain an index of order \texttt{r}. The \texttt{weights\_update()} function covers the special case of \texttt{r = 1}.
+
+<<>>=
+p2 <- price6[[3]]
+weights <- index_weights("Laspeyres")(p0, q0)
+mean_harmonic(p2 / p0, weights) # Harmonic Laspeyres index
+mean_harmonic(p1 / p0, weights) * mean_harmonic(p2 / p1, weights) # Too small
+mean_harmonic(p1 / p0, weights) * 
+  mean_harmonic(p2 / p1, weights_factor(-1)(p1 / p0, weights))
 @
 
 \bibliographystyle{apalike}

@@ -118,8 +118,7 @@ all.equal(logmean(x, y) * log(x / y), x - y)
 
 r <- 2
 
-all.equal(logmean_generalized(r)(x, y) * (r * (x - y))^(1 / (r - 1)), 
-          (x^r - y^r)^(1 / (r - 1)))
+all.equal(logmean_generalized(r)(x, y)^(r - 1) * (r * (x - y)), (x^r - y^r))
 
 # Some other identities
 
