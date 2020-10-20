@@ -58,6 +58,8 @@ stopifnot(
         logical(1)
       )
     )
+    all.equal(contributions_harmonic(1:4), c(0, 0.24, 0.32, 0.36))
+    all.equal(contributions_geometric(c(1, 4)), c(0, 1))
   },
   local = getNamespace("gpindex")
 )

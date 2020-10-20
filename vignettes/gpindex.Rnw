@@ -18,7 +18,7 @@ Generalized price indexes are a large family of price indexes with nice properti
 
 Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also have other desirable properties: A generalized index is a positive and continuous function of prices and quantities, the index lies between the largest and smallest price change (mean value property), a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity property), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
 
-One especially nice, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R} using the \texttt{gpindex} package.
+One especially useful, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of these results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R} using the \texttt{gpindex} package.
 
 \subsection*{Generalized means}
 
@@ -65,7 +65,7 @@ The \texttt{index\_weights()} function in \texttt{gpindex} takes the name of a p
 q0 <- quantity6[[1]]
 index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
-sum(p1 * q0) / sum(p0 * q0) # Same the manual calculation
+sum(p1 * q0) / sum(p0 * q0) # Same as the manual calculation
 mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
 @
 
@@ -85,7 +85,7 @@ In the interest of completeness, there are also a number of wrappers for non-gen
 <<>>=
 q1 <- quantity6[[2]]
 index_fisher(p1, p0, q1, q0) 
-index_hlp(p1, p0, q1, q0) # Harmonic analogue of the Fisher index
+index_hlp(p1, p0, q1, q0) # Harmonic analog of the Fisher index
 @
 
 \section*{Quote contributions}
@@ -158,9 +158,8 @@ This procedure for transmuting a generalized index is the same as constructing t
 
 <<>>=
 hybrid <- index_weights("HybridPaasche")(p0, q1)
-weights_scale(hybrid)
 transmuted <- weights_transmute(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
-weights_scale(transmuted)
+all.equal(weights_scale(hybrid), weights_scale(transmuted))
 @
 
 Quote contributions for an index are easy to calculate by transmuting the weights for the index to arithmetic weights with \texttt{weights\_transmute(r, 1)()}. The \texttt{contributions()} function saves from having to do the manual calculation.
@@ -187,7 +186,7 @@ where
 \hat{w}_{ir} = w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r \Bigg/ \sum_{i=1}^{n} w_{i} \left(\frac{p_{s}}{p_{0}}\right)^r.
 \end{align*}
 
-When $r = 0$, $\hat{w}_{ir} = 1$ so that no adjustment to the weights is needed; a geometric index can always be chained together over time. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this adjustment is essential for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
+When $r = 0$, $\hat{w}_{ir} = w_{i}$ so that no adjustment to the weights is needed; a geometric index can always be chained together over time. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this adjustment is essential for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
 
 The \texttt{weights\_factor()} function takes a number \texttt{r} and returns a function to calculate the updated weights needed to chain an index of order \texttt{r}. The \texttt{weights\_update()} function covers the special case of \texttt{r = 1}.
 

@@ -238,8 +238,7 @@ I1 * I2
 w <- index_weights("Tornqvist")(p1, p0, q1, q0)
 (con <- contributions_geometric(p1 / p0, w))
 
-sum(con)
-index_geometric("Tornqvist")(p1, p0, q1, q0) - 1
+all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 
 # Quote contributions for the Fisher index
 
@@ -250,8 +249,7 @@ wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl),
 wf <- weights_scale(wf)
 (con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
 
-sum(con)
-index_fisher(p1, p0, q1, q0) - 1
+all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 # The same as the decomposition in section 4.2.2 of Balk (2008)
 
