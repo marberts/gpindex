@@ -2,7 +2,7 @@ Changes in version 0.2.1
 
 - Added a vignette.
 
-- The mean_generalized() function is now faster.
+- The mean_generalized() function is now a little bit faster.
 
 Changes in version 0.2.0
 

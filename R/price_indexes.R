@@ -66,7 +66,7 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
                                 "Young"),
                   harmonic = c("Coggeshall", "Laspeyres", "Paasche"))
   r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
-  mean <- mean_generalized(r)
+  generalized_mean <- mean_generalized(r)
   # return function
   function(type) {
     type <- match.arg(type, types)
@@ -76,30 +76,30 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
                   Dutot = ,
                   Jevons = ,
                   Coggeshall = function(p1, p0, na.rm = FALSE)
-                    mean(p1 / p0, weights(p0), na.rm),
+                    generalized_mean(p1 / p0, weights(p0), na.rm),
                   Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-                    mean(p1 / p0, weights(p0, q0), na.rm),
+                    generalized_mean(p1 / p0, weights(p0, q0), na.rm),
                   Paasche = ,
                   Palgrave = function(p1, p0, q1, na.rm = FALSE)
-                    mean(p1 / p0, weights(p1, q1), na.rm),
+                    generalized_mean(p1 / p0, weights(p1, q1), na.rm),
                   Drobish = ,
                   Unnamed = ,
                   Vartia2 = ,
                   SatoVartia = ,
                   Walsh2 = ,
                   Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
-                    mean(p1 / p0, weights(p1, p0, q1, q0), na.rm),
+                    generalized_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm),
                   Vartia1 = ,
                   MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-                    mean(p1 / p0, weights(p1, p0, q1, q0), na.rm, FALSE),
+                    generalized_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm, FALSE),
                   Walsh1 = ,
                   MarshallEdgeworth = ,
                   GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-                    mean(p1 / p0, weights(p0, q1, q0), na.rm),
+                    generalized_mean(p1 / p0, weights(p0, q1, q0), na.rm),
                   Lowe = function(p1, p0, qb, na.rm = FALSE)
-                    mean(p1 / p0, weights(p0, qb), na.rm),
+                    generalized_mean(p1 / p0, weights(p0, qb), na.rm),
                   Young = function(p1, p0, pb, qb, na.rm = FALSE)
-                    mean(p1 / p0, weights(pb, qb), na.rm)
+                    generalized_mean(p1 / p0, weights(pb, qb), na.rm)
     )
     # all arguments except na.rm are price and quantity arguments
     # extract them in a list
