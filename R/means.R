@@ -1,16 +1,24 @@
 #---- Helper functions ----
 # Argument checking
-length1 <- function(x, mode) {
-  length(x) == 1 && is.vector(x, mode) && is.finite(x)
+is_T_or_F <- function(x) {
+  length(x) == 1 && is.logical(x) && !is.na(x)
 }
 
-same_length <- function(...) {
+is_number <- function(x) {
+  length(x) == 1 && is.numeric(x) && is.finite(x)
+}
+
+is_positive_number <- function(x) {
+  is_number(x) && x >= 0
+}
+
+all_same_length <- function(...) {
   res <- vapply(list(...), length, numeric(1))
   all(res == res[1])
 }
 
-is_numeric <- function(...) {
-  res <- vapply(list(...), is.vector, logical(1), mode = "numeric")
+all_numeric <- function(...) {
+  res <- vapply(list(...), is.numeric, logical(1))
   all(res)
 }
 
@@ -23,7 +31,7 @@ is_numeric <- function(...) {
   } else if (e2 == 0.5) {
     call("sqrt", e1)
   } else if (e2 == 0) {
-    call("(", 1)
+    1
   } else if (e2 == -0.5) {
     call("/", 1, call("sqrt", e1))
   } else if (e2 == -1) {
@@ -47,18 +55,18 @@ mean_arithmetic_ <- function(x, w, na.rm, scale) {
 
 #---- Generalized mean ----
 mean_generalized <- function(r) {
-  stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"))
+  stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
   if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
-    stopifnot("'x' and 'w' must be numeric vectors" = is_numeric(x, w),
-              "'x' and 'w' must be the same length" = same_length(x, w),
-              "'na.rm' must be TRUE or FALSE" = length1(na.rm, "logical"),
-              "'scale' must be TRUE or FALSE" = length1(na.rm, "logical"))
+    stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
+              "'x' and 'w' must be the same length" = all_same_length(x, w),
+              "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
+              "'scale' must be TRUE or FALSE" = is_T_or_F(scale))
     if (any(x < 0 | w < 0, na.rm = TRUE)) {
-      warning("Some elements of 'x' or 'w' are negative")
+      warning("Some elements of 'x' or 'w' are negative; the generalized mean is not defined")
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
@@ -80,8 +88,8 @@ mean_harmonic <- mean_generalized(-1)
 
 #---- Extended mean ----
 mean_extended <- function(r, s) {
-  stopifnot("'r' must be a finite length 1 numeric vector" = length1(r, "numeric"),
-            "'s' must be a finite length 1 numeric vector" = length1(s, "numeric"))
+  stopifnot("'r' must be a finite length 1 numeric" = is_number(r),
+            "'s' must be a finite length 1 numeric" = is_number(s))
   if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
@@ -93,11 +101,10 @@ mean_extended <- function(r, s) {
   }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
-    stopifnot("'a' and 'b' must be numeric vectors" = is_numeric(a, b),
-              "'tol' must be a non-negative length 1 numeric vector" = 
-                length1(tol, "numeric") && tol >= 0)
+    stopifnot("'a' and 'b' must be numeric vectors" = all_numeric(a, b),
+              "'tol' must be a non-negative length 1 numeric" = is_positive_number(tol))
     if (any(a <= 0 | b <= 0, na.rm = TRUE)) {
-      warning("Some elements 'a' or 'b' are non-positive")
+      warning("Some elements 'a' or 'b' are non-positive; the extended mean is not defined")
     }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)

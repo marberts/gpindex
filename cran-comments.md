@@ -1,7 +1,7 @@
 ## Test environments
 
-- local Xubuntu 20.04 installation, R 4.0.2
-- win-builder (devel, release)
+- local Ubuntu 20.04 installation, R 4.0.3, 3.5.0
+- win-builder (devel, release, oldrelease)
 
 ## R CMD check results
 
