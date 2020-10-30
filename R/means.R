@@ -1,7 +1,7 @@
 #---- Helper functions ----
 # Argument checking
 length1 <- function(x, mode) {
-  length(x) == 1L && is.vector(x, mode) && is.finite(x)
+  length(x) == 1 && is.vector(x, mode) && is.finite(x)
 }
 
 same_length <- function(...) {
@@ -40,9 +40,9 @@ is_numeric <- function(...) {
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
   # return NA if there are NAs in x or w; differs from stats::weighted.mean
   if (!na.rm && (anyNA(x) || anyNA(w))) return(NA_real_)
-  tot <- sum(x * w, na.rm = TRUE)
-  if (!scale) return(tot)
-  tot / sum(if (na.rm) w[!is.na(x)] else w, na.rm = TRUE)
+  total <- sum(x * w, na.rm = TRUE)
+  if (!scale) return(total)
+  total / sum(if (na.rm) w[!is.na(x)] else w, na.rm = TRUE)
 }
 
 #---- Generalized mean ----
@@ -110,9 +110,9 @@ mean_extended <- function(r, s) {
     } else {
       ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))
     }
-    # set output to a when a = b
+    # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
-    res[loc] <- a[(loc - 1L) %% length(a) + 1] # wrap-around indexing
+    res[loc] <- a[(loc - 1) %% length(a) + 1] # wrap-around indexing
     res
   }
 }
