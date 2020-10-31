@@ -18,8 +18,7 @@ all_same_length <- function(...) {
 }
 
 all_numeric <- function(...) {
-  res <- vapply(list(...), is.numeric, logical(1))
-  all(res)
+  all(vapply(list(...), is.numeric, logical(1)))
 }
 
 # Custom pow

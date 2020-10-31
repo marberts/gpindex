@@ -103,37 +103,6 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
-#---- Tests for contributions ----
-# stopifnot(
-#   exprs = {
-#     all.equal(index_fisher(p1, p0, q1, q0),
-#               sum(contribution_fisher(p1, p0, q1, q0)))
-#     all(
-#       vapply(
-#         setdiff(types$geometric_index_types, c("Vartia1", "MontgomeryVartia")),
-#         function(i)
-#           all.equal(
-#             index_geometric(p1, p0, q1, q0, i),
-#               sum(contribution_geometric(p1, p0, q1, q0, type = i))
-#             ),
-#         logical(1)
-#       )
-#     )
-#     all(
-#       vapply(
-#         types$harmonic_index_types,
-#         function(i)
-#           all.equal(
-#             index_harmonic(p1, p0, q1, q0, i),
-#             sum(contribution_harmonic(p1, p0, q1, q0, type = i))
-#           ),
-#         logical(1)
-#       )
-#     )
-#   },
-#   local = getNamespace("gpindex")
-# )
-
 # Test against values from tables 3.4, 3.6, and 3.12 in Balk (2008)
 # Column P in table 3.4 is 1.3823 because of a rounding error
 

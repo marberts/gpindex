@@ -87,7 +87,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link[gpindex]{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
-\code{\link[gpindex]{weights_factor}} factors the weights to a turn a mean of products into a product of means.
+\code{\link[gpindex]{weights_factor}} calculates the weights to factor a mean of products into a product of means.
 }
 
 \examples{
