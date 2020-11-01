@@ -58,7 +58,7 @@ index_weights(type)
 }
 
 \arguments{
-\item{type}{The name of the index. See details.}
+\item{type}{The name of the index. See details the possible indexes.}
 
 \item{p1}{Current-period prices.}
 
@@ -111,9 +111,10 @@ The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()
 \item Coggeshall (equally weighted harmonic index)
 \item Paasche
 \item Harmonic Laspeyres
+\item Harmonic Young
 }
 
-Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[gpindex:mean_generalized]{mean_generalized()}}. 
+Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[gpindex:mean_generalized]{mean_generalized()}} and \code{index_weights()}. 
 
 The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
 
@@ -162,6 +163,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
 \code{\link[gpindex]{contributions}} for calculating quote contributions. 
+
+\code{\link[gpindex]{weights_factor}} for price-updating weights. 
 }
 
 \examples{
@@ -277,81 +280,73 @@ sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
-index_weights("Carli")(p1)
-rep(1, length(p0))
+all.equal(index_weights("Carli")(p1), rep(1, length(p0)))
 
 # Dutot
 
-index_weights("Dutot")(p0)
-p0
+all.equal(index_weights("Dutot")(p0), p0)
 
 # Laspeyres / Lloyd-Moulton
 
-index_weights("Laspeyres")(p0, q0)
-p0 * q0
+all.equal(index_weights("Laspeyres")(p0, q0), p0 * q0)
 
 # Hybrid Laspeyres
 
-index_weights("HybridLaspeyres")(p1, q0)
-p1 * q0
+all.equal(index_weights("HybridLaspeyres")(p1, q0), p1 * q0)
 
 # Paasche / Palgrave
 
-index_weights("Paasche")(p1, q1)
-p1 * q1
+all.equal(index_weights("Paasche")(p1, q1), p1 * q1)
 
 # Hybrid Paasche
 
-index_weights("HybridPaasche")(p0, q1)
-p0 * q1
+all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
 
 # Tornqvist / Unnamed
 
-index_weights("Tornqvist")(p1, p0, q1, q0)
-0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+all.equal(index_weights("Tornqvist")(p1, p0, q1, q0),
+          0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
 
 # Drobish
 
-index_weights("Drobish")(p1, p0, q1, q0)
-0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
+all.equal(index_weights("Drobish")(p1, p0, q1, q0),
+          0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
 
 # Walsh-I
 
-index_weights("Walsh1")(p0, q1, q0)
-p0 * sqrt(q0 * q1)
+all.equal(index_weights("Walsh1")(p0, q1, q0),
+          p0 * sqrt(q0 * q1))
 
 # Marshall-Edgeworth
 
-index_weights("MarshallEdgeworth")(p0, q1, q0)
-p0 * (q0 + q1)
+all.equal(index_weights("MarshallEdgeworth")(p0, q1, q0),
+          p0 * (q0 + q1))
 
 # Geary-Khamis
 
-index_weights("GearyKhamis")(p0, q1, q0)
-p0 / (1 / q0 + 1 / q1)
+all.equal(index_weights("GearyKhamis")(p0, q1, q0),
+          p0 / (1 / q0 + 1 / q1))
 
 # Montgomery-Vartia / Vartia-I
 
-index_weights("MontgomeryVartia")(p1, p0, q1, q0)
-logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
+all.equal(index_weights("MontgomeryVartia")(p1, p0, q1, q0),
+          logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1)))
 
 # Sato-Vartia / Vartia-II
 
-index_weights("SatoVartia")(p1, p0, q1, q0)
-logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
+all.equal(index_weights("SatoVartia")(p1, p0, q1, q0),
+          logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
 
 # Walsh-II
 
-index_weights("Walsh2")(p1, p0, q1, q0)
-sqrt(p0 * q0 * p1 * q1)
+all.equal(index_weights("Walsh2")(p1, p0, q1, q0),
+          sqrt(p0 * q0 * p1 * q1))
 
 # Lowe
 
-index_weights("Lowe")(p0, qb)
-p0 * qb
+all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
 
 # Young
 
-index_weights("Young")(pb, qb)
-pb * qb
+all.equal(index_weights("Young")(pb, qb), pb * qb)
 }

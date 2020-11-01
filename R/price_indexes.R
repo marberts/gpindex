@@ -64,7 +64,7 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
                                 "Tornqvist", "Vartia1", "MontgomeryVartia",
                                 "Vartia2", "SatoVartia", "Walsh2",
                                 "Young"),
-                  harmonic = c("Coggeshall", "Laspeyres", "Paasche"))
+                  harmonic = c("Coggeshall", "Laspeyres", "Paasche", "Young"))
   r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
   generalized_mean <- mean_generalized(r)
   # return function

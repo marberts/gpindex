@@ -78,6 +78,8 @@ stopifnot(
               mean_harmonic(p1 / p0, p1 * q1 / sum(p1 * q1)))
     all.equal(index_arithmetic("Laspeyres")(p1, p0, q0),
               mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)))
+    all.equal(index_harmonic("Young")(p1, p0, pb, qb),
+              mean_harmonic(p1 / p0, pb * qb / sum(pb * qb)))
   },
   local = getNamespace("gpindex")
 )

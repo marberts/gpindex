@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Generalized price and quantity indexes
+# Generalized Price and Quantity Indexes
 
 <!-- Badges -->
 [![CRAN status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
@@ -42,34 +42,44 @@ library(gpindex)
 price6
 quantity6
 
+p0 <- price6[[1]]
+p1 <- price6[[2]]
+p2 <- price6[[3]]
+q0 <- price6[[1]]
+q1 <- price6[[2]]
+
 # Calculate a Laspeyres and Paasche index
-index_laspeyres(price6$t2, price6$t1, quantity6$t1)
-index_paasche(price6$t2, price6$t1, quantity6$t2)
+index_laspeyres(p1, p0, q0)
+index_paasche(p1, p0, q1)
 
 # Can also be done if only weights are available
-s1 <- index_weights("Laspeyres")(price6$t1, quantity6$t1)
-s2 <- index_weights("Paasche")(price6$t2, quantity6$t2)
+s0 <- index_weights("Laspeyres")(p0, q0)
+s1 <- index_weights("Paasche")(p1, q1)
 
-with(price6, mean_arithmetic(t2 / t1, s1))
-with(price6, mean_harmonic(t2 / t1, s2))
+mean_arithmetic(p1 / p0, s0)
+mean_harmonic(p1 / p0, s1)
 
 # Chain the Laspeyres index by price-updating the weights
-with(price6, 
-     mean_arithmetic(t2 / t1, s1) * mean_arithmetic(t3 / t2, weights_update(t2 / t1, s1))
-)
+mean_arithmetic(p1 / p0, s0) * mean_arithmetic(p2 / p1, weights_update(p1 / p0, s0))
 
-index_laspeyres(price6$t3, price6$t1, quantity6$t1)
+index_laspeyres(p2, p0, q0)
 
 # Get quote contributions for the Paasche index
-with(price6, contributions_harmonic(t2 / t1, s2))
+contributions_harmonic(p1 / p0, s1)
+
+# Also works for more exotic indexes, like the Lloyd-Moulton index
+index_lm(p1, p0, q0, 0.5) # elasticity of 0.5
+mean_generalized(0.5)(p1 / p0, s0)
+mean_generalized(0.5)(p1 / p0, s0) * mean_generalized(0.5)(p2 / p1, weights_factor(0.5)(p1 / p0, s0))
+index_lm(p2, p0, q0, 0.5)
+contributions(0.5)(p1 / p0, s0)
 
 # Calculate a Fisher index over 5 periods
-mapply(index_fisher, price6[-1], price6[1], quantity6[-1], quantity6[1])
+mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
 
 # Calculate a two-level index with different formulas
 # Split data by even and odd rows
-f <- rep(c("even", "odd"), 3)
-prices <- split(price6[[2]] / price6[[1]], f)
+(prices <- split(p1 / p0, c("even", "odd")))
 
 # Odd groups get a weight of 30% and even group gets 70%
 weight <- c(0.3, 0.7)
