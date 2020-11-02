@@ -23,9 +23,9 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \arguments{
 \item{r}{A finite number giving the order of the generalized mean.}
 
-\item{x}{A numeric vector.}
+\item{x}{A positive numeric vector.}
 
-\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
 
@@ -45,7 +45,7 @@ The function \code{mean_generalized()} returns a function to compute the general
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the Pythagorean means, the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
-Both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced here, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
+Both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
 \enumerate{
 \item{The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0.} 
 
@@ -88,6 +88,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \code{\link[gpindex]{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
 \code{\link[gpindex]{weights_factor}} calculates the weights to factor a mean of products into a product of means.
+
+\code{\link[gpindex]{price_index}} and \code{\link[gpindex]{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
 }
 
 \examples{
@@ -167,4 +169,15 @@ w <- replace(x, 2, NA)
 mean_arithmetic(x, w)
 mean_arithmetic(x, w, na.rm = TRUE)
 stats::weighted.mean(x, w, na.rm = TRUE)
+
+#--------------------
+
+# Sometimes in makes sense to calculate a generalized mean with
+# negative inputs, so the warning can be ignored
+
+mean_arithmetic(c(1, 2, -3))
+
+# Other times it's less obvious
+
+mean_harmonic(c(1, 2, -3))
 }

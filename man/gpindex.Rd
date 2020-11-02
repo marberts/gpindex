@@ -9,7 +9,7 @@
 A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of generalized bilateral index (of which most price indexes are), along with a few important indexes that don't belong to the generalized family. Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0) and ILO, IMF, OECD, Eurostat, UN, and World Bank (2004, ISBN:92-2-113699-X) for bilateral price indexes.
 }
 
-\details{
+\section{Usage}{
 To avoid duplication, everything is framed as a price index; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 
 Generalized indexes are a large family of price indexes with nice properties (e.g., Balk, 2008, Chapter 3). Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index).
@@ -20,7 +20,7 @@ Two important functions for decomposing generalized means are given by \code{\li
 
 Together these functions, along with \code{\link[gpindex:logmean_generalized]{logmean_generalized()}}, provide the key mathematical apparatus to work with any type of generalized index, and those that are nested generalized indexes. See the vignette for more details: \code{vignette("gpindex")}.
 
-On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[gpindex:index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link[gpindex]{index}} functions provide a simple wrapper.
+On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[gpindex:index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link[gpindex]{price_index}} functions provide a simple wrapper, with the \code{\link[gpindex:quantity_index]{quantity_index()}} function turning each of these into its analogous quantity index.
 }
 
 \note{

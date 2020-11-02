@@ -1,8 +1,9 @@
 export(mean_generalized, mean_arithmetic, mean_geometric, mean_harmonic,
        mean_extended, logmean_generalized, logmean,
        weights_transmute, weights_factor, weights_update, weights_scale,
-       contributions, contributions_geometric, contributions_harmonic,
+       contributions, contributions_arithmetic, contributions_geometric, contributions_harmonic,
        index_weights,
        index_arithmetic, index_geometric, index_harmonic,
        index_laspeyres, index_paasche, index_jevons, index_lowe, index_young,
-       index_fisher, index_hlp, index_lm, index_cswd, index_cswdb, index_bw, index_stuval)
+       index_fisher, index_hlp, index_lm, index_cswd, index_cswdb, index_bw, index_stuval,
+       quantity_index)

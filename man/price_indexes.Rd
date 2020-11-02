@@ -1,5 +1,5 @@
 \name{price indexes}
-\alias{index}
+\alias{price_index}
 \alias{index_arithmetic}
 \alias{index_geometric}
 \alias{index_harmonic}
@@ -17,7 +17,7 @@
 \alias{index_stuval}
 \alias{index_weights}
 
-\title{Calculate a variety of price indexes}
+\title{Price indexes}
 
 \description{
 Calculate a variety of price indexes using information on prices and quantities.
@@ -58,7 +58,7 @@ index_weights(type)
 }
 
 \arguments{
-\item{type}{The name of the index. See details the possible indexes.}
+\item{type}{The name of the index. See details for the possible types of indexes.}
 
 \item{p1}{Current-period prices.}
 
@@ -116,7 +116,7 @@ The \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()
 
 Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[gpindex:mean_generalized]{mean_generalized()}} and \code{index_weights()}. 
 
-The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
+The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes, and so they get their own functions. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
 
 In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The \code{index_stuval()} function returns a function to calculate a Stuval index of the given parameters.
 
@@ -142,7 +142,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
 
-Naming for the indexes and weights generally follows the CPI/PPI manual first, then Balk (2008) for indexes not listed (or not named) in the CPI/PPI manual. In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
+Naming for the indexes and weights generally follows the CPI/PPI manual and Balk (2008). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
 }
 
 \note{
@@ -164,7 +164,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 \code{\link[gpindex]{contributions}} for calculating quote contributions. 
 
-\code{\link[gpindex]{weights_factor}} for price-updating weights. 
+\code{\link[gpindex]{weights_factor}} for price-updating weights.
+
+\code{\link[gpindex]{quantity_index} to remap the arguments in these functions for a quanity index.}
 }
 
 \examples{
@@ -245,20 +247,24 @@ all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 
 # Quote contributions for the Fisher index
 
-wl <- weights_scale(index_weights("Laspeyres")(p0, q0))
-wp <- weights_scale(index_weights("HybridPaasche")(p0, q1))
-wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), 
-                                mean_arithmetic(p1 / p0, wp)))
+wl <- index_weights("Laspeyres")(p0, q0)
+wp <- index_weights("Paasche")(p1, q1)
+wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), mean_harmonic(p1 / p0, wp)))
 wf <- weights_scale(wf)
-(con <- (wf[1] * wl + wf[2] * wp) * (p1 / p0 - 1))
+
+(con <- wf[1] * contributions_arithmetic(p1 / p0, wl) + 
+          wf[2] * contributions_harmonic(p1 / p0, wp))
 
 all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 # The same as the decomposition in section 4.2.2 of Balk (2008)
 
-Qf <- index_fisher(q1, q0, p1, p0)
-Ql <- index_laspeyres(q1, q0, p0)
-con2 <- (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
+Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
+Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
+wp <- index_weights("HybridPaasche")(p0, q1)
+
+con2 <- (Qf / (Qf + Ql) * weights_scale(wl) + 
+           Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
 all.equal(con, con2)
 
 #--------------------
