@@ -164,7 +164,9 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 \code{\link[gpindex]{contributions}} for calculating quote contributions. 
 
-\code{\link[gpindex]{weights_factor}} for price-updating weights. 
+\code{\link[gpindex]{weights_factor}} for price-updating weights.
+
+\code{\link[gpindex]{quantity_index} to remap the arguments in these functions for a quanity index.}
 }
 
 \examples{

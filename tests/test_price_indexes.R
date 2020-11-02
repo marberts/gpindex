@@ -105,6 +105,25 @@ stopifnot(
   local = getNamespace("gpindex")
 )
 
+#---- Tests for quantity indexes ----
+stopifnot(
+  exprs = {
+    all.equal(index_fisher(p1, p0, q1, q0),
+              quantity_index(index_fisher)(p1, p0, q1, q0))
+    all.equal(index_hlp(p1, p0, q1, q0),
+              mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
+    all.equal(index_lm(p1, p0, q0, 1.5), 
+              quantity_index(index_lm)(p1, p0, q0, 1.5))
+    all.equal(index_jevons(p1, p0), 
+              quantity_index(index_jevons)(p1, p0))
+    all.equal(index_laspeyres(q1, q0, p0), 
+              quantity_index(index_laspeyres)(q1, q0, p0))
+    all.equal(index_weights("Vartia1")(p1, p0, q1, q0), 
+              quantity_index(index_weights("Vartia1"))(p1, p0, q1, q0))
+  },
+  local = getNamespace("gpindex")
+)
+
 # Test against values from tables 3.4, 3.6, and 3.12 in Balk (2008)
 # Column P in table 3.4 is 1.3823 because of a rounding error
 
