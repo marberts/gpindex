@@ -1,19 +1,20 @@
 \name{transform weights}
 \alias{weights_transmute}
 \alias{contributions}
+\alias{contributions_arithmetic}
 \alias{contributions_geometric}
 \alias{contributions_harmonic}
 \alias{weights_factor}
 \alias{weights_update}
 \alias{weights_scale}
 
-\title{Transformations for weights in a generalized mean}
+\title{Transform weights}
 
 \description{
 Useful transformations for the weights in a generalized mean. 
 \itemize{
-\item{Transmute weights to turn an r-generalized mean into an s-generalized mean.}
-\item{Factor weights to turn the generalized mean of a product into the product of generalized means.}
+\item{Transmute weights to turn an r-generalized mean into an s-generalized mean. Useful for calculating the additive contribution of each quote in a generalized price index.}
+\item{Factor weights to turn the generalized mean of a product into the product of generalized means. Useful for price-updating the weights in a generalized price index.}
 \item{Scale weights so they sum to 1.}
 }
 }
@@ -22,6 +23,8 @@ Useful transformations for the weights in a generalized mean.
 weights_transmute(r, s)
 
 contributions(r)
+
+contributions_arithmetic(x, w = rep(1, length(x)))
 
 contributions_geometric(x, w = rep(1, length(x)))
 
@@ -37,9 +40,9 @@ weights_scale(x)
 \arguments{
 \item{r, s}{A number giving the order of the generalized mean. See details.}
 
-\item{x}{A numeric vector.}
+\item{x}{A strictly positive numeric vector.}
 
-\item{w}{A numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 }
 
 \value{
@@ -47,11 +50,11 @@ weights_scale(x)
 
 \code{function(x, w = rep(1, length(x))}.
 
-\code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
+\code{contributions_arithmetic()}, \code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }
 
 \details{
-Both \code{x} and \code{w} should be strictly positive. This is not enforced here, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
+Both \code{x} and \code{w} should be strictly positive. This is not enforced, but the results may not make sense in cases where the generalized mean and generalized logarithmic mean are not defined.
 
 \bold{Transmute weights}
 The function \code{weights_transmute()} returns a function to compute a vector of weights \code{v(x, w)} such that
@@ -69,7 +72,7 @@ The function \code{contributions()} is a simple wrapper for \code{weights_transm
 
 \code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
 
-That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
+That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
@@ -97,7 +100,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 \seealso{
 \code{\link[gpindex]{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{mean_extended}} for the extended mean. 
+\code{\link[gpindex]{mean_extended}} for the extended mean that underlies \code{weights_transmute()}. 
 }
 
 \examples{
@@ -121,8 +124,7 @@ w2 <- runif(2)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
-v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), 
-                                mean_harmonic(x, w2)))
+v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 v0 <- weights_scale(v0)
 v1 <- weights_scale(w1)
 v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
@@ -164,6 +166,17 @@ all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
           mean_geometric(x) - 1)
 isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
                  mean_geometric(x)))
+
+#--------------------
+
+# Any generalized index can be represented as a basket-style index
+# by transmuting the weights
+
+p1 <- 2:6
+p0 <- 1:5
+
+qs <- weights_transmute(-1, 1)(p1 / p0) / p0
+all.equal(mean_harmonic(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
 
 #--------------------
 

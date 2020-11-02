@@ -40,6 +40,8 @@ contributions <- function(r) {
   }
 }
 
+contributions_arithmetic <- contributions(1)
+
 contributions_geometric <- contributions(0)
 
 contributions_harmonic <- contributions(-1)

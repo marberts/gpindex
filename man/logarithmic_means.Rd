@@ -3,7 +3,7 @@
 \alias{logmean}
 \alias{mean_extended}
 
-\title{Generalized logarithmic mean / extended mean}
+\title{Logarithmic means}
 
 \description{
 Calculate a generalized logarithmic mean / extended mean.
@@ -20,7 +20,7 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 \arguments{
 \item{r, s}{A finite number giving the order of the generalized logarithmic mean / extended mean.}
 
-\item{a, b}{A numeric vector.}
+\item{a, b}{A strictly positive numeric vector.}
 
 \item{tol}{The tolerance used to determine if \code{a == b}.}
 }
@@ -40,7 +40,7 @@ The function \code{logmean_generalized()} returns a function to compute the gene
 
 The function \code{logmean()} returns the ordinary logarithmic mean, and corresponds to \code{logmean_generalized(1)()}.
 
-Both \code{a} and \code{b} should be strictly positive. This is not enforced here, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined.
+Both \code{a} and \code{b} should be strictly positive. This is not enforced, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined.
 
 By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[base:all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results in certain applications when \code{a} and \code{b} are computed values.
 }

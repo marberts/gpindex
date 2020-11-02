@@ -1,7 +1,7 @@
-\name{quantity index}
+\name{quantity indexes}
 \alias{quantity_index}
 
-\title{Turn a price index into a quantity index}
+\title{Quantity indexes}
 
 \description{
 It is trivial to turn a price index into a quantity index by switching the role of prices and quantities in the index-number formula. This function does just that.
@@ -12,7 +12,7 @@ quantity_index(price_index)
 }
 
 \arguments{
-\item{price_index}{A function to compute a price index, from \code{\link[gpindex]{index}}.}
+\item{price_index}{A function to compute a price index. See \code{\link[gpindex]{price_index}}.}
 }
 
 \value{
@@ -20,7 +20,7 @@ A function like \code{price_index}, except that the role of prices/quantities ha
 }
 
 \seealso{
-\code{\link[gpindex]{index}} for the possible functions that can serve as inputs.
+\code{\link[gpindex]{price_index}} for the possible functions that can serve as inputs.
 }
 
 \examples{
