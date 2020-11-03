@@ -2,6 +2,8 @@ Changes in version 0.2.1
 
 - Added a vignette.
 
+- Added the quantity_index() function to turn functions that calculate price indexes into functions that calculate the corresponding quantity index.
+
 - Now works with R >= 3.5.
 
 Changes in version 0.2.0
