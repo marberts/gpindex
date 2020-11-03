@@ -164,15 +164,15 @@ sum(w * x^r) / sum(w * x^(r - 1)) > mean_generalized(r)(x, w)
 
 # Example of how missing values are handled
 
-w <- replace(x, 2, NA)
+w <- replace(w, 2, NA)
 
 mean_arithmetic(x, w)
-mean_arithmetic(x, w, na.rm = TRUE)
+mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
 stats::weighted.mean(x, w, na.rm = TRUE)
 
 #--------------------
 
-# Sometimes in makes sense to calculate a generalized mean with
+# Sometimes it makes sense to calculate a generalized mean with
 # negative inputs, so the warning can be ignored
 
 mean_arithmetic(c(1, 2, -3))

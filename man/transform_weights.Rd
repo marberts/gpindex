@@ -68,7 +68,7 @@ These weights are calculated as
 This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case.
 
 \bold{Contributions}
-The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
+The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)()} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
 
 \code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
 
@@ -154,7 +154,7 @@ all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
 isTRUE(all.equal(mean_arithmetic(x, transmute2(x)), mean_geometric(x)))
 
 # There are infinitely many ways to calculate contributions, but the weights
-# from weights_transmute(0, 1) are the *unique* weights that recover the 
+# from weights_transmute(0, 1)() are the *unique* weights that recover the 
 # geometric mean
 
 perturb <- function(w, e) {

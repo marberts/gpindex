@@ -16,7 +16,7 @@
 
 Generalized price indexes are a large family of price indexes with nice properties. Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index). As it is trivial to turn a price index into its analogous quantity index by switching prices and quantities in the index-number formula, everything about generalized price indexes applies equally to generalizes quantity indexes.
 
-Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also have other desirable properties: A generalized index is always positive, and lies between the largest and smallest price change (mean value property). Except in pathological cases, a generalized index is also a continuous function of prices and quantities, a proportional change in prices leads to a proportional change in the index (linear homogeneity), the index only shows a change in price if prices change (identity property), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
+Generalized indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation. This justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Generalized indexes also have other desirable properties: A generalized index is always positive, lies between the largest and smallest price change (mean value property), and only shows a change in price if prices change (identity property). Except in pathological cases, a generalized index is also a continuous function of prices and quantities, a proportional change in prices leads to a proportional change in the index (linear homogeneity), and the index is not affected by the currency in which prices are measured (homogeneity of degree zero)---see \citet[Chapter 3]{balk2008} and \citet[Chapter 16]{cpimanual} for more details. Many generalized indexes have additional nice properties not shared by the entire family.
 
 One especially useful, although often overlooked, property of generalized indexes is that they all share the same mathematical structure, and can be manipulated in the same way. The \texttt{gpindex} package provides the computational tools to calculate and manipulate any generalized index using \textsf{R}. The purpose of this vignette is to show how this can be done mathematically, as most of the results in the literature apply to a narrow subset of generalized indexes, and how this can be done in \textsf{R} using the \texttt{gpindex} package.
 
@@ -94,7 +94,7 @@ It is often useful to be able to decompose a price index into an additive contri
 \begin{align*}
 I_r\left(\frac{p_1}{p_0}, w\right) \equiv \sum_{i = 1}^{n} \tilde{w}_{ir}\left(\frac{p_1}{p_0}, w\right) \frac{p_{i1}}{p_{i0}}.
 \end{align*}
-If such functions exists, they must be unique whenever price relatives are not all equal.\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} \neq p_{21} / p_{20}$. If there are positive numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$, then this implies that $w_{1} = w_{2}$. Any function $\tilde{w}_{ir}(p_1 / p_0, w)$ must then be unique for all $p_{11} / p_{10} \neq p_{21} / p_{20}$.} With this decomposition, the contribution for a price relative is simply $\tilde{w}_{ir}(p_1 / p_0, w) (p_{i1} / p_{i0} - 1)$.\footnote{As any arithmetic index can be represented as a basket-style index, $\tilde{w}_{ir}(p_1 / p_0, w) / p_{i0}$ gives a collection of implied ``quantities'' such that the basket-style index using these quantities agrees with the generalized index.}
+If such functions exists, they must be unique.\footnote{Consider the case of $n = 2$, and suppose $p_{11} / p_{10} \neq p_{21} / p_{20}$. If there are positive numbers $w_{1}$ and $w_{2}$ such that $w_{1} p_{11} / p_{10} + (1 - w_{1}) p_{21} / p_{20} = w_{2} p_{11} / p_{10} + (1 - w_{2}) p_{21} / p_{20}$, then this implies that $w_{1} = w_{2}$. Any function $\tilde{w}_{ir}(p_1 / p_0, w)$ must then be unique for all $p_{11} / p_{10} \neq p_{21} / p_{20}$.} With this decomposition, the contribution for a price relative is simply $\tilde{w}_{ir}(p_1 / p_0, w) (p_{i1} / p_{i0} - 1)$.\footnote{As any arithmetic index can be represented as a basket-style index, $\tilde{w}_{ir}(p_1 / p_0, w) / p_{i0}$ gives a collection of implied ``quantities'' such that the basket-style index using these quantities agrees with the generalized index.}
 
 \citet[Chapter 4]{balk2008} shows how this can be done for a geometric price index using logarithmic means. His approach can be generalized using the generalized logarithmic mean \citep[p.~385]{bullen2003}, which is defined for any $a > 0$ and $b > 0$ as
 \begin{align*}
@@ -116,7 +116,7 @@ from which it follows that
 \end{align*}
 Balk also shows that any arithmetic price index can be written as a geometric price index with a similar change in weights, which is useful for calculating multiplicative contributions. This result can again be generalized as finding functions $\tilde{w}_{is}$ such that
 \begin{align*}
-\sum_{i = 1}^{n} w_{i} \frac{p_{i1}}{p_{i0}} \equiv I_s\left(\frac{p_1}{p_0}, \tilde{w}_{is}\left(\frac{p_1}{p_0}, w\right)\right)
+\sum_{i = 1}^{n} w_{i} \frac{p_{i1}}{p_{i0}} \equiv I_s\left(\frac{p_1}{p_0}, \tilde{w}_{s}\left(\frac{p_1}{p_0}, w\right)\right)
 \end{align*}
 using the generalized logarithmic mean.
 
@@ -177,7 +177,7 @@ I_{r}\left(\frac{p_{t-1}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{t-1
 \end{align*}
 This saves from having to hold onto the price information in the base period for the life of the index, and only the index value for the previous period and most recent price relatives are needed to compute the next index value in the time series.
 
-In general it is not the case that the product of generalized means in the generalized mean of a product. But, it is the case that there is a collection of function $\hat{w}_{ir}$ that factor the generalized mean into two terms
+In general it is not the case that the product of generalized means is the generalized mean of a product. But, it is the case that there is a collection of function $\hat{w}_{ir}$ that factor the generalized mean into two terms
 \begin{align*}
 I_{r}\left(\frac{p_{t}}{p_{0}}, w\right) \equiv I_{r}\left(\frac{p_{s}}{p_{0}}, w\right) \times I_{r}\left(\frac{p_{t}}{p_{s}}, \hat{w}_{r}\left(\frac{p_{s}}{p_{0}}, w\right)\right),
 \end{align*}
