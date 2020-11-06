@@ -40,7 +40,7 @@ all_numeric <- function(...) {
   } else {
     call("^", e1, e2)
   }
-  eval(res, parent.frame())
+  eval.parent(res)
 }
 
 #---- Arithmetic mean (internal) ----
