@@ -24,25 +24,22 @@ all_numeric <- function(...) {
 # Custom pow
 # There are a variety of optimizations for calculating power/extended means
 `%^%` <- function(e1, e2) {
-  e1 <- substitute(e1)
-  res <- if (e2 == 1) {
+  if (e2 == 1) {
     e1
   } else if (e2 == 0.5) {
-    call("sqrt", e1)
+    sqrt(e1)
   } else if (e2 == 0) {
     1
   } else if (e2 == -0.5) {
-    call("/", 1, call("sqrt", e1))
+    1 / sqrt(e1)
   } else if (e2 == -1) {
-    call("/", 1, e1)
+    1 / e1
   } else if (e2 == -2) {
-    call("/", 1, call("^", e1, 2))
+    1 / e1^2
   } else {
-    call("^", e1, e2)
+    e1^e2
   }
-  eval.parent(res)
 }
-
 #---- Arithmetic mean (internal) ----
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
   # return NA if there are NAs in x or w; differs from stats::weighted.mean
