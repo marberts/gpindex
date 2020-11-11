@@ -1,6 +1,5 @@
 quantity_index <- function(price_index) {
   stopifnot("'price_index' must be a function" = is.function(price_index))
-  fun <- substitute(price_index)
   args <- formals(price_index)
   concord <- c(p1 = "q1", p0 = "q0", q1 = "p1", q0 = "p0", pb = "qb", qb = "pb")
   pqs <- intersect(names(args), concord)
@@ -11,6 +10,6 @@ quantity_index <- function(price_index) {
   res <- function() {}
   names(args)[names(args) %in% pqs] <- qps
   formals(res) <- args
-  body(res)[[2]] <- as.call(c(fun, lapply(c(qps, not_pqs), as.name)))
+  body(res)[[2]] <- as.call(c(price_index, lapply(c(qps, not_pqs), as.name)))
   res
 }
