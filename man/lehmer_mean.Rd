@@ -102,13 +102,30 @@ mean_contraharmonic(x)
 
 #--------------------
 
+# It is easy to modify the weights to turn a Lehmer mean of order r
+# into a Lehmer mean of order s because the Lehmer mean can be expressed
+# as an arithmetic mean
+
+r <- 2
+s <- -3
+mean_lehmer(r)(x, w)
+mean_lehmer(s)(x, w * x^(r - 1) / x^(s - 1))
+
+# The weights can also be modified to turn a Lehmer mean of order r
+# into a generalized mean of order s
+
+mean_lehmer(r)(x, w)
+mean_generalized(s)(x, weights_transmute(1, s)(x, w * x^(r - 1)))
+
+# and vice versa
+
+mean_lehmer(r)(x, weights_transmute(s, 1)(x, w) / x^(r - 1))
+mean_generalized(s)(x, w)
+
+#--------------------
+
 # Quote contributions for a price index based on the Lehmer mean
 # are easy to calculate
 
-r <- 2
 weights_scale(w * x^(r - 1)) * (x - 1)
-
-# This also demonstrates why it is impossible to transmute the
-# weights to turn a Lehmer mean of order r into a Lehmer mean of
-# order s
 }

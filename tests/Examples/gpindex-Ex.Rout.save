@@ -200,16 +200,39 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > #--------------------
 > 
+> # It is easy to modify the weights to turn a Lehmer mean of order r
+> # into a Lehmer mean of order s because the Lehmer mean can be expressed
+> # as an arithmetic mean
+> 
+> r <- 2
+> s <- -3
+> mean_lehmer(r)(x, w)
+[1] 2.818182
+> mean_lehmer(s)(x, w * x^(r - 1) / x^(s - 1))
+[1] 2.818182
+> 
+> # The weights can also be modified to turn a Lehmer mean of order r
+> # into a generalized mean of order s
+> 
+> mean_lehmer(r)(x, w)
+[1] 2.818182
+> mean_generalized(s)(x, weights_transmute(1, s)(x, w * x^(r - 1)))
+[1] 2.818182
+> 
+> # and vice versa
+> 
+> mean_lehmer(r)(x, weights_transmute(s, 1)(x, w) / x^(r - 1))
+[1] 2.568312
+> mean_generalized(s)(x, w)
+[1] 2.568312
+> 
+> #--------------------
+> 
 > # Quote contributions for a price index based on the Lehmer mean
 > # are easy to calculate
 > 
-> r <- 2
 > weights_scale(w * x^(r - 1)) * (x - 1)
 [1] 0.1818182 1.6363636
-> 
-> # This also demonstrates why it is impossible to transmute the
-> # weights to turn a Lehmer mean of order r into a Lehmer mean of
-> # order s
 > 
 > 
 > 
@@ -749,7 +772,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.303 0.024 0.329 0 0 
+Time elapsed:  0.208 0.017 0.224 0 0 
 > grDevices::dev.off()
 null device 
           1 
