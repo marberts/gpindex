@@ -41,7 +41,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \details{
-The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}.
+The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., the weighted mean of \code{x} to the power of \code{r}, all raised to the power of 1 / \code{r}). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the Pythagorean means, the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
@@ -83,7 +83,9 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \seealso{
-\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
+\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean.
+
+\code{\link[gpindex]{mean_lehmer}} for the Lehmer mean, an alternative to the generalized mean.
 
 \code{\link[gpindex]{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
@@ -146,19 +148,6 @@ y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
 stats::sd(x) > stats::sd(y)
 mean_arithmetic(x) - mean_geometric(x) < 
     mean_arithmetic(y) - mean_geometric(y)
-
-#--------------------
-
-# When r < 1, the generalized mean is larger than the corresponding
-# counter-harmonic (Lehmer) mean
-
-r <- -1
-sum(w * x^r) / sum(w * x^(r - 1)) < mean_generalized(r)(x, w)
-
-# The reverse is true when r > 1
-
-r <- 2
-sum(w * x^r) / sum(w * x^(r - 1)) > mean_generalized(r)(x, w)
 
 #--------------------
 

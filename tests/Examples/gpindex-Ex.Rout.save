@@ -106,21 +106,6 @@ Type 'q()' to quit R.
 > 
 > #--------------------
 > 
-> # When r < 1, the generalized mean is larger than the corresponding
-> # counter-harmonic (Lehmer) mean
-> 
-> r <- -1
-> sum(w * x^r) / sum(w * x^(r - 1)) < mean_generalized(r)(x, w)
-[1] TRUE
-> 
-> # The reverse is true when r > 1
-> 
-> r <- 2
-> sum(w * x^r) / sum(w * x^(r - 1)) > mean_generalized(r)(x, w)
-[1] TRUE
-> 
-> #--------------------
-> 
 > # Example of how missing values are handled
 > 
 > w <- replace(w, 2, NA)
@@ -148,6 +133,83 @@ Warning in mean_arithmetic(c(1, 2, -3)) :
 Warning in mean_harmonic(c(1, 2, -3)) :
   Some elements of 'x' or 'w' are negative; the generalized mean is not defined
 [1] 2.571429
+> 
+> 
+> 
+> cleanEx()
+> nameEx("lehmer_mean")
+> ### * lehmer_mean
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: Lehmer mean
+> ### Title: Lehmer mean
+> ### Aliases: mean_lehmer mean_contraharmonic
+> 
+> ### ** Examples
+> 
+> # Make some data
+> 
+> x <- 2:3
+> w <- c(0.25, 0.75)
+> 
+> # The Pythagorean means are special cases of the Lehmer mean
+> 
+> all.equal(mean_lehmer(1)(x, w), mean_arithmetic(x, w))
+[1] TRUE
+> all.equal(mean_lehmer(0)(x, w), mean_harmonic(x, w))
+[1] TRUE
+> all.equal(mean_lehmer(0.5)(x), mean_geometric(x))
+[1] TRUE
+> 
+> #--------------------
+> 
+> # When r < 1, the generalized mean is larger than the corresponding
+> # Lehmer mean
+> 
+> mean_lehmer(-1)(x, w) < mean_generalized(-1)(x, w)
+[1] TRUE
+> 
+> # The reverse is true when r > 1
+> 
+> mean_lehmer(3)(x, w) > mean_generalized(3)(x, w)
+[1] TRUE
+> 
+> # This implies the contraharmonic mean is larger than the quadratic
+> # mean, and therefore the Pythagorean means
+> 
+> mean_contraharmonic(x, w) > mean_arithmetic(x, w)
+[1] TRUE
+> mean_contraharmonic(x, w) > mean_geometric(x, w)
+[1] TRUE
+> mean_contraharmonic(x, w) > mean_harmonic(x, w)
+[1] TRUE
+> 
+> # and the logarithmic mean
+> 
+> mean_contraharmonic(2:3) > logmean(2, 3)
+[1] TRUE
+> 
+> # The difference between the arithmetic mean and contraharmonic mean
+> # is proportional to the variance of x
+> 
+> mean_arithmetic(x) + var(x) / mean_arithmetic(x) * (1 - 1 / length(x))
+[1] 2.6
+> mean_contraharmonic(x)
+[1] 2.6
+> 
+> #--------------------
+> 
+> # Quote contributions for a price index based on the Lehmer mean
+> # are easy to calculate
+> 
+> r <- 2
+> weights_scale(w * x^(r - 1)) * (x - 1)
+[1] 0.1818182 1.6363636
+> 
+> # This also demonstrates why it is impossible to transmute the
+> # weights to turn a Lehmer mean of order r into a Lehmer mean of
+> # order s
 > 
 > 
 > 
@@ -687,7 +749,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.174 0.013 0.187 0 0 
+Time elapsed:  0.303 0.024 0.329 0 0 
 > grDevices::dev.off()
 null device 
           1 

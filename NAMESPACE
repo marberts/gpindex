@@ -1,5 +1,6 @@
 export(mean_generalized, mean_arithmetic, mean_geometric, mean_harmonic,
        mean_extended, logmean_generalized, logmean,
+       mean_lehmer, mean_contraharmonic,
        weights_transmute, weights_factor, weights_update, weights_scale,
        contributions, contributions_arithmetic, contributions_geometric, contributions_harmonic,
        index_weights,

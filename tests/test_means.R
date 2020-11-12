@@ -210,3 +210,30 @@ stopifnot(
     },
   local = getNamespace("gpindex")
 )
+
+#---- Tests for Lehmer means ----
+stopifnot(
+  exprs = {
+    # Test against a simple implementation
+    all(
+      vapply(
+        seq(-10, 10, by = 0.25),
+        function(r)
+          all(
+            abs(
+              mean_lehmer(r)(x, w) -
+                sum(w * x^r) / sum(w * x^(r - 1))
+            ) < .Machine$double.eps^0.5
+          ),
+        logical(1)
+      )
+    )
+    # Some identities
+    all.equal(mean_arithmetic(x, w), mean_lehmer(1)(x, w))
+    all.equal(mean_harmonic(x, w), mean_lehmer(0)(x, w))
+    all.equal(mean_geometric(x[1:2]), mean_lehmer(0.5)(x[1:2]))
+    all.equal(mean_lehmer(5)(x, w), 1 / mean_lehmer(-4)(1 / x, w))
+    all.equal(mean_lehmer(-3)(x), 1 / mean_lehmer(4)(1 / x))
+    },
+  local = getNamespace("gpindex")
+)

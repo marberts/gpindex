@@ -125,3 +125,16 @@ logmean_generalized <- function(r) mean_extended(r, 1)
 
 #---- Logarithmic mean ----
 logmean <- logmean_generalized(0)
+
+#---- Lehmer mean ----
+mean_lehmer <- function(r) {
+  stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
+  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
+    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+  }
+  function(x, w = rep(1, length(x)), na.rm = FALSE) {
+    mean_arithmetic(x, w * x %^% (r - 1), na.rm, TRUE)
+  }
+}
+
+mean_contraharmonic <- mean_lehmer(2)
