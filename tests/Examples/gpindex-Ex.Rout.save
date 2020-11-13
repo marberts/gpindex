@@ -193,10 +193,12 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > # The difference between the arithmetic mean and contraharmonic mean
 > # is proportional to the variance of x
 > 
-> mean_arithmetic(x) + var(x) / mean_arithmetic(x) * (1 - 1 / length(x))
-[1] 2.6
-> mean_contraharmonic(x)
-[1] 2.6
+> weighted_var <- function(x, w) mean_arithmetic((x - mean_arithmetic(x, w))^2, w)
+> 
+> mean_arithmetic(x, w) + weighted_var(x, w) / mean_arithmetic(x, w)
+[1] 2.818182
+> mean_contraharmonic(x, w)
+[1] 2.818182
 > 
 > #--------------------
 > 
@@ -267,23 +269,6 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 [1] TRUE
 > 
-> # It can be approximated as a convex combination of the arithmetic and 
-> # geometric means that gives more weight to the geometric mean
-> 
-> approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
-> approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
-> 
-> approx1 - logmean(x, y) # always a positive approximation error
-[1] 1.932965e-02 3.260257e-03 3.420021e-04 3.852275e-06
-> approx2 - logmean(x, y) # a negative approximation error
-[1] -6.436118e-02 -1.212079e-02 -1.336412e-03 -1.537117e-05
-> 
-> # A better approximation
-> 
-> correction <- (log(x / y) / pi)^4 / 32
-> approx1 / (1 + correction) - logmean(x, y)
-[1] -8.576372e-04  1.064231e-04  2.148563e-05  2.877344e-07
-> 
 > # The harmonic mean cannot be expressed as a logarithmic mean, but can be 
 > # expressed as an extended mean
 > 
@@ -294,6 +279,32 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > all.equal(mean_extended(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 [1] TRUE
+> 
+> # As are heronian and centroidal means
+> 
+> all.equal(mean_extended(0.5, 1.5)(x, y), (x + sqrt(x * y) + y) / 3)
+[1] TRUE
+> all.equal(mean_extended(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
+[1] TRUE
+> 
+> #--------------------
+> 
+> # The logarithmic mean can be approximated as a convex combination of the 
+> # arithmetic and geometric means that gives more weight to the geometric mean
+> 
+> approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
+> approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
+> 
+> approx1 - logmean(x, y) # always a positive approximation error
+[1] 1.932965e-02 3.260257e-03 3.420021e-04 3.852275e-06
+> approx2 - logmean(x, y) # a negative approximation error in this case
+[1] -6.436118e-02 -1.212079e-02 -1.336412e-03 -1.537117e-05
+> 
+> # A better approximation
+> 
+> correction <- (log(x / y) / pi)^4 / 32
+> approx1 / (1 + correction) - logmean(x, y)
+[1] -8.576372e-04  1.064231e-04  2.148563e-05  2.877344e-07
 > 
 > #--------------------
 > 
@@ -772,7 +783,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.208 0.017 0.224 0 0 
+Time elapsed:  0.305 0.027 0.332 0 0 
 > grDevices::dev.off()
 null device 
           1 
