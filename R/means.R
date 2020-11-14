@@ -42,11 +42,12 @@ all_numeric <- function(...) {
 }
 #---- Arithmetic mean (internal) ----
 mean_arithmetic_ <- function(x, w, na.rm, scale) {
-  # return NA if there are NAs in x or w; differs from stats::weighted.mean
-  if (!na.rm && (anyNA(x) || anyNA(w))) return(NA_real_)
-  total <- sum(x * w, na.rm = TRUE)
-  if (!scale) return(total)
-  total / sum(if (na.rm) w[!is.na(x)] else w, na.rm = TRUE)
+  if (na.rm) {
+    keep <- !(is.na(x) | is.na(w))
+    x <- x[keep]
+    w <- w[keep]
+  }
+  sum(x * w) / if (scale) sum(w) else 1
 }
 
 #---- Generalized mean ----
@@ -61,8 +62,8 @@ mean_generalized <- function(r) {
               "'x' and 'w' must be the same length" = all_same_length(x, w),
               "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
               "'scale' must be TRUE or FALSE" = is_T_or_F(scale))
-    if (any(x < 0 | w < 0, na.rm = TRUE)) {
-      warning("Some elements of 'x' or 'w' are negative; the generalized mean is not defined")
+    if (any(x <= 0 | w <= 0, na.rm = TRUE)) {
+      warning("Some elements of 'x' or 'w' are non-positive; the generalized mean is not defined")
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {

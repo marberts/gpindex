@@ -17,9 +17,9 @@ mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
 \arguments{
 \item{r}{A finite number giving the order of the Lehmer mean.}
 
-\item{x}{A positive numeric vector.}
+\item{x}{A strictly positive numeric vector.}
 
-\item{w}{A positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
+\item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
 }
