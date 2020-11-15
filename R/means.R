@@ -21,7 +21,21 @@ all_numeric <- function(...) {
   all(vapply(list(...), is.numeric, logical(1)))
 }
 
-# Custom pow
+# Checks for warnings
+any_negative <- function(x, y) {
+  any(x <= 0, na.rm = T) || any(y <= 0, na.rm = T)
+}
+
+small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {
+  abs(x) < tol && x != 0
+}
+
+# Wrap-around vector indexing
+wrap_around <- function(x, loc) {
+  (loc - 1) %% length(x) + 1
+}
+
+# Custom power operator
 # There are a variety of optimizations for calculating power/extended means
 `%^%` <- function(e1, e2) {
   if (e2 == 1) {
@@ -40,21 +54,22 @@ all_numeric <- function(...) {
     e1^e2
   }
 }
-#---- Arithmetic mean (internal) ----
-mean_arithmetic_ <- function(x, w, na.rm, scale) {
-  if (na.rm) {
-    keep <- !(is.na(x) | is.na(w))
-    x <- x[keep]
-    w <- w[keep]
-  }
-  sum(x * w) / if (scale) sum(w) else 1
-}
 
 #---- Generalized mean ----
 mean_generalized <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
-  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
+  if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+  }
+  # internal mean; similar to stats::weighted.mean, except that 0s in w are not
+  # strong 0s, and na.rm = TRUE removes NAs in x and w
+  mean_ <- function(x, w, na.rm, scale) {
+    if (na.rm) {
+      keep <- !(is.na(x) | is.na(w))
+      x <- x[keep]
+      w <- w[keep]
+    }
+    sum(x * w) / if (scale) sum(w) else 1
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
@@ -62,19 +77,19 @@ mean_generalized <- function(r) {
               "'x' and 'w' must be the same length" = all_same_length(x, w),
               "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
               "'scale' must be TRUE or FALSE" = is_T_or_F(scale))
-    if (any(x <= 0 | w <= 0, na.rm = TRUE)) {
-      warning("Some elements of 'x' or 'w' are non-positive; the generalized mean is not defined")
+    if (any_negative(x, w)) {
+      warning("Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined")
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
-      exp(mean_arithmetic_(log(x), w, na.rm, scale))
+      exp(mean_(log(x), w, na.rm, scale))
     } else {
-      mean_arithmetic_(x %^% r, w, na.rm, scale)^(1 / r) 
+      mean_(x %^% r, w, na.rm, scale)^(1 / r) 
     }
   }
 }
 
-#---- Arithmetic mean (exported) ----
+#---- Arithmetic mean ----
 mean_arithmetic <- mean_generalized(1)
 
 #---- Geometric mean ----
@@ -87,21 +102,21 @@ mean_harmonic <- mean_generalized(-1)
 mean_extended <- function(r, s) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r),
             "'s' must be a finite length 1 numeric" = is_number(s))
-  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
+  if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
-  if (abs(s) < .Machine$double.eps^0.5 && s != 0) {
+  if (small_but_not_zero(s)) {
     warning("'s' is very small in absolute value, but not zero; this can give misleading results")
   }
-  if (abs(r - s) < .Machine$double.eps^0.5 && r != s) {
+  if (small_but_not_zero(r - s)) {
     warning("'r' and 's' are very close in value, but not equal; this can give misleading results")
   }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     stopifnot("'a' and 'b' must be numeric vectors" = all_numeric(a, b),
               "'tol' must be a non-negative length 1 numeric" = is_positive_number(tol))
-    if (any(a <= 0 | b <= 0, na.rm = TRUE)) {
-      warning("Some elements 'a' or 'b' are non-positive; the extended mean is not defined")
+    if (any_negative(a, b)) {
+      warning("Some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
     }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
@@ -116,8 +131,7 @@ mean_extended <- function(r, s) {
     }
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
-    res[loc] <- a[(loc - 1) %% length(a) + 1] # wrap-around indexing
-    res
+    replace(res, loc, a[wrap_around(a, loc)])
   }
 }
 
@@ -130,9 +144,6 @@ logmean <- logmean_generalized(0)
 #---- Lehmer mean ----
 mean_lehmer <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
-  if (abs(r) < .Machine$double.eps^0.5 && r != 0) {
-    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
-  }
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
     mean_arithmetic(x, w * x %^% (r - 1), na.rm, TRUE)
   }

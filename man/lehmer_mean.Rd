@@ -42,10 +42,6 @@ Both \code{x} and \code{w} should be strictly positive. This is not enforced, bu
 The Lehmer mean is an alternative to the generalized mean that generalizes the Pythagorean means. The function \code{mean_lehmer(1)()} is identical to \code{mean_artithmetic()}, \code{mean_lehmer(0)()} is identical to \code{mean_harmonic()}, and \code{mean_lehmer(0.5)()} is identical to \code{mean_geometric()} with two values and no weights.
 }
 
-\section{Warning}{
-Passing very small values for \code{r} can give misleading results, and warning is given whenever \code{abs(r)} is sufficiently small. In general, \code{r} should not be a computed value.
-}
-
 \note{
 \code{mean_lehmer()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[base:min]{min()}}/\code{\link[base:max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
 }
