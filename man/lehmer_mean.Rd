@@ -1,4 +1,4 @@
-\name{Lehmer mean}
+\name{lehmer mean}
 \alias{mean_lehmer}
 \alias{mean_contraharmonic}
 

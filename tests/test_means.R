@@ -64,7 +64,7 @@ stopifnot(
     # Test of reversal
     vapply(seq(0.25, 10, by = 0.25),
            function(r) {
-             all.equal(mean_generalized(r)(x, w), 1 / mean_generalized(-r)(1 / x, w))
+             all.equal(mean_generalized(-r)(x, w), 1 / mean_generalized(r)(1 / x, w))
            },
            logical(1))
     # Checks for NA_real_ and length-0 inputs

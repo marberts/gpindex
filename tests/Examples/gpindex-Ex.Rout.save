@@ -43,16 +43,12 @@ Type 'q()' to quit R.
 > 
 > # Arithmetic mean
 > 
-> mean_arithmetic(x, w)
-[1] 2.25
-> stats::weighted.mean(x, w)
+> mean_arithmetic(x, w) # same as stats::weighted.mean(x, w)
 [1] 2.25
 > 
 > # Geometric mean
 > 
-> mean_geometric(x, w)
-[1] 2.059767
-> prod(x^w)
+> mean_geometric(x, w) # same as prod(x^w)
 [1] 2.059767
 > 
 > # Using prod() to manually calculate the geometric mean can give misleading
@@ -72,9 +68,7 @@ Type 'q()' to quit R.
 > 
 > # Harmonic mean
 > 
-> mean_harmonic(x, w)
-[1] 1.846154
-> 1 / stats::weighted.mean(1 / x, w)
+> mean_harmonic(x, w) # same as 1 / stats::weighted.mean(1 / x, w)
 [1] 1.846154
 > 
 > # Quadratic mean / root mean square
@@ -83,20 +77,19 @@ Type 'q()' to quit R.
 [1] 2.397916
 > 
 > # Cubic mean
+> # Notice that this is larger than the other means so far because the 
+> # generalized mean is increasing in r
 > 
 > mean_generalized(3)(x, w)
 [1] 2.506649
-> 
-> # This is larger than the other means so far because the generalized mean is
-> # increasing in r
 > 
 > #--------------------
 > 
 > # Example from Lord (2002) where the dispersion between arithmetic and 
 > # geometric means decreases as the variance increases
 > 
-> x <- c((5 + sqrt(5)) / 4, (5 - sqrt(5)) / 4, 1 / 2)
-> y <- c((16 + 7 * sqrt(2)) / 16, (16 - 7 * sqrt(2)) / 16, 1)
+> x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
+> y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
 > 
 > stats::sd(x) > stats::sd(y)
 [1] TRUE
@@ -114,7 +107,7 @@ Type 'q()' to quit R.
 [1] NA
 > mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
 [1] 0.936339
-> stats::weighted.mean(x, w, na.rm = TRUE)
+> stats::weighted.mean(x, w, na.rm = TRUE) # still returns NA
 [1] NA
 > 
 > #--------------------
@@ -124,14 +117,14 @@ Type 'q()' to quit R.
 > 
 > mean_arithmetic(c(1, 2, -3))
 Warning in mean_arithmetic(c(1, 2, -3)) :
-  Some elements of 'x' or 'w' are negative; the generalized mean is not defined
+  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 [1] 0
 > 
 > # Other times it's less obvious
 > 
 > mean_harmonic(c(1, 2, -3))
 Warning in mean_harmonic(c(1, 2, -3)) :
-  Some elements of 'x' or 'w' are negative; the generalized mean is not defined
+  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 [1] 2.571429
 > 
 > 
@@ -142,7 +135,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: Lehmer mean
+> ### Name: lehmer mean
 > ### Title: Lehmer mean
 > ### Aliases: mean_lehmer mean_contraharmonic
 > 
@@ -783,7 +776,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.305 0.027 0.332 0 0 
+Time elapsed:  0.234 0.037 0.271 0 0 
 > grDevices::dev.off()
 null device 
           1 
