@@ -45,22 +45,23 @@ contributions_geometric <- contributions(0)
 contributions_harmonic <- contributions(-1)
 
 contributions_nested <- function(r1, r2, w1 = rep(1, length(r2))) {
-  stopifnot(is_number(r1), 
-            is.list(r2), 
-            vapply(r2, is_number, logical(1)), 
-            is.numeric(w1),
-            all_same_length(r2, w1))
+  # stopifnot("'r1' must be a finite length 1 numeric" = is_number(r1), 
+  #           "'r2' must be a list" = is.list(r2), 
+  #           "Each element of 'r2' must be a finite length 1 numeric" = vapply(r2, is_number, logical(1)), 
+  #           "'w1' must be a numeric vector" = is.numeric(w1),
+  #           "'r2' and 'w1' must be the same length" = all_same_length(r2, w1))
   function(x, w = rep(list(rep(1, length(x))), length(r2))) {
-    stopifnot(is.numeric(x), 
-              is.list(w),
-              all_same_length(r2, w),
-              vapply(w, is.numeric, logical(1)),
-              do.call(all_same_length, c(list(x), w)))
+    # stopifnot("'x' must be a numeric vector" = is.numeric(x), 
+    #           "'w' must be a list" = is.list(w),
+    #           all_same_length(r2, w),
+    #           "Each element of 'w' must be a numeric vector" = do.call(all_numeric, w),
+    #           "Each element of 'w' must be the same length as 'x'" = do.call(all_same_length, c(list(x), w)))
     means <- lapply(r2, mean_generalized)
-    m <- vapply(seq_along(means), function(i) means[[i]](x, w[[i]]), numeric(1))
-    v1 <- weights_scale(weights_transmute(r1, 1)(m, w1))
     contribs <- lapply(r2, contributions)
-    v2 <- lapply(seq_along(contribs), function(i) contribs[[i]](x, w[[i]]))
+    ind <- seq_along(r2)
+    m <- vapply(ind, function(i) means[[i]](x, w[[i]]), numeric(1))
+    v2 <- lapply(ind, function(i) contribs[[i]](x, w[[i]]))
+    v1 <- weights_scale(weights_transmute(r1, 1)(m, w1))
     unlist(Reduce("+", Map("*", v1, v2)))
   }
 }

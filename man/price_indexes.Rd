@@ -190,12 +190,6 @@ mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0))
 index_laspeyres(p1, p0, q0)
 mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
-# Trivial to turn weights for an arithmetic index 
-# into a basket-style index
-
-qs <- index_weights("Laspeyres")(p0, q0) / p0
-sum(p1 * qs) / sum(p0 * qs)
-
 # Harmonic calculation for the arithmetic Laspeyres
 
 mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
@@ -247,13 +241,9 @@ all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 
 # Quote contributions for the Fisher index
 
-wl <- index_weights("Laspeyres")(p0, q0)
-wp <- index_weights("Paasche")(p1, q1)
-wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), mean_harmonic(p1 / p0, wp)))
-wf <- weights_scale(wf)
-
-(con <- wf[1] * contributions_arithmetic(p1 / p0, wl) + 
-          wf[2] * contributions_harmonic(p1 / p0, wp))
+contributions_fisher <- contributions_nested(0, list(1, -1))
+(con <- contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
+                                           index_weights("Paasche")(p1, q1))))
 
 all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
@@ -261,6 +251,7 @@ all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
 Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
+wl <- index_weights("Laspeyres")(p0, q0)
 wp <- index_weights("HybridPaasche")(p0, q1)
 
 con2 <- (Qf / (Qf + Ql) * weights_scale(wl) + 

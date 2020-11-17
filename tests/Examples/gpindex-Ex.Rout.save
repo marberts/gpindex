@@ -342,6 +342,35 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > 
 > cleanEx()
+> nameEx("nested_contributions")
+> ### * nested_contributions
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: nested contributions
+> ### Title: Nested contributions
+> ### Aliases: contributions_nested
+> 
+> ### ** Examples
+> 
+> p1 <- price6[[2]]
+> p0 <- price6[[1]]
+> q1 <- quantity6[[2]]
+> q0 <- quantity6[[1]]
+> 
+> contributions_fisher <- contributions_nested(0, list(1, -1))
+> contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
++                                    index_weights("Paasche")(p1, q1)))
+[1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
+>                                    
+> contributions_hlp <- contributions_nested(-1, list(1, -1))
+> contributions_hlp(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
++                                 index_weights("Paasche")(p1, q1)))
+[1]  0.01781416  0.18807725  0.05791352 -0.03417296  0.18218584 -0.01089421
+> 
+> 
+> 
+> cleanEx()
 > nameEx("pq6")
 > ### * pq6
 > 
@@ -412,13 +441,6 @@ t5 1.0712    1.2477             0.9801 1.1850
 > mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 [1] 0.9609929
 > 
-> # Trivial to turn weights for an arithmetic index 
-> # into a basket-style index
-> 
-> qs <- index_weights("Laspeyres")(p0, q0) / p0
-> sum(p1 * qs) / sum(p0 * qs)
-[1] 0.9609929
-> 
 > # Harmonic calculation for the arithmetic Laspeyres
 > 
 > mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
@@ -479,13 +501,9 @@ t5 1.0712    1.2477             0.9801 1.1850
 > 
 > # Quote contributions for the Fisher index
 > 
-> wl <- index_weights("Laspeyres")(p0, q0)
-> wp <- index_weights("Paasche")(p1, q1)
-> wf <- weights_transmute(0, 1)(c(mean_arithmetic(p1 / p0, wl), mean_harmonic(p1 / p0, wp)))
-> wf <- weights_scale(wf)
-> 
-> (con <- wf[1] * contributions_arithmetic(p1 / p0, wl) + 
-+           wf[2] * contributions_harmonic(p1 / p0, wp))
+> contributions_fisher <- contributions_nested(0, list(1, -1))
+> (con <- contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
++                                            index_weights("Paasche")(p1, q1))))
 [1] -0.011708865 -0.130201104  0.024304224 -0.027406822  0.095185357
 [6] -0.009086373
 > 
@@ -496,6 +514,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > 
 > Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
 > Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
+> wl <- index_weights("Laspeyres")(p0, q0)
 > wp <- index_weights("HybridPaasche")(p0, q1)
 > 
 > con2 <- (Qf / (Qf + Ql) * weights_scale(wl) + 
@@ -776,7 +795,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.234 0.037 0.271 0 0 
+Time elapsed:  0.248 0.025 0.274 0 0 
 > grDevices::dev.off()
 null device 
           1 
