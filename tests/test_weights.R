@@ -102,3 +102,12 @@ stopifnot(
   },
   local = getNamespace("gpindex")
 )
+
+#---- Tests for contributions_nested ----
+stopifnot(
+  exprs = {
+    all.equal(sum(contributions_nested(3, list(-1, 0, 2))(x)),
+              mean_generalized(3)(c(mean_harmonic(x), mean_geometric(x), mean_generalized(2)(x))) - 1)
+  },
+  local = getNamespace("gpindex")
+)
