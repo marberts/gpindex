@@ -15,7 +15,7 @@ contributions_nested(r1, r2, w1 = rep(1, length(r2)))
 
 \arguments{
 \item{r1}{A finite number giving the order of the outer generalized mean.}
-\item{r2}{A list of finite numbers giving the order of the inner generalized means.}
+\item{r2}{A vector of finite numbers giving the order of the inner generalized means.}
 \item{w1}{A vector of numeric weights that weights each inner generalized mean in the outer generalized mean, the same length as \code{r2}.}
 }
 
@@ -45,11 +45,11 @@ p0 <- price6[[1]]
 q1 <- quantity6[[2]]
 q0 <- quantity6[[1]]
 
-contributions_fisher <- contributions_nested(0, list(1, -1))
+contributions_fisher <- contributions_nested(0, c(1, -1))
 contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
                                    index_weights("Paasche")(p1, q1)))
                                    
-contributions_hlp <- contributions_nested(-1, list(1, -1))
+contributions_hlp <- contributions_nested(-1, c(1, -1))
 contributions_hlp(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
                                 index_weights("Paasche")(p1, q1)))
 }

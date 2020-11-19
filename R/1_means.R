@@ -7,7 +7,7 @@ mean_generalized <- function(r) {
   # internal mean; similar to stats::weighted.mean, except that 0s in w are not
   # strong 0s, and na.rm = TRUE removes NAs in x and w
   mean_ <- function(x, w, na.rm, scale) {
-    if (na.rm) {
+    if (na.rm && (anyNA(x) || anyNA(w))) {
       keep <- !(is.na(x) | is.na(w))
       x <- x[keep]
       w <- w[keep]

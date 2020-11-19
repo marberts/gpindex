@@ -358,12 +358,12 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > q1 <- quantity6[[2]]
 > q0 <- quantity6[[1]]
 > 
-> contributions_fisher <- contributions_nested(0, list(1, -1))
+> contributions_fisher <- contributions_nested(0, c(1, -1))
 > contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
 +                                    index_weights("Paasche")(p1, q1)))
 [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
 >                                    
-> contributions_hlp <- contributions_nested(-1, list(1, -1))
+> contributions_hlp <- contributions_nested(-1, c(1, -1))
 > contributions_hlp(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
 +                                 index_weights("Paasche")(p1, q1)))
 [1]  0.01781416  0.18807725  0.05791352 -0.03417296  0.18218584 -0.01089421
@@ -501,7 +501,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > 
 > # Quote contributions for the Fisher index
 > 
-> contributions_fisher <- contributions_nested(0, list(1, -1))
+> contributions_fisher <- contributions_nested(0, c(1, -1))
 > (con <- contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
 +                                            index_weights("Paasche")(p1, q1))))
 [1] -0.011708865 -0.130201104  0.024304224 -0.027406822  0.095185357
@@ -795,7 +795,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.248 0.025 0.274 0 0 
+Time elapsed:  0.266 0.02 0.286 0 0 
 > grDevices::dev.off()
 null device 
           1 

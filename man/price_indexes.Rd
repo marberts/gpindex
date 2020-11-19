@@ -241,7 +241,7 @@ all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 
 # Quote contributions for the Fisher index
 
-contributions_fisher <- contributions_nested(0, list(1, -1))
+contributions_fisher <- contributions_nested(0, c(1, -1))
 (con <- contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
                                            index_weights("Paasche")(p1, q1))))
 
