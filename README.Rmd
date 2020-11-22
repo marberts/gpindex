@@ -85,14 +85,14 @@ mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
 weight <- c(0.3, 0.7)
 
 # Calculate lower-level indexes
-(lower <- unlist(Map(mean_geometric, prices)))
+(lower <- sapply(prices, mean_geometric))
 
 # Calculate upper-level index
 (upper <- mean_arithmetic(lower, weight))
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- Map(contributions_geometric, prices))
+(con_lower <- lapply(prices, contributions_geometric))
 
 # Calculate quote contributions for upper-level index
-(con_upper <- unlist(Map("*", con_lower, weight)))
+(con_upper <- mapply("*", con_lower, weight))
 ```

@@ -1,18 +1,21 @@
+#---- Internal mean ----
+# similar to stats::weighted.mean, except that 0s in w are not
+# strong 0s, and na.rm = TRUE removes NAs in x and w
+
+.mean <- function(x, w, na.rm, scale) {
+  if (na.rm && (anyNA(x) || anyNA(w))) {
+    keep <- !(is.na(x) | is.na(w))
+    x <- x[keep]
+    w <- w[keep]
+  }
+  sum(x * w) / if (scale) sum(w) else 1
+}
+
 #---- Generalized mean ----
 mean_generalized <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
   if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
-  }
-  # internal mean; similar to stats::weighted.mean, except that 0s in w are not
-  # strong 0s, and na.rm = TRUE removes NAs in x and w
-  mean_ <- function(x, w, na.rm, scale) {
-    if (na.rm && (anyNA(x) || anyNA(w))) {
-      keep <- !(is.na(x) | is.na(w))
-      x <- x[keep]
-      w <- w[keep]
-    }
-    sum(x * w) / if (scale) sum(w) else 1
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
@@ -25,9 +28,9 @@ mean_generalized <- function(r) {
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
-      exp(mean_(log(x), w, na.rm, scale))
+      exp(.mean(log(x), w, na.rm, scale))
     } else {
-      mean_(x %^% r, w, na.rm, scale)^(1 / r) 
+      .mean(x %^% r, w, na.rm, scale)^(1 / r) 
     }
   }
 }
@@ -85,7 +88,7 @@ logmean <- logmean_generalized(0)
 mean_lehmer <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
-    mean_arithmetic(x, w * x %^% (r - 1), na.rm, TRUE)
+    mean_arithmetic(x, w * x %^% (r - 1), na.rm, scale = TRUE)
   }
 }
 

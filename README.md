@@ -114,7 +114,7 @@ mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
 weight <- c(0.3, 0.7)
 
 # Calculate lower-level indexes
-(lower <- unlist(Map(mean_geometric, prices)))
+(lower <- sapply(prices, mean_geometric))
 #>     even      odd 
 #> 1.297431 1.188784
 
@@ -123,7 +123,7 @@ weight <- c(0.3, 0.7)
 #> [1] 1.221378
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- Map(contributions_geometric, prices))
+(con_lower <- lapply(prices, contributions_geometric))
 #> $even
 #> [1] 0.06927979 0.09986815 0.12828288
 #> 
@@ -131,7 +131,9 @@ weight <- c(0.3, 0.7)
 #> [1]  0.39113201 -0.12438246 -0.07796516
 
 # Calculate quote contributions for upper-level index
-(con_upper <- unlist(Map("*", con_lower, weight)))
-#>       even1       even2       even3        odd1        odd2        odd3 
-#>  0.02078394  0.02996044  0.03848486  0.27379241 -0.08706772 -0.05457561
+(con_upper <- mapply("*", con_lower, weight))
+#>            even         odd
+#> [1,] 0.02078394  0.27379241
+#> [2,] 0.02996044 -0.08706772
+#> [3,] 0.03848486 -0.05457561
 ```

@@ -7,7 +7,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
                                    "GearyKhamis", "Vartia1", "MontgomeryVartia",
                                    "Vartia2", "SatoVartia", "Lowe",
                                    "Young", "LloydMoulton")) {
-  # function for weights formulas
+  # return function
   res <- switch(
     match.arg(type),
     Carli = ,
@@ -50,6 +50,8 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
               "prices/quantities must be the same length")
   body(res)[[2]][errors] <- list(as.call(c(quote(all_numeric), pqs)),
                                  as.call(c(quote(all_same_length), pqs)))
+  # clean up enclosing environment
+  environment(res) <- getNamespace("gpindex")
   res
 }
 
@@ -65,41 +67,41 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
                                 "Vartia2", "SatoVartia", "Walsh2",
                                 "Young"),
                   harmonic = c("Coggeshall", "Laspeyres", "Paasche", "Young"))
-  r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
-  generalized_mean <- mean_generalized(r)
   # return function
   function(type) {
     type <- match.arg(type, types)
-    weights <- index_weights(type)
-    res <- switch(type,
-                  Carli = ,
-                  Dutot = ,
-                  Jevons = ,
-                  Coggeshall = function(p1, p0, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p0), na.rm),
-                  Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-                    generalized_mean(p1 / p0, weights(p0, q0), na.rm),
-                  Paasche = ,
-                  Palgrave = function(p1, p0, q1, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p1, q1), na.rm),
-                  Drobish = ,
-                  Unnamed = ,
-                  Vartia2 = ,
-                  SatoVartia = ,
-                  Walsh2 = ,
-                  Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm),
-                  Vartia1 = ,
-                  MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm, FALSE),
-                  Walsh1 = ,
-                  MarshallEdgeworth = ,
-                  GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p0, q1, q0), na.rm),
-                  Lowe = function(p1, p0, qb, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(p0, qb), na.rm),
-                  Young = function(p1, p0, pb, qb, na.rm = FALSE)
-                    generalized_mean(p1 / p0, weights(pb, qb), na.rm)
+    r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
+    # return function
+    res <- switch(
+      type,
+      Carli = ,
+      Dutot = ,
+      Jevons = ,
+      Coggeshall = function(p1, p0, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p0), na.rm),
+      Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
+        mean_generalized(r)(p1 / p0, index_weights(type)(p0, q0), na.rm),
+      Paasche = ,
+      Palgrave = function(p1, p0, q1, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p1, q1), na.rm),
+      Drobish = ,
+      Unnamed = ,
+      Vartia2 = ,
+      SatoVartia = ,
+      Walsh2 = ,
+      Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
+      Vartia1 = ,
+      MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm, FALSE),
+      Walsh1 = ,
+      MarshallEdgeworth = ,
+      GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p0, q1, q0), na.rm),
+      Lowe = function(p1, p0, qb, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(p0, qb), na.rm),
+      Young = function(p1, p0, pb, qb, na.rm = FALSE)
+        mean_generalized(r)(p1 / p0, index_weights(type)(pb, qb), na.rm)
     )
     # all arguments except na.rm are price and quantity arguments
     # extract them in a list
@@ -110,6 +112,9 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
                 "prices/quantities must be the same length")
     body(res)[[2]][errors] <- list(as.call(c(quote(all_numeric), pqs)),
                                    as.call(c(quote(all_same_length), pqs)))
+    # clean up enclosing environment
+    enc <- list(r = r, type = type)
+    environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
     res
   }
 }
