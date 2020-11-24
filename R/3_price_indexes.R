@@ -150,8 +150,7 @@ index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
 index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
   stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0, q0),
             "prices/quantities must be be the same length" = all_same_length(p1, p0, q0))
-  weights <- index_weights("LloydMoulton")
-  mean_generalized(1 - elasticity)(p1 / p0, weights(p0, q0), na.rm)
+  mean_generalized(1 - elasticity)(p1 / p0, index_weights("LloydMoulton")(p0, q0), na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
