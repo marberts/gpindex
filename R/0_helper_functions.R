@@ -45,7 +45,8 @@ wrap_around <- function(x, i) {
   } else if (e2 == 0) {
     # unlike ^, it is useful to have NAs propagate
     # this is important when scaling weights with NAs
-    replace(rep(1, length(e1)), if (anyNA(e1)) is.na(e1), NA)
+    #replace(rep(1, length(e1)), if (anyNA(e1)) is.na(e1), NA)
+    1
   } else if (e2 == -0.5) {
     1 / sqrt(e1)
   } else if (e2 == -1) {
@@ -62,8 +63,12 @@ unit_weights <- function(x) structure(length(x), class = "uw")
 
 sum.uw <- function(x, ..., na.rm = FALSE) sum(..., na.rm = na.rm) + unclass(x)
 
-`*.uw` <- function(e1, e2) e2
+`*.uw` <- function(e1, e2) if (length(e2 < e1)) rep_len(e2, e1) else e2
 
 length.uw <- function(x) unclass(x)
 
-`[.uw` <- function(x, i) structure(length(unclass(x)[i]), class = "uw")
+`[.uw` <- function(x, i) structure(length((1L)[i]), class = "uw")
+
+# `[<-.uw` <- function(x, i, value) replace(rep(1L, x), i, value)
+# 
+# print.uw <- function(x, ...) print(rep(1L, x))
