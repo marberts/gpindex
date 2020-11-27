@@ -63,7 +63,7 @@ unit_weights <- function(x) structure(length(x), class = "uw")
 
 sum.uw <- function(x, ..., na.rm = FALSE) sum(..., na.rm = na.rm) + unclass(x)
 
-`*.uw` <- function(e1, e2) if (length(e2 < e1)) rep_len(e2, e1) else e2
+`*.uw` <- function(e1, e2) if (length(e2) < e1) rep_len(e2, e1) else e2
 
 length.uw <- function(x) unclass(x)
 
