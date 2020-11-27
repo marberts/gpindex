@@ -8,7 +8,7 @@
     x <- x[keep]
     w <- w[keep]
   }
-  sum(x * w) / if (scale) sum(w) else 1
+  sum(w * x) / if (scale) sum(w) else 1
 }
 
 #---- Generalized mean ----
@@ -18,7 +18,7 @@ mean_generalized <- function(r) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
   # return function
-  function(x, w = rep(1L, length(x)), na.rm = FALSE, scale = TRUE) {
+  function(x, w = unit_weights(x), na.rm = FALSE, scale = TRUE) {
     stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
               "'x' and 'w' must be the same length" = all_same_length(x, w),
               "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
@@ -87,7 +87,7 @@ logmean <- logmean_generalized(0)
 #---- Lehmer mean ----
 mean_lehmer <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
-  function(x, w = rep(1L, length(x)), na.rm = FALSE) {
+  function(x, w = unit_weights(x), na.rm = FALSE) {
     mean_arithmetic(x, w * x %^% (r - 1), na.rm, scale = TRUE)
   }
 }

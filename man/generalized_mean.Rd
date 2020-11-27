@@ -13,11 +13,11 @@ Calculate a generalized mean.
 \usage{
 mean_generalized(r)
 
-mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+mean_arithmetic(x, w = unit_weights(x), na.rm = FALSE, scale = TRUE)
 
-mean_geometric(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+mean_geometric(x, w = unit_weights(x), na.rm = FALSE, scale = TRUE)
 
-mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+mean_harmonic(x, w = unit_weights(x), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -35,7 +35,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \value{
 \code{mean_generalized()} returns a function:
 
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)}. 
+\code{function(x, w = unit_weights(x), na.rm = FALSE, scale = TRUE)}. 
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
 }

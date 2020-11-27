@@ -11,7 +11,7 @@ Calculate a Lehmer mean.
 \usage{
 mean_lehmer(r)
 
-mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
+mean_contraharmonic(x, w = unit_weights(x), na.rm = FALSE)
 }
 
 \arguments{
@@ -27,7 +27,7 @@ mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
 \value{
 \code{mean_lehmer()} returns a function:
 
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}. 
+\code{function(x, w = unit_weights(x), na.rm = FALSE)}. 
 
 \code{mean_contraharmonic()} returns a numeric value.
 }

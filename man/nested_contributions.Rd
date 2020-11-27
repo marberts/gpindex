@@ -26,7 +26,7 @@ This function is the analog of \code{\link[gpindex:contributions]{contributions(
 \value{
 \code{contributions_nested()} returns a function:
 
-\code{function(x, w = rep(list(rep(1, length(x))), length(r2)))}.
+\code{function(x, w = rep(list(unit_weights(x)), length(r2)))}.
 
 This function takes a numeric vector \code{x} and list of numeric weights \code{w}, the same length as \code{r2}, and returns the contribution for each element in \code{x}.
 }
