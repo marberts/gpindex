@@ -65,9 +65,9 @@ mean_extended <- function(r, s) {
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
     } else if (r == 0) {
-      ((a %^% s - b %^% s) / (log(a) - log(b)) / s) %^% (1 / s)
+      ((a %^% s - b %^% s) / log(a / b) / s) %^% (1 / s)
     } else if (s == 0) {
-      ((a %^% r - b %^% r) / (log(a) - log(b)) / r) %^% (1 / r)
+      ((a %^% r - b %^% r) / log(a / b) / r) %^% (1 / r)
     } else if (r == s) {
       exp(((a %^% r) * log(a) - (b %^% r) * log(b)) / (a %^% r - b %^% r) - 1 / r)
     } else {
