@@ -23,7 +23,7 @@ all_numeric <- function(...) {
 
 #---- Checks for warnings ----
 any_negative <- function(x, y) {
-  any(x <= 0, na.rm = T) || any(y <= 0, na.rm = T)
+  any(x <= 0, na.rm = TRUE) || any(y <= 0, na.rm = TRUE)
 }
 
 small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {

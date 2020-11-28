@@ -6,7 +6,7 @@ weights_transmute <- function(r, s) {
   function(x, w = unit_weights(x)) {
     res <- w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
     # make sure NAs propagate to ensure weights scale correctly with NAs in x
-    replace(res, if (r == s) is.na(x) & !is.na(w), NA_real_)
+    replace(res, if (r == s) is.na(x) & !is.na(w), NA)
   }
 }
 
@@ -19,7 +19,7 @@ weights_factor <- function(r) {
               "'x' and 'w' must be the same length" = all_same_length(x, w))
     res <- w * x %^% r
     # make sure NAs propagate to ensure chaining works correctly with NAs in x
-    replace(res, if (r == 0) is.na(x) & !is.na(w), NA_real_)
+    replace(res, if (r == 0) is.na(x) & !is.na(w), NA)
   }
 }
 
