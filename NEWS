@@ -1,3 +1,7 @@
+Changes in version 0.2.3
+
+- Lots of little optimizations.
+
 Changes in version 0.2.2
 
 - Added the mean_lehmer() function to calculate the Lehmer mean.

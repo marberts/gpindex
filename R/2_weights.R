@@ -5,8 +5,8 @@ weights_transmute <- function(r, s) {
   # return function
   function(x, w = unit_weights(x)) {
     res <- w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
-    # make sure NAs propagate; need to ensure weights scale correctly with NAs in x
-    replace(res, if (r == s) is.na(x) & !is.na(w), NA)
+    # make sure NAs propagate to ensure weights scale correctly with NAs in x
+    replace(res, if (r == s) is.na(x) & !is.na(w), NA_real_)
   }
 }
 
@@ -18,8 +18,8 @@ weights_factor <- function(r) {
     stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
               "'x' and 'w' must be the same length" = all_same_length(x, w))
     res <- w * x %^% r
-    # make sure NAs propagate; need to ensure chaining works correctly with NAs in x
-    replace(res, if (r == 0) is.na(x) & !is.na(w), NA)
+    # make sure NAs propagate to ensure chaining works correctly with NAs in x
+    replace(res, if (r == 0) is.na(x) & !is.na(w), NA_real_)
   }
 }
 
