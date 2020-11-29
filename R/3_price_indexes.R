@@ -173,7 +173,7 @@ index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
 #---- Balk Walsh index ----
 index_bw <- function(p1, p0, na.rm = FALSE) {
   stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0),
-            "prices/quantities must be numeric vectors" = all_same_length(p1, p0))
+            "prices/quantities must be the same length" = all_same_length(p1, p0))
   rel <- sqrt(p1 / p0)
   mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm)
 }

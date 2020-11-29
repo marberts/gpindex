@@ -6,7 +6,7 @@ w <- runif(15, 0, 2)
 #---- Tests for weights_transmute ----
 stopifnot(
   exprs = {
-    all(diff(weights_transmute(2, 2)(x)) == 0)
+    weights_transmute(2, 2)(x) == rep(1, length(x))
     all.equal(weights_transmute(-2, -2)(x, w), w)
     anyNA(weights_transmute(1, 1)(c(1, NA_real_)))
     anyNA(weights_transmute(2, 1)(c(1, NA_real_)))

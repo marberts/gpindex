@@ -1,12 +1,10 @@
 Changes in version 0.2.3
 
-- Lots of little optimizations.
-
-Changes in version 0.2.2
-
 - Added the mean_lehmer() function to calculate the Lehmer mean.
 
 - Added the contributions_nested() function to calculate quote contributions for indexes that are nested generalized means, like the Fisher index.
+
+- Lots of little optimizations.
 
 Changes in version 0.2.1
 

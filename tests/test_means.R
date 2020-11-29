@@ -68,19 +68,19 @@ stopifnot(
            },
            logical(1))
     # Checks for NA_real_ and length-0 inputs
-    # is.na(mean_arithmetic(NA_real_))
-    # is.na(mean_arithmetic(NA_real_, 1))
-    # is.na(mean_arithmetic(NA_real_, 0.5, scale = FALSE))
-    # is.na(mean_arithmetic(1, NA_real_))
-    # is.na(mean_arithmetic(NaN))
-    # is.na(mean_arithmetic(NaN, 1))
-    # is.na(mean_arithmetic(1, NaN))
-    # is.na(mean_arithmetic(NA_real_, na.rm = TRUE))
-    # is.na(mean_arithmetic(NaN, na.rm = TRUE))
-    # is.na(mean_arithmetic(NA_real_, 1, na.rm = TRUE))
+    is.na(mean_arithmetic(NA_real_))
+    is.na(mean_arithmetic(NA_real_, 1))
+    is.na(mean_arithmetic(NA_real_, 0.5, scale = FALSE))
+    is.na(mean_arithmetic(1, NA_real_))
+    is.na(mean_arithmetic(NaN))
+    is.na(mean_arithmetic(NaN, 1))
+    is.na(mean_arithmetic(1, NaN))
+    is.na(mean_arithmetic(NA_real_, na.rm = TRUE))
+    is.na(mean_arithmetic(NaN, na.rm = TRUE))
+    is.na(mean_arithmetic(NA_real_, 1, na.rm = TRUE))
     mean_arithmetic(NA_real_, 0.5, na.rm = TRUE, scale = FALSE) == 0
-    # is.na(mean_arithmetic(1, NA_real_, na.rm = TRUE))
-    # is.na(mean_arithmetic(1, NaN, na.rm = TRUE))
+    is.na(mean_arithmetic(1, NA_real_, na.rm = TRUE))
+    is.na(mean_arithmetic(1, NaN, na.rm = TRUE))
     is.na(mean_arithmetic(numeric(0)))
     is.na(mean_arithmetic(numeric(0), numeric(0)))
     is.na(mean_geometric(numeric(0), numeric(0)))
@@ -102,8 +102,8 @@ stopifnot(
     # Missing values case
     apply(expand.grid(a = seq(-3, 3, by = 0.25), b = seq(-3, 3, by = 0.25)),
           1, function(p) {
-            all.equal(mean_generalized(p[1])(xna, w, TRUE),
-                      mean_generalized(p[2])(xna, weights_transmute(p[1], p[2])(xna, w), TRUE),
+            all.equal(mean_generalized(p[1])(xna, na.rm = TRUE),
+                      mean_generalized(p[2])(xna, weights_transmute(p[1], p[2])(xna), na.rm = TRUE),
                       check.names = FALSE)
           })
     # Factor weights

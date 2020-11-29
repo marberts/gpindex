@@ -1,4 +1,4 @@
-# None of these are exported
+# None of these functions are exported
 #---- Argument checking ----
 is_T_or_F <- function(x) {
   length(x) == 1 && is.logical(x) && !is.na(x)
@@ -43,7 +43,9 @@ wrap_around <- function(x, i) {
   } else if (e2 == 0.5) {
     sqrt(e1)
   } else if (e2 == 0) {
-    1 # making the output the same length as e1 would mean evaluating e1
+    # making the output the same length as e1 would mean evaluating e1
+    # this is also why this isn't a method for ^
+    1
   } else if (e2 == -0.5) {
     1 / sqrt(e1)
   } else if (e2 == -1) {
