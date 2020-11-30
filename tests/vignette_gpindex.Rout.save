@@ -27,8 +27,8 @@ Type 'q()' to quit R.
 [1] 1.4
 > mean_geometric(p1 / p0) # Jevons index
 [1] 1.24192
-> mean_harmonic(p1 / p0, runif(6)) # Harmonic index with random weights
-[1] 1.296125
+> mean_harmonic(p1 / p0, 1:6) # Harmonic index with random weights
+[1] 1.019744
 > 
 > 
 > ###################################################

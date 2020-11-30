@@ -52,7 +52,7 @@ p1 <- price6[[2]]
 p0 <- price6[[1]]
 mean_arithmetic(p1 / p0) # Carli index
 mean_geometric(p1 / p0) # Jevons index
-mean_harmonic(p1 / p0, runif(6)) # Harmonic index with random weights
+mean_harmonic(p1 / p0, 1:6) # Harmonic index with random weights
 @
 
 \section*{Named price indexes}
