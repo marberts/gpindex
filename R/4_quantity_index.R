@@ -11,7 +11,7 @@ quantity_index <- function(price_index) {
   names(args)[names(args) %in% pqs] <- qps
   formals(res) <- args
   body(res)[[2]] <- as.call(c(price_index, lapply(c(qps, not_pqs), as.name)))
-  # clean up enclosing environment; same as Vectorize
-  environment(res) <- parent.env(environment())
+  # clean up enclosing environment
+  environment(res) <- getNamespace("gpindex")
   res
 }

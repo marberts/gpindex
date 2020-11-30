@@ -15,7 +15,7 @@ genmean1 <- function(x, w, r) {
 }
 
 genmean2 <- function(x, r) {
-  if (r != 0) (mean(x^r))^(1 / r) else exp(mean(log(x)))
+  if (r != 0) mean(x^r)^(1 / r) else exp(mean(log(x)))
 }
 
 logmean1 <- function(a, b, r) {
@@ -157,12 +157,7 @@ stopifnot(
     # Test symmetry
     vapply(seq(-5, 5, by = 0.25),
            function(r) {
-             all.equal(mean_extended(r, 2.5)(a, b), mean_extended(r, 2.5)(b, a))
-           }, 
-           logical(1))
-    vapply(seq(-5, 5, by = 0.25),
-           function(r) {
-             all.equal(mean_extended(r, 2.5)(a, b), mean_extended(2.5, r)(a, b))
+             all.equal(mean_extended(r, 2.5)(a, b), mean_extended(2.5, r)(b, a))
            }, 
            logical(1))
     # Checks for NA_real_ and length-0 inputs

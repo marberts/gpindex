@@ -24,15 +24,15 @@ weights_transmute(r, s)
 
 contributions(r)
 
-contributions_arithmetic(x, w = unit_weights(x))
+contributions_arithmetic(x, w = rep(1, length(x)))
 
-contributions_geometric(x, w = unit_weights(x))
+contributions_geometric(x, w = rep(1, length(x)))
 
-contributions_harmonic(x, w = unit_weights(x))
+contributions_harmonic(x, w = rep(1, length(x)))
 
 weights_factor(r)
 
-weights_update(x, w = unit_weights(x))
+weights_update(x, w = rep(1, length(x)))
 
 weights_scale(x)
 }
@@ -48,7 +48,7 @@ weights_scale(x)
 \value{
 \code{weights_transmute()}, \code{contributions()}, and \code{weights_factor()} return a function: 
 
-\code{function(x, w = unit_weights(x)}.
+\code{function(x, w = rep(1, length(x))}.
 
 \code{contributions_arithmetic()}, \code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }

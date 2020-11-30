@@ -3,7 +3,7 @@ weights_transmute <- function(r, s) {
   generalized_mean <- mean_generalized(r)
   extended_mean <- mean_extended(r, s)
   # return function
-  function(x, w = unit_weights(x)) {
+  function(x, w = rep(1, length(x))) {
     res <- w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
     # make sure NAs propagate to ensure weights scale correctly with NAs in x
     replace(res, if (r == s) is.na(x) & !is.na(w), NA)
@@ -14,7 +14,7 @@ weights_transmute <- function(r, s) {
 weights_factor <- function(r) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
   # return function
-  function(x, w = unit_weights(x)) {
+  function(x, w = rep(1, length(x))) {
     stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
               "'x' and 'w' must be the same length" = all_same_length(x, w))
     res <- w * x %^% r
@@ -33,7 +33,7 @@ weights_scale <- function(x) {
 #---- Contributions ----
 contributions <- function(r) {
   arithmetic_weights <- weights_transmute(r, 1)
-  function(x, w = unit_weights(x)) {
+  function(x, w = rep(1, length(x))) {
     weights_scale(arithmetic_weights(x, w)) * (x - 1)
   }
 }
@@ -48,7 +48,7 @@ contributions_nested <- function(r1, r2, w1 = rep(1L, length(r2))) {
   stopifnot("'r1' must be a finite length 1 numeric" = is_number(r1),
             "'r2' and 'w1' must be a numeric vectors" = all_numeric(r2, w1),
             "'r2' and 'w1' must be the same length" = all_same_length(r2, w1))
-  function(x, w = rep(list(unit_weights(x)), length(r2))) {
+  function(x, w = rep(list(rep(1, length(x))), length(r2))) {
     stopifnot("'x' must be a numeric vector" = is.numeric(x),
               "'w' must be a list" = is.list(w),
               "'r2' and 'w' must be the same length" = all_same_length(r2, w),

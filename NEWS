@@ -4,8 +4,6 @@ Changes in version 0.2.3
 
 - Added the contributions_nested() function to calculate quote contributions for indexes that are nested generalized means, like the Fisher index.
 
-- Lots of little optimizations.
-
 Changes in version 0.2.1
 
 - Added a vignette.
