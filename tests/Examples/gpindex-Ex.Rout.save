@@ -85,6 +85,24 @@ Type 'q()' to quit R.
 > 
 > #--------------------
 > 
+> # The dispersion between the arithmetic, geometric, and harmonic mean usually
+> # increases as the variance in 'x' increases
+> 
+> disp <- function(r, s) {
++   function(x) abs(mean_generalized(r)(x) - mean_generalized(s)(x))
++ }
+> 
+> x <- c(1, 3, 5)
+> y <- c(2, 3, 4)
+> 
+> stats::sd(x) > stats::sd(y)
+[1] TRUE
+> 
+> disp(1, 0)(x) > disp(1, 0)(y)
+[1] TRUE
+> disp(0, -1)(x) > disp(0, -1)(y)
+[1] TRUE
+> 
 > # Example from Lord (2002) where the dispersion between arithmetic and 
 > # geometric means decreases as the variance increases
 > 
@@ -93,9 +111,11 @@ Type 'q()' to quit R.
 > 
 > stats::sd(x) > stats::sd(y)
 [1] TRUE
-> mean_arithmetic(x) - mean_geometric(x) < 
-+     mean_arithmetic(y) - mean_geometric(y)
-[1] TRUE
+> 
+> disp(1, 0)(x) > disp(1, 0)(y)
+[1] FALSE
+> disp(0, -1)(x) > disp(0, -1)(y)
+[1] FALSE
 > 
 > #--------------------
 > 
@@ -186,7 +206,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > # The difference between the arithmetic mean and contraharmonic mean
 > # is proportional to the variance of x
 > 
-> weighted_var <- function(x, w) mean_arithmetic((x - mean_arithmetic(x, w))^2, w)
+> weighted_var <- function(x, w) mean_arithmetic(x^2, w) - mean_arithmetic(x, w)^2
 > 
 > mean_arithmetic(x, w) + weighted_var(x, w) / mean_arithmetic(x, w)
 [1] 2.818182
@@ -795,7 +815,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.266 0.02 0.286 0 0 
+Time elapsed:  0.255 0.028 0.284 0 0 
 > grDevices::dev.off()
 null device 
           1 

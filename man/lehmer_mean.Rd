@@ -93,7 +93,7 @@ mean_contraharmonic(2:3) > logmean(2, 3)
 # The difference between the arithmetic mean and contraharmonic mean
 # is proportional to the variance of x
 
-weighted_var <- function(x, w) mean_arithmetic((x - mean_arithmetic(x, w))^2, w)
+weighted_var <- function(x, w) mean_arithmetic(x^2, w) - mean_arithmetic(x, w)^2
 
 mean_arithmetic(x, w) + weighted_var(x, w) / mean_arithmetic(x, w)
 mean_contraharmonic(x, w)

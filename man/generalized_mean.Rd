@@ -45,7 +45,7 @@ The function \code{mean_generalized()} returns a function to compute the general
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the arithmetic, geometric, and harmonic (or subcontrary) means, also known as the Pythagorean means. These are the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
-Both \code{x} and \code{w} should be strictly positive, especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
+Both \code{x} and \code{w} should be strictly positive (and finite), especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
 \enumerate{
 \item{The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. (The analogous convention holds whenever at least one element of \code{x} is \code{Inf}: the generalized mean is \code{Inf} whenever \code{w} is strictly positive and \code{r > 0}.)} 
 
@@ -130,6 +130,21 @@ mean_generalized(3)(x, w)
 
 #--------------------
 
+# The dispersion between the arithmetic, geometric, and harmonic mean usually
+# increases as the variance in 'x' increases
+
+disp <- function(r, s) {
+  function(x) abs(mean_generalized(r)(x) - mean_generalized(s)(x))
+}
+
+x <- c(1, 3, 5)
+y <- c(2, 3, 4)
+
+stats::sd(x) > stats::sd(y)
+
+disp(1, 0)(x) > disp(1, 0)(y)
+disp(0, -1)(x) > disp(0, -1)(y)
+
 # Example from Lord (2002) where the dispersion between arithmetic and 
 # geometric means decreases as the variance increases
 
@@ -137,8 +152,9 @@ x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
 
 stats::sd(x) > stats::sd(y)
-mean_arithmetic(x) - mean_geometric(x) < 
-    mean_arithmetic(y) - mean_geometric(y)
+
+disp(1, 0)(x) > disp(1, 0)(y)
+disp(0, -1)(x) > disp(0, -1)(y)
 
 #--------------------
 
