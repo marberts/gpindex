@@ -35,6 +35,11 @@ wrap_around <- function(x, i) {
   (i - 1) %% length(x) + 1
 }
 
+#---- Total value ----
+v <- function(p, q) {
+  sum(p * q, na.rm = TRUE)
+}
+
 #---- Custom power operator ----
 # There are a variety of optimizations for calculating power/extended means
 `%^%` <- function(e1, e2) {
