@@ -41,7 +41,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \details{
-The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0}{r = 0} and \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r} otherwise). This is also called the power mean or Holder mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
+The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0}{r = 0} and \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r} otherwise). This is also called the power mean, Holder mean, or \eqn{l_p}{l_p} mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
 
 The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the arithmetic, geometric, and harmonic (or subcontrary) means, also known as the Pythagorean means. These are the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
 
@@ -70,7 +70,11 @@ There are a number of existing functions for calculating \emph{unweighted} geome
 \references{
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer Science+Business Media.
 
+Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin Company.
+
 Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd edition). Cambridge University Press.
+
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 Lord, N. (2002). Does Smaller Spread Always Mean Larger Product? \emph{The Mathematical Gazette}, 86(506): 273-274.
 
@@ -133,28 +137,39 @@ mean_generalized(3)(x, w)
 # The dispersion between the arithmetic, geometric, and harmonic mean usually
 # increases as the variance in 'x' increases
 
-disp <- function(r, s) {
-  function(x) abs(mean_generalized(r)(x) - mean_generalized(s)(x))
-}
-
 x <- c(1, 3, 5)
 y <- c(2, 3, 4)
 
 stats::sd(x) > stats::sd(y)
 
-disp(1, 0)(x) > disp(1, 0)(y)
-disp(0, -1)(x) > disp(0, -1)(y)
+mean_arithmetic(x) - mean_geometric(x)
+mean_arithmetic(y) - mean_geometric(y)
 
-# Example from Lord (2002) where the dispersion between arithmetic and 
-# geometric means decreases as the variance increases
+mean_geometric(x) - mean_harmonic(x)
+mean_geometric(y) - mean_harmonic(y)
+
+# Example from Lord (2002) where the dispersion decreases as the variance increases,
+# counter to the claims in Fisher (1922, p. 108) and the PPI manual (p. 28)
 
 x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
 
 stats::sd(x) > stats::sd(y)
 
-disp(1, 0)(x) > disp(1, 0)(y)
-disp(0, -1)(x) > disp(0, -1)(y)
+mean_arithmetic(x) - mean_geometric(x)
+mean_arithmetic(y) - mean_geometric(y)
+
+mean_geometric(x) - mean_harmonic(x)
+mean_geometric(y) - mean_harmonic(y)
+
+# The "bias" in the arithmetic and harmonic indexes is also smaller in this case, 
+# counter to the claim in Fisher (1922, p. 108)
+
+mean_arithmetic(x) * mean_arithmetic(1 / x) - 1
+mean_arithmetic(y) * mean_arithmetic(1 / y) - 1
+
+mean_harmonic(x) * mean_harmonic(1 / x) - 1
+mean_harmonic(y) * mean_harmonic(1 / y) - 1
 
 #--------------------
 

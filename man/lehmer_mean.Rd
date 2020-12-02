@@ -48,6 +48,8 @@ The Lehmer mean is an alternative to the generalized mean that generalizes the P
 
 \references{
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer Science+Business Media.
+
+Lehmer, D. H. (1971). On the Compounding of Certain Means. \emph{Journal of Mathematical Analysis and Applications}, 36(1): 183-200.
 }
 
 \seealso{

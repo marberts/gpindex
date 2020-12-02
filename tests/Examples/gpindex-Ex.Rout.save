@@ -88,23 +88,24 @@ Type 'q()' to quit R.
 > # The dispersion between the arithmetic, geometric, and harmonic mean usually
 > # increases as the variance in 'x' increases
 > 
-> disp <- function(r, s) {
-+   function(x) abs(mean_generalized(r)(x) - mean_generalized(s)(x))
-+ }
-> 
 > x <- c(1, 3, 5)
 > y <- c(2, 3, 4)
 > 
 > stats::sd(x) > stats::sd(y)
 [1] TRUE
 > 
-> disp(1, 0)(x) > disp(1, 0)(y)
-[1] TRUE
-> disp(0, -1)(x) > disp(0, -1)(y)
-[1] TRUE
+> mean_arithmetic(x) - mean_geometric(x)
+[1] 0.5337879
+> mean_arithmetic(y) - mean_geometric(y)
+[1] 0.1155009
 > 
-> # Example from Lord (2002) where the dispersion between arithmetic and 
-> # geometric means decreases as the variance increases
+> mean_geometric(x) - mean_harmonic(x)
+[1] 0.5096903
+> mean_geometric(y) - mean_harmonic(y)
+[1] 0.1152684
+> 
+> # Example from Lord (2002) where the dispersion decreases as the variance increases,
+> # counter to the claims in Fisher (1922, p. 108) and the PPI manual (p. 28)
 > 
 > x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 > y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
@@ -112,10 +113,28 @@ Type 'q()' to quit R.
 > stats::sd(x) > stats::sd(y)
 [1] TRUE
 > 
-> disp(1, 0)(x) > disp(1, 0)(y)
-[1] FALSE
-> disp(0, -1)(x) > disp(0, -1)(y)
-[1] FALSE
+> mean_arithmetic(x) - mean_geometric(x)
+[1] 0.145012
+> mean_arithmetic(y) - mean_geometric(y)
+[1] 0.1485894
+> 
+> mean_geometric(x) - mean_harmonic(x)
+[1] 0.104988
+> mean_geometric(y) - mean_harmonic(y)
+[1] 0.1439479
+> 
+> # The "bias" in the arithmetic and harmonic indexes is also smaller in this case, 
+> # counter to the claim in Fisher (1922, p. 108)
+> 
+> mean_arithmetic(x) * mean_arithmetic(1 / x) - 1
+[1] 0.3333333
+> mean_arithmetic(y) * mean_arithmetic(1 / y) - 1
+[1] 0.4135021
+> 
+> mean_harmonic(x) * mean_harmonic(1 / x) - 1
+[1] -0.25
+> mean_harmonic(y) * mean_harmonic(1 / y) - 1
+[1] -0.2925373
 > 
 > #--------------------
 > 
@@ -777,7 +796,8 @@ t5 1.0712    1.2477             0.9801 1.1850
 > #--------------------
 > 
 > # Any generalized index can be represented as a basket-style index
-> # by transmuting the weights
+> # by transmuting the weights, which is how some authors define a
+> # price index (e.g., Sydsaeter et al., 2005, p. 174)
 > 
 > p1 <- 2:6
 > p0 <- 1:5
@@ -815,7 +835,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.255 0.028 0.284 0 0 
+Time elapsed:  0.261 0.024 0.327 0 0 
 > grDevices::dev.off()
 null device 
           1 
