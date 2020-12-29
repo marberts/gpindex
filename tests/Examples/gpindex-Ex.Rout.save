@@ -30,15 +30,20 @@ Type 'q()' to quit R.
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: back price
-> ### Title: Back price
-> ### Aliases: back_price
+> ### Name: offset prices
+> ### Title: Offset prices
+> ### Aliases: back_price base_price
 > 
 > ### ** Examples
 > 
 > dat <- data.frame(price = 1:4, product = c("a", "b", "a", "b"), period = c(1, 1, 2, 2))
 > 
 > with(dat, back_price(price, period, product))
+[1] 1 2 1 2
+> 
+> # Identical to the price in the base period with only two periods
+> 
+> with(dat, base_price(price, period, product))
 [1] 1 2 1 2
 > 
 > # Reorder time periods by setting the levels in 'period'
@@ -871,7 +876,7 @@ t5 1.0712    1.2477             0.9801 1.1850
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.284 0.024 0.314 0 0 
+Time elapsed:  0.248 0.009 0.261 0 0 
 > grDevices::dev.off()
 null device 
           1 

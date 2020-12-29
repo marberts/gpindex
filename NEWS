@@ -1,6 +1,6 @@
 Changes in version 0.2.4
 
-- Added the back_price() function to make it easier to turn price/quantities stored in a table into price relatives.
+- Added the back_price() and base_price() functions to make it easier to turn price/quantities stored in a table into price relatives.
 
 Changes in version 0.2.3
 

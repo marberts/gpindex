@@ -92,7 +92,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link[gpindex]{price_index}} and \code{\link[gpindex]{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
 
-\code{\link[gpindex]{back_price}} for a simple utility function for turning prices into price relatives.
+\code{\link[gpindex]{back_price}}/\code{\link[gpindex]{base_price}} for a simple utility function to turn prices in a table into price relatives.
 }
 
 \examples{
