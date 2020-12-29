@@ -1,3 +1,7 @@
+Changes in version 0.2.4
+
+- Added the back_price() function to make it easier to turn price/quantities stored in a table into price relatives.
+
 Changes in version 0.2.3
 
 - Added the mean_lehmer() function to calculate the Lehmer mean.

@@ -13,12 +13,16 @@ is_positive_number <- function(x) {
 }
 
 all_same_length <- function(...) {
-  res <- vapply(list(...), length, numeric(1))
-  all(res == res[1])
+  len <- lengths(list(...))
+  all(len == len[1])
 }
 
 all_numeric <- function(...) {
   all(vapply(list(...), is.numeric, logical(1)))
+}
+
+all_atomic <- function(...) {
+  all(vapply(list(...), is.atomic, logical(1)))
 }
 
 #---- Checks for warnings ----

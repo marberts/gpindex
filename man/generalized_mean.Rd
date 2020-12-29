@@ -52,7 +52,7 @@ Both \code{x} and \code{w} should be strictly positive (and finite), especially 
 \item{Some authors let \code{w} be non-negative and sum to 1 (e.g., Sydsaeter et al., 2005, p. 47). If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean whenever \code{x} is strictly positive. Unlike \code{\link[stats:weighted.mean]{weighted.mean()}}, however, zeros in \code{w} are not strong zeros, so infinite values in \code{x} will propagate even if the corresponding elements of \code{w} are zero.} 
 }
 
-The weights should almost always be scaled to sum to 1 to satisfy the definition of a generalized mean, although there are certain types of price indexes where the weight should not be scaled (e.g., the Vartia-I index).
+The weights should almost always be scaled to sum to 1 to satisfy the definition of a generalized mean, although there are certain types of price indexes where the weights should not be scaled (e.g., the Vartia-I index).
 
 The underlying calculation returned by \code{mean_generalized()} is mostly identical to \code{\link[stats:weighted.mean]{weighted.mean()}}, with one important exception: missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}. In most cases \code{mean_arithmetic()} is a drop-in replacement for \code{\link[stats:weighted.mean]{weighted.mean()}}.
 }
@@ -91,6 +91,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \code{\link[gpindex]{weights_factor}} calculates the weights to factor a mean of products into a product of means.
 
 \code{\link[gpindex]{price_index}} and \code{\link[gpindex]{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
+
+\code{\link[gpindex]{back_price}} for a simple utility function for turning prices into price relatives.
 }
 
 \examples{
