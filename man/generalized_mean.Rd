@@ -193,4 +193,25 @@ mean_arithmetic(c(1, 2, -3))
 # Other times it's less obvious
 
 mean_harmonic(c(1, 2, -3))
+
+#--------------------
+
+# A function to make the superlative quadratic mean price index in chapter 17, 
+# section B.5.1, of the PPI manual as a product of generalized means
+
+quadratic_index <- function(x, w0, w1, r) {
+  x <- sqrt(x) 
+  mean_generalized(r)(x, w0) * mean_generalized(-r)(x, w1)
+}
+
+quadratic_index(1:3, 4:6, 7:9, 2)
+
+# Same as the geometric mean of two generalized means (with the order halved)
+
+quadratic_index2 <- function(x, w0, w1, r) {
+  res <- c(mean_generalized(r)(x, w0), mean_generalized(-r)(x, w1))
+  mean_geometric(res)
+}
+
+quadratic_index2(1:3, 4:6, 7:9, 1)
 }
