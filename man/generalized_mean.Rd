@@ -137,12 +137,12 @@ mean_generalized(3)(x, w)
 #--------------------
 
 # The dispersion between the arithmetic, geometric, and harmonic mean usually
-# increases as the variance in 'x' increases
+# increases as the variance of 'x' increases
 
 x <- c(1, 3, 5)
 y <- c(2, 3, 4)
 
-stats::sd(x) > stats::sd(y)
+var(x) > var(y)
 
 mean_arithmetic(x) - mean_geometric(x)
 mean_arithmetic(y) - mean_geometric(y)
@@ -150,13 +150,19 @@ mean_arithmetic(y) - mean_geometric(y)
 mean_geometric(x) - mean_harmonic(x)
 mean_geometric(y) - mean_harmonic(y)
 
+# But the dispersion between these means is only bounded by
+# the variance (Bullen, 2003, p. 156)
+
+mean_arithmetic(x) - mean_geometric(x) >=  2 / 3 * var(x) / (2 * max(x))
+mean_arithmetic(x) - mean_geometric(x) <=  2 / 3 * var(x) / (2 * min(x))
+
 # Example from Lord (2002) where the dispersion decreases as the variance increases,
 # counter to the claims in Fisher (1922, p. 108) and the PPI manual (p. 28)
 
 x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
 
-stats::sd(x) > stats::sd(y)
+var(x) > var(y)
 
 mean_arithmetic(x) - mean_geometric(x)
 mean_arithmetic(y) - mean_geometric(y)
