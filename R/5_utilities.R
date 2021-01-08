@@ -12,7 +12,7 @@ offset_price <- function(type = c("back", "base")) {
     product <- split(product, period)
     warn <- any(vapply(product, anyDuplicated, numeric(1)) > 0)
     if (warn) {
-      warning("There are duplicated period-product pairs; back price not defined") 
+      warning("There are duplicated period-product pairs") 
     }
     matches <- Map(match, product, offset(product), incomparables = NA)
     res <- unsplit(Map(`[`, offset(price), matches), period)

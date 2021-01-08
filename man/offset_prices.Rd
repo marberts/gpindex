@@ -15,7 +15,7 @@ base_price(x, period, product = rep(1, length(x)))
 }
 
 \arguments{
-\item{x}{A vector of prices.}
+\item{x}{An atomic vector of prices.}
 
 \item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{x}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[base:cut.Date]{cut()}}.}
 
