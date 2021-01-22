@@ -43,7 +43,7 @@ The Lehmer mean is an alternative to the generalized mean that generalizes the P
 }
 
 \note{
-\code{mean_lehmer()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[base:min]{min()}}/\code{\link[base:max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
+\code{mean_lehmer()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
 }
 
 \references{
