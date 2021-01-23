@@ -36,7 +36,7 @@ This function is experimental, and the interface may change in future versions.
 }
 
 \seealso{
-\code{\link[gpindex]{contributions}} for contributions without nesting.
+\code{\link{contributions}} for contributions without nesting.
 }
 
 \examples{

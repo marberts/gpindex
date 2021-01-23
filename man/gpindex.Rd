@@ -20,7 +20,7 @@ Two important functions for decomposing generalized means are given by \code{\li
 
 Together these functions, along with \code{\link[=logmean_generalized]{logmean_generalized()}}, provide the key mathematical apparatus to work with any type of generalized index, and those that are nested generalized indexes. See the vignette for more details: \code{vignette("gpindex")}.
 
-On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[=index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link[gpindex]{price_index}} functions provide a simple wrapper, with the \code{\link[=quantity_index]{quantity_index()}} function turning each of these into its analogous quantity index.
+On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[=index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link{price_index}} functions provide a simple wrapper, with the \code{\link[=quantity_index]{quantity_index()}} function turning each of these into its analogous quantity index.
 }
 
 \note{

@@ -53,9 +53,9 @@ Lehmer, D. H. (1971). On the Compounding of Certain Means. \emph{Journal of Math
 }
 
 \seealso{
-\code{\link[gpindex]{mean_generalized}} for the generalized mean, an alternative to the Lehmer mean.
+\code{\link{mean_generalized}} for the generalized mean, an alternative to the Lehmer mean.
 
-\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean. 
+\code{\link{logmean_generalized}} for the generalized logarithmic mean. 
 }
 
 \examples{

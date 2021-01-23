@@ -62,9 +62,9 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 }
 
 \seealso{
-\code{\link[gpindex]{mean_generalized}} for the generalized mean. 
+\code{\link{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{weights_transmute}} uses the extended mean to turn an r-generalized mean into an s-generalized mean.
+\code{\link{weights_transmute}} uses the extended mean to turn an r-generalized mean into an s-generalized mean.
 }
 
 \examples{

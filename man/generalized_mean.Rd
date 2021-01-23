@@ -82,17 +82,17 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \seealso{
-\code{\link[gpindex]{logmean_generalized}} for the generalized logarithmic mean.
+\code{\link{logmean_generalized}} for the generalized logarithmic mean.
 
-\code{\link[gpindex]{mean_lehmer}} for the Lehmer mean, an alternative to the generalized mean.
+\code{\link{mean_lehmer}} for the Lehmer mean, an alternative to the generalized mean.
 
-\code{\link[gpindex]{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
+\code{\link{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
-\code{\link[gpindex]{weights_factor}} calculates the weights to factor a mean of products into a product of means.
+\code{\link{weights_factor}} calculates the weights to factor a mean of products into a product of means.
 
-\code{\link[gpindex]{price_index}} and \code{\link[gpindex]{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
+\code{\link{price_index}} and \code{\link{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
 
-\code{\link[gpindex]{back_price}}/\code{\link[gpindex]{base_price}} for a simple utility function to turn prices in a table into price relatives.
+\code{\link{back_price}}/\code{\link{base_price}} for a simple utility function to turn prices in a table into price relatives.
 }
 
 \examples{

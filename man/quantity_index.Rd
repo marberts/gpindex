@@ -20,7 +20,7 @@ A function like \code{price_index}, except that the role of prices/quantities ha
 }
 
 \seealso{
-\code{\link[gpindex]{price_index}} for the possible functions that can serve as inputs.
+\code{\link{price_index}} for the possible functions that can serve as inputs.
 }
 
 \examples{

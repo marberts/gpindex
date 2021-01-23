@@ -100,11 +100,11 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \seealso{
-\code{\link[gpindex]{mean_generalized}} for the generalized mean. 
+\code{\link{mean_generalized}} for the generalized mean. 
 
-\code{\link[gpindex]{mean_extended}} for the extended mean that underlies \code{weights_transmute()}.
+\code{\link{mean_extended}} for the extended mean that underlies \code{weights_transmute()}.
 
-\code{\link[gpindex]{contributions_nested}} for an extension of \code{contributions()} to nested generalized means, like a Fisher index.
+\code{\link{contributions_nested}} for an extension of \code{contributions()} to nested generalized means, like a Fisher index.
 }
 
 \examples{
