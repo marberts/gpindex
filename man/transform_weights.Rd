@@ -20,9 +20,9 @@ Useful transformations for the weights in a generalized mean.
 }
 
 \usage{
-weights_transmute(r, s)
+weights_transmute(r, s, check = TRUE)
 
-contributions(r)
+contributions(r, check = TRUE)
 
 contributions_arithmetic(x, w = rep(1, length(x)))
 
@@ -30,7 +30,7 @@ contributions_geometric(x, w = rep(1, length(x)))
 
 contributions_harmonic(x, w = rep(1, length(x)))
 
-weights_factor(r)
+weights_factor(r, check = TRUE)
 
 weights_update(x, w = rep(1, length(x)))
 
@@ -39,6 +39,8 @@ weights_scale(x)
 
 \arguments{
 \item{r, s}{A number giving the order of the generalized mean. See details.}
+
+\item{check}{Should the return function check its arguments? \code{TRUE} by default, but can be \code{FALSE} when programming.}
 
 \item{x}{A strictly positive numeric vector.}
 

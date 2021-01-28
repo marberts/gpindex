@@ -9,7 +9,7 @@ Calculate a Lehmer mean.
 }
 
 \usage{
-mean_lehmer(r)
+mean_lehmer(r, check = TRUE)
 
 mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
 }
@@ -17,11 +17,13 @@ mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
 \arguments{
 \item{r}{A finite number giving the order of the Lehmer mean.}
 
+\item{check}{Should the return function check its arguments? \code{TRUE} by default, but can be \code{FALSE} when programming.}
+
 \item{x}{A strictly positive numeric vector.}
 
 \item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
-\item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
+\item{na.rm}{Should missing values in \code{x} and \code{w} be removed? \code{FALSE} by default.}
 }
 
 \value{

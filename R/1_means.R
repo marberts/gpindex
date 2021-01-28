@@ -12,17 +12,20 @@
 }
 
 #---- Generalized mean ----
-mean_generalized <- function(r) {
-  stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
+mean_generalized <- function(r, check = TRUE) {
+  stopifnot("'r' must be a finite length 1 numeric" = is_number(r),
+            "'check' must be TRUE or FALSE" = is_T_or_F(check))
   if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
-    stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
-              "'x' and 'w' must be the same length" = all_same_length(x, w),
-              "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
-              "'scale' must be TRUE or FALSE" = is_T_or_F(scale))
+    if (check) {
+      stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
+                "'x' and 'w' must be the same length" = all_same_length(x, w),
+                "'na.rm' must be TRUE or FALSE" = is_T_or_F(na.rm),
+                "'scale' must be TRUE or FALSE" = is_T_or_F(scale))
+    }
     if (any_negative(x, w)) {
       warning("Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined")
     }
@@ -43,9 +46,10 @@ mean_geometric <- mean_generalized(0)
 mean_harmonic <- mean_generalized(-1)
 
 #---- Extended mean ----
-mean_extended <- function(r, s) {
+mean_extended <- function(r, s, check = TRUE) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r),
-            "'s' must be a finite length 1 numeric" = is_number(s))
+            "'s' must be a finite length 1 numeric" = is_number(s),
+            "'check' must be TRUE or FALSE" = is_T_or_F(check))
   if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
@@ -57,8 +61,10 @@ mean_extended <- function(r, s) {
   }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
-    stopifnot("'a' and 'b' must be numeric vectors" = all_numeric(a, b),
-              "'tol' must be a non-negative length 1 numeric" = is_positive_number(tol))
+    if (check) {
+      stopifnot("'a' and 'b' must be numeric vectors" = all_numeric(a, b),
+                "'tol' must be a non-negative length 1 numeric" = is_positive_number(tol))
+    }
     if (any_negative(a, b)) {
       warning("Some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
     }
@@ -80,15 +86,18 @@ mean_extended <- function(r, s) {
 }
 
 #---- Logarithmic means ----
-logmean_generalized <- function(r) mean_extended(r, 1)
+logmean_generalized <- function(r, check = TRUE){
+  mean_extended(r, 1, check)
+}
 
 logmean <- logmean_generalized(0)
 
 #---- Lehmer mean ----
-mean_lehmer <- function(r) {
+mean_lehmer <- function(r, check = TRUE) {
   stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
+  arithmetic_mean <- mean_generalized(1, check)
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
-    mean_arithmetic(x, w * x %^% (r - 1), na.rm, scale = TRUE)
+    arithmetic_mean(x, w * x %^% (r - 1), na.rm)
   }
 }
 

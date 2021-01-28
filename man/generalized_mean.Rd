@@ -11,7 +11,7 @@ Calculate a generalized mean.
 }
 
 \usage{
-mean_generalized(r)
+mean_generalized(r, check = TRUE)
 
 mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
@@ -23,13 +23,15 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \arguments{
 \item{r}{A finite number giving the order of the generalized mean.}
 
+\item{check}{Should the return function check its arguments? \code{TRUE} by default, but can be \code{FALSE} when programming.}
+
 \item{x}{A strictly positive numeric vector.}
 
 \item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
-\item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
+\item{na.rm}{Should missing values in \code{x} and \code{w} be removed? \code{FALSE} by default.}
 
-\item{scale}{Should the weights be scaled to sum to 1?}
+\item{scale}{Should the weights be scaled to sum to 1? \code{TRUE} by default}
 }
 
 \value{

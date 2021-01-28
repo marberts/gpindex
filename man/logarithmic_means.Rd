@@ -10,15 +10,17 @@ Calculate a generalized logarithmic mean / extended mean.
 }
 
 \usage{
-mean_extended(r, s)
+mean_extended(r, s, check = TRUE)
 
-logmean_generalized(r)
+logmean_generalized(r, check = TRUE)
 
 logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
 \arguments{
 \item{r, s}{A finite number giving the order of the generalized logarithmic mean / extended mean.}
+
+\item{check}{Should the return function check its arguments? \code{TRUE} by default, but can be \code{FALSE} when programming.}
 
 \item{a, b}{A strictly positive numeric vector.}
 

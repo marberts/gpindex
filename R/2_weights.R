@@ -1,7 +1,7 @@
 #---- Transmute weights ----
-weights_transmute <- function(r, s) {
-  generalized_mean <- mean_generalized(r)
-  extended_mean <- mean_extended(r, s)
+weights_transmute <- function(r, s, check = TRUE) {
+  generalized_mean <- mean_generalized(r, check)
+  extended_mean <- mean_extended(r, s, check)
   # return function
   function(x, w = rep(1, length(x))) {
     res <- w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
@@ -11,12 +11,15 @@ weights_transmute <- function(r, s) {
 }
 
 #---- Factor weights  ----
-weights_factor <- function(r) {
-  stopifnot("'r' must be a finite length 1 numeric" = is_number(r))
+weights_factor <- function(r, check = TRUE) {
+  stopifnot("'r' must be a finite length 1 numeric" = is_number(r),
+            "'check' must be TRUE or FALSE" = is_T_or_F(check))
   # return function
   function(x, w = rep(1, length(x))) {
-    stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
-              "'x' and 'w' must be the same length" = all_same_length(x, w))
+    if (check) {
+      stopifnot("'x' and 'w' must be numeric vectors" = all_numeric(x, w),
+                "'x' and 'w' must be the same length" = all_same_length(x, w))
+    }
     res <- w * x %^% r
     # make sure NAs propagate to ensure chaining works correctly with NAs in x
     replace(res, if (r == 0) is.na(x) & !is.na(w), NA)
@@ -31,8 +34,8 @@ weights_scale <- function(x) {
 }
 
 #---- Contributions ----
-contributions <- function(r) {
-  arithmetic_weights <- weights_transmute(r, 1)
+contributions <- function(r, check = TRUE) {
+  arithmetic_weights <- weights_transmute(r, 1, check)
   function(x, w = rep(1, length(x))) {
     weights_scale(arithmetic_weights(x, w)) * (x - 1)
   }
