@@ -4,8 +4,9 @@ is_number <- function(x) {
   length(x) == 1 && is.numeric(x) && is.finite(x)
 }
 
-all_atomic <- function(...) {
-  all(vapply(list(...), is.atomic, logical(1)))
+same_length <- function(...) {
+  res <- lengths(list(...))
+  all(res == res[1])
 }
 
 #---- Checks for warnings ----
