@@ -1,28 +1,12 @@
 # None of these functions are exported
 #---- Argument checking ----
-is_T_or_F <- function(x) {
-  length(x) == 1 && is.logical(x) && !is.na(x)
-}
-
 is_number <- function(x) {
   length(x) == 1 && is.numeric(x) && is.finite(x)
 }
 
-is_positive_number <- function(x) {
-  is_number(x) && x >= 0
-}
-
-all_same_length <- function(...) {
-  len <- lengths(list(...))
-  all(len == len[1])
-}
-
-all_numeric <- function(...) {
-  all(vapply(list(...), is.numeric, logical(1)))
-}
-
-all_atomic <- function(...) {
-  all(vapply(list(...), is.atomic, logical(1)))
+same_length <- function(...) {
+  res <- lengths(list(...))
+  all(res == res[1])
 }
 
 #---- Checks for warnings ----

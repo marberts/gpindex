@@ -34,14 +34,6 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     Vartia2 = ,
     SatoVartia = function(p1, p0, q1, q0) logmean(p0 * q0 / v(p0, q0), p1 * q1 / v(p1, q1))
   )
-  # all arguments are price and quantity argument, so extract them in a list
-  pqs <- lapply(names(formals(res)), as.name)
-  # insert argument checking in body of res
-  body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
-  errors <- c("prices/quantities must be numeric vectors",
-              "prices/quantities must be the same length")
-  body(res)[[2]][errors] <- list(as.call(c(quote(all_numeric), pqs)),
-                                 as.call(c(quote(all_same_length), pqs)))
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
@@ -95,15 +87,6 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
       Young = function(p1, p0, pb, qb, na.rm = FALSE)
         mean_generalized(r)(p1 / p0, index_weights(type)(pb, qb), na.rm)
     )
-    # all arguments except na.rm are price and quantity arguments
-    # extract them in a list
-    pqs <- lapply(setdiff(names(formals(res)), "na.rm"), as.name)
-    # insert argument checking in body of res
-    body(res) <- as.call(c(quote(`{`), call("stopifnot"), body(res)))
-    errors <- c("prices/quantities must be numeric vectors",
-                "prices/quantities must be the same length")
-    body(res)[[2]][errors] <- list(as.call(c(quote(all_numeric), pqs)),
-                                   as.call(c(quote(all_same_length), pqs)))
     # clean up enclosing environment
     enc <- list(r = r, type = type)
     environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
@@ -140,23 +123,17 @@ index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
 
 #---- Lloyd Moulton index ----
 index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0, q0),
-            "prices/quantities must be be the same length" = all_same_length(p1, p0, q0))
   mean_generalized(1 - elasticity)(p1 / p0, index_weights("LloydMoulton")(p0, q0), na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
 index_cswd <- function(p1, p0, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0),
-            "prices/quantities must be the same length" = all_same_length(p1, p0))
   rel <- p1 / p0
   sqrt(mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm))
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
 index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0, q1, q0),
-            "prices/quantities must be the same length" = all_same_length(p1, p0, q1, q0))
   sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) /
          mean_arithmetic(q1 / q0, na.rm = na.rm) *
          mean_arithmetic(p1 * q1 / (p0 * q0), na.rm = na.rm))
@@ -164,16 +141,15 @@ index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
 
 #---- Balk Walsh index ----
 index_bw <- function(p1, p0, na.rm = FALSE) {
-  stopifnot("prices/quantities must be numeric vectors" = all_numeric(p1, p0),
-            "prices/quantities must be the same length" = all_same_length(p1, p0))
   rel <- sqrt(p1 / p0)
   mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm)
 }
 
 #---- Generalized Stuval index ----
 index_stuval <- function(a, b) {
-  stopifnot("'a' must be a length 1 numeric" = is_number(a),
-            "'b' must be a length 1 numeric" = is_number(b))
+  if (!is_number(a) || !is_number(b)) {
+    stop("'a' and 'b' must be a finite length 1 numerics")
+  }
   function(p1, p0, q1, q0, na.rm = FALSE) {
     pl <- index_laspeyres(p1, p0, q0, na.rm)
     ql <- index_laspeyres(q1, q0, p0, na.rm)
