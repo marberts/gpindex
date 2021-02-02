@@ -44,7 +44,7 @@ contributions_geometric <- contributions(0)
 
 contributions_harmonic <- contributions(-1)
 
-contributions_nested <- function(r1, r2, w1 = rep(1L, length(r2))) {
+contributions_nested <- function(r1, r2, w1 = rep(1, length(r2))) {
   if (!is_number(r1)) {
     stop("'r1' must be a finite length 1 numeric")
   }
