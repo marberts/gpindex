@@ -9,9 +9,9 @@ Utility functions to offset a vector of prices, computing either the price in th
 }
 
 \usage{
-back_price(x, period, product = rep(1, length(x)))
+back_price(x, period, product = gl(1, length(x)))
 
-base_price(x, period, product = rep(1, length(x)))
+base_price(x, period, product = gl(1, length(x)))
 }
 
 \arguments{
@@ -19,7 +19,7 @@ base_price(x, period, product = rep(1, length(x)))
 
 \item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{x}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
 
-\item{product}{A vector that gives the corresponding product identifier for each element in \code{x}. The default is to assume that all prices are for the same product.}
+\item{product}{A factor, or something that can be coerced into one, that gives the corresponding product identifier for each element in \code{x}. The default is to assume that all prices are for the same product.}
 }
 
 \value{
