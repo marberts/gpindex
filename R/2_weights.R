@@ -6,7 +6,8 @@ weights_transmute <- function(r, s) {
   function(x, w = rep(1, length(x))) {
     res <- w * extended_mean(x, generalized_mean(x, w, na.rm = TRUE)) %^% (r - s)
     # make sure NAs propagate so that weights scale correctly with NAs in x
-    replace(res, if (r == s) is.na(x) & !is.na(w), NA)
+    res[if (r == s) is.na(x) & !is.na(w)] <- NA
+    res
   }
 }
 
@@ -19,7 +20,8 @@ weights_factor <- function(r) {
   function(x, w = rep(1, length(x))) {
     res <- w * x %^% r
     # make sure NAs propagate so that chaining works correctly with NAs in x
-    replace(res, if (r == 0) is.na(x) & !is.na(w), NA)
+    res[if (r == 0) is.na(x) & !is.na(w)] <- NA
+    res
   }
 }
 

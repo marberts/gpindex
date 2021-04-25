@@ -77,7 +77,8 @@ mean_extended <- function(r, s) {
     }
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
-    replace(res, loc, a[wrap_around(a, loc)])
+    res[loc] <- a[wrap_around(a, loc)]
+    res
   }
 }
 
