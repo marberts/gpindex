@@ -1,0 +1,71 @@
+
+R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(gpindex)
+> 
+> # Some data for tests
+> set.seed(4321)
+> x <- rnorm(15)^2
+> xna <- replace(x, 2, NA)
+> w <- runif(15, 0, 2)
+> 
+> #---- Tests for weights_transmute ----
+> all.equal(weights_transmute(2, 2)(x), rep(1, length(x)))
+[1] TRUE
+> all.equal(weights_transmute(0, 0)(xna, w), replace(w, 2, NA))
+[1] TRUE
+> all.equal(weights_transmute(1, 1)(c(1, NA)), c(1, NA))
+[1] TRUE
+> all.equal(weights_transmute(2, 1)(c(1, NA)), c(1, NA))
+[1] TRUE
+> 
+> #---- Tests for contributions ----
+> all.equal(contributions_arithmetic(1:4), c(0, 0.25, 0.5, 0.75))
+[1] TRUE
+> all.equal(contributions_harmonic(1:4), c(0, 0.24, 0.32, 0.36))
+[1] TRUE
+> all.equal(contributions_geometric(c(1, 4)), c(0, 1))
+[1] TRUE
+> all.equal(sum(contributions(-3.75)(x, w)), mean_generalized(-3.75)(x, w) - 1)
+[1] TRUE
+> all.equal(sum(contributions(3.75)(xna, w), na.rm = TRUE), mean_generalized(3.75)(xna, w, na.rm = TRUE) - 1)
+[1] TRUE
+>     
+> #---- Test for weights_factor ----
+> all.equal(weights_factor(0)(c(1, NA)), c(1, NA))
+[1] TRUE
+> all.equal(weights_factor(0)(x), rep(1, length(x)))
+[1] TRUE
+> all.equal(weights_factor(0)(x, w), w)
+[1] TRUE
+> all.equal(weights_update(xna, w), xna * w)
+[1] TRUE
+> 
+> #---- Test for weights_scale ----
+> all.equal(sum(weights_scale(w)), 1)
+[1] TRUE
+> all.equal(weights_scale(c(1:2, NA)), c(1:2, NA) / 3)
+[1] TRUE
+> 
+> #---- Tests for contributions_nested ----
+> all.equal(sum(contributions_nested(3, c(-1, 0, 2))(x)),
++           mean_generalized(3)(c(mean_harmonic(x), mean_geometric(x), mean_generalized(2)(x))) - 1)
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+  0.323   0.191   0.324 

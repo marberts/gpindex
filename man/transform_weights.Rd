@@ -128,11 +128,9 @@ w2 <- runif(2)
 
 mean_geometric(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
 
-v0 <- weights_transmute(0, 1)(c(mean_arithmetic(x, w1), mean_harmonic(x, w2)))
-v0 <- weights_scale(v0)
-v1 <- weights_scale(w1)
-v2 <- weights_scale(weights_transmute(-1, 1)(x, w2))
-mean_arithmetic(x, v0[1] * v1 + v0[2] * v2)
+v1 <- weights_scale(weights_transmute(1, 0)(x, w1))
+v2 <- weights_scale(weights_transmute(-1, 0)(x, w2))
+mean_arithmetic(x, weights_transmute(0, 1)(x, 0.5 * v1 + 0.5 * v2))
 
 #--------------------
 
