@@ -72,7 +72,7 @@ index_weights(type)
 
 \item{qb}{Period-b quantities for the Lowe/Young index.}
 
-\item{na.rm}{Should missing values be removed?}
+\item{na.rm}{Should missing values be removed? By default missing values in \code{x} or \code{w} return a missing value.}
 
 \item{elasticity}{The elasticity of substitution for the Lloyd-Moulton index.}
 

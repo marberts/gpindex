@@ -27,9 +27,9 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
-\item{na.rm}{Should missing values in \code{x} and \code{w} be removed?}
+\item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
 
-\item{scale}{Should the weights be scaled to sum to 1?}
+\item{scale}{Should the weights be scaled to sum to 1? By default \code{w} is scaled.}
 }
 
 \value{
@@ -64,7 +64,7 @@ Passing very small values for \code{r} can give misleading results, and warning 
 \note{
 \code{mean_generalized()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
 
-There are a number of existing functions for calculating \emph{unweighted} geometric and harmonic means, namely the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \code{'psych'} package, the \code{geomean()} function in the \code{'FSA'} package, the \code{GMean()} and \code{HMean()} functions in the \code{'DescTools'} package, and the \code{geoMean()} function in the \code{'EnvStats'} package. Similarly, the \code{ci_generalized_mean()} function in the \code{'Compind'} package calculates an \emph{unweighted} generalized mean.
+There are a number of existing functions for calculating \emph{unweighted} geometric and harmonic means, namely the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \pkg{psych} package, the \code{geomean()} function in the \pkg{FSA} package, the \code{GMean()} and \code{HMean()} functions in the \pkg{DescTools} package, and the \code{geoMean()} function in the \pkg{EnvStats} package. Similarly, the \code{ci_generalized_mean()} function in the \pkg{Compind} package calculates an \emph{unweighted} generalized mean.
 }
 
 \references{

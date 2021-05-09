@@ -5,6 +5,3 @@
 ^README\.Rmd$
 ^LICENSE\.md$
 ^cran-comments\.md$
-^man/quote_contributions\.Rd$
-^R/contribution\.R$
-^man/index_weights\.Rd$
