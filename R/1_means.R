@@ -27,7 +27,7 @@ mean_generalized <- function(r) {
       stop("'x' and 'w' must be the same length")
     }
     if (any_negative(x, w)) {
-      warning("Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined")
+      warning("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined")
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
@@ -48,7 +48,7 @@ mean_harmonic <- mean_generalized(-1)
 #---- Extended mean ----
 mean_extended <- function(r, s) {
   if (!is_number(r) || !is_number(s)) {
-    stop("'r' and 's' must be a finite length 1 numerics")
+    stop("'r' and 's' must be finite length 1 numerics")
   }
   if (small_but_not_zero(r)) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
@@ -62,7 +62,7 @@ mean_extended <- function(r, s) {
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     if (any_negative(a, b)) {
-      warning("Some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
+      warning("some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
     }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)

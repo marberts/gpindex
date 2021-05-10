@@ -29,7 +29,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
 
-\item{scale}{Should the weights be scaled to sum to 1? By default \code{w} is scaled.}
+\item{scale}{Should the weights be scaled to sum to 1? By default \code{w} is divided by \code{sum(w)}.}
 }
 
 \value{

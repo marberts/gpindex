@@ -117,3 +117,8 @@ all.equal(mean_lehmer(0.5)(x[1:2]), sqrt(prod(x[1:2])))
 all.equal(mean_lehmer(5)(x, w), 1 / mean_lehmer(-4)(1 / x, w))
 all.equal(mean_lehmer(-3)(x), 1 / mean_lehmer(4)(1 / x))
 all.equal(mean_contraharmonic(xna, w, na.rm = TRUE), 1 / mean_lehmer(-1)(1 / xna, w, na.rm = TRUE))
+
+#---- Tests for %^% ----
+all.equal(mapply(gpindex:::`%^%`, list(x), seq(-2, 2, by = 0.5)[-5]),
+          mapply(`^`, list(x), seq(-2, 2, by = 0.5)[-5]))
+all.equal(gpindex:::`%^%`(x, 0), 1)

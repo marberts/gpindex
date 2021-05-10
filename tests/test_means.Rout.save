@@ -74,22 +74,22 @@ Type 'q()' to quit R.
 [1] TRUE
 Warning message:
 In mean_geometric(replace(x, 3, 0), w) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 > all.equal(mean_harmonic(replace(x, 3, 0), w), 0)
 [1] TRUE
 Warning message:
 In mean_harmonic(replace(x, 3, 0), w) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 > all.equal(mean_geometric(c(1, 1, 2), c(0.5, 0, 0.5)), sqrt(2))
 [1] TRUE
 Warning message:
 In mean_geometric(c(1, 1, 2), c(0.5, 0, 0.5)) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 > all.equal(mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
 [1] TRUE
 Warning message:
 In mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 > 
 > #---- Tests for generalized means ----
 > # Base implementation
@@ -151,7 +151,7 @@ In mean_harmonic(c(1, -1, 2), c(0.5, 0, 0.5)) :
 [1] TRUE
 Warning message:
 In logmean(1, 0) :
-  Some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined
+  some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined
 > all.equal(logmean(2, 1), 1 / log(2))
 [1] TRUE
 > all.equal(logmean_generalized(2)(1, 2), 1.5)
@@ -226,6 +226,13 @@ Warning messages:
 > all.equal(mean_contraharmonic(xna, w, na.rm = TRUE), 1 / mean_lehmer(-1)(1 / xna, w, na.rm = TRUE))
 [1] TRUE
 > 
+> #---- Tests for %^% ----
+> all.equal(mapply(gpindex:::`%^%`, list(x), seq(-2, 2, by = 0.5)[-5]),
++           mapply(`^`, list(x), seq(-2, 2, by = 0.5)[-5]))
+[1] TRUE
+> all.equal(gpindex:::`%^%`(x, 0), 1)
+[1] TRUE
+>
 > proc.time()
    user  system elapsed 
   0.358   0.215   0.390 

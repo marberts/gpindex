@@ -28,7 +28,7 @@ NULL
 > back_price(1:4, rep(1, 4))
 [1] 1 1 1 1
 Warning message:
-In back_price(1:4, rep(1, 4)) : There are duplicated period-product pairs
+In back_price(1:4, rep(1, 4)) : there are duplicated period-product pairs
 > back_price(matrix(1:4), rep(1, 4))
      [,1]
 [1,]    1
@@ -37,12 +37,12 @@ In back_price(1:4, rep(1, 4)) : There are duplicated period-product pairs
 [4,]    1
 Warning message:
 In back_price(matrix(1:4), rep(1, 4)) :
-  There are duplicated period-product pairs
+  there are duplicated period-product pairs
 > back_price(1:4, factor(rep(1, 4), levels = 0:1))
 [1] NA NA NA NA
 Warning message:
 In back_price(1:4, factor(rep(1, 4), levels = 0:1)) :
-  There are duplicated period-product pairs
+  there are duplicated period-product pairs
 > back_price(1:4, 1:4)
 [1] 1 1 2 3
 > base_price(1:4, 1:4)

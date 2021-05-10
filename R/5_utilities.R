@@ -4,7 +4,7 @@ offset_price <- function(type = c("back", "base")) {
   # return function
   function(x, period, product = gl(1, length(x))) {
     if (!same_length(x, period, product)) {
-      stop("All arguments must be the same length")
+      stop("all arguments must be the same length")
     }
     if (!length(x)) return(x[0])
     offset <- function(x) x[c(1L, if (type == "back") seq_len(length(x) - 1))]
@@ -13,7 +13,7 @@ offset_price <- function(type = c("back", "base")) {
     product <- split(as.integer(as.factor(product)), period)
     warn <- any(vapply(product, anyDuplicated, numeric(1)) > 0)
     if (warn) {
-      warning("There are duplicated period-product pairs") 
+      warning("there are duplicated period-product pairs") 
     }
     matches <- Map(match, product, offset(product), incomparables = NA)
     res <- unsplit(Map(`[`, offset(price), matches), period)

@@ -164,14 +164,14 @@ Type 'q()' to quit R.
 > 
 > mean_arithmetic(c(1, 2, -3))
 Warning in mean_arithmetic(c(1, 2, -3)) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 [1] 0
 > 
 > # Other times it's less obvious
 > 
 > mean_harmonic(c(1, 2, -3))
 Warning in mean_harmonic(c(1, 2, -3)) :
-  Some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 [1] 2.571429
 > 
 > #--------------------
@@ -476,7 +476,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > with(dat, price / back_price(price, period))
 Warning in back_price(price, period) :
-  There are duplicated period-product pairs
+  there are duplicated period-product pairs
 [1] 1 2 3 4
 > 
 > 

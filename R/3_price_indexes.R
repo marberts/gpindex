@@ -148,7 +148,7 @@ index_bw <- function(p1, p0, na.rm = FALSE) {
 #---- Generalized Stuval index ----
 index_stuval <- function(a, b) {
   if (!is_number(a) || !is_number(b)) {
-    stop("'a' and 'b' must be a finite length 1 numerics")
+    stop("'a' and 'b' must be finite length 1 numerics")
   }
   function(p1, p0, q1, q0, na.rm = FALSE) {
     pl <- index_laspeyres(p1, p0, q0, na.rm)
