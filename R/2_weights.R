@@ -52,7 +52,21 @@ contributions_nested <- function(r, s) {
   w1_to_r <- weights_transmute(s[1], r)
   w2_to_r <- weights_transmute(s[2], r)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
-    v <- 0.5 * weights_scale(w1_to_r(x, w1)) + 0.5 * weights_scale(w2_to_r(x, w2))
+    v <- weights_scale(w1_to_r(x, w1)) + weights_scale(w2_to_r(x, w2))
     contrib(x, v)
+  }
+}
+
+contributions_nested2 <- function(r, s) {
+  arithmetic_weights <- weights_transmute(r, 1)
+  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  contrib1 <- contributions(s[1])
+  contrib2 <- contributions(s[2])
+  mean1 <- mean_generalized(s[1])
+  mean2 <- mean_generalized(s[2])
+  function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
+    m <- c(mean1(x, w1), mean2(x, w2))
+    v <- weights_scale(arithmetic_weights(m))
+    v[1] * contrib1(x, w1) + v[2] * contrib2(x, w2)
   }
 }
