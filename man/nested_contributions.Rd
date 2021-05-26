@@ -10,13 +10,12 @@ Calculate additive quote contributions for a price index that nests two levels o
 }
 
 \usage{
-contributions_nested(r1, r2, w1 = rep(1, length(r2)))
+contributions_nested(r, s)
 }
 
 \arguments{
-\item{r1}{A finite number giving the order of the outer generalized mean.}
-\item{r2}{A vector of finite numbers giving the order of the inner generalized means.}
-\item{w1}{A vector of numeric weights that weights each inner generalized mean in the outer generalized mean, the same length as \code{r2}.}
+\item{r}{A finite number giving the order of the outer generalized mean.}
+\item{s}{A pair of finite numbers giving the order of the inner generalized means.}
 }
 
 \details{
@@ -26,7 +25,7 @@ This function is the analog of \code{\link[=contributions]{contributions()}} for
 \value{
 \code{contributions_nested()} returns a function:
 
-\code{function(x, w = rep(list(rep(1, length(x))), length(r2)))}.
+\code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
 This function takes a numeric vector \code{x} and list of numeric weights \code{w}, the same length as \code{r2}, and returns the contribution for each element in \code{x}.
 }
@@ -46,10 +45,12 @@ q1 <- quantity6[[2]]
 q0 <- quantity6[[1]]
 
 contributions_fisher <- contributions_nested(0, c(1, -1))
-contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
-                                   index_weights("Paasche")(p1, q1)))
+contributions_fisher(p1 / p0, 
+                     index_weights("Laspeyres")(p0, q0), 
+                     index_weights("Paasche")(p1, q1))
                                    
 contributions_hlp <- contributions_nested(-1, c(1, -1))
-contributions_hlp(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
-                                index_weights("Paasche")(p1, q1)))
+contributions_hlp(p1 / p0, 
+                  index_weights("Laspeyres")(p0, q0), 
+                  index_weights("Paasche")(p1, q1))
 }

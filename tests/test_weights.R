@@ -30,5 +30,8 @@ all.equal(sum(weights_scale(w)), 1)
 all.equal(weights_scale(c(1:2, NA)), c(1:2, NA) / 3)
 
 #---- Tests for contributions_nested ----
-all.equal(sum(contributions_nested(3, c(-1, 0, 2))(x)),
-          mean_generalized(3)(c(mean_harmonic(x), mean_geometric(x), mean_generalized(2)(x))) - 1)
+all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
+          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
+
+all.equal(sum(contributions_nested(0, c(1, -1))(x)),
+          prod(sqrt(c(mean_harmonic(x), mean_arithmetic(x)))) - 1)

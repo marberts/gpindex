@@ -242,8 +242,9 @@ all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 # Quote contributions for the Fisher index
 
 contributions_fisher <- contributions_nested(0, c(1, -1))
-(con <- contributions_fisher(p1 / p0, list(index_weights("Laspeyres")(p0, q0), 
-                                           index_weights("Paasche")(p1, q1))))
+(con <- contributions_fisher(p1 / p0, 
+                             index_weights("Laspeyres")(p0, q0), 
+                             index_weights("Paasche")(p1, q1)))
 
 all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
@@ -254,9 +255,7 @@ Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
 wl <- index_weights("Laspeyres")(p0, q0)
 wp <- index_weights("HybridPaasche")(p0, q1)
 
-con2 <- (Qf / (Qf + Ql) * weights_scale(wl) + 
-           Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
-all.equal(con, con2)
+(Qf / (Qf + Ql) * weights_scale(wl) + Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
 
 #--------------------
 

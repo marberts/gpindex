@@ -46,23 +46,13 @@ contributions_geometric <- contributions(0)
 
 contributions_harmonic <- contributions(-1)
 
-contributions_nested <- function(r1, r2, w1 = rep(1, length(r2))) {
-  if (!is_number(r1)) {
-    stop("'r1' must be a finite length 1 numeric")
-  }
-  if (!is.numeric(r2) || !is.numeric(w1)) {
-    stop("'r2' and 'w1' must be a numeric vectors")
-  }
-  if (!same_length(r2, w1)) {
-    stop("'r2' and 'w1' must be the same length")
-  }
-  function(x, w = rep(list(rep(1, length(x))), length(r2))) {
-    means <- lapply(r2, mean_generalized)
-    contribs <- lapply(r2, contributions)
-    ind <- seq_along(r2)
-    m <- vapply(ind, function(i) means[[i]](x, w[[i]]), numeric(1))
-    v2 <- lapply(ind, function(i) contribs[[i]](x, w[[i]]))
-    v1 <- weights_scale(weights_transmute(r1, 1)(m, w1))
-    unlist(Reduce("+", Map("*", v1, v2)))
+contributions_nested <- function(r, s) {
+  contrib <- contributions(r)
+  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  w1_to_r <- weights_transmute(s[1], r)
+  w2_to_r <- weights_transmute(s[2], r)
+  function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
+    v <- 0.5 * weights_scale(w1_to_r(x, w1)) + 0.5 * weights_scale(w2_to_r(x, w2))
+    contrib(x, v)
   }
 }

@@ -62,8 +62,8 @@ Type 'q()' to quit R.
 [1] TRUE
 > 
 > #---- Tests for contributions_nested ----
-> all.equal(sum(contributions_nested(3, c(-1, 0, 2))(x)),
-+           mean_generalized(3)(c(mean_harmonic(x), mean_geometric(x), mean_generalized(2)(x))) - 1)
+> all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
++           mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
 [1] TRUE
 > 
 > proc.time()
