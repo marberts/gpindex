@@ -11,6 +11,7 @@ all.equal(weights_transmute(2, 2)(x), rep(1, length(x)))
 all.equal(weights_transmute(0, 0)(xna, w), replace(w, 2, NA))
 all.equal(weights_transmute(1, 1)(c(1, NA)), c(1, NA))
 all.equal(weights_transmute(2, 1)(c(1, NA)), c(1, NA))
+all.equal(weights_transmute(7, -3)(x, weights_transmute(-3, 7)(x, w)), w)
 
 #---- Tests for contributions ----
 all.equal(contributions_arithmetic(1:4), c(0, 0.25, 0.5, 0.75))
@@ -35,3 +36,9 @@ all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
 
 all.equal(sum(contributions_nested(0, c(1, -1))(x)),
           prod(sqrt(c(mean_harmonic(x), mean_arithmetic(x)))) - 1)
+
+all.equal(contributions_nested(1, c(0, -1))(xna),
+          contributions_nested2(1, c(0, -1))(xna))
+
+all.equal(sum(contributions_nested(1, c(0, -1))(xna), na.rm = TRUE),
+          mean_nested(1, c(0, -1))(xna, na.rm = TRUE) - 1)

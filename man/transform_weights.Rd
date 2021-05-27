@@ -1,9 +1,5 @@
 \name{transform weights}
 \alias{weights_transmute}
-\alias{contributions}
-\alias{contributions_arithmetic}
-\alias{contributions_geometric}
-\alias{contributions_harmonic}
 \alias{weights_factor}
 \alias{weights_update}
 \alias{weights_scale}
@@ -22,14 +18,6 @@ Useful transformations for the weights in a generalized mean.
 \usage{
 weights_transmute(r, s)
 
-contributions(r)
-
-contributions_arithmetic(x, w = rep(1, length(x)))
-
-contributions_geometric(x, w = rep(1, length(x)))
-
-contributions_harmonic(x, w = rep(1, length(x)))
-
 weights_factor(r)
 
 weights_update(x, w = rep(1, length(x)))
@@ -46,11 +34,11 @@ weights_scale(x)
 }
 
 \value{
-\code{weights_transmute()}, \code{contributions()}, and \code{weights_factor()} return a function: 
+\code{weights_transmute()} and \code{weights_factor()} return a function: 
 
 \code{function(x, w = rep(1, length(x))}.
 
-\code{contributions_arithmetic()}, \code{contributions_geometric()}, \code{contributions_harmonic()}, \code{weights_update()}, and \code{weights_scale()} return a numeric vector the same length as \code{x}.
+\code{weights_update()} and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }
 
 \details{
@@ -66,13 +54,6 @@ These weights are calculated as
 \code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
 
 This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case.
-
-\bold{Contributions}
-The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)()} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{k(x, w)} such that
-
-\code{mean_generalized(r)(x, w) - 1 == sum(k(x, w))}.
-
-That is, \code{k(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
@@ -104,7 +85,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link{mean_extended}} for the extended mean that underlies \code{weights_transmute()}.
 
-\code{\link{contributions_nested}} for an extension of \code{contributions()} to nested generalized means, like a Fisher index.
+\code{\link{contributions}} for calculating additive quote contributions.
 }
 
 \examples{
@@ -139,35 +120,6 @@ mean_arithmetic(x, weights_transmute(0, 1)(x, 0.5 * v1 + 0.5 * v2))
 
 weights_scale(weights_transmute(0, 1)(x)) * (x - 1)
 contributions_geometric(x) # the more convenient way
-
-# Not the only way to calculate contributions
-
-transmute2 <- function(x) {
-  m <- mean_geometric(x)
-  (m - 1) / log(m) * log(x) / (x - 1) / length(x)
-}
-
-transmute2(x) * (x - 1) # this isn't proportional to the method above
-all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
-
-# But these "transmuted" weights don't recover the geometric mean!
-# Not a particularly good way to calculate contributions
-
-isTRUE(all.equal(mean_arithmetic(x, transmute2(x)), mean_geometric(x)))
-
-# There are infinitely many ways to calculate contributions, but the weights
-# from weights_transmute(0, 1)() are the *unique* weights that recover the 
-# geometric mean
-
-perturb <- function(w, e) {
-  w + c(e, -e) / (x - 1)
-}
-
-perturb(transmute2(x), 0.1) * (x - 1)
-all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
-          mean_geometric(x) - 1)
-isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
-                 mean_geometric(x)))
 
 #--------------------
 

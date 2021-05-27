@@ -32,6 +32,8 @@ Type 'q()' to quit R.
 [1] TRUE
 > all.equal(weights_transmute(2, 1)(c(1, NA)), c(1, NA))
 [1] TRUE
+> all.equal(weights_transmute(7, -3)(x, weights_transmute(-3, 7)(x, w)), w)
+[1] TRUE
 > 
 > #---- Tests for contributions ----
 > all.equal(contributions_arithmetic(1:4), c(0, 0.25, 0.5, 0.75))
@@ -65,7 +67,19 @@ Type 'q()' to quit R.
 > all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
 +           mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
 [1] TRUE
+>
+> all.equal(sum(contributions_nested(0, c(1, -1))(x)),
++           prod(sqrt(c(mean_harmonic(x), mean_arithmetic(x)))) - 1)
+[1] TRUE
 > 
+> all.equal(contributions_nested(1, c(0, -1))(xna),
++           contributions_nested2(1, c(0, -1))(xna))
+[1] TRUE
+>
+> all.equal(sum(contributions_nested(1, c(0, -1))(xna), na.rm = TRUE),
++           mean_nested(1, c(0, -1))(xna, na.rm = TRUE) - 1)
+[1] TRUE
+>
 > proc.time()
    user  system elapsed 
   0.323   0.191   0.324 

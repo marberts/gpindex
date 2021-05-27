@@ -27,7 +27,9 @@ mean_contraharmonic(x, w = rep(1, length(x)), na.rm = FALSE)
 \value{
 \code{mean_lehmer()} returns a function:
 
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}. 
+\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}.
+
+This computes the Lehmer mean of order \code{r} of \code{x} with weights \code{w}.
 
 \code{mean_contraharmonic()} returns a numeric value.
 }

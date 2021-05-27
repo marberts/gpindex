@@ -46,13 +46,13 @@ contributions_geometric <- contributions(0)
 
 contributions_harmonic <- contributions(-1)
 
+#---- Nested contributions ----
 contributions_nested <- function(r, s) {
   contrib <- contributions(r)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
-  w1_to_r <- weights_transmute(s[1], r)
-  w2_to_r <- weights_transmute(s[2], r)
+  r_weights <- lapply(s, weights_transmute, r)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
-    v <- weights_scale(w1_to_r(x, w1)) + weights_scale(w2_to_r(x, w2))
+    v <- weights_scale(r_weights[[1]](x, w1)) + weights_scale(r_weights[[2]](x, w2))
     contrib(x, v)
   }
 }
@@ -60,13 +60,11 @@ contributions_nested <- function(r, s) {
 contributions_nested2 <- function(r, s) {
   arithmetic_weights <- weights_transmute(r, 1)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
-  contrib1 <- contributions(s[1])
-  contrib2 <- contributions(s[2])
-  mean1 <- mean_generalized(s[1])
-  mean2 <- mean_generalized(s[2])
+  contrib <- lapply(s, contributions)
+  mean <- lapply(s, mean_generalized)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
-    m <- c(mean1(x, w1), mean2(x, w2))
+    m <- c(mean[[1]](x, w1, na.rm = TRUE), mean[[2]](x, w2, na.rm = TRUE))
     v <- weights_scale(arithmetic_weights(m))
-    v[1] * contrib1(x, w1) + v[2] * contrib2(x, w2)
+    v[1] * contrib[[1]](x, w1) + v[2] * contrib[[2]](x, w2)
   }
 }

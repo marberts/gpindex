@@ -28,7 +28,9 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 \value{
 \code{logmean_generalized()} and \code{mean_extended()} return a function: 
 
-\code{function(a, b, tol = .Machine$double.eps^0.5)}. 
+\code{function(a, b, tol = .Machine$double.eps^0.5)}.
+
+This computes the generalized logarithmic mean of order \code{r}, or the extended mean of order \code{r}, \code{s}, of \code{a} and \code{b}.
 
 \code{logmean()} returns a numeric vector the same length as \code{max(length(a), length(b))}.
 }

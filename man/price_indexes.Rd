@@ -80,7 +80,7 @@ index_weights(type)
 }
 
 \value{
-\code{index_arithmetic()}, \code{index_geometric()}, \code{index_harmonic()}, \code{index_stuval()}, and \code{index_weights()} each return a function; the others return a numeric value.
+\code{index_arithmetic()}, \code{index_geometric()}, \code{index_harmonic()}, \code{index_stuval()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value.
 }
 
 \details{
@@ -238,24 +238,6 @@ w <- index_weights("Tornqvist")(p1, p0, q1, q0)
 (con <- contributions_geometric(p1 / p0, w))
 
 all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
-
-# Quote contributions for the Fisher index
-
-contributions_fisher <- contributions_nested(0, c(1, -1))
-(con <- contributions_fisher(p1 / p0, 
-                             index_weights("Laspeyres")(p0, q0), 
-                             index_weights("Paasche")(p1, q1)))
-
-all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
-
-# The same as the decomposition in section 4.2.2 of Balk (2008)
-
-Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
-Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
-wl <- index_weights("Laspeyres")(p0, q0)
-wp <- index_weights("HybridPaasche")(p0, q1)
-
-(Qf / (Qf + Ql) * weights_scale(wl) + Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
 
 #--------------------
 
