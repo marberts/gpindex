@@ -128,8 +128,7 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
 
 #---- Caruthers Sellwood Ward Dalen index ----
 index_cswd <- function(p1, p0, na.rm = FALSE) {
-  rel <- p1 / p0
-  sqrt(mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm))
+  mean_superlative(p1 / p0, na.rm = na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----

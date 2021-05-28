@@ -3,7 +3,6 @@
 \alias{mean_arithmetic}
 \alias{mean_geometric}
 \alias{mean_harmonic}
-\alias{mean_nested}
 
 \title{Generalized mean}
 
@@ -19,8 +18,6 @@ mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 mean_geometric(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
-
-mean_nested(r, s)
 }
 
 \arguments{
@@ -33,8 +30,6 @@ mean_nested(r, s)
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
 
 \item{scale}{Should the weights be scaled to sum to 1? By default \code{w} is divided by \code{sum(w)}.}
-
-\item{s}{A piar of finite numbers giving the order of the generalized means for the inner means in a nested generalized mean.}
 }
 
 \value{
@@ -45,12 +40,6 @@ mean_nested(r, s)
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 
 \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
-
-\code{mean_nested()} returns a function:
-
-\code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)}.
-
-This computes the (unweighted) generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 }
 
 \details{
@@ -71,7 +60,7 @@ The underlying calculation returned by \code{mean_generalized()} is mostly ident
 }
 
 \section{Warning}{
-Passing very small values for \code{r} (or \code{s}) can give misleading results, and warning is given whenever \code{abs(r)} is sufficiently small. In general, \code{r} should not be a computed value.
+Passing very small values for \code{r} can give misleading results, and warning is given whenever \code{abs(r)} is sufficiently small. In general, \code{r} should not be a computed value.
 }
 
 \note{
@@ -98,6 +87,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \code{\link{logmean_generalized}} for the generalized logarithmic mean.
 
 \code{\link{mean_lehmer}} for the Lehmer mean, an alternative to the generalized mean.
+
+\code{\link{mean_nested}} for nesting generalized means.
 
 \code{\link{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
@@ -212,22 +203,4 @@ mean_arithmetic(c(1, 2, -3))
 # Other times it's less obvious
 
 mean_harmonic(c(1, 2, -3))
-
-#--------------------
-
-# A function to make the superlative quadratic mean price index in chapter 17, 
-# section B.5.1, of the PPI manual as a product of generalized means
-
-quadratic_mean_index <- function(x, w0, w1, r) {
-  x <- sqrt(x) 
-  mean_generalized(r)(x, w0) * mean_generalized(-r)(x, w1)
-}
-
-quadratic_mean_index(1:3, 4:6, 7:9, 2)
-
-# Same as the geometric mean of two generalized means (with the order halved)
-
-quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
-
-quadratic_mean_index2(2)(1:3, 4:6, 7:9)
 }

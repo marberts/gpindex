@@ -45,9 +45,9 @@ The function \code{contributions()} is a simple wrapper for \code{weights_transm
 
 That is, \code{v(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
-The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, it returns a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, with weights \code{w1} and \code{w2}.
+The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, they return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses the algorithm in section 6 of Reisdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach. In most cases the results any broadly similar.
+Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reisdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by taking a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
 
 \value{
@@ -59,11 +59,11 @@ This function returns the additive contribution for each element in \code{x}.
 
 \code{contributions_arithmetic()}, \code{contributions_geometric()}, and \code{contributions_harmonic()} return a numeric vector the same length as \code{x}.
 
-\code{contributions_nested()} returns a function:
+\code{contributions_nested()} and \code{contributions_nested2()} return a function:
 
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
-This function takes a numeric vector \code{x} and a piar of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element in \code{x}.
+This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element in \code{x}.
 }
 
 \references{
@@ -129,8 +129,8 @@ all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 contributions_fisher2 <- contributions_nested2(0, c(1, -1))
 (con2 <- contributions_fisher2(p1 / p0, 
-                             index_weights("Laspeyres")(p0, q0), 
-                             index_weights("Paasche")(p1, q1)))
+                               index_weights("Laspeyres")(p0, q0), 
+                               index_weights("Paasche")(p1, q1)))
 
 all.equal(sum(con2), index_fisher(p1, p0, q1, q0) - 1)
 

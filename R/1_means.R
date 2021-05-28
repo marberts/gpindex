@@ -111,3 +111,5 @@ mean_nested <- function(r, s) {
     outer_mean(x, na.rm = na.rm)
   }
 }
+
+mean_superlative <- mean_nested(0, c(1, -1))
