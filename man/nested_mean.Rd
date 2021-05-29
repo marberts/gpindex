@@ -1,6 +1,6 @@
 \name{nested mean}
 \alias{mean_nested}
-\alias{mean_superlative}
+\alias{mean_fisher}
 
 \title{Nested generalized means}
 
@@ -11,7 +11,7 @@ Calculate a mean of generalized means.
 \usage{
 mean_nested(r, s)
 
-mean_superlative(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
+mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 }
 
 \arguments{
@@ -33,7 +33,7 @@ mean_superlative(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALS
 
 This computes the (unweighted) generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 
-\code{mean_superlative()} returns a numeric value for the case of \code{r = 0} and \code{s = c(1, -1)}.
+\code{mean_fisher()} returns a numeric value for the case of \code{r = 0} and \code{s = c(1, -1)}.
 }
 
 \seealso{

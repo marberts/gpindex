@@ -52,6 +52,9 @@ contributions_nested <- function(r, s) {
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
   r_weights <- lapply(s, weights_transmute, r)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
+    if (anyNA(w1) || anyNA(w2)) {
+      warning("nested contributions are not well defined with NA weights")
+    }
     v <- weights_scale(r_weights[[1]](x, w1)) + weights_scale(r_weights[[2]](x, w2))
     contrib(x, v)
   }
@@ -63,6 +66,9 @@ contributions_nested2 <- function(r, s) {
   contrib <- lapply(s, contributions)
   mean <- lapply(s, mean_generalized)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
+    if (anyNA(w1) || anyNA(w2)) {
+      warning("nested contributions are not well defined with NA weights")
+    }
     m <- c(mean[[1]](x, w1, na.rm = TRUE), mean[[2]](x, w2, na.rm = TRUE))
     v <- weights_scale(arithmetic_weights(m))
     v[1] * contrib[[1]](x, w1) + v[2] * contrib[[2]](x, w2)

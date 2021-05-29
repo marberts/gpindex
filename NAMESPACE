@@ -1,4 +1,4 @@
-export(mean_generalized, mean_arithmetic, mean_geometric, mean_harmonic, mean_nested, mean_superlative,
+export(mean_generalized, mean_arithmetic, mean_geometric, mean_harmonic, mean_nested, mean_fisher,
        mean_extended, logmean_generalized, logmean,
        mean_lehmer, mean_contraharmonic,
        weights_transmute, weights_factor, weights_update, weights_scale,

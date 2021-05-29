@@ -499,7 +499,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > ### Name: nested mean
 > ### Title: Nested generalized means
-> ### Aliases: mean_nested mean_superlative
+> ### Aliases: mean_nested mean_fisher
 > 
 > ### ** Examples
 > 

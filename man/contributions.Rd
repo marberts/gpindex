@@ -29,7 +29,7 @@ contributions_nested2(r, s)
 }
 
 \arguments{
-\item{r}{A finite number giving the order of the (outer) generalized mean.}
+\item{r}{A finite number giving the order of the generalized mean.}
 
 \item{x}{A strictly positive numeric vector.}
 
@@ -47,7 +47,7 @@ That is, \code{v(x, w)} gives the additive contribution for each element of \cod
 
 The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, they return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reisdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by taking a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reisdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
 
 \value{
@@ -64,6 +64,10 @@ This function returns the additive contribution for each element in \code{x}.
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
 This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element in \code{x}.
+}
+
+\note{
+Nested quote contributions are not straightforward with NAs in the weights. If wither \code{w1} or \code{w2} has any NAs then \code{nested_contributions()} and \code{nested_contributions2()} need not agree, and neither may give correct contributions. A warning is given in this case. 
 }
 
 \references{

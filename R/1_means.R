@@ -112,4 +112,4 @@ mean_nested <- function(r, s) {
   }
 }
 
-mean_superlative <- mean_nested(0, c(1, -1))
+mean_fisher <- mean_nested(0, c(1, -1))

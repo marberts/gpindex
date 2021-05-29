@@ -113,12 +113,16 @@ index_young <- index_arithmetic("Young")
 
 #---- Fisher index ----
 index_fisher <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  sqrt(index_laspeyres(p1, p0, q0, na.rm) * index_paasche(p1, p0, q1, na.rm))
+  wl <- index_weights("Laspeyres")(p0, q0)
+  wp <- index_weights("Paasche")(p1, q1)
+  mean_fisher(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Harmonic Laspeyres Paasche index ----
 index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  2 / (1 / index_laspeyres(p1, p0, q0, na.rm) + 1 / index_paasche(p1, p0, q1, na.rm))
+  wl <- index_weights("Laspeyres")(p0, q0)
+  wp <- index_weights("Paasche")(p1, q1)
+  mean_nested(-1, c(1, -1))(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Lloyd Moulton index ----
@@ -128,7 +132,7 @@ index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
 
 #---- Caruthers Sellwood Ward Dalen index ----
 index_cswd <- function(p1, p0, na.rm = FALSE) {
-  mean_superlative(p1 / p0, na.rm = na.rm)
+  mean_fisher(p1 / p0, na.rm = na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
