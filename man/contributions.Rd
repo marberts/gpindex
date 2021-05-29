@@ -67,7 +67,7 @@ This function takes a numeric vector \code{x} and a pair of numeric weights \cod
 }
 
 \note{
-Nested quote contributions are not straightforward with NAs in the weights. If wither \code{w1} or \code{w2} has any NAs then \code{nested_contributions()} and \code{nested_contributions2()} need not agree, and neither may give correct contributions. A warning is given in this case. 
+Nested quote contributions are not straightforward with NAs in the weights. If either \code{w1} or \code{w2} has any NAs then \code{nested_contributions()} and \code{nested_contributions2()} need not agree, and neither may give correct contributions. A warning is given in this case. 
 }
 
 \references{

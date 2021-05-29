@@ -17,7 +17,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 \arguments{
 \item{r}{A finite number giving the order of the outer generalized mean.}
 
-\item{s}{A piar of finite numbers giving the order of the generalized means for the inner means in a nested generalized mean.}
+\item{s}{A pair of finite numbers giving the order of the generalized means for the inner means in a nested generalized mean.}
 
 \item{x}{A strictly positive numeric vector.}
 
