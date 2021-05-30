@@ -34,6 +34,9 @@ all.equal(weights_scale(c(1:2, NA)), c(1:2, NA) / 3)
 all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
           mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
 
+all.equal(sum(contributions_nested2(3, c(-1, 2))(x)),
+          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
+
 all.equal(sum(contributions_nested(0, c(1, -1))(x)),
           prod(sqrt(c(mean_harmonic(x), mean_arithmetic(x)))) - 1)
 
@@ -42,3 +45,9 @@ all.equal(contributions_nested(1, c(0, -1))(xna, x, w),
 
 all.equal(sum(contributions_nested(1, c(0, -1))(xna, x, w), na.rm = TRUE),
           mean_nested(1, c(0, -1))(xna, x, w, na.rm = TRUE) - 1)
+
+all.equal(sum(contributions_nested(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)
+
+all.equal(sum(contributions_nested2(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)

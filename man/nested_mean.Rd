@@ -23,7 +23,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 
 \item{w1, w2}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
-\item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
+\item{na.rm}{Should missing values in \code{x}, \code{w1}, and \code{w2} be removed? By default missing values in \code{x}, \code{w1}, or \code{w2} return a missing value.}
 }
 
 \value{
@@ -36,8 +36,14 @@ This computes the (unweighted) generalized mean of order \code{r} of the general
 \code{mean_fisher()} returns a numeric value for the case of \code{r = 0} and \code{s = c(1, -1)}.
 }
 
+\note{
+There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means.
+}
+
 \seealso{
 \code{\link{mean_generalized}} for the generalized mean.
+
+\code{\link{contributions}} for quote contributions for indexes based on nested generalized means, like the Fisher index.
 }
 
 \examples{
