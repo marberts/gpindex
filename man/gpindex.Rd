@@ -12,11 +12,11 @@ A small package for calculating lots of different price indexes, and by extensio
 \section{Usage}{
 To avoid duplication, everything is framed as a price index; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 
-Generalized indexes are a large family of price indexes with nice properties (e.g., Balk, 2008, Chapter 3). Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index).
+Generalized indexes (also called generalized-mean indexes) are a large family of price indexes with nice properties (e.g., Balk, 2008, Chapter 3). Almost all bilateral price indexes used in practice are either generalized indexes (like the Laspeyres and Paasche index) or are nested generalized indexes (like the Fisher index).
 
-All generalized indexes are based on the generalized mean, which is provided by the \code{\link[=mean_generalized]{mean_generalized()}} function. Given a set of price relatives and weights, any generalized price index is easily calculated as a generalized mean. 
+All generalized indexes are based on the generalized mean, which is provided by the \code{\link[=mean_generalized]{mean_generalized()}} function. Given a set of price relatives and weights, any generalized price index is easily calculated as a generalized mean.
 
-Two important functions for decomposing generalized means are given by \code{\link[=weights_transmute]{weights_transmute()}} and \code{\link[=weights_factor]{weights_factor()}}. These functions can be used to calculate quote contributions and price-update weights for generalized indexes. 
+Two important functions for decomposing generalized means are given by \code{\link[=weights_transmute]{weights_transmute()}} and \code{\link[=weights_factor]{weights_factor()}}. These functions can be used to calculate quote contributions (with, e.g., \code{\link[=contributions]{contributions()}}) and price-update weights for generalized indexes. 
 
 Together these functions, along with \code{\link[=logmean_generalized]{logmean_generalized()}}, provide the key mathematical apparatus to work with any type of generalized index, and those that are nested generalized indexes. See the vignette for more details: \code{vignette("gpindex")}.
 

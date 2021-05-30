@@ -17,7 +17,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 \arguments{
 \item{r}{A finite number giving the order of the outer generalized mean.}
 
-\item{s}{A pair of finite numbers giving the order of the generalized means for the inner means in a nested generalized mean.}
+\item{s}{A pair of finite numbers giving the order of the inner generalized means.}
 
 \item{x}{A strictly positive numeric vector.}
 
@@ -33,7 +33,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 
 This computes the (unweighted) generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 
-\code{mean_fisher()} returns a numeric value for the case of \code{r = 0} and \code{s = c(1, -1)}.
+\code{mean_fisher()} returns a numeric value (the geometric mean of the arithmetic and harmonic means).
 }
 
 \note{
@@ -50,7 +50,8 @@ There is some ambiguity about how to remove missing values in \code{w1} or \code
 # Make some data
 
 x <- 1:3
-w <- c(0.25, 0.25, 0.5)
+w1 <- 4:6
+w2 <- 7:9
 
 # A function to make the superlative quadratic mean price index in chapter 17, 
 # section B.5.1, of the PPI manual as a product of generalized means
@@ -60,11 +61,28 @@ quadratic_mean_index <- function(x, w0, w1, r) {
   mean_generalized(r)(x, w0) * mean_generalized(-r)(x, w1)
 }
 
-quadratic_mean_index(1:3, 4:6, 7:9, 2)
+quadratic_mean_index(x, w1, w2, 2)
 
-# Same as the geometric mean of two generalized means (with the order halved)
+# Same as the nested generalized mean (with the order halved)
 
 quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
 
-quadratic_mean_index2(2)(1:3, 4:6, 7:9)
+quadratic_mean_index2(2)(x, w1, w2)
+
+#--------------------
+
+x[1] <- NA
+w1[2] <- NA
+
+mean_fisher(x, w1, w2, na.rm = TRUE)
+
+# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a harmonic mean
+
+mean_geometric(c(mean_arithmetic(x, w1, na.rm = TRUE), mean_harmonic(x, w2, na.rm = TRUE)))
+
+# Use complete.cases to use only obs 3 in both inner means
+
+keep <- complete.cases(x, w1, w2)
+
+mean_fisher(x[keep], w1[keep], w2[keep])
 }

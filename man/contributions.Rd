@@ -47,7 +47,7 @@ That is, \code{v(x, w)} gives the additive contribution for each element of \cod
 
 The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, they return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reisdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
 
 \value{
@@ -145,10 +145,17 @@ wp <- index_weights("HybridPaasche")(p0, q1)
 
 #--------------------
 
+# A function to get contributions for any superlative quadratic mean of order 'r' index
+
+contributions_superlative <- function(r) {
+  contributions_nested(0, c(r / 2, - r / 2))
+}
+
 # Works for other types of indexes, too
                                    
 contributions_hlp <- contributions_nested(-1, c(1, -1))
 contributions_hlp(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Paasche")(p1, q1))
+                  
 }
