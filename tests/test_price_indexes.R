@@ -85,6 +85,8 @@ qb <- runif(15, 2, 4)
               mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
     all.equal(index_stuval(4, 4)(p1, p0, q1, q0), index_stuval(1, 1)(p1, p0, q1, q0))
     index_stuval(4, 4)(p1, p0, q1, q0) != index_stuval(2, 1)(p1, p0, q1, q0)
+    all.equal(index_ag(p1, p0, q0, 0.25), 
+              0.25 * index_geometric("Laspeyres")(p1, p0, q0) + 0.75 * index_laspeyres(p1, p0, q0))
 
 #---- Tests for quantity indexes ----
     all.equal(index_fisher(p1, p0, q1, q0),

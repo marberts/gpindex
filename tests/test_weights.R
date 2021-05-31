@@ -20,34 +20,34 @@ all.equal(contributions_geometric(c(1, 4)), c(0, 1))
 all.equal(sum(contributions(-3.75)(x, w)), mean_generalized(-3.75)(x, w) - 1)
 all.equal(sum(contributions(3.75)(xna, w), na.rm = TRUE), mean_generalized(3.75)(xna, w, na.rm = TRUE) - 1)
     
-#---- Test for weights_factor ----
+#---- Tests for weights_factor ----
 all.equal(weights_factor(0)(c(1, NA)), c(1, NA))
 all.equal(weights_factor(0)(x), rep(1, length(x)))
 all.equal(weights_factor(0)(x, w), w)
 all.equal(weights_update(xna, w), xna * w)
 
-#---- Test for weights_scale ----
+#---- Tests for weights_scale ----
 all.equal(sum(weights_scale(w)), 1)
 all.equal(weights_scale(c(1:2, NA)), c(1:2, NA) / 3)
 
 #---- Tests for contributions_nested ----
-all.equal(sum(contributions_nested(3, c(-1, 2))(x)),
-          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
+all.equal(sum(contributions_nested(3, c(-1, 2), c(0.75, 0.25))(x)),
+          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x)), c(0.75, 0.25)) - 1)
 
-all.equal(sum(contributions_nested2(3, c(-1, 2))(x)),
-          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x))) - 1)
+all.equal(sum(contributions_nested2(3, c(-1, 2), c(0.75, 0.25))(x)),
+          mean_generalized(3)(c(mean_harmonic(x), mean_generalized(2)(x)), c(0.75, 0.25)) - 1)
 
-all.equal(sum(contributions_nested(0, c(1, -1))(x)),
+all.equal(sum(contributions_nested(0, c(1, -1), c(0.5, 0.5))(x)),
           prod(sqrt(c(mean_harmonic(x), mean_arithmetic(x)))) - 1)
 
-all.equal(contributions_nested(1, c(0, -1))(xna, x, w),
-          contributions_nested2(1, c(0, -1))(xna, x, w))
+all.equal(contributions_nested(1, c(0, -1), c(1, 2))(xna, x, w),
+          contributions_nested2(1, c(0, -1), c(1, 2))(xna, x, w))
 
-all.equal(sum(contributions_nested(1, c(0, -1))(xna, x, w), na.rm = TRUE),
-          mean_nested(1, c(0, -1))(xna, x, w, na.rm = TRUE) - 1)
+all.equal(sum(contributions_nested(1, c(0, -1), c(1, 2))(xna, x, w), na.rm = TRUE),
+          mean_nested(1, c(0, -1), c(1, 2))(xna, x, w, na.rm = TRUE) - 1)
 
-all.equal(sum(contributions_nested(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
-          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)
+all.equal(sum(contributions_nested(0, c(3, -2), c(1, 1))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2), c(1, 1))(xna, w, xna, na.rm = TRUE) - 1)
 
-all.equal(sum(contributions_nested2(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
-          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)
+all.equal(sum(contributions_nested2(0, c(3, -2), c(1, 1))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2), c(1, 1))(xna, w, xna, na.rm = TRUE) - 1)

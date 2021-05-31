@@ -95,21 +95,23 @@ mean_lehmer <- function(r) {
     stop("'r' must be a finite length 1 numeric")
   }
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
-    mean_arithmetic(x, w * x %^% (r - 1), na.rm, scale = TRUE)
+    mean_arithmetic(x, w * x %^% (r - 1), na.rm)
   }
 }
 
 mean_contraharmonic <- mean_lehmer(2)
 
 #---- Nested mean ----
-mean_nested <- function(r, s) {
+mean_nested <- function(r, s, t) {
   outer_mean <- mean_generalized(r)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
   inner_mean <- lapply(s, mean_generalized)
+  if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
+  t <- as.numeric(t)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
     x <- c(inner_mean[[1]](x, w1, na.rm), inner_mean[[2]](x, w2, na.rm))
-    outer_mean(x, na.rm = na.rm)
+    outer_mean(x, t, na.rm = na.rm)
   }
 }
 
-mean_fisher <- mean_nested(0, c(1, -1))
+mean_fisher <- mean_nested(0, c(1, -1), t = c(0.5, 0.5))

@@ -88,7 +88,7 @@ Type 'q()' to quit R.
 > 
 > # Quote contributions for the Fisher index in section 6 of Reinsdorf et al. (2002)
 > 
-> contributions_fisher <- contributions_nested(0, c(1, -1))
+> contributions_fisher <- contributions_nested(0, c(1, -1), c(0.5, 0.5))
 > (con <- contributions_fisher(p1 / p0, 
 +                              index_weights("Laspeyres")(p0, q0), 
 +                              index_weights("Paasche")(p1, q1)))
@@ -99,7 +99,7 @@ Type 'q()' to quit R.
 > 
 > # Not the only way
 > 
-> contributions_fisher2 <- contributions_nested2(0, c(1, -1))
+> contributions_fisher2 <- contributions_nested2(0, c(1, -1), c(0.5, 0.5))
 > (con2 <- contributions_fisher2(p1 / p0, 
 +                                index_weights("Laspeyres")(p0, q0), 
 +                                index_weights("Paasche")(p1, q1)))
@@ -123,16 +123,22 @@ Type 'q()' to quit R.
 > # A function to get contributions for any superlative quadratic mean of order 'r' index
 > 
 > contributions_superlative <- function(r) {
-+   contributions_nested(0, c(r / 2, - r / 2))
++   contributions_nested(0, c(r / 2, - r / 2), c(0.5, 0.5))
 + }
 > 
 > # Works for other types of indexes, too
 >                                    
-> contributions_hlp <- contributions_nested(-1, c(1, -1))
+> contributions_hlp <- contributions_nested(-1, c(1, -1), c(0.5, 0.5))
 > contributions_hlp(p1 / p0, 
 +                   index_weights("Laspeyres")(p0, q0), 
 +                   index_weights("Paasche")(p1, q1))
 [1]  0.01781416  0.18807725  0.05791352 -0.03417296  0.18218584 -0.01089421
+>                   
+> contributions_agm <- contributions_nested(1, c(1, 0), c(0.25, 0.75))
+> contributions_agm(p1 / p0, 
++                   index_weights("Laspeyres")(p0, q0), 
++                   index_weights("Laspeyres")(p0, q0))
+[1]  0.02062615  0.14619764  0.06005822 -0.03768194  0.17524608 -0.01197095
 >                   
 > 
 > 
@@ -528,10 +534,17 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > # Same as the nested generalized mean (with the order halved)
 > 
-> quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
+> quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2), c(0.5, 0.5))
 > 
 > quadratic_mean_index2(2)(x, w1, w2)
 [1] 1.912366
+> 
+> # The arithmetic AG mean index by Lent and Dorfman (2009)
+> 
+> ag_mean_index <- function(tau) mean_nested(1, c(0, 1), c(tau, 1 - tau))
+> 
+> ag_mean_index(0.25)(x, w1, w1)
+[1] 2.088801
 > 
 > #---- Missing values ----
 > 
@@ -653,8 +666,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > ### Title: Price indexes
 > ### Aliases: price_index index_arithmetic index_geometric index_harmonic
 > ###   index_laspeyres index_paasche index_jevons index_lowe index_young
-> ###   index_fisher index_hlp index_lm index_cswd index_cswdb index_bw
-> ###   index_stuval index_weights
+> ###   index_fisher index_hlp index_lm index_ag index_cswd index_cswdb
+> ###   index_bw index_stuval index_weights
 > 
 > ### ** Examples
 > 
@@ -973,7 +986,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.249 0.026 0.275 0 0 
+Time elapsed:  0.247 0.032 0.279 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -122,7 +122,7 @@ index_fisher <- function(p1, p0, q1, q0, na.rm = FALSE) {
 index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
   wl <- index_weights("Laspeyres")(p0, q0)
   wp <- index_weights("Paasche")(p1, q1)
-  mean_nested(-1, c(1, -1))(p1 / p0, wl, wp, na.rm)
+  mean_nested(-1, c(1, -1), c(0.5, 0.5))(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Lloyd Moulton index ----
@@ -159,4 +159,10 @@ index_stuval <- function(a, b) {
     v <- sum(p1 * q1, na.rm = na.rm) / sum(p0 * q0, na.rm = na.rm)
     (pl - b / a * ql) / 2 + sqrt((pl - b / a * ql)^2 / 4 + b / a * v)
   }
+}
+
+#---- AG mean index ----
+index_ag <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
+  w <- index_weights("Laspeyres")(p0, q0)
+  mean_nested(1, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
 }

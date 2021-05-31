@@ -1,5 +1,5 @@
 
-R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+R version 4.1.0 (2021-05-18) -- "Camp Pontanezen"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -137,6 +137,9 @@ Type 'q()' to quit R.
 [1] TRUE
 >     index_stuval(4, 4)(p1, p0, q1, q0) != index_stuval(2, 1)(p1, p0, q1, q0)
 [1] TRUE
+>     all.equal(index_ag(p1, p0, q0, 0.25), 
++               0.25 * index_geometric("Laspeyres")(p1, p0, q0) + 0.75 * index_laspeyres(p1, p0, q0))
+[1] TRUE
 > 
 > #---- Tests for quantity indexes ----
 >     all.equal(index_fisher(p1, p0, q1, q0),
@@ -163,4 +166,4 @@ Type 'q()' to quit R.
 > 
 > proc.time()
    user  system elapsed 
-  0.348   0.201   0.351 
+  0.333   0.203   0.361 

@@ -1,5 +1,5 @@
 
-R version 4.0.5 (2021-03-31) -- "Shake and Throw"
+R version 4.1.0 (2021-05-18) -- "Camp Pontanezen"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -232,7 +232,17 @@ Warning messages:
 [1] TRUE
 > all.equal(gpindex:::`%^%`(x, 0), 1)
 [1] TRUE
->
+> 
+> #---- Tests for nested means ----
+> all.equal(mean_nested(2, c(1, 0), c(2, 0))(x, a, b), mean_arithmetic(x, a))
+[1] TRUE
+Warning message:
+In outer_mean(x, t, na.rm = na.rm) :
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+> 
+> all.equal(mean_nested(1, c(1, 1), c(1, 1))(x, a, a), mean_arithmetic(x, a))
+[1] TRUE
+> 
 > proc.time()
    user  system elapsed 
-  0.358   0.215   0.390 
+  0.368   0.229   0.386 
