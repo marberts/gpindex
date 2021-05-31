@@ -2,10 +2,10 @@
 \alias{mean_nested}
 \alias{mean_fisher}
 
-\title{Nested generalized means}
+\title{Nested generalized mean}
 
 \description{
-Calculate a mean of generalized means.
+Calculate the (outer) generalized mean of two (inner) generalized mean.
 }
 
 \usage{
@@ -40,6 +40,10 @@ This computes the (unweighted) generalized mean of order \code{r} of the general
 There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means.
 }
 
+\references{
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
+}
+
 \seealso{
 \code{\link{mean_generalized}} for the generalized mean.
 
@@ -47,11 +51,11 @@ There is some ambiguity about how to remove missing values in \code{w1} or \code
 }
 
 \examples{
-# Make some data
-
 x <- 1:3
 w1 <- 4:6
 w2 <- 7:9
+
+#---- Making superlative indexes ----
 
 # A function to make the superlative quadratic mean price index in chapter 17, 
 # section B.5.1, of the PPI manual as a product of generalized means
@@ -69,7 +73,7 @@ quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
 
 quadratic_mean_index2(2)(x, w1, w2)
 
-#--------------------
+#---- Missing values ----
 
 x[1] <- NA
 w1[2] <- NA

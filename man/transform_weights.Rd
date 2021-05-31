@@ -49,18 +49,12 @@ The function \code{weights_transmute()} returns a function to compute a vector o
 
 \code{mean_generalized(r)(x, w) == mean_generalized(s)(x, v(x, w))}. 
 
-These weights are calculated as 
-
-\code{v(x, w) = w * mean_extended(r, s)(x, mean_generalized(r)(x, w))^(r - s)}.
-
 This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case.
 
 \bold{Factor weights}
 The function \code{weights_factor()} returns a function to compute weights \code{u(x, w)} such that 
 
 \code{mean_generalized(r)(x * y, w) == mean_generalized(r)(x, w) * mean_generalized(r)(y, u(x, w))}. 
-
-These weights are calculated as \code{u(x, w) = w * x^r}.
 
 This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for chaining the Young index, and gives a way to chain generalized price indexes over time. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{weights_update()} simply calls \code{weights_factor(1)()}.
 
@@ -89,11 +83,11 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \examples{
-# Make some data
-
 x <- 2:3
 y <- 4:5
 w <- runif(2)
+
+#---- Transforming generalized means ----
 
 # Calculate the geometric mean as an arithmetic mean and harmonic mean by 
 # transmuting the weights
@@ -113,7 +107,7 @@ v1 <- weights_scale(weights_transmute(1, 0)(x, w1))
 v2 <- weights_scale(weights_transmute(-1, 0)(x, w2))
 mean_arithmetic(x, weights_transmute(0, 1)(x, 0.5 * v1 + 0.5 * v2))
 
-#--------------------
+#---- Quote contributions ----
 
 # Transmuted weights can be used to calculate quote contributions for, 
 # e.g., a geometric price index
@@ -121,7 +115,7 @@ mean_arithmetic(x, weights_transmute(0, 1)(x, 0.5 * v1 + 0.5 * v2))
 weights_scale(weights_transmute(0, 1)(x)) * (x - 1)
 contributions_geometric(x) # the more convenient way
 
-#--------------------
+#---- Basket representation of a price index ----
 
 # Any generalized index can be represented as a basket-style index
 # by transmuting the weights, which is how some authors define a
@@ -133,7 +127,7 @@ p0 <- 1:5
 qs <- weights_transmute(-1, 1)(p1 / p0) / p0
 all.equal(mean_harmonic(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
 
-#--------------------
+#---- Factoring the product of generalized means ----
 
 # Factor the harmonic mean by chaining the calculation
 

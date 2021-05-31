@@ -11,7 +11,7 @@ Additive quote contributions
 }
 
 \description{
-Calculate additive quote contributions for generalized price indexes, and indexes that nest two levels of generalized means, like the Fisher index, consisting of an outer generalized mean and two inner generalized means.
+Calculate additive quote contributions for generalized price indexes, and indexes that nest two levels of generalized means (e.g., the Fisher index) consisting of an outer generalized mean and two inner generalized means.
 }
 
 \usage{
@@ -39,15 +39,13 @@ contributions_nested2(r, s)
 }
 
 \details{
-The function \code{contributions()} is a simple wrapper for \code{weights_transmute(r, 1)()} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{v(x, w)} such that
+The function \code{contributions()} is a simple wrapper for \code{\link[=weights_transmute]{weights_transmute(r, 1)()}} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{v(x, w)} such that \code{mean_generalized(r)(x, w) - 1 == sum(v(x, w))}.
 
-\code{mean_generalized(r)(x, w) - 1 == sum(v(x, w))}.
-
-That is, \code{v(x, w)} gives the additive contribution for each element of \code{x} in an r-generalized mean. The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
+The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
 The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, they return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized mean. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized means. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
 
 \value{
@@ -78,6 +76,9 @@ Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decomposition
 
 \examples{
 x <- 2:3
+
+#---- Contributions for a geometric index ----
+
 contributions_geometric(x)
 
 # Not the only way to calculate contributions
@@ -109,7 +110,7 @@ all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
 isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
                  mean_geometric(x)))
 
-#--------------------
+#---- Contributions for a Fisher index ----
 
 p1 <- price6[[2]]
 p0 <- price6[[1]]
@@ -134,7 +135,7 @@ contributions_fisher2 <- contributions_nested2(0, c(1, -1))
 
 all.equal(sum(con2), index_fisher(p1, p0, q1, q0) - 1)
 
-# The same as the decomposition in section 4.2.2 of Balk (2008)
+# The same as the van IJzeren decomposition in section 4.2.2 of Balk (2008)
 
 Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
 Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
@@ -143,7 +144,7 @@ wp <- index_weights("HybridPaasche")(p0, q1)
 
 (Qf / (Qf + Ql) * weights_scale(wl) + Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
 
-#--------------------
+#---- Contributions for other types of indexes ----
 
 # A function to get contributions for any superlative quadratic mean of order 'r' index
 

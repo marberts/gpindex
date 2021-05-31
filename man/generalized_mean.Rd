@@ -100,14 +100,14 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \examples{
-# Make some data
-
 x <- 1:3
 w <- c(0.25, 0.25, 0.5)
 
+#---- Common generalized means ----
+
 # Arithmetic mean
 
-mean_arithmetic(x, w) # same as stats::weighted.mean(x, w)
+mean_arithmetic(x, w) # same as weighted.mean(x, w)
 
 # Geometric mean
 
@@ -126,7 +126,7 @@ mean_geometric(z)
 
 # Harmonic mean
 
-mean_harmonic(x, w) # same as 1 / stats::weighted.mean(1 / x, w)
+mean_harmonic(x, w) # same as 1 / weighted.mean(1 / x, w)
 
 # Quadratic mean / root mean square
 
@@ -138,7 +138,7 @@ mean_generalized(2)(x, w)
 
 mean_generalized(3)(x, w)
 
-#--------------------
+#---- Comparing the Pythagorean means ----
 
 # The dispersion between the arithmetic, geometric, and harmonic mean usually
 # increases as the variance of 'x' increases
@@ -183,17 +183,16 @@ mean_arithmetic(y) * mean_arithmetic(1 / y) - 1
 mean_harmonic(x) * mean_harmonic(1 / x) - 1
 mean_harmonic(y) * mean_harmonic(1 / y) - 1
 
-#--------------------
-
-# Example of how missing values are handled
+#---- Missing values ----
 
 w <- replace(w, 2, NA)
 
 mean_arithmetic(x, w)
-mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
-stats::weighted.mean(x, w, na.rm = TRUE) # still returns NA
 
-#--------------------
+mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
+weighted.mean(x, w, na.rm = TRUE) # still returns NA
+
+#---- Negative values ----
 
 # Sometimes it makes sense to calculate a generalized mean with
 # negative inputs, so the warning can be ignored

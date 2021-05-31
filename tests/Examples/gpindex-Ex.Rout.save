@@ -38,6 +38,9 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > x <- 2:3
+> 
+> #---- Contributions for a geometric index ----
+> 
 > contributions_geometric(x)
 [1] 0.5505103 0.8989795
 > 
@@ -76,7 +79,7 @@ Type 'q()' to quit R.
 +                  mean_geometric(x)))
 [1] FALSE
 > 
-> #--------------------
+> #---- Contributions for a Fisher index ----
 > 
 > p1 <- price6[[2]]
 > p0 <- price6[[1]]
@@ -105,7 +108,7 @@ Type 'q()' to quit R.
 > all.equal(sum(con2), index_fisher(p1, p0, q1, q0) - 1)
 [1] TRUE
 > 
-> # The same as the decomposition in section 4.2.2 of Balk (2008)
+> # The same as the van IJzeren decomposition in section 4.2.2 of Balk (2008)
 > 
 > Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
 > Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
@@ -115,7 +118,7 @@ Type 'q()' to quit R.
 > (Qf / (Qf + Ql) * weights_scale(wl) + Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
 [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
 > 
-> #--------------------
+> #---- Contributions for other types of indexes ----
 > 
 > # A function to get contributions for any superlative quadratic mean of order 'r' index
 > 
@@ -146,14 +149,14 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > x <- 1:3
 > w <- c(0.25, 0.25, 0.5)
 > 
+> #---- Common generalized means ----
+> 
 > # Arithmetic mean
 > 
-> mean_arithmetic(x, w) # same as stats::weighted.mean(x, w)
+> mean_arithmetic(x, w) # same as weighted.mean(x, w)
 [1] 2.25
 > 
 > # Geometric mean
@@ -178,7 +181,7 @@ Type 'q()' to quit R.
 > 
 > # Harmonic mean
 > 
-> mean_harmonic(x, w) # same as 1 / stats::weighted.mean(1 / x, w)
+> mean_harmonic(x, w) # same as 1 / weighted.mean(1 / x, w)
 [1] 1.846154
 > 
 > # Quadratic mean / root mean square
@@ -193,7 +196,7 @@ Type 'q()' to quit R.
 > mean_generalized(3)(x, w)
 [1] 2.506649
 > 
-> #--------------------
+> #---- Comparing the Pythagorean means ----
 > 
 > # The dispersion between the arithmetic, geometric, and harmonic mean usually
 > # increases as the variance of 'x' increases
@@ -254,20 +257,19 @@ Type 'q()' to quit R.
 > mean_harmonic(y) * mean_harmonic(1 / y) - 1
 [1] -0.2925373
 > 
-> #--------------------
-> 
-> # Example of how missing values are handled
+> #---- Missing values ----
 > 
 > w <- replace(w, 2, NA)
 > 
 > mean_arithmetic(x, w)
 [1] NA
+> 
 > mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
 [1] 0.936339
-> stats::weighted.mean(x, w, na.rm = TRUE) # still returns NA
+> weighted.mean(x, w, na.rm = TRUE) # still returns NA
 [1] NA
 > 
-> #--------------------
+> #---- Negative values ----
 > 
 > # Sometimes it makes sense to calculate a generalized mean with
 > # negative inputs, so the warning can be ignored
@@ -298,12 +300,10 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > x <- 2:3
 > w <- c(0.25, 0.75)
 > 
-> # The Pythagorean means are special cases of the Lehmer mean
+> #---- The Pythagorean means are special cases of the Lehmer mean ----
 > 
 > all.equal(mean_lehmer(1)(x, w), mean_arithmetic(x, w))
 [1] TRUE
@@ -312,7 +312,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > all.equal(mean_lehmer(0.5)(x), mean_geometric(x))
 [1] TRUE
 > 
-> #--------------------
+> #---- Comparing Lehmer means and generalized means ----
 > 
 > # When r < 1, the generalized mean is larger than the corresponding
 > # Lehmer mean
@@ -350,7 +350,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > mean_contraharmonic(x, w)
 [1] 2.818182
 > 
-> #--------------------
+> #---- Changing the order of the mean ----
 > 
 > # It is easy to modify the weights to turn a Lehmer mean of order r
 > # into a Lehmer mean of order s because the Lehmer mean can be expressed
@@ -378,7 +378,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > mean_generalized(s)(x, w)
 [1] 2.568312
 > 
-> #--------------------
+> #---- Quote contributions ----
 > 
 > # Quote contributions for a price index based on the Lehmer mean
 > # are easy to calculate
@@ -400,10 +400,10 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > x <- 8:5
 > y <- 1:4
+> 
+> #---- Comparing logarithmic means and generalized means ----
 > 
 > # The arithmetic and geometric means are special cases of the generalized 
 > # logarithmic mean
@@ -437,7 +437,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > all.equal(mean_extended(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
 [1] TRUE
 > 
-> #--------------------
+> #---- Approximating the logarithmic mean ----
 > 
 > # The logarithmic mean can be approximated as a convex combination of the 
 > # arithmetic and geometric means that gives more weight to the geometric mean
@@ -456,7 +456,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > approx1 / (1 + correction) - logmean(x, y)
 [1] -8.576372e-04  1.064231e-04  2.148563e-05  2.877344e-07
 > 
-> #--------------------
+> #---- Some identities ----
 > 
 > # A useful identity for turning an additive change into a proportionate 
 > # change
@@ -485,15 +485,14 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 +           mean_geometric(1:2)^2 * logmean(1, 1/2))
 [1] TRUE
 > 
-> #--------------------
->           
-> # Logarithmic means can be represented as integrals
+> #---- Integral representations of the logarithmic mean ----
 > 
 > logmean(2, 3)
 [1] 2.466303
-> stats::integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
+> 
+> integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
 [1] 2.466303
-> 1 / stats::integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
+> 1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 [1] 2.466303
 > 
 > 
@@ -505,16 +504,16 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: nested mean
-> ### Title: Nested generalized means
+> ### Title: Nested generalized mean
 > ### Aliases: mean_nested mean_fisher
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > x <- 1:3
 > w1 <- 4:6
 > w2 <- 7:9
+> 
+> #---- Making superlative indexes ----
 > 
 > # A function to make the superlative quadratic mean price index in chapter 17, 
 > # section B.5.1, of the PPI manual as a product of generalized means
@@ -534,7 +533,7 @@ Warning in mean_harmonic(c(1, 2, -3)) :
 > quadratic_mean_index2(2)(x, w1, w2)
 [1] 1.912366
 > 
-> #--------------------
+> #---- Missing values ----
 > 
 > x[1] <- NA
 > w1[2] <- NA
@@ -659,14 +658,14 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > p0 <- price6[[2]]
 > p1 <- price6[[3]]
 > q0 <- quantity6[[2]]
 > q1 <- quantity6[[3]]
 > pb <- price6[[1]]
 > qb <- quantity6[[1]]
+> 
+> #---- Calculating price indexes ----
 > 
 > # Most indexes can be calculated by combining the appropriate weights with
 > # the correct type of mean
@@ -705,7 +704,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 +     index_geometric("Laspeyres")(p1, p0_dx, q0)
 [1] TRUE
 > 
-> #--------------------
+> #---- Price updating the weights in a price index ----
 > 
 > # Chain an index by price updating the weights
 > 
@@ -730,7 +729,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > I1 * I2
 [1] 0.5112654
 > 
-> #--------------------
+> #---- Quote contributions ----
 > 
 > # Quote contributions for the Tornqvist index
 > 
@@ -741,7 +740,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 [1] TRUE
 > 
-> #--------------------
+> #---- Missing values ----
 > 
 > # NAs get special treatment
 > 
@@ -757,7 +756,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 [1] 0.9948605
 > 
-> #--------------------
+> #---- Making the weights for different indexes ----
 > 
 > # Explicit calculation for each of the different weights
 > # Carli/Jevons/Coggeshall
@@ -862,8 +861,6 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > p0 <- price6[[2]]
 > q1 <- quantity6[[3]]
 > q0 <- quantity6[[2]]
@@ -895,11 +892,11 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > ### ** Examples
 > 
-> # Make some data
-> 
 > x <- 2:3
 > y <- 4:5
 > w <- runif(2)
+> 
+> #---- Transforming generalized means ----
 > 
 > # Calculate the geometric mean as an arithmetic mean and harmonic mean by 
 > # transmuting the weights
@@ -924,7 +921,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > mean_arithmetic(x, weights_transmute(0, 1)(x, 0.5 * v1 + 0.5 * v2))
 [1] 2.679803
 > 
-> #--------------------
+> #---- Quote contributions ----
 > 
 > # Transmuted weights can be used to calculate quote contributions for, 
 > # e.g., a geometric price index
@@ -934,7 +931,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > contributions_geometric(x) # the more convenient way
 [1] 0.5505103 0.8989795
 > 
-> #--------------------
+> #---- Basket representation of a price index ----
 > 
 > # Any generalized index can be represented as a basket-style index
 > # by transmuting the weights, which is how some authors define a
@@ -947,7 +944,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > all.equal(mean_harmonic(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
 [1] TRUE
 > 
-> #--------------------
+> #---- Factoring the product of generalized means ----
 > 
 > # Factor the harmonic mean by chaining the calculation
 > 
@@ -976,7 +973,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.236 0.043 0.285 0 0 
+Time elapsed:  0.249 0.026 0.275 0 0 
 > grDevices::dev.off()
 null device 
           1 

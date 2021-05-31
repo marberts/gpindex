@@ -35,11 +35,11 @@ This computes the Lehmer mean of order \code{r} of \code{x} with weights \code{w
 }
 
 \details{
-The function \code{mean_lehmer()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \code{w * x^(r-1)}. This is also called the counter-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
+The function \code{mean_lehmer()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \eqn{wx^{r-1}}{w * x^(r-1)}. This is also called the counter-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
 
 The Lehmer mean of order 2 is sometimes called the contraharmonic mean. The function \code{mean_contraharmonic()} simply calls \code{mean_lehmer(2)()}. Like the generalized mean, the contraharmonic mean is the solution to an optimal prediction problem: choose \eqn{m}{m} to minimize \eqn{\sum_{i = 1}^{n} w_{i} \left(\frac{x_{i}}{m} - 1 \right)^2}{\sum w (x / m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation, replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x}, and together these bound the harmonic and arithmetic means.
 
-Both \code{x} and \code{w} should be strictly positive. This is not enforced, but the results may not make sense if the Lehmer mean in not defined. 
+Both \code{x} and \code{w} should be strictly positive. This is not enforced, but the results may not make sense if the generalized mean in not defined. 
 
 The Lehmer mean is an alternative to the generalized mean that generalizes the Pythagorean means. The function \code{mean_lehmer(1)()} is identical to \code{mean_artithmetic()}, \code{mean_lehmer(0)()} is identical to \code{mean_harmonic()}, and \code{mean_lehmer(0.5)()} is identical to \code{mean_geometric()} with two values and no weights.
 }
@@ -61,18 +61,16 @@ Lehmer, D. H. (1971). On the Compounding of Certain Means. \emph{Journal of Math
 }
 
 \examples{
-# Make some data
-
 x <- 2:3
 w <- c(0.25, 0.75)
 
-# The Pythagorean means are special cases of the Lehmer mean
+#---- The Pythagorean means are special cases of the Lehmer mean ----
 
 all.equal(mean_lehmer(1)(x, w), mean_arithmetic(x, w))
 all.equal(mean_lehmer(0)(x, w), mean_harmonic(x, w))
 all.equal(mean_lehmer(0.5)(x), mean_geometric(x))
 
-#--------------------
+#---- Comparing Lehmer means and generalized means ----
 
 # When r < 1, the generalized mean is larger than the corresponding
 # Lehmer mean
@@ -102,7 +100,7 @@ weighted_var <- function(x, w) mean_arithmetic(x^2, w) - mean_arithmetic(x, w)^2
 mean_arithmetic(x, w) + weighted_var(x, w) / mean_arithmetic(x, w)
 mean_contraharmonic(x, w)
 
-#--------------------
+#---- Changing the order of the mean ----
 
 # It is easy to modify the weights to turn a Lehmer mean of order r
 # into a Lehmer mean of order s because the Lehmer mean can be expressed
@@ -124,7 +122,7 @@ mean_generalized(s)(x, weights_transmute(1, s)(x, w * x^(r - 1)))
 mean_lehmer(r)(x, weights_transmute(s, 1)(x, w) / x^(r - 1))
 mean_generalized(s)(x, w)
 
-#--------------------
+#---- Quote contributions ----
 
 # Quote contributions for a price index based on the Lehmer mean
 # are easy to calculate

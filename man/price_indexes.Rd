@@ -170,14 +170,14 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 }
 
 \examples{
-# Make some data
-
 p0 <- price6[[2]]
 p1 <- price6[[3]]
 q0 <- quantity6[[2]]
 q1 <- quantity6[[3]]
 pb <- price6[[1]]
 qb <- quantity6[[1]]
+
+#---- Calculating price indexes ----
 
 # Most indexes can be calculated by combining the appropriate weights with
 # the correct type of mean
@@ -209,7 +209,7 @@ p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
 index_geometric("Laspeyres")(p1, p0_small, q0) < 
     index_geometric("Laspeyres")(p1, p0_dx, q0)
 
-#--------------------
+#---- Price updating the weights in a price index ----
 
 # Chain an index by price updating the weights
 
@@ -230,7 +230,7 @@ w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- mean_harmonic(p2 / p1, w_pu)
 I1 * I2
 
-#--------------------
+#---- Quote contributions ----
 
 # Quote contributions for the Tornqvist index
 
@@ -239,7 +239,7 @@ w <- index_weights("Tornqvist")(p1, p0, q1, q0)
 
 all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 
-#--------------------
+#---- Missing values ----
 
 # NAs get special treatment
 
@@ -253,7 +253,7 @@ index_laspeyres(p1, p_na, q0, na.rm = TRUE)
 
 sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 
-#--------------------
+#---- Making the weights for different indexes ----
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall

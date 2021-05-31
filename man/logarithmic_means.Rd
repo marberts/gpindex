@@ -48,7 +48,7 @@ By definition, the generalized logarithmic mean / extended mean of \code{a} and 
 }
 
 \section{Warning}{
-Passing very small values for \code{r} or \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. Similarly, values for \code{r} and \code{s} that are very close in value, but not equal, can give misleading results. In general, \code{r} and \code{s} should not be computed values.
+Passing very small values for \code{r} or \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. Similarly, values for \code{r} and \code{s} that are very close, but not equal, can give misleading results. In general, \code{r} and \code{s} should not be computed values.
 }
 
 \note{
@@ -70,10 +70,10 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 }
 
 \examples{
-# Make some data
-
 x <- 8:5
 y <- 1:4
+
+#---- Comparing logarithmic means and generalized means ----
 
 # The arithmetic and geometric means are special cases of the generalized 
 # logarithmic mean
@@ -100,7 +100,7 @@ all.equal(mean_extended(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 all.equal(mean_extended(0.5, 1.5)(x, y), (x + sqrt(x * y) + y) / 3)
 all.equal(mean_extended(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
 
-#--------------------
+#---- Approximating the logarithmic mean ----
 
 # The logarithmic mean can be approximated as a convex combination of the 
 # arithmetic and geometric means that gives more weight to the geometric mean
@@ -116,7 +116,7 @@ approx2 - logmean(x, y) # a negative approximation error in this case
 correction <- (log(x / y) / pi)^4 / 32
 approx1 / (1 + correction) - logmean(x, y)
 
-#--------------------
+#---- Some identities ----
 
 # A useful identity for turning an additive change into a proportionate 
 # change
@@ -140,11 +140,10 @@ all.equal(logmean_generalized(0.5)(1, 2),
 all.equal(logmean(1, 2),
           mean_geometric(1:2)^2 * logmean(1, 1/2))
 
-#--------------------
-          
-# Logarithmic means can be represented as integrals
+#---- Integral representations of the logarithmic mean ----
 
 logmean(2, 3)
-stats::integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
-1 / stats::integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
+
+integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
+1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 }
