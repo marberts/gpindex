@@ -47,7 +47,7 @@ contributions_geometric <- contributions(0)
 contributions_harmonic <- contributions(-1)
 
 #---- Nested contributions ----
-contributions_nested <- function(r, s, t) {
+contributions_nested <- function(r, s, t = c(1, 1)) {
   contrib <- contributions(r)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
   r_weights <- lapply(s, weights_transmute, r)
@@ -64,7 +64,7 @@ contributions_nested <- function(r, s, t) {
   }
 }
 
-contributions_nested2 <- function(r, s, t) {
+contributions_nested2 <- function(r, s, t = c(1, 1)) {
   arithmetic_weights <- weights_transmute(r, 1)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
   contrib <- lapply(s, contributions)

@@ -102,7 +102,7 @@ mean_lehmer <- function(r) {
 mean_contraharmonic <- mean_lehmer(2)
 
 #---- Nested mean ----
-mean_nested <- function(r, s, t) {
+mean_nested <- function(r, s, t = c(1, 1)) {
   outer_mean <- mean_generalized(r)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
   inner_mean <- lapply(s, mean_generalized)
@@ -110,7 +110,7 @@ mean_nested <- function(r, s, t) {
   t <- as.numeric(t)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
     x <- c(inner_mean[[1]](x, w1, na.rm), inner_mean[[2]](x, w2, na.rm))
-    outer_mean(x, t, na.rm = na.rm)
+    outer_mean(x, t, na.rm)
   }
 }
 

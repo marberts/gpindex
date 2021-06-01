@@ -234,13 +234,19 @@ Warning messages:
 [1] TRUE
 > 
 > #---- Tests for nested means ----
+> all.equal(mean_nested(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
++           mean_generalized(-3)(c(mean_generalized(2)(xna, a, na.rm = TRUE),
++                                  mean_generalized(0.3)(xna, b, na.rm = TRUE)),
++                                3:4))
+[1] TRUE
+>
 > all.equal(mean_nested(2, c(1, 0), c(2, 0))(x, a, b), mean_arithmetic(x, a))
 [1] TRUE
 Warning message:
-In outer_mean(x, t, na.rm = na.rm) :
+In outer_mean(x, t, na.rm) :
   some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
 > 
-> all.equal(mean_nested(1, c(1, 1), c(1, 1))(x, a, a), mean_arithmetic(x, a))
+> all.equal(mean_nested(1, c(1, 1))(x, a, a), mean_arithmetic(x, a))
 [1] TRUE
 > 
 > proc.time()

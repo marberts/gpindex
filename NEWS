@@ -4,6 +4,8 @@ Changes in version 0.2.6
 
 - The interface for contributions_nested() is now much simpler, and the function is more focused on making contributions for Fisher indexes. Added the contributions_nested2() function that implements a different algorithm.
 
+- Added the AG mean index.
+
 Changes in version 0.2.5
 
 - Added the back_price() and base_price() functions to make it easier to turn prices stored in a table into price relatives.

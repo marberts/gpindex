@@ -26,7 +26,7 @@ On top of these basic mathematical tools are functions for making standard price
 \note{
 There are a number of R packages on the CRAN for working with price/quantity indexes (e.g., \pkg{IndexNumber}, \pkg{productivity}, \pkg{IndexNumR}, \pkg{micEconIndex}). Compared to existing packages, this package provides greater flexibility for building index numbers in the class of generalized price and quantity indexes. 
 
-While there is support for a large number of index-number formulas out-of-the box, the focus is on the tools to easily make and work with any type of generalized price index. No assumptions are made about how data are stored or arranged; rather, the functions in the package are designed to work with atomic vectors, and can be used with R's standard data-manipulation functions for more complex data structures. Compared to existing packages, this package is suitable for building custom price/quantity indexes, and learning about or researching different types of index-number formulas.
+While there is support for a large number of index-number formulas out-of-the box, the focus is on the tools to easily make and work with any type of generalized price index. Consequently, compared to existing packages, this package is suitable for building custom price/quantity indexes, and learning about or researching different types of index-number formulas.
 }
 
 \references{

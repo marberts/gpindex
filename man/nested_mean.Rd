@@ -9,7 +9,7 @@ Calculate the (outer) generalized mean of two (inner) generalized mean.
 }
 
 \usage{
-mean_nested(r, s, t)
+mean_nested(r, s, t = c(1, 1))
 
 mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 }
@@ -19,7 +19,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 
 \item{s}{A pair of finite numbers giving the order of the inner generalized means.}
 
-\item{t}{A pair of strictly positive weights for the inner generalized means.}
+\item{t}{A pair of strictly positive weights for the inner generalized means. The default is equal weights.}
 
 \item{x}{A strictly positive numeric vector.}
 
@@ -73,7 +73,7 @@ quadratic_mean_index(x, w1, w2, 2)
 
 # Same as the nested generalized mean (with the order halved)
 
-quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2), c(0.5, 0.5))
+quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
 
 quadratic_mean_index2(2)(x, w1, w2)
 

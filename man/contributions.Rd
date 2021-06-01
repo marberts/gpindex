@@ -23,9 +23,9 @@ contributions_geometric(x, w = rep(1, length(x)))
 
 contributions_harmonic(x, w = rep(1, length(x)))
 
-contributions_nested(r, s, t)
+contributions_nested(r, s, t = c(1, 1))
 
-contributions_nested2(r, s, t)
+contributions_nested2(r, s, t = c(1, 1))
 }
 
 \arguments{
@@ -37,7 +37,7 @@ contributions_nested2(r, s, t)
 
 \item{s}{A pair of finite numbers giving the order of the inner generalized means.}
 
-\item{t}{A pair of strictly positive weights for the inner generalized means.}
+\item{t}{A pair of strictly positive weights for the inner generalized means. The default is equal weights.}
 }
 
 \details{
@@ -121,7 +121,7 @@ q0 <- quantity6[[1]]
 
 # Quote contributions for the Fisher index in section 6 of Reinsdorf et al. (2002)
 
-contributions_fisher <- contributions_nested(0, c(1, -1), c(0.5, 0.5))
+contributions_fisher <- contributions_nested(0, c(1, -1))
 (con <- contributions_fisher(p1 / p0, 
                              index_weights("Laspeyres")(p0, q0), 
                              index_weights("Paasche")(p1, q1)))
@@ -130,7 +130,7 @@ all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 # Not the only way
 
-contributions_fisher2 <- contributions_nested2(0, c(1, -1), c(0.5, 0.5))
+contributions_fisher2 <- contributions_nested2(0, c(1, -1))
 (con2 <- contributions_fisher2(p1 / p0, 
                                index_weights("Laspeyres")(p0, q0), 
                                index_weights("Paasche")(p1, q1)))
@@ -151,12 +151,12 @@ wp <- index_weights("HybridPaasche")(p0, q1)
 # A function to get contributions for any superlative quadratic mean of order 'r' index
 
 contributions_superlative <- function(r) {
-  contributions_nested(0, c(r / 2, - r / 2), c(0.5, 0.5))
+  contributions_nested(0, c(r / 2, - r / 2))
 }
 
 # Works for other types of indexes, too
                                    
-contributions_hlp <- contributions_nested(-1, c(1, -1), c(0.5, 0.5))
+contributions_hlp <- contributions_nested(-1, c(1, -1))
 contributions_hlp(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Paasche")(p1, q1))

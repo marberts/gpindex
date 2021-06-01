@@ -46,8 +46,8 @@ all.equal(contributions_nested(1, c(0, -1), c(1, 2))(xna, x, w),
 all.equal(sum(contributions_nested(1, c(0, -1), c(1, 2))(xna, x, w), na.rm = TRUE),
           mean_nested(1, c(0, -1), c(1, 2))(xna, x, w, na.rm = TRUE) - 1)
 
-all.equal(sum(contributions_nested(0, c(3, -2), c(1, 1))(xna, w, xna), na.rm = TRUE),
-          mean_nested(0, c(3, -2), c(1, 1))(xna, w, xna, na.rm = TRUE) - 1)
+all.equal(sum(contributions_nested(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)
 
-all.equal(sum(contributions_nested2(0, c(3, -2), c(1, 1))(xna, w, xna), na.rm = TRUE),
-          mean_nested(0, c(3, -2), c(1, 1))(xna, w, xna, na.rm = TRUE) - 1)
+all.equal(sum(contributions_nested2(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
+          mean_nested(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)

@@ -124,6 +124,11 @@ all.equal(mapply(gpindex:::`%^%`, list(x), seq(-2, 2, by = 0.5)[-5]),
 all.equal(gpindex:::`%^%`(x, 0), 1)
 
 #---- Tests for nested means ----
+all.equal(mean_nested(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
+          mean_generalized(-3)(c(mean_generalized(2)(xna, a, na.rm = TRUE),
+                                 mean_generalized(0.3)(xna, b, na.rm = TRUE)),
+                               3:4))
+
 all.equal(mean_nested(2, c(1, 0), c(2, 0))(x, a, b), mean_arithmetic(x, a))
 
-all.equal(mean_nested(1, c(1, 1), c(1, 1))(x, a, a), mean_arithmetic(x, a))
+all.equal(mean_nested(1, c(1, 1))(x, a, a), mean_arithmetic(x, a))
