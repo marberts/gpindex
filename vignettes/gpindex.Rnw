@@ -44,15 +44,15 @@ All generalized indexes attempt to best predict a change in price for a good und
 
 Most price indexes used in practice correspond to a generalized index of order $1$ (for arithmetic indexes), order $0$ (for geometric indexes), or order $-1$ (for harmonic indexes)---i.e., most price indexes are based on one of the Pythagorean means. For example, setting $r = 1$ and $w_{i} = p_{i0} q_{i0} / \sum_{i=1}^{n} p_{i0}q_{i0}$ results in the Laspeyres index, and setting $r = -1$ and $w_{i} = p_{i1} q_{i1} / \sum_{i=1}^{n} p_{i1}q_{i1}$ results in the Paasche index. More exotic price indexes are also special cases of the generalized index; for example, setting $r = 1 - \sigma$, where $\sigma$ is the elasticity of substitution, and $w_{i} = p_{i0} q_{i0} / \sum_{i=1}^{n} p_{i0}q_{i0}$ results in the Lloyd-Moulton price index. The class of generalized price indexes is convenient because a large collection of seemingly different index-number formulas can be indexed by a single number.
 
-Generalized means, and therefore generalized indexes, are calculated with the \texttt{mean\_generalized()} function in the \texttt{gpindex} package. This function takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{mean\_generalized(1)()} is the function to compute the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{mean\_generalized(0)()} is the geometric mean, and \texttt{mean\_generalized(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{mean\_generalized()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
+Generalized means, and therefore generalized indexes, are calculated with the \texttt{generalized\_mean()} function in the \texttt{gpindex} package. This function takes a single number \texttt{r} and returns a function to compute the corresponding generalized mean. For example, \texttt{generalized\_mean(1)()} is the function to compute the usual arithmetic mean, and is mostly identical to the \texttt{weighted.mean()} function in the \texttt{stats} package, whereas \texttt{generalized\_mean(0)()} is the geometric mean, and \texttt{generalized\_mean(2)()} is the quadratic mean. Given their importance, the arithmetic, geometric, and harmonic means all have their own functions that simply call \texttt{generalized\_mean()} with \texttt{r} taking the values $1$, $0$, and $-1$. Although there are many implementations of \emph{unweighted} geometric and harmonic means for \textsf{R}, in most cases a \emph{weighted} mean is needed for calculating a price index.
 
 <<>>=
 library(gpindex)
 p1 <- price6[[2]]
 p0 <- price6[[1]]
-mean_arithmetic(p1 / p0) # Carli index
-mean_geometric(p1 / p0) # Jevons index
-mean_harmonic(p1 / p0, 1:6) # Harmonic index with random weights
+arithmetic_mean(p1 / p0) # Carli index
+geometric_mean(p1 / p0) # Jevons index
+harmonic_mean(p1 / p0, 1:6) # Harmonic index with random weights
 @
 
 \section*{Named price indexes}
@@ -64,16 +64,16 @@ The \texttt{index\_weights()} function in \texttt{gpindex} takes the name of a p
 <<>>=
 q0 <- quantity6[[1]]
 index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
-mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
+arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
 sum(p1 * q0) / sum(p0 * q0) # Same as the manual calculation
-mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
+geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
 @
 
-Note that the weights returned by \texttt{index\_weights()} need not sum to 1, like all functions in \texttt{gpindex} that operate on weights, as this isn't always appropriate for some indexes (namely the Vartia-I index). The \texttt{weights\_scale()} function scales a numeric vector so that it sums to 1, so unscaled weights in general pose no special challenges, and \texttt{mean\_generalized()} scales the weights by default.
+Note that the weights returned by \texttt{index\_weights()} need not sum to 1, like all functions in \texttt{gpindex} that operate on weights, as this isn't always appropriate for some indexes (namely the Vartia-I index). The \texttt{scale\_weights()} function scales a numeric vector so that it sums to 1, so unscaled weights in general pose no special challenges, and \texttt{generalized\_mean()} scales the weights by default.
 
 Naming for the weights follows \citet{balk2008} and \citet{cpimanual}, although it is unlikely to be exhaustive given the great many index-number formulas that exist. Having \texttt{index\_weights()} be a function factory, however, makes it easy to extend without changing the interface for how other weights are calculated.
 
-Although most named generalized indexes can be calculated by combining the appropriate names in \texttt{index\_weights()} with the appropriate order in \texttt{mean\_generalized()}, there are a number of wrappers to simplify doing this. For example, the \texttt{index\_arithmetic()} function takes the name of an arithmetic index and returns a function to calculate it, essentially passing the appropriate function to calculate the weights to \texttt{mean\_arithmetic()}.
+Although most named generalized indexes can be calculated by combining the appropriate names in \texttt{index\_weights()} with the appropriate order in \texttt{generalized\_mean()}, there are a number of wrappers to simplify doing this. For example, the \texttt{index\_arithmetic()} function takes the name of an arithmetic index and returns a function to calculate it, essentially passing the appropriate function to calculate the weights to \texttt{arithmetic\_mean()}.
 
 <<>>=
 index_arithmetic("Laspeyres")(p1, p0, q0)
@@ -145,28 +145,28 @@ from which it follows that
 \tilde{w}_{irs}\left(\frac{p_1}{p_0}, w\right) =  w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s} \Bigg/ \sum_{i=1}^{n} w_{i} \mathcal{E}_{rs}\left(\frac{p_{i1}}{p_{i0}}, I_{r} \left(\frac{p_{1}}{p_{0}}, w\right)\right)^{r - s}.
 \end{align*}
 
-The \texttt{gpindex} package has functions for calculating the generalized logarithmic mean and extended mean. The \texttt{logmean\_generalized()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{mean\_extended()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{weights\_transmute()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$. (There are other uses for logarithmic means, like constructing the weights for the Vartia-I and Vartia-II indexes.)
+The \texttt{gpindex} package has functions for calculating the generalized logarithmic mean and extended mean. The \texttt{generalized\_logmean()} function takes a parameter \texttt{r} and returns a function to calculate the corresponding generalized logarithmic mean. Similarly, \texttt{extended\_mean()} takes a pair of parameters \texttt{r} and \texttt{s} and returns the appropriate extended mean. The \texttt{transmute\_weights()} function wraps these up to calculate the weights to turn a generalized index of order $r$ into a generalized index of order $s$. (There are other uses for logarithmic means, like constructing the weights for the Vartia-I and Vartia-II indexes.)
 
 <<>>=
-mean_harmonic(p1 / p0)
-weights_transmute(-1, 1)(p1 / p0)
-mean_arithmetic(p1 / p0, weights_transmute(-1, 1)(p1 / p0))
-mean_geometric(p1 / p0, weights_transmute(-1, 0)(p1 / p0))
+harmonic_mean(p1 / p0)
+transmute_weights(-1, 1)(p1 / p0)
+arithmetic_mean(p1 / p0, transmute_weights(-1, 1)(p1 / p0))
+geometric_mean(p1 / p0, transmute_weights(-1, 0)(p1 / p0))
 @
 
 This procedure for transmuting a generalized index is the same as constructing the hybrid weights that allow a Paasche index to have an arithmetic, rather than harmonic, calculation.
 
 <<>>=
 hybrid <- index_weights("HybridPaasche")(p0, q1)
-transmuted <- weights_transmute(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
-all.equal(weights_scale(hybrid), weights_scale(transmuted))
+transmuted <- transmute_weights(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
+all.equal(scale_weights(hybrid), scale_weights(transmuted))
 @
 
-Quote contributions for an index are easy to calculate by transmuting the weights for the index to arithmetic weights with \texttt{weights\_transmute(r, 1)()}. The \texttt{contributions()} function saves from having to do the manual calculation.
+Quote contributions for an index are easy to calculate by transmuting the weights for the index to arithmetic weights with \texttt{transmute\_weights(r, 1)()}. The \texttt{contributions()} function saves from having to do the manual calculation.
 
 <<>>=
 contributions(-1)(p1 / p0)
-all.equal(sum(contributions(-1)(p1 / p0)), mean_harmonic(p1 / p0) - 1)
+all.equal(sum(contributions(-1)(p1 / p0)), harmonic_mean(p1 / p0) - 1)
 @
 
 \section*{Price-updating weights}
@@ -188,15 +188,15 @@ where
 
 When $r = 0$, $\hat{w}_{ir} = w_{i}$ so that no adjustment to the weights is needed; a geometric index can always be chained together over time. When $r = 1$, the weights given by $\hat{w}_{ir}$ are sometimes called price-updated weights, and this adjustment is essential for being able to chain an arithmetic index over time. What's important to note, however, is that this works for any generalized index.
 
-The \texttt{weights\_factor()} function takes a number \texttt{r} and returns a function to calculate the updated weights needed to chain an index of order \texttt{r}. The \texttt{weights\_update()} function covers the special case of \texttt{r = 1}.
+The \texttt{factor\_weights()} function takes a number \texttt{r} and returns a function to calculate the updated weights needed to chain an index of order \texttt{r}. The \texttt{update\_weights()} function covers the special case of \texttt{r = 1}.
 
 <<>>=
 p2 <- price6[[3]]
 weights <- index_weights("Laspeyres")(p0, q0)
-mean_harmonic(p2 / p0, weights) # Harmonic Laspeyres index
-mean_harmonic(p1 / p0, weights) * mean_harmonic(p2 / p1, weights) # Too small
-mean_harmonic(p1 / p0, weights) * 
-  mean_harmonic(p2 / p1, weights_factor(-1)(p1 / p0, weights))
+harmonic_mean(p2 / p0, weights) # Harmonic Laspeyres index
+harmonic_mean(p1 / p0, weights) * harmonic_mean(p2 / p1, weights) # Too small
+harmonic_mean(p1 / p0, weights) * 
+  harmonic_mean(p2 / p1, factor_weights(-1)(p1 / p0, weights))
 @
 
 \bibliographystyle{apalike}

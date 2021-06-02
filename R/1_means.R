@@ -14,7 +14,7 @@
 }
 
 #---- Generalized mean ----
-mean_generalized <- function(r) {
+generalized_mean <- function(r) {
   if (!is_number(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
@@ -39,14 +39,14 @@ mean_generalized <- function(r) {
 }
 
 #---- Pythagorean means ----
-mean_arithmetic <- mean_generalized(1)
+arithmetic_mean <- generalized_mean(1)
 
-mean_geometric <- mean_generalized(0)
+geometric_mean <- generalized_mean(0)
 
-mean_harmonic <- mean_generalized(-1)
+harmonic_mean <- generalized_mean(-1)
 
 #---- Extended mean ----
-mean_extended <- function(r, s) {
+extended_mean <- function(r, s) {
   if (!is_number(r) || !is_number(s)) {
     stop("'r' and 's' must be finite length 1 numerics")
   }
@@ -83,29 +83,29 @@ mean_extended <- function(r, s) {
 }
 
 #---- Logarithmic means ----
-logmean_generalized <- function(r) {
-  mean_extended(r, 1)
+generalized_logmean <- function(r) {
+  extended_mean(r, 1)
 }
 
-logmean <- logmean_generalized(0)
+logmean <- generalized_logmean(0)
 
 #---- Lehmer mean ----
-mean_lehmer <- function(r) {
+lehmer_mean <- function(r) {
   if (!is_number(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
-    mean_arithmetic(x, w * x %^% (r - 1), na.rm)
+    arithmetic_mean(x, w * x %^% (r - 1), na.rm)
   }
 }
 
-mean_contraharmonic <- mean_lehmer(2)
+contraharmonic_mean <- lehmer_mean(2)
 
 #---- Nested mean ----
-mean_nested <- function(r, s, t = c(1, 1)) {
-  outer_mean <- mean_generalized(r)
+nested_mean <- function(r, s, t = c(1, 1)) {
+  outer_mean <- generalized_mean(r)
   if (length(s) != 2) stop("'s' must be a pair of numeric values")
-  inner_mean <- lapply(s, mean_generalized)
+  inner_mean <- lapply(s, generalized_mean)
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
   t <- as.numeric(t)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
@@ -114,4 +114,4 @@ mean_nested <- function(r, s, t = c(1, 1)) {
   }
 }
 
-mean_fisher <- mean_nested(0, c(1, -1), t = c(0.5, 0.5))
+fisher_mean <- nested_mean(0, c(1, -1), t = c(0.5, 0.5))

@@ -1,8 +1,8 @@
 \name{generalized mean}
-\alias{mean_generalized}
-\alias{mean_arithmetic}
-\alias{mean_geometric}
-\alias{mean_harmonic}
+\alias{generalized_mean}
+\alias{arithmetic_mean}
+\alias{geometric_mean}
+\alias{harmonic_mean}
 
 \title{Generalized mean}
 
@@ -11,13 +11,13 @@ Calculate a generalized mean.
 }
 
 \usage{
-mean_generalized(r)
+generalized_mean(r)
 
-mean_arithmetic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+arithmetic_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-mean_geometric(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+geometric_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
-mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+harmonic_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \arguments{
@@ -33,19 +33,19 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 }
 
 \value{
-\code{mean_generalized()} returns a function:
+\code{generalized_mean()} returns a function:
 
 \code{function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)}.
 
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 
-\code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value for the generalized means of order 1, 0, and -1.
+\code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} each return a numeric value for the generalized means of order 1, 0, and -1.
 }
 
 \details{
-The function \code{mean_generalized()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0}{r = 0} and \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r} otherwise). This is also called the power mean, Holder mean, or \eqn{l_p}{l_p} mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
+The function \code{generalized_mean()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0}{r = 0} and \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r} otherwise). This is also called the power mean, Holder mean, or \eqn{l_p}{l_p} mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
 
-The functions \code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} compute the arithmetic, geometric, and harmonic (or subcontrary) means, also known as the Pythagorean means. These are the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{mean_generalized()}. 
+The functions \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} compute the arithmetic, geometric, and harmonic (or subcontrary) means, also known as the Pythagorean means. These are the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{generalized_mean()}. 
 
 Both \code{x} and \code{w} should be strictly positive (and finite), especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
 \enumerate{
@@ -56,7 +56,7 @@ Both \code{x} and \code{w} should be strictly positive (and finite), especially 
 
 The weights should almost always be scaled to sum to 1 to satisfy the definition of a generalized mean, although there are certain types of price indexes where the weights should not be scaled (e.g., the Vartia-I index).
 
-The underlying calculation returned by \code{mean_generalized()} is mostly identical to \code{\link[=weighted.mean]{weighted.mean()}}, with one important exception: missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}. In most cases \code{mean_arithmetic()} is a drop-in replacement for \code{\link[=weighted.mean]{weighted.mean()}}.
+The underlying calculation returned by \code{generalized_mean()} is mostly identical to \code{\link[=weighted.mean]{weighted.mean()}}, with one important exception: missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}. In most cases \code{arithmetic_mean()} is a drop-in replacement for \code{\link[=weighted.mean]{weighted.mean()}}.
 }
 
 \section{Warning}{
@@ -64,7 +64,7 @@ Passing very small values for \code{r} can give misleading results, and warning 
 }
 
 \note{
-\code{mean_generalized()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
+\code{generalized_mean()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
 
 There are a number of existing functions for calculating \emph{unweighted} geometric and harmonic means, namely the \code{geometric.mean()} and \code{harmonic.mean()} functions in the \pkg{psych} package, the \code{geomean()} function in the \pkg{FSA} package, the \code{GMean()} and \code{HMean()} functions in the \pkg{DescTools} package, and the \code{geoMean()} function in the \pkg{EnvStats} package. Similarly, the \code{ci_generalized_mean()} function in the \pkg{Compind} package calculates an \emph{unweighted} generalized mean.
 }
@@ -84,17 +84,17 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 }
 
 \seealso{
-\code{\link{logmean_generalized}} for the generalized logarithmic mean.
+\code{\link{generalized_logmean}} for the generalized logarithmic mean.
 
-\code{\link{mean_lehmer}} for the Lehmer mean, an alternative to the generalized mean.
+\code{\link{lehmer_mean}} for the Lehmer mean, an alternative to the generalized mean.
 
-\code{\link{mean_nested}} for nesting generalized means.
+\code{\link{nested_mean}} for nesting generalized means.
 
-\code{\link{weights_transmute}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
+\code{\link{transmute_weights}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
 
-\code{\link{weights_factor}} calculates the weights to factor a mean of products into a product of means.
+\code{\link{factor_weights}} calculates the weights to factor a mean of products into a product of means.
 
-\code{\link{price_index}} and \code{\link{quantity_index}} for simple wrappers that use \code{mean_generalized()} to calculate common indexes.
+\code{\link{price_index}} and \code{\link{quantity_index}} for simple wrappers that use \code{generalized_mean()} to calculate common indexes.
 
 \code{\link{back_price}}/\code{\link{base_price}} for a simple utility function to turn prices in a table into price relatives.
 }
@@ -107,36 +107,36 @@ w <- c(0.25, 0.25, 0.5)
 
 # Arithmetic mean
 
-mean_arithmetic(x, w) # same as weighted.mean(x, w)
+arithmetic_mean(x, w) # same as weighted.mean(x, w)
 
 # Geometric mean
 
-mean_geometric(x, w) # same as prod(x^w)
+geometric_mean(x, w) # same as prod(x^w)
 
 # Using prod() to manually calculate the geometric mean can give misleading
 # results
 
 z <- 1:1000
 prod(z)^(1 / length(z)) # overflow
-mean_geometric(z)
+geometric_mean(z)
 
 z <- seq(0.0001, by = 0.0005, length.out = 1000)
 prod(z)^(1 / length(z)) # underflow
-mean_geometric(z)
+geometric_mean(z)
 
 # Harmonic mean
 
-mean_harmonic(x, w) # same as 1 / weighted.mean(1 / x, w)
+harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)
 
 # Quadratic mean / root mean square
 
-mean_generalized(2)(x, w)
+generalized_mean(2)(x, w)
 
 # Cubic mean
 # Notice that this is larger than the other means so far because the 
 # generalized mean is increasing in r
 
-mean_generalized(3)(x, w)
+generalized_mean(3)(x, w)
 
 #---- Comparing the Pythagorean means ----
 
@@ -148,17 +148,17 @@ y <- c(2, 3, 4)
 
 var(x) > var(y)
 
-mean_arithmetic(x) - mean_geometric(x)
-mean_arithmetic(y) - mean_geometric(y)
+arithmetic_mean(x) - geometric_mean(x)
+arithmetic_mean(y) - geometric_mean(y)
 
-mean_geometric(x) - mean_harmonic(x)
-mean_geometric(y) - mean_harmonic(y)
+geometric_mean(x) - harmonic_mean(x)
+geometric_mean(y) - harmonic_mean(y)
 
 # But the dispersion between these means is only bounded by
 # the variance (Bullen, 2003, p. 156)
 
-mean_arithmetic(x) - mean_geometric(x) >=  2 / 3 * var(x) / (2 * max(x))
-mean_arithmetic(x) - mean_geometric(x) <=  2 / 3 * var(x) / (2 * min(x))
+arithmetic_mean(x) - geometric_mean(x) >=  2 / 3 * var(x) / (2 * max(x))
+arithmetic_mean(x) - geometric_mean(x) <=  2 / 3 * var(x) / (2 * min(x))
 
 # Example from Lord (2002) where the dispersion decreases as the variance increases,
 # counter to the claims in Fisher (1922, p. 108) and the PPI manual (p. 28)
@@ -168,28 +168,28 @@ y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
 
 var(x) > var(y)
 
-mean_arithmetic(x) - mean_geometric(x)
-mean_arithmetic(y) - mean_geometric(y)
+arithmetic_mean(x) - geometric_mean(x)
+arithmetic_mean(y) - geometric_mean(y)
 
-mean_geometric(x) - mean_harmonic(x)
-mean_geometric(y) - mean_harmonic(y)
+geometric_mean(x) - harmonic_mean(x)
+geometric_mean(y) - harmonic_mean(y)
 
 # The "bias" in the arithmetic and harmonic indexes is also smaller in this case, 
 # counter to the claim in Fisher (1922, p. 108)
 
-mean_arithmetic(x) * mean_arithmetic(1 / x) - 1
-mean_arithmetic(y) * mean_arithmetic(1 / y) - 1
+arithmetic_mean(x) * arithmetic_mean(1 / x) - 1
+arithmetic_mean(y) * arithmetic_mean(1 / y) - 1
 
-mean_harmonic(x) * mean_harmonic(1 / x) - 1
-mean_harmonic(y) * mean_harmonic(1 / y) - 1
+harmonic_mean(x) * harmonic_mean(1 / x) - 1
+harmonic_mean(y) * harmonic_mean(1 / y) - 1
 
 #---- Missing values ----
 
 w[2] <- NA
 
-mean_arithmetic(x, w)
+arithmetic_mean(x, w)
 
-mean_arithmetic(x, w, na.rm = TRUE) # drops the second observation
+arithmetic_mean(x, w, na.rm = TRUE) # drops the second observation
 weighted.mean(x, w, na.rm = TRUE) # still returns NA
 
 #---- Negative values ----
@@ -197,9 +197,9 @@ weighted.mean(x, w, na.rm = TRUE) # still returns NA
 # Sometimes it makes sense to calculate a generalized mean with
 # negative inputs, so the warning can be ignored
 
-mean_arithmetic(c(1, 2, -3))
+arithmetic_mean(c(1, 2, -3))
 
 # Other times it's less obvious
 
-mean_harmonic(c(1, 2, -3))
+harmonic_mean(c(1, 2, -3))
 }

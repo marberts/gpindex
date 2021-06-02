@@ -68,28 +68,28 @@ index_paasche(p1, p0, q1)
 s0 <- index_weights("Laspeyres")(p0, q0)
 s1 <- index_weights("Paasche")(p1, q1)
 
-mean_arithmetic(p1 / p0, s0)
+arithmetic_mean(p1 / p0, s0)
 #> [1] 1.4
-mean_harmonic(p1 / p0, s1)
+harmonic_mean(p1 / p0, s1)
 #> [1] 1.811905
 
 # Chain the Laspeyres index by price-updating the weights
-mean_arithmetic(p1 / p0, s0) * mean_arithmetic(p2 / p1, weights_update(p1 / p0, s0))
+arithmetic_mean(p1 / p0, s0) * arithmetic_mean(p2 / p1, update_weights(p1 / p0, s0))
 #> [1] 1.05
 
 index_laspeyres(p2, p0, q0)
 #> [1] 1.05
 
 # Get quote contributions for the Paasche index
-contributions_harmonic(p1 / p0, s1)
+harmonic_contributions(p1 / p0, s1)
 #> [1]  0.02857143  0.71428571  0.04642857 -0.02500000  0.06666667 -0.01904762
 
 # Also works for more exotic indexes, like the Lloyd-Moulton index
 index_lm(p1, p0, q0, 0.5) # elasticity of 0.5
 #> [1] 1.315599
-mean_generalized(0.5)(p1 / p0, s0)
+generalized_mean(0.5)(p1 / p0, s0)
 #> [1] 1.315599
-mean_generalized(0.5)(p1 / p0, s0) * mean_generalized(0.5)(p2 / p1, weights_factor(0.5)(p1 / p0, s0))
+generalized_mean(0.5)(p1 / p0, s0) * generalized_mean(0.5)(p2 / p1, factor_weights(0.5)(p1 / p0, s0))
 #> [1] 1.003433
 index_lm(p2, p0, q0, 0.5)
 #> [1] 1.003433
@@ -114,16 +114,16 @@ mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
 weight <- c(0.3, 0.7)
 
 # Calculate lower-level indexes
-(lower <- sapply(prices, mean_geometric))
+(lower <- sapply(prices, geometric_mean))
 #>     even      odd 
 #> 1.297431 1.188784
 
 # Calculate upper-level index
-(upper <- mean_arithmetic(lower, weight))
+arithmetic_mean(lower, weight)
 #> [1] 1.221378
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- lapply(prices, contributions_geometric))
+(con_lower <- lapply(prices, geometric_contributions))
 #> $even
 #> [1] 0.06927979 0.09986815 0.12828288
 #> 
@@ -131,7 +131,7 @@ weight <- c(0.3, 0.7)
 #> [1]  0.39113201 -0.12438246 -0.07796516
 
 # Calculate quote contributions for upper-level index
-(con_upper <- mapply("*", con_lower, weight))
+mapply("*", con_lower, weight)
 #>            even         odd
 #> [1,] 0.02078394  0.27379241
 #> [2,] 0.02996044 -0.08706772

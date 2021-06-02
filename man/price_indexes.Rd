@@ -82,10 +82,6 @@ index_weights(type)
 \item{a, b}{Parameters for the generalized Stuval index.}
 }
 
-\value{
-\code{index_arithmetic()}, \code{index_geometric()}, \code{index_harmonic()}, \code{index_stuval()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value.
-}
-
 \details{
 The \code{index_arithmetic()}, \code{index_geometric()}, and \code{index_harmonic()} functions return a function to calculate a given type of arithmetic, geometric, and harmonic index. Together, these functions produce functions to calculate the following indexes.
 \itemize{
@@ -117,7 +113,7 @@ The \code{index_arithmetic()}, \code{index_geometric()}, and \code{index_harmoni
 \item Harmonic Young
 }
 
-Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[=mean_generalized]{mean_generalized()}} and \code{index_weights()}. 
+Along with the \code{index_lm()} function to calculate the Lloyd-Moulton index, these are just convenient wrappers for \code{\link[=generalized_mean]{generalized_mean()}} and \code{index_weights()}. 
 
 The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes, and so they get their own functions. The \code{index_laspeyres()}, \code{index_lowe()}, and \code{index_young()} functions correspond to setting the appropriate \code{type} in \code{index_arithmetic()}; \code{index_paasche()} and \code{index_jevons()} instead come from the \code{index_harmonic()} and \code{index_geometric()} functions.
 
@@ -148,6 +144,10 @@ The weights need not sum to 1, as this normalization isn't always appropriate (i
 Naming for the indexes and weights generally follows the CPI/PPI manual and Balk (2008). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
 }
 
+\value{
+\code{index_arithmetic()}, \code{index_geometric()}, \code{index_harmonic()}, \code{index_stuval()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value.
+}
+
 \note{
 Dealing with missing values is cumbersome when making a price index, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. 
 
@@ -163,11 +163,11 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 }
 
 \seealso{
-\code{\link{mean_generalized}} for the generalized mean. 
+\code{\link{generalized_mean}} for the generalized mean. 
 
 \code{\link{contributions}} for calculating quote contributions. 
 
-\code{\link{weights_update}} for price-updating weights.
+\code{\link{update_weights}} for price-updating weights.
 
 \code{\link{quantity_index}} to remap the arguments in these functions for a quantity index.
 }
@@ -186,22 +186,22 @@ qb <- quantity6[[1]]
 # the correct type of mean
 
 index_geometric("Laspeyres")(p1, p0, q0)
-mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0))
+geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 # Arithmetic Laspeyres index
 
 index_laspeyres(p1, p0, q0)
-mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
+arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
 
 # Harmonic calculation for the arithmetic Laspeyres
 
-mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
+harmonic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
 
 # Same as transmuting the weights
 
 all.equal(
-  weights_scale(index_weights("HybridLaspeyres")(p1, q0)),
-  weights_scale(weights_transmute(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
+  scale_weights(index_weights("HybridLaspeyres")(p1, q0)),
+  scale_weights(transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
 )
 
 # Unlike its arithmetic counterpart, the geometric Laspeyres can increase
@@ -220,8 +220,8 @@ p2 <- price6[[4]]
 index_laspeyres(p2, p0, q0)
 
 I1 <- index_laspeyres(p1, p0, q0) 
-w_pu <- weights_update(p1 / p0, index_weights("Laspeyres")(p0, q0))
-I2 <- mean_arithmetic(p2 / p1, w_pu)
+w_pu <- update_weights(p1 / p0, index_weights("Laspeyres")(p0, q0))
+I2 <- arithmetic_mean(p2 / p1, w_pu)
 I1 * I2
 
 # Works for other types of indexes, too
@@ -229,8 +229,8 @@ I1 * I2
 index_harmonic("Laspeyres")(p2, p0, q0)
 
 I1 <- index_harmonic("Laspeyres")(p1, p0, q0) 
-w_pu <- weights_factor(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
-I2 <- mean_harmonic(p2 / p1, w_pu)
+w_pu <- factor_weights(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
+I2 <- harmonic_mean(p2 / p1, w_pu)
 I1 * I2
 
 #---- Quote contributions ----
@@ -238,7 +238,7 @@ I1 * I2
 # Quote contributions for the Tornqvist index
 
 w <- index_weights("Tornqvist")(p1, p0, q1, q0)
-(con <- contributions_geometric(p1 / p0, w))
+(con <- geometric_contributions(p1 / p0, w))
 
 all.equal(sum(con), index_geometric("Tornqvist")(p1, p0, q1, q0) - 1)
 

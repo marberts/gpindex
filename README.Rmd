@@ -56,21 +56,21 @@ index_paasche(p1, p0, q1)
 s0 <- index_weights("Laspeyres")(p0, q0)
 s1 <- index_weights("Paasche")(p1, q1)
 
-mean_arithmetic(p1 / p0, s0)
-mean_harmonic(p1 / p0, s1)
+arithmetic_mean(p1 / p0, s0)
+harmonic_mean(p1 / p0, s1)
 
 # Chain the Laspeyres index by price-updating the weights
-mean_arithmetic(p1 / p0, s0) * mean_arithmetic(p2 / p1, weights_update(p1 / p0, s0))
+arithmetic_mean(p1 / p0, s0) * arithmetic_mean(p2 / p1, update_weights(p1 / p0, s0))
 
 index_laspeyres(p2, p0, q0)
 
 # Get quote contributions for the Paasche index
-contributions_harmonic(p1 / p0, s1)
+harmonic_contributions(p1 / p0, s1)
 
 # Also works for more exotic indexes, like the Lloyd-Moulton index
 index_lm(p1, p0, q0, 0.5) # elasticity of 0.5
-mean_generalized(0.5)(p1 / p0, s0)
-mean_generalized(0.5)(p1 / p0, s0) * mean_generalized(0.5)(p2 / p1, weights_factor(0.5)(p1 / p0, s0))
+generalized_mean(0.5)(p1 / p0, s0)
+generalized_mean(0.5)(p1 / p0, s0) * generalized_mean(0.5)(p2 / p1, factor_weights(0.5)(p1 / p0, s0))
 index_lm(p2, p0, q0, 0.5)
 contributions(0.5)(p1 / p0, s0)
 
@@ -85,14 +85,14 @@ mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
 weight <- c(0.3, 0.7)
 
 # Calculate lower-level indexes
-(lower <- sapply(prices, mean_geometric))
+(lower <- sapply(prices, geometric_mean))
 
 # Calculate upper-level index
-(upper <- mean_arithmetic(lower, weight))
+arithmetic_mean(lower, weight)
 
 # Calculate quote contributions for lower-level indexes
-(con_lower <- lapply(prices, contributions_geometric))
+(con_lower <- lapply(prices, geometric_contributions))
 
 # Calculate quote contributions for upper-level index
-(con_upper <- mapply("*", con_lower, weight))
+mapply("*", con_lower, weight)
 ```

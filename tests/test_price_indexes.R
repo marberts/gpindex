@@ -15,7 +15,7 @@ qb <- runif(15, 2, 4)
               sum(p1) / sum(p0))
     all.equal(index_arithmetic("Laspeyres")(p1, p0, q0),
               sum(p1 * q0) / sum(p0 * q0))
-    all.equal(mean_arithmetic(p1 / p0, index_weights("HybridPaasche")(p0, q1)),
+    all.equal(arithmetic_mean(p1 / p0, index_weights("HybridPaasche")(p0, q1)),
               sum(p1 * q1) / sum(p0 * q1))
     all.equal(index_arithmetic("Palgrave")(p1, p0, q1),
               weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
@@ -38,51 +38,51 @@ qb <- runif(15, 2, 4)
     all.equal(index_geometric("Jevons")(p1, p0),
               prod((p1 / p0)^(1 / length(p0))))
     all.equal(index_geometric("Laspeyres")(p1, p0, q0),
-              mean_geometric(p1 / p0, p0 * q0 / sum(p0 * q0)))
+              geometric_mean(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(index_geometric("Paasche")(p1, p0, q1),
-              mean_geometric(p1 / p0, p1 * q1 / sum(p1 * q1)))
+              geometric_mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
     all.equal(index_geometric("Young")(p1, p0, pb, qb),
-              mean_geometric(p1 / p0, pb * qb / sum(pb * qb)))
+              geometric_mean(p1 / p0, pb * qb / sum(pb * qb)))
     all.equal(index_geometric("Tornqvist")(p1, p0, q1, q0),
-              mean_geometric(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
+              geometric_mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
                                0.5 * p1 * q1 / sum(p1 * q1)))
     all.equal(index_geometric("Vartia1")(p1, p0, q1, q0),
-              mean_geometric(p1 / p0, logmean(p0 * q0, p1 * q1) /
+              geometric_mean(p1 / p0, logmean(p0 * q0, p1 * q1) /
                                logmean(sum(p0 * q0), sum(p1 * q1)), scale = FALSE))
     index_geometric("Vartia1")(p1, p0, q1, q0) ==
       index_geometric("MontgomeryVartia")(p1, p0, q1, q0)
     all.equal(index_geometric("Vartia2")(p1, p0, q1, q0),
-              mean_geometric(p1 / p0, logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))))
+              geometric_mean(p1 / p0, logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))))
     index_geometric("Vartia2")(p1, p0, q1, q0) ==
       index_geometric("SatoVartia")(p1, p0, q1, q0)
     all.equal(index_geometric("Walsh2")(p1, p0, q1, q0),
-              mean_geometric(p1 / p0, sqrt(p1 * q1 * p0 * q0)))
+              geometric_mean(p1 / p0, sqrt(p1 * q1 * p0 * q0)))
 
 #---- Tests for harmonic indexes ----
     all.equal(index_harmonic("Coggeshall")(p1, p0),
-              mean_harmonic(p1 / p0))
+              harmonic_mean(p1 / p0))
     all.equal(index_harmonic("Laspeyres")(p1, p0, q0),
-              mean_harmonic(p1 / p0, p0 * q0 / sum(p0 * q0)))
+              harmonic_mean(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(index_harmonic("Paasche")(p1, p0, q1),
-              mean_harmonic(p1 / p0, p1 * q1 / sum(p1 * q1)))
+              harmonic_mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
     all.equal(index_arithmetic("Laspeyres")(p1, p0, q0),
-              mean_harmonic(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)))
+              harmonic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0)))
     all.equal(index_harmonic("Young")(p1, p0, pb, qb),
-              mean_harmonic(p1 / p0, pb * qb / sum(pb * qb)))
+              harmonic_mean(p1 / p0, pb * qb / sum(pb * qb)))
 
 #---- Tests for the other indexes ----
     all.equal(index_fisher(p1, p0, q1, q0),
-              mean_geometric(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
+              geometric_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
     all.equal(index_hlp(p1, p0, q1, q0),
-              mean_harmonic(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
+              harmonic_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
     all.equal(index_lm(p1, p0, q0, 1.5), 
-              mean_generalized(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
+              generalized_mean(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(index_cswd(p1, p0), 
-              sqrt(mean_arithmetic(p1 / p0) * mean_harmonic(p1 / p0)))
+              sqrt(arithmetic_mean(p1 / p0) * harmonic_mean(p1 / p0)))
     all.equal(index_cswdb(p1, p0, q1, q0), 
-              sqrt(mean_arithmetic(p1 / p0) / mean_arithmetic(q1 / q0) * mean_arithmetic(p1 * q1 / (p0 * q0))))
+              sqrt(arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) * arithmetic_mean(p1 * q1 / (p0 * q0))))
     all.equal(index_bw(p1, p0), 
-              mean_arithmetic(sqrt(p1 / p0)) * mean_harmonic(sqrt(p1 / p0)))
+              arithmetic_mean(sqrt(p1 / p0)) * harmonic_mean(sqrt(p1 / p0)))
     all.equal(index_stuval(4, 4)(p1, p0, q1, q0), index_stuval(1, 1)(p1, p0, q1, q0))
     index_stuval(4, 4)(p1, p0, q1, q0) != index_stuval(2, 1)(p1, p0, q1, q0)
     all.equal(index_ag(p1, p0, q0, 0.25), 

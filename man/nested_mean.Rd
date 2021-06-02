@@ -1,6 +1,6 @@
 \name{nested mean}
-\alias{mean_nested}
-\alias{mean_fisher}
+\alias{nested_mean}
+\alias{fisher_mean}
 
 \title{Nested generalized mean}
 
@@ -9,9 +9,9 @@ Calculate the (outer) generalized mean of two (inner) generalized mean.
 }
 
 \usage{
-mean_nested(r, s, t = c(1, 1))
+nested_mean(r, s, t = c(1, 1))
 
-mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
+fisher_mean(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 }
 
 \arguments{
@@ -29,13 +29,13 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 }
 
 \value{
-\code{mean_nested()} returns a function:
+\code{nested_mean()} returns a function:
 
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)}.
 
 This computes the generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 
-\code{mean_fisher()} returns a numeric value for the geometric mean of the arithmetic and harmonic means.
+\code{fisher_mean()} returns a numeric value for the geometric mean of the arithmetic and harmonic means.
 }
 
 \note{
@@ -49,7 +49,7 @@ Lent, J. and Dorfman, A, H. (2009). Using a Weighted Average of Base Period Pric
 }
 
 \seealso{
-\code{\link{mean_generalized}} for the generalized mean.
+\code{\link{generalized_mean}} for the generalized mean.
 
 \code{\link{contributions}} for quote contributions for indexes based on nested generalized means, like the Fisher index.
 }
@@ -66,20 +66,20 @@ w2 <- 7:9
 
 quadratic_mean_index <- function(x, w0, w1, r) {
   x <- sqrt(x) 
-  mean_generalized(r)(x, w0) * mean_generalized(-r)(x, w1)
+  generalized_mean(r)(x, w0) * generalized_mean(-r)(x, w1)
 }
 
 quadratic_mean_index(x, w1, w2, 2)
 
 # Same as the nested generalized mean (with the order halved)
 
-quadratic_mean_index2 <- function(r) mean_nested(0, c(r / 2, -r / 2))
+quadratic_mean_index2 <- function(r) nested_mean(0, c(r / 2, -r / 2))
 
 quadratic_mean_index2(2)(x, w1, w2)
 
 # The arithmetic AG mean index by Lent and Dorfman (2009)
 
-ag_mean_index <- function(tau) mean_nested(1, c(0, 1), c(tau, 1 - tau))
+ag_mean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
 
 ag_mean_index(0.25)(x, w1, w1)
 
@@ -88,15 +88,15 @@ ag_mean_index(0.25)(x, w1, w1)
 x[1] <- NA
 w1[2] <- NA
 
-mean_fisher(x, w1, w2, na.rm = TRUE)
+fisher_mean(x, w1, w2, na.rm = TRUE)
 
 # Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a harmonic mean
 
-mean_geometric(c(mean_arithmetic(x, w1, na.rm = TRUE), mean_harmonic(x, w2, na.rm = TRUE)))
+geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), harmonic_mean(x, w2, na.rm = TRUE)))
 
 # Use complete.cases to use only obs 3 in both inner means
 
 keep <- complete.cases(x, w1, w2)
 
-mean_fisher(x[keep], w1[keep], w2[keep])
+fisher_mean(x[keep], w1[keep], w2[keep])
 }

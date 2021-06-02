@@ -62,30 +62,30 @@ index_pythagorean <- function(class = c("arithmetic", "geometric", "harmonic")) 
       Dutot = ,
       Jevons = ,
       Coggeshall = function(p1, p0, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p0), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p0), na.rm),
       Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-        mean_generalized(r)(p1 / p0, index_weights(type)(p0, q0), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p0, q0), na.rm),
       Paasche = ,
       Palgrave = function(p1, p0, q1, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p1, q1), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p1, q1), na.rm),
       Drobish = ,
       Unnamed = ,
       Vartia2 = ,
       SatoVartia = ,
       Walsh2 = ,
       Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
       Vartia1 = ,
       MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm, FALSE),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm, FALSE),
       Walsh1 = ,
       MarshallEdgeworth = ,
       GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p0, q1, q0), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p0, q1, q0), na.rm),
       Lowe = function(p1, p0, qb, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(p0, qb), na.rm),
+        generalized_mean(r)(p1 / p0, index_weights(type)(p0, qb), na.rm),
       Young = function(p1, p0, pb, qb, na.rm = FALSE)
-        mean_generalized(r)(p1 / p0, index_weights(type)(pb, qb), na.rm)
+        generalized_mean(r)(p1 / p0, index_weights(type)(pb, qb), na.rm)
     )
     # clean up enclosing environment
     enc <- list(r = r, type = type)
@@ -115,37 +115,37 @@ index_young <- index_arithmetic("Young")
 index_fisher <- function(p1, p0, q1, q0, na.rm = FALSE) {
   wl <- index_weights("Laspeyres")(p0, q0)
   wp <- index_weights("Paasche")(p1, q1)
-  mean_fisher(p1 / p0, wl, wp, na.rm)
+  fisher_mean(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Harmonic Laspeyres Paasche index ----
 index_hlp <- function(p1, p0, q1, q0, na.rm = FALSE) {
   wl <- index_weights("Laspeyres")(p0, q0)
   wp <- index_weights("Paasche")(p1, q1)
-  mean_nested(-1, c(1, -1), c(0.5, 0.5))(p1 / p0, wl, wp, na.rm)
+  nested_mean(-1, c(1, -1), c(0.5, 0.5))(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Lloyd Moulton index ----
 index_lm <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  mean_generalized(1 - elasticity)(p1 / p0, index_weights("LloydMoulton")(p0, q0), na.rm)
+  generalized_mean(1 - elasticity)(p1 / p0, index_weights("LloydMoulton")(p0, q0), na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
 index_cswd <- function(p1, p0, na.rm = FALSE) {
-  mean_fisher(p1 / p0, na.rm = na.rm)
+  fisher_mean(p1 / p0, na.rm = na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
 index_cswdb <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  sqrt(mean_arithmetic(p1 / p0, na.rm = na.rm) /
-         mean_arithmetic(q1 / q0, na.rm = na.rm) *
-         mean_arithmetic(p1 * q1 / (p0 * q0), na.rm = na.rm))
+  sqrt(arithmetic_mean(p1 / p0, na.rm = na.rm) /
+         arithmetic_mean(q1 / q0, na.rm = na.rm) *
+         arithmetic_mean(p1 * q1 / (p0 * q0), na.rm = na.rm))
 }
 
 #---- Balk Walsh index ----
 index_bw <- function(p1, p0, na.rm = FALSE) {
   rel <- sqrt(p1 / p0)
-  mean_arithmetic(rel, na.rm = na.rm) * mean_harmonic(rel, na.rm = na.rm)
+  arithmetic_mean(rel, na.rm = na.rm) * harmonic_mean(rel, na.rm = na.rm)
 }
 
 #---- Generalized Stuval index ----
@@ -164,5 +164,5 @@ index_stuval <- function(a, b) {
 #---- AG mean index ----
 index_ag <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
   w <- index_weights("Laspeyres")(p0, q0)
-  mean_nested(1, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
+  nested_mean(1, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
 }

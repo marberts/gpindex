@@ -1,10 +1,10 @@
 \name{contributions}
 \alias{contributions}
-\alias{contributions_arithmetic}
-\alias{contributions_geometric}
-\alias{contributions_harmonic}
-\alias{contributions_nested}
-\alias{contributions_nested2}
+\alias{arithmetic_contributions}
+\alias{geometric_contributions}
+\alias{harmonic_contributions}
+\alias{nested_contributions}
+\alias{nested_contributions2}
 
 \title{
 Additive quote contributions
@@ -17,15 +17,15 @@ Calculate additive quote contributions for generalized price indexes, and indexe
 \usage{
 contributions(r)
 
-contributions_arithmetic(x, w = rep(1, length(x)))
+arithmetic_contributions(x, w = rep(1, length(x)))
 
-contributions_geometric(x, w = rep(1, length(x)))
+geometric_contributions(x, w = rep(1, length(x)))
 
-contributions_harmonic(x, w = rep(1, length(x)))
+harmonic_contributions(x, w = rep(1, length(x)))
 
-contributions_nested(r, s, t = c(1, 1))
+nested_contributions(r, s, t = c(1, 1))
 
-contributions_nested2(r, s, t = c(1, 1))
+nested_contributions2(r, s, t = c(1, 1))
 }
 
 \arguments{
@@ -41,13 +41,13 @@ contributions_nested2(r, s, t = c(1, 1))
 }
 
 \details{
-The function \code{contributions()} is a simple wrapper for \code{\link[=weights_transmute]{weights_transmute(r, 1)()}} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{v(x, w)} such that \code{mean_generalized(r)(x, w) - 1 == sum(v(x, w))}.
+The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{v(x, w)} such that \code{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}.
 
-The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. These generalize the approach for calculating quote contributions in section 4.2 of Balk (2008).
+The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases. These generalize the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
-The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
+The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized means. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{nested_contributions2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
 
 \value{
@@ -57,9 +57,9 @@ Unlike the case of a generalized index, there are several ways to make contribut
 
 This computes the additive contribution for each element in \code{x}.
 
-\code{contributions_arithmetic()}, \code{contributions_geometric()}, and \code{contributions_harmonic()} return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
+\code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 
-\code{contributions_nested()} and \code{contributions_nested2()} return a function:
+\code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
@@ -73,7 +73,7 @@ Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decomposition
 }
 
 \seealso{
-\code{\link{weights_transmute}} for the underlying implementation.
+\code{\link{transmute_weights}} for the underlying implementation.
 }
 
 \examples{
@@ -81,25 +81,25 @@ x <- 2:3
 
 #---- Contributions for a geometric index ----
 
-contributions_geometric(x)
+geometric_contributions(x)
 
 # Not the only way to calculate contributions
 
 transmute2 <- function(x) {
-  m <- mean_geometric(x)
+  m <- geometric_mean(x)
   (m - 1) / log(m) * log(x) / (x - 1) / length(x)
 }
 
 transmute2(x) * (x - 1) # this isn't proportional to the method above
-all.equal(sum(transmute2(x) * (x - 1)), mean_geometric(x) - 1)
+all.equal(sum(transmute2(x) * (x - 1)), geometric_mean(x) - 1)
 
 # But these "transmuted" weights don't recover the geometric mean!
 # Not a particularly good way to calculate contributions
 
-isTRUE(all.equal(mean_arithmetic(x, transmute2(x)), mean_geometric(x)))
+isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), geometric_mean(x)))
 
 # There are infinitely many ways to calculate contributions, but the weights
-# from weights_transmute(0, 1)() are the *unique* weights that recover the 
+# from transmute_weights(0, 1)() are the *unique* weights that recover the 
 # geometric mean
 
 perturb <- function(w, e) {
@@ -108,9 +108,9 @@ perturb <- function(w, e) {
 
 perturb(transmute2(x), 0.1) * (x - 1)
 all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
-          mean_geometric(x) - 1)
-isTRUE(all.equal(mean_arithmetic(x, perturb(transmute2(x), 0.1)),
-                 mean_geometric(x)))
+          geometric_mean(x) - 1)
+isTRUE(all.equal(arithmetic_mean(x, perturb(transmute2(x), 0.1)),
+                 geometric_mean(x)))
 
 #---- Contributions for a Fisher index ----
 
@@ -121,7 +121,7 @@ q0 <- quantity6[[1]]
 
 # Quote contributions for the Fisher index in section 6 of Reinsdorf et al. (2002)
 
-contributions_fisher <- contributions_nested(0, c(1, -1))
+contributions_fisher <- nested_contributions(0, c(1, -1))
 (con <- contributions_fisher(p1 / p0, 
                              index_weights("Laspeyres")(p0, q0), 
                              index_weights("Paasche")(p1, q1)))
@@ -130,7 +130,7 @@ all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
 
 # Not the only way
 
-contributions_fisher2 <- contributions_nested2(0, c(1, -1))
+contributions_fisher2 <- nested_contributions2(0, c(1, -1))
 (con2 <- contributions_fisher2(p1 / p0, 
                                index_weights("Laspeyres")(p0, q0), 
                                index_weights("Paasche")(p1, q1)))
@@ -144,26 +144,26 @@ Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
 wl <- index_weights("Laspeyres")(p0, q0)
 wp <- index_weights("HybridPaasche")(p0, q1)
 
-(Qf / (Qf + Ql) * weights_scale(wl) + Ql / (Qf + Ql) * weights_scale(wp)) * (p1 / p0 - 1)
+(Qf / (Qf + Ql) * scale_weights(wl) + Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
 
 #---- Contributions for other types of indexes ----
 
 # A function to get contributions for any superlative quadratic mean of order 'r' index
 
 contributions_superlative <- function(r) {
-  contributions_nested(0, c(r / 2, - r / 2))
+  nested_contributions(0, c(r / 2, - r / 2))
 }
 
-# Works for other types of indexes, too, like the harmonic Laspeyres Paasche index
+# Works for other types of indexes, like the harmonic Laspeyres Paasche index
                                    
-contributions_hlp <- contributions_nested(-1, c(1, -1))
+contributions_hlp <- nested_contributions(-1, c(1, -1))
 contributions_hlp(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Paasche")(p1, q1))
                   
 # Or the AG mean index
 
-contributions_agm <- contributions_nested(1, c(1, 0), c(0.25, 0.75))
+contributions_agm <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
 contributions_agm(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Laspeyres")(p0, q0))

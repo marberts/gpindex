@@ -1,7 +1,7 @@
 \name{logarithmic means}
-\alias{logmean_generalized}
+\alias{generalized_logmean}
 \alias{logmean}
-\alias{mean_extended}
+\alias{extended_mean}
 
 \title{Logarithmic means}
 
@@ -10,9 +10,9 @@ Calculate a generalized logarithmic mean / extended mean.
 }
 
 \usage{
-mean_extended(r, s)
+extended_mean(r, s)
 
-logmean_generalized(r)
+generalized_logmean(r)
 
 logmean(a, b, tol = .Machine$double.eps^0.5)
 }
@@ -25,26 +25,26 @@ logmean(a, b, tol = .Machine$double.eps^0.5)
 \item{tol}{The tolerance used to determine if \code{a == b}.}
 }
 
-\value{
-\code{logmean_generalized()} and \code{mean_extended()} return a function: 
-
-\code{function(a, b, tol = .Machine$double.eps^0.5)}.
-
-This computes the generalized logarithmic mean of order \code{r}, or the extended mean of order \code{r}, \code{s}, of \code{a} and \code{b}.
-
-\code{logmean()} returns a numeric vector, the same length as \code{max(length(a), length(b))}, giving the component-wise logarithmic mean of \code{a} and \code{b}.
-}
-
 \details{
-The function \code{mean_extended()} returns a function to compute the component-wise extended mean of \code{a} and \code{b} of orders \code{r} and \code{s}. See Bullen (2003, p. 393) for a definition. This is also called the difference mean, Stolarsky mean, or extended mean-value mean.
+The function \code{extended_mean()} returns a function to compute the component-wise extended mean of \code{a} and \code{b} of orders \code{r} and \code{s}. See Bullen (2003, p. 393) for a definition. This is also called the difference mean, Stolarsky mean, or extended mean-value mean.
 
-The function \code{logmean_generalized()} returns a function to compute the component-wise generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a definition, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, corresponding to \code{mean_extended(r, 1)()}, but is more commonly used for price indexes.
+The function \code{generalized_logmean()} returns a function to compute the component-wise generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a definition, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, corresponding to \code{extended_mean(r, 1)()}, but is more commonly used for price indexes.
 
-The function \code{logmean()} returns the ordinary logarithmic mean of \code{a} and \code{b}, and corresponds to \code{logmean_generalized(1)()}.
+The function \code{logmean()} returns the ordinary logarithmic mean of \code{a} and \code{b}, and corresponds to \code{generalized_logmean(1)()}.
 
 Both \code{a} and \code{b} should be strictly positive. This is not enforced, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined. The usual recycling rules apply when \code{a} and \code{b} are not the same length.
 
 By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results when \code{a} and \code{b} are computed values.
+}
+
+\value{
+\code{generalized_logmean()} and \code{extended_mean()} return a function: 
+
+\code{function(a, b, tol = .Machine$double.eps^0.5)}.
+
+This computes the component-wise generalized logarithmic mean of order \code{r}, or the extended mean of orders \code{r} and \code{s}, of \code{a} and \code{b}.
+
+\code{logmean()} returns a numeric vector, the same length as \code{max(length(a), length(b))}, giving the component-wise logarithmic mean of \code{a} and \code{b}.
 }
 
 \section{Warning}{
@@ -52,7 +52,7 @@ Passing very small values for \code{r} or \code{s} can give misleading results, 
 }
 
 \note{
-\code{logmean_generalized()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=pmin]{pmin()}}/\code{\link[=pmax]{pmax()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite as in the original formulation by Stolarsky (1975).
+\code{generalized_logmean()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=pmin]{pmin()}}/\code{\link[=pmax]{pmax()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite as in the original formulation by Stolarsky (1975).
 }
 
 \references{
@@ -64,9 +64,9 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 }
 
 \seealso{
-\code{\link{mean_generalized}} for the generalized mean. 
+\code{\link{generalized_mean}} for the generalized mean. 
 
-\code{\link{weights_transmute}} uses the extended mean to turn an r-generalized mean into an s-generalized mean.
+\code{\link{transmute_weights}} uses the extended mean to turn an r-generalized mean into an s-generalized mean.
 }
 
 \examples{
@@ -78,8 +78,8 @@ y <- 1:4
 # The arithmetic and geometric means are special cases of the generalized 
 # logarithmic mean
 
-all.equal(logmean_generalized(2)(x, y), (x + y) / 2)
-all.equal(logmean_generalized(-1)(x, y), sqrt(x * y))
+all.equal(generalized_logmean(2)(x, y), (x + y) / 2)
+all.equal(generalized_logmean(-1)(x, y), sqrt(x * y))
 
 # The logarithmic mean lies between the arithmetic and geometric means
 # because the generalized logarithmic mean is increasing in r
@@ -89,16 +89,16 @@ all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
 # The harmonic mean cannot be expressed as a logarithmic mean, but can be 
 # expressed as an extended mean
 
-all.equal(mean_extended(-2, -1)(x, y), 2 / (1 / x + 1 / y))
+all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
 # The quadratic mean is also a type of extended mean
 
-all.equal(mean_extended(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
+all.equal(extended_mean(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 
 # As are heronian and centroidal means
 
-all.equal(mean_extended(0.5, 1.5)(x, y), (x + sqrt(x * y) + y) / 3)
-all.equal(mean_extended(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
+all.equal(extended_mean(0.5, 1.5)(x, y), (x + sqrt(x * y) + y) / 3)
+all.equal(extended_mean(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
 
 #---- Approximating the logarithmic mean ----
 
@@ -127,18 +127,18 @@ all.equal(logmean(x, y) * log(x / y), x - y)
 
 r <- 2
 
-all.equal(logmean_generalized(r)(x, y)^(r - 1) * (r * (x - y)), (x^r - y^r))
+all.equal(generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)), (x^r - y^r))
 
 # Some other identities
 
-all.equal(logmean_generalized(-2)(1, 2), 
-          (mean_harmonic(1:2) * mean_geometric(1:2)^2)^(1 / 3))
+all.equal(generalized_logmean(-2)(1, 2), 
+          (harmonic_mean(1:2) * geometric_mean(1:2)^2)^(1 / 3))
 
-all.equal(logmean_generalized(0.5)(1, 2), 
-          (mean_arithmetic(1:2) + mean_geometric(1:2)) / 2)
+all.equal(generalized_logmean(0.5)(1, 2), 
+          (arithmetic_mean(1:2) + geometric_mean(1:2)) / 2)
 
 all.equal(logmean(1, 2),
-          mean_geometric(1:2)^2 * logmean(1, 1/2))
+          geometric_mean(1:2)^2 * logmean(1, 1/2))
 
 #---- Integral representations of the logarithmic mean ----
 

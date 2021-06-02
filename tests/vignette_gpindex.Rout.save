@@ -23,11 +23,11 @@ Type 'q()' to quit R.
 > library(gpindex)
 > p1 <- price6[[2]]
 > p0 <- price6[[1]]
-> mean_arithmetic(p1 / p0) # Carli index
+> arithmetic_mean(p1 / p0) # Carli index
 [1] 1.4
-> mean_geometric(p1 / p0) # Jevons index
+> geometric_mean(p1 / p0) # Jevons index
 [1] 1.24192
-> mean_harmonic(p1 / p0, 1:6) # Harmonic index with random weights
+> harmonic_mean(p1 / p0, 1:6) # Harmonic index with random weights
 [1] 1.019744
 > 
 > 
@@ -37,11 +37,11 @@ Type 'q()' to quit R.
 > q0 <- quantity6[[1]]
 > index_weights("Laspeyres")(p0, q0) # period-0 expenditure shares
 [1] 1.0 1.0 2.0 1.0 4.5 0.5
-> mean_arithmetic(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
+> arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Laspeyres index
 [1] 1.42
 > sum(p1 * q0) / sum(p0 * q0) # Same as the manual calculation
 [1] 1.42
-> mean_geometric(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
+> geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyres index
 [1] 1.329967
 > 
 > 
@@ -67,13 +67,13 @@ Type 'q()' to quit R.
 > ###################################################
 > ### code chunk number 5: gpindex.Rnw:150-154
 > ###################################################
-> mean_harmonic(p1 / p0)
+> harmonic_mean(p1 / p0)
 [1] 1.125967
-> weights_transmute(-1, 1)(p1 / p0)
+> transmute_weights(-1, 1)(p1 / p0)
 [1] 0.7401048 0.2960419 0.6831737 1.2687511 0.6343755 1.1101572
-> mean_arithmetic(p1 / p0, weights_transmute(-1, 1)(p1 / p0))
+> arithmetic_mean(p1 / p0, transmute_weights(-1, 1)(p1 / p0))
 [1] 1.125967
-> mean_geometric(p1 / p0, weights_transmute(-1, 0)(p1 / p0))
+> geometric_mean(p1 / p0, transmute_weights(-1, 0)(p1 / p0))
 [1] 1.125967
 > 
 > 
@@ -81,8 +81,8 @@ Type 'q()' to quit R.
 > ### code chunk number 6: gpindex.Rnw:159-162
 > ###################################################
 > hybrid <- index_weights("HybridPaasche")(p0, q1)
-> transmuted <- weights_transmute(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
-> all.equal(weights_scale(hybrid), weights_scale(transmuted))
+> transmuted <- transmute_weights(-1, 1)(p1 / p0, index_weights("Paasche")(p1, q1))
+> all.equal(scale_weights(hybrid), scale_weights(transmuted))
 [1] TRUE
 > 
 > 
@@ -91,7 +91,7 @@ Type 'q()' to quit R.
 > ###################################################
 > contributions(-1)(p1 / p0)
 [1]  0.03127685  0.12510741  0.04330641 -0.08042619  0.05361746 -0.04691528
-> all.equal(sum(contributions(-1)(p1 / p0)), mean_harmonic(p1 / p0) - 1)
+> all.equal(sum(contributions(-1)(p1 / p0)), harmonic_mean(p1 / p0) - 1)
 [1] TRUE
 > 
 > 
@@ -100,12 +100,12 @@ Type 'q()' to quit R.
 > ###################################################
 > p2 <- price6[[3]]
 > weights <- index_weights("Laspeyres")(p0, q0)
-> mean_harmonic(p2 / p0, weights) # Harmonic Laspeyres index
+> harmonic_mean(p2 / p0, weights) # Harmonic Laspeyres index
 [1] 1.134594
-> mean_harmonic(p1 / p0, weights) * mean_harmonic(p2 / p1, weights) # Too small
+> harmonic_mean(p1 / p0, weights) * harmonic_mean(p2 / p1, weights) # Too small
 [1] 1.071457
-> mean_harmonic(p1 / p0, weights) * 
-+   mean_harmonic(p2 / p1, weights_factor(-1)(p1 / p0, weights))
+> harmonic_mean(p1 / p0, weights) * 
++   harmonic_mean(p2 / p1, factor_weights(-1)(p1 / p0, weights))
 [1] 1.134594
 > 
 > 
