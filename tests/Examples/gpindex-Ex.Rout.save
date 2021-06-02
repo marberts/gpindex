@@ -126,7 +126,7 @@ Type 'q()' to quit R.
 +   nested_contributions(0, c(r / 2, - r / 2))
 + }
 > 
-> # Works for other types of indexes, too, like the harmonic Laspeyres Paasche index
+> # Works for other types of indexes, like the harmonic Laspeyres Paasche index
 >                                    
 > contributions_hlp <- nested_contributions(-1, c(1, -1))
 > contributions_hlp(p1 / p0, 
@@ -136,11 +136,11 @@ Type 'q()' to quit R.
 >                   
 > # Or the AG mean index
 > 
-> contributions_agm <- nested_contributions(1, c(1, 0), c(0.25, 0.75))
+> contributions_agm <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
 > contributions_agm(p1 / p0, 
 +                   index_weights("Laspeyres")(p0, q0), 
 +                   index_weights("Laspeyres")(p0, q0))
-[1]  0.02062615  0.14619764  0.06005822 -0.03768194  0.17524608 -0.01197095
+[1]  0.02020872  0.18206588  0.06001941 -0.03256065  0.17841536 -0.01065698
 >                   
 > 
 > 
