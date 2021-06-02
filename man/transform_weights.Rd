@@ -26,7 +26,7 @@ weights_scale(x)
 }
 
 \arguments{
-\item{r, s}{A number giving the order of the generalized mean. See details.}
+\item{r, s}{A finite number giving the order of the generalized mean. See details.}
 
 \item{x}{A strictly positive numeric vector.}
 
@@ -37,6 +37,8 @@ weights_scale(x)
 \code{weights_transmute()} and \code{weights_factor()} return a function: 
 
 \code{function(x, w = rep(1, length(x))}.
+
+In each case this function augments the weights \code{w}.
 
 \code{weights_update()} and \code{weights_scale()} return a numeric vector the same length as \code{x}.
 }

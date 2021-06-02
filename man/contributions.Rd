@@ -43,9 +43,9 @@ contributions_nested2(r, s, t = c(1, 1))
 \details{
 The function \code{contributions()} is a simple wrapper for \code{\link[=weights_transmute]{weights_transmute(r, 1)()}} to calculate (additive) quote contributions for a price index. It returns a function to compute a vector \code{v(x, w)} such that \code{mean_generalized(r)(x, w) - 1 == sum(v(x, w))}.
 
-The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008).
+The \code{contributions_arithmetic()}, \code{contributions_geometric()} and \code{contributions_harmonic()} functions cover the most important cases. These generalize the approach for calculating quote contributions in section 4.2 of Balk (2008).
 
-The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. That is, they return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
+The \code{contributions_nested()} and \code{contributions_nested2()} functions are the analog of \code{contributions()} for a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized means of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
 Unlike the case of a generalized index, there are several ways to make contributions for an index based on nested generalized means. \code{contributions_nested()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002), whereas \code{contributions_nested2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 }
@@ -55,15 +55,15 @@ Unlike the case of a generalized index, there are several ways to make contribut
 
 \code{function(x, w = rep(1, length(x))}.
 
-This function returns the additive contribution for each element in \code{x}.
+This computes the additive contribution for each element in \code{x}.
 
-\code{contributions_arithmetic()}, \code{contributions_geometric()}, and \code{contributions_harmonic()} return a numeric vector the same length as \code{x}.
+\code{contributions_arithmetic()}, \code{contributions_geometric()}, and \code{contributions_harmonic()} return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 
 \code{contributions_nested()} and \code{contributions_nested2()} return a function:
 
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
-This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element in \code{x}.
+This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element of \code{x}.
 }
 
 \references{
@@ -154,13 +154,15 @@ contributions_superlative <- function(r) {
   contributions_nested(0, c(r / 2, - r / 2))
 }
 
-# Works for other types of indexes, too
+# Works for other types of indexes, too, like the harmonic Laspeyres Paasche index
                                    
 contributions_hlp <- contributions_nested(-1, c(1, -1))
 contributions_hlp(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Paasche")(p1, q1))
                   
+# Or the AG mean index
+
 contributions_agm <- contributions_nested(1, c(1, 0), c(0.25, 0.75))
 contributions_agm(p1 / p0, 
                   index_weights("Laspeyres")(p0, q0), 

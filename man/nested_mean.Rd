@@ -35,7 +35,7 @@ mean_fisher(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 
 This computes the generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 
-\code{mean_fisher()} returns a numeric value (the geometric mean of the arithmetic and harmonic means).
+\code{mean_fisher()} returns a numeric value for the geometric mean of the arithmetic and harmonic means.
 }
 
 \note{

@@ -39,7 +39,7 @@ mean_harmonic(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 
-\code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value.
+\code{mean_arithmetic()}, \code{mean_geometric()}, and \code{mean_harmonic()} each return a numeric value for the generalized means of order 1, 0, and -1.
 }
 
 \details{
@@ -185,7 +185,7 @@ mean_harmonic(y) * mean_harmonic(1 / y) - 1
 
 #---- Missing values ----
 
-w <- replace(w, 2, NA)
+w[2] <- NA
 
 mean_arithmetic(x, w)
 
