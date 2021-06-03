@@ -30,7 +30,7 @@ The function \code{extended_mean()} returns a function to compute the component-
 
 The function \code{generalized_logmean()} returns a function to compute the component-wise generalized logarithmic mean of \code{a} and \code{b} of order \code{r}. See Bullen (2003, p. 385) for a definition, or \url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized logarithmic mean is a special case of the extended mean, corresponding to \code{extended_mean(r, 1)()}, but is more commonly used for price indexes.
 
-The function \code{logmean()} returns the ordinary logarithmic mean of \code{a} and \code{b}, and corresponds to \code{generalized_logmean(1)()}.
+The function \code{logmean()} returns the ordinary component-wise logarithmic mean of \code{a} and \code{b}, and corresponds to \code{generalized_logmean(1)()}.
 
 Both \code{a} and \code{b} should be strictly positive. This is not enforced, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined. The usual recycling rules apply when \code{a} and \code{b} are not the same length.
 
