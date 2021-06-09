@@ -612,6 +612,36 @@ Warning in back_price(price, period) :
 > 
 > 
 > cleanEx()
+> nameEx("outlier")
+> ### * outlier
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: outlier methods
+> ### Title: Outlier methods for price relatives
+> ### Aliases: outliers fixed_cutoff robust_z quantile_method
+> ###   resistant_fences tukey_algorithm
+> 
+> ### ** Examples
+> 
+> set.seed(1234)
+> 
+> x <- rlnorm(10)
+> 
+> fixed_cutoff(x)
+ [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE
+> robust_z(x)
+ [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+> quantile_method(x)
+ [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE
+> resistant_fences(x)
+ [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+> tukey_algorithm(x)
+ [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+> 
+> 
+> 
+> cleanEx()
 > nameEx("pq6")
 > ### * pq6
 > 
@@ -988,7 +1018,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.262 0.035 0.313 0 0 
+Time elapsed:  0.084 0.008 0.092 0 0 
 > grDevices::dev.off()
 null device 
           1 

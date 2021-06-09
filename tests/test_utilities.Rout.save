@@ -64,7 +64,22 @@ NA  2  3  4  5  5  4  3  2 NA
 > back_price(replace(price, 1, NA), period, id)
  e  d  c  b  a  a  b  c  d  e 
 NA  2  3  4  5  5  4  3  2 NA 
-> 
+>
+> x <- 1:10
+>
+> all.equal(fixed_cutoff(x), x > 2)
+[1] TRUE
+> all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) / 2 |
++             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) / 2)
+[1] TRUE
+> all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) / 2 |
++             x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) / 2)
+[1] TRUE
+> sum(resistant_fences(x)) < sum(quantile_method(x))
+[1] TRUE
+> all.equal(robust_z(x), abs(x - median(x)) / mad(x) > 2.5)
+[1] TRUE
+>
 > proc.time()
    user  system elapsed 
   0.316   0.211   0.319 

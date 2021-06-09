@@ -7,9 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
-[![Build
-Status](https://travis-ci.org/marberts/gpindex.svg?branch=master)](https://travis-ci.org/marberts/gpindex)
-[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg)](https://codecov.io/gh/marberts/gpindex)
+[![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
+[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://codecov.io/gh/marberts/gpindex)
 
 A small R package for calculating lots of different price indexes, and
 by extension quantity indexes. Provides tools to build and work with any

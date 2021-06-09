@@ -34,6 +34,10 @@ With \code{base_price()}, the resulting vector gives the value of \code{x} for t
 By definition, there must be at most one price for each product in each time period to determine a back price. If multiple prices correspond to a period-product pair, then the back price at a point in time is always the first price for that product in the previous period.
 }
 
+\seealso{
+\code{\link{outliers}} for common methods to detect outliers for price relatives.
+}
+
 \examples{
 dat <- data.frame(price = 1:4, product = c("a", "b", "a", "b"), period = c(1, 1, 2, 2))
 
