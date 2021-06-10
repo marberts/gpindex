@@ -46,9 +46,9 @@ resistant_fences <- function(x, cu = 0.5, cl = cu, a = 0, na.rm = FALSE, type = 
 
 robust_z <- function(x, cu = 2.5, cl = cu, na.rm = FALSE) {
   x <- as.numeric(x)
-  m <- median(x, na.rm = na.rm)
+  med <- median(x, na.rm = na.rm)
   s <- mad(x, na.rm = na.rm)
-  x <- x - m
+  x <- x - med
   u <- cu * s
   l <- -cl * s
   x > u | x < l
@@ -69,4 +69,16 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, na.rm = FALSE, type = 7) {
   u <- cu * (mean(xx[xx >= med], na.rm = na.rm) - m)
   l <- -cl * (m - mean(xx[xx < med], na.rm = na.rm))
   x > u | x < l
+}
+
+hb_transform <- function(x, na.rm = FALSE) {
+  x <- as.numeric(x)
+  if (any(x <= 0, na.rm = TRUE)) {
+    warning("some elements of 'x' are less than or equal to 0")
+  }
+  med <- median(x, na.rm = na.rm)
+  res <- 1 - med / x
+  gemed <- x >= med
+  res[gemed] <- x[gemed] / med - 1
+  res
 }

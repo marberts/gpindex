@@ -620,7 +620,7 @@ Warning in back_price(price, period) :
 > ### Name: outlier methods
 > ### Title: Outlier methods for price relatives
 > ### Aliases: outliers fixed_cutoff robust_z quantile_method
-> ###   resistant_fences tukey_algorithm
+> ###   resistant_fences tukey_algorithm hb_transform
 > 
 > ### ** Examples
 > 
@@ -634,10 +634,17 @@ Warning in back_price(price, period) :
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > quantile_method(x)
  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE
-> resistant_fences(x)
+> resistant_fences(x) # this will always identify fewer outliers than the quantile method
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > tukey_algorithm(x)
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+>
+> log(x)
+[1] -1.2070657  0.2774292  1.0844412 -2.3456977  0.4291247  0.5060559
+[7] -0.5747400 -0.5466319 -0.5644520 -0.8900378
+> hb_transform(x)
+[1] -0.918538151  1.300051411  4.154877789 -4.990623335  1.676813038
+[6]  1.890871823 -0.019423964  0.008909836 -0.008989935 -0.397291327
 > 
 > 
 > 
