@@ -42,11 +42,11 @@ Each of these functions constructs an interval of the form \eqn{[b_l(x) - c_l \t
 
 The fixed cutoff method is the simplest, and just uses the interval \eqn{[c_l, c_u]}{[cl, cu]}.
 
-The quantile method and Tukey algorithm are described in chapter 9, section D.1.2, of the PPI manual, as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quantile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
+The quantile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual, as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quantile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
 
 The robust Z score is the usual method to identify relatives in the (asymmetric) tails of the distribution, simply replacing the mean with the median, and the standard deviation with the median absolute deviation.
 
-These methods often assume that price relatives are symmetrically distributed (if not Gaussian). As the distribution of price relatives often has a long right tail, the natural logarithm can be used to transform price relative before identifying outliers (sometimes under the assumption that price relatives are distributed log-normal). The Hidiroglou-Berthelot transformation is another approach, described in chapter 9, section D.1.2, of the PPI manual.
+These methods often assume that price relatives are symmetrically distributed (if not Gaussian). As the distribution of price relatives often has a long right tail, the natural logarithm can be used to transform price relative before identifying outliers (sometimes under the assumption that price relatives are distributed log-normal). The Hidiroglou-Berthelot transformation is another approach, described in the CPI manual (par. 5.124).
 }
 
 \value{
@@ -56,7 +56,7 @@ A logical vector, the same length as \code{x}, that is \code{TRUE} if the corres
 \references{
 Hutton, H. (2008). Dynamic outlier detection in price index surveys. \emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 Rais, S. (2008). Outlier detection for the Consumer Price Index. \emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}. 
 }

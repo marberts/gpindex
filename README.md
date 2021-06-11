@@ -12,9 +12,9 @@ status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.or
 
 A small R package for calculating lots of different price indexes, and
 by extension quantity indexes. Provides tools to build and work with any
-type of generalized bilateral index (of which most price indexes are),
-along with a few important indexes that don’t belong to the generalized
-family.
+type of bilateral generalized-mean index (of which most price indexes
+are), along with a few important indexes that don’t belong to the
+generalized-mean family.
 
 ## Installation
 

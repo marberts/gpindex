@@ -76,7 +76,7 @@ Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin Company.
 
 Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd edition). Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 Lord, N. (2002). Does Smaller Spread Always Mean Larger Product? \emph{The Mathematical Gazette}, 86(506): 273-274.
 
@@ -161,7 +161,7 @@ arithmetic_mean(x) - geometric_mean(x) >=  2 / 3 * var(x) / (2 * max(x))
 arithmetic_mean(x) - geometric_mean(x) <=  2 / 3 * var(x) / (2 * min(x))
 
 # Example from Lord (2002) where the dispersion decreases as the variance increases,
-# counter to the claims in Fisher (1922, p. 108) and the PPI manual (p. 28)
+# counter to the claims in Fisher (1922, p. 108) and the CPI manual (par. 1.14)
 
 x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16

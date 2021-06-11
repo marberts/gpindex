@@ -28,3 +28,8 @@ all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quan
             x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) / 2)
 sum(resistant_fences(x)) < sum(quantile_method(x))
 all.equal(robust_z(x), abs(x - median(x)) / mad(x) > 2.5)
+
+x <- seq(0.1, 2, by = 0.2)
+
+all.equal(hb_transform(x), ifelse(x < median(x), 1 - median(x) / x, x / median(x) - 1))
+hb_transform(x - 1)

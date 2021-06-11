@@ -63,11 +63,10 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, na.rm = FALSE, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = na.rm, type = type)
   xx <- x[x != 1 & x > q[1] & x < q[2]]
-  med <- median(xx, na.rm = na.rm)
   m <- mean(xx, na.rm = na.rm)
   x <- x - m
-  u <- cu * (mean(xx[xx >= med], na.rm = na.rm) - m)
-  l <- -cl * (m - mean(xx[xx < med], na.rm = na.rm))
+  u <- cu * (mean(xx[xx >= m], na.rm = na.rm) - m) # in some versions m in the median
+  l <- -cl * (m - mean(xx[xx < m], na.rm = na.rm))
   x > u | x < l
 }
 

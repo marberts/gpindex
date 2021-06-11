@@ -43,7 +43,7 @@ There is some ambiguity about how to remove missing values in \code{w1} or \code
 }
 
 \references{
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
+Diewert, W. E. (1976). Exact and superlative index numbers. \emph{Journal of Econometrics}, 4(2): 114--145.
 
 Lent, J. and Dorfman, A, H. (2009). Using a Weighted Average of Base Period Price Indexes to Approximate a Superlative Index. \emph{Journal of Official Statistics}, 25(1):139--149.
 }
@@ -61,8 +61,8 @@ w2 <- 7:9
 
 #---- Making superlative indexes ----
 
-# A function to make the superlative quadratic mean price index in chapter 17, 
-# section B.5.1, of the PPI manual as a product of generalized means
+# A function to make the superlative quadratic mean price index in Diewert (1976)
+# as a product of generalized means
 
 quadratic_mean_index <- function(x, w0, w1, r) {
   x <- sqrt(x) 
