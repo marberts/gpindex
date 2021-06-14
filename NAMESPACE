@@ -4,9 +4,9 @@ export(generalized_mean, arithmetic_mean, geometric_mean, harmonic_mean, nested_
        transmute_weights, factor_weights, update_weights, scale_weights,
        contributions, arithmetic_contributions, geometric_contributions, harmonic_contributions, nested_contributions, nested_contributions2,
        index_weights,
-       index_arithmetic, index_geometric, index_harmonic,
-       index_laspeyres, index_paasche, index_jevons, index_lowe, index_young,
-       index_fisher, index_hlp, index_lm, index_cswd, index_cswdb, index_bw, index_stuval, index_ag,
+       arithmetic_index, geometric_index, harmonic_index,
+       laspeyres_index, paasche_index, jevons_index, lowe_index, young_index,
+       fisher_index, hlp_index, lm_index, cswd_index, cswd_indexb, bw_index, stuval_index, agmean_index,
        quantity_index,
        back_price, base_price,
        fixed_cutoff, robust_z, quantile_method, resistant_fences, tukey_algorithm, hb_transform)

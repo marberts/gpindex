@@ -24,16 +24,16 @@ geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) # Geometric Laspeyre
 ###################################################
 ### code chunk number 3: gpindex.Rnw:78-80
 ###################################################
-index_arithmetic("Laspeyres")(p1, p0, q0)
-index_geometric("Laspeyres")(p1, p0, q0)
+arithmetic_index("Laspeyres")(p1, p0, q0)
+geometric_index("Laspeyres")(p1, p0, q0)
 
 
 ###################################################
 ### code chunk number 4: gpindex.Rnw:85-88
 ###################################################
 q1 <- quantity6[[2]]
-index_fisher(p1, p0, q1, q0) 
-index_hlp(p1, p0, q1, q0) # Harmonic analog of the Fisher index
+fisher_index(p1, p0, q1, q0) 
+hlp_index(p1, p0, q1, q0) # Harmonic analog of the Fisher index
 
 
 ###################################################

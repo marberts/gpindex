@@ -48,9 +48,9 @@ Type 'q()' to quit R.
 > ###################################################
 > ### code chunk number 3: gpindex.Rnw:78-80
 > ###################################################
-> index_arithmetic("Laspeyres")(p1, p0, q0)
+> arithmetic_index("Laspeyres")(p1, p0, q0)
 [1] 1.42
-> index_geometric("Laspeyres")(p1, p0, q0)
+> geometric_index("Laspeyres")(p1, p0, q0)
 [1] 1.329967
 > 
 > 
@@ -58,9 +58,9 @@ Type 'q()' to quit R.
 > ### code chunk number 4: gpindex.Rnw:85-88
 > ###################################################
 > q1 <- quantity6[[2]]
-> index_fisher(p1, p0, q1, q0) 
+> fisher_index(p1, p0, q1, q0) 
 [1] 1.40105
-> index_hlp(p1, p0, q1, q0) # Harmonic analog of the Fisher index
+> hlp_index(p1, p0, q1, q0) # Harmonic analog of the Fisher index
 [1] 1.400924
 > 
 > 

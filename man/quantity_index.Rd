@@ -30,9 +30,9 @@ q0 <- quantity6[[2]]
 
 # Just remaps argument names to be quantities rather than prices
 
-quantity_index(index_laspeyres)(q1 = q1, q0 = q0, p0 = p0)
+quantity_index(laspeyres_index)(q1 = q1, q0 = q0, p0 = p0)
 
-index_laspeyres(p1 = q1, p0 = q0, q0 = p0)
+laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
 
 # Works with the index_weights() functions, too
 

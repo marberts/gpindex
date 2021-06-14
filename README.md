@@ -58,9 +58,9 @@ q0 <- price6[[1]]
 q1 <- price6[[2]]
 
 # Calculate a Laspeyres and Paasche index
-index_laspeyres(p1, p0, q0)
+laspeyres_index(p1, p0, q0)
 #> [1] 1.4
-index_paasche(p1, p0, q1)
+paasche_index(p1, p0, q1)
 #> [1] 1.811905
 
 # Can also be done if only weights are available
@@ -76,7 +76,7 @@ harmonic_mean(p1 / p0, s1)
 arithmetic_mean(p1 / p0, s0) * arithmetic_mean(p2 / p1, update_weights(p1 / p0, s0))
 #> [1] 1.05
 
-index_laspeyres(p2, p0, q0)
+laspeyres_index(p2, p0, q0)
 #> [1] 1.05
 
 # Get quote contributions for the Paasche index
@@ -84,19 +84,19 @@ harmonic_contributions(p1 / p0, s1)
 #> [1]  0.02857143  0.71428571  0.04642857 -0.02500000  0.06666667 -0.01904762
 
 # Also works for more exotic indexes, like the Lloyd-Moulton index
-index_lm(p1, p0, q0, 0.5) # elasticity of 0.5
+lm_index(p1, p0, q0, 0.5) # elasticity of 0.5
 #> [1] 1.315599
 generalized_mean(0.5)(p1 / p0, s0)
 #> [1] 1.315599
 generalized_mean(0.5)(p1 / p0, s0) * generalized_mean(0.5)(p2 / p1, factor_weights(0.5)(p1 / p0, s0))
 #> [1] 1.003433
-index_lm(p2, p0, q0, 0.5)
+lm_index(p2, p0, q0, 0.5)
 #> [1] 1.003433
 contributions(0.5)(p1 / p0, s0)
 #> [1]  0.03361012  0.26178360  0.04942922 -0.05699229  0.06468830 -0.03691970
 
 # Calculate a Fisher index over 5 periods
-mapply(index_fisher, price6, price6[1], quantity6, quantity6[1])
+mapply(fisher_index, price6, price6[1], quantity6, quantity6[1])
 #>       t1       t2       t3       t4       t5 
 #> 1.000000 1.401050 1.272099 1.176163 1.071172
 

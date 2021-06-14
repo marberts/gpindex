@@ -124,7 +124,7 @@ contributions_fisher <- nested_contributions(0, c(1, -1))
                              index_weights("Laspeyres")(p0, q0), 
                              index_weights("Paasche")(p1, q1)))
 
-all.equal(sum(con), index_fisher(p1, p0, q1, q0) - 1)
+all.equal(sum(con), fisher_index(p1, p0, q1, q0) - 1)
 
 # Not the only way
 
@@ -133,12 +133,12 @@ contributions_fisher2 <- nested_contributions2(0, c(1, -1))
                                index_weights("Laspeyres")(p0, q0), 
                                index_weights("Paasche")(p1, q1)))
 
-all.equal(sum(con2), index_fisher(p1, p0, q1, q0) - 1)
+all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 
 # The same as the van IJzeren decomposition in section 4.2.2 of Balk (2008)
 
-Qf <- quantity_index(index_fisher)(q1, q0, p1, p0)
-Ql <- quantity_index(index_laspeyres)(q1, q0, p0)
+Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
+Ql <- quantity_index(laspeyres_index)(q1, q0, p0)
 wl <- index_weights("Laspeyres")(p0, q0)
 wp <- index_weights("HybridPaasche")(p0, q1)
 
