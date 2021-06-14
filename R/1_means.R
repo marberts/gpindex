@@ -2,7 +2,7 @@
 # similar to stats::weighted.mean, except that 0s in w are not
 # strong 0s, and na.rm = TRUE removes NAs in x and w
 
-.mean <- function(x, w, na.rm, scale) {
+.mean <- function(x, w, na.rm) {
   if (na.rm) {
     if (anyNA(x) || anyNA(w)) {
       keep <- !(is.na(x) | is.na(w))
@@ -10,7 +10,7 @@
       w <- w[keep]
     } 
   }
-  sum(w * x) / if (scale) sum(w) else 1
+  sum(w * x) / sum(w)
 }
 
 #---- Generalized mean ----
@@ -22,7 +22,7 @@ generalized_mean <- function(r) {
     warning("'r' is very small in absolute value, but not zero; this can give misleading results")
   }
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE) {
+  function(x, w = rep(1, length(x)), na.rm = FALSE) {
     if (length(x) != length(w)) {
       stop("'x' and 'w' must be the same length")
     }
@@ -31,9 +31,9 @@ generalized_mean <- function(r) {
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
-      exp(.mean(log(x), w, na.rm, scale))
+      exp(.mean(log(x), w, na.rm))
     } else {
-      .mean(x %^% r, w, na.rm, scale)^(1 / r) 
+      .mean(x %^% r, w, na.rm)^(1 / r) 
     }
   }
 }

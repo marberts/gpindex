@@ -47,8 +47,8 @@ qb <- runif(15, 2, 4)
               geometric_mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
                                0.5 * p1 * q1 / sum(p1 * q1)))
     all.equal(geometric_index("Vartia1")(p1, p0, q1, q0),
-              geometric_mean(p1 / p0, logmean(p0 * q0, p1 * q1) /
-                               logmean(sum(p0 * q0), sum(p1 * q1)), scale = FALSE))
+              prod((p1 / p0)^(logmean(p0 * q0, p1 * q1) /
+                               logmean(sum(p0 * q0), sum(p1 * q1)))))
     geometric_index("Vartia1")(p1, p0, q1, q0) ==
       geometric_index("MontgomeryVartia")(p1, p0, q1, q0)
     all.equal(geometric_index("Vartia2")(p1, p0, q1, q0),

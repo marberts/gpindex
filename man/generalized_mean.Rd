@@ -13,11 +13,11 @@ Calculate a generalized mean.
 \usage{
 generalized_mean(r)
 
-arithmetic_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+arithmetic_mean(x, w = rep(1, length(x)), na.rm = FALSE)
 
-geometric_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+geometric_mean(x, w = rep(1, length(x)), na.rm = FALSE)
 
-harmonic_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
+harmonic_mean(x, w = rep(1, length(x)), na.rm = FALSE)
 }
 
 \arguments{
@@ -28,14 +28,12 @@ harmonic_mean(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)
 \item{w}{A strictly positive numeric vector of weights, the same length as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
-
-\item{scale}{Should the weights be scaled to sum to 1? By default \code{w} is divided by \code{sum(w)}.}
 }
 
 \value{
 \code{generalized_mean()} returns a function:
 
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE, scale = TRUE)}.
+\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}.
 
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 
@@ -54,7 +52,7 @@ Both \code{x} and \code{w} should be strictly positive (and finite), especially 
 \item{Some authors let \code{w} be non-negative and sum to 1 (e.g., Sydsaeter et al., 2005, p. 47). If \code{w} has zeros, then the corresponding element of \code{x} has no impact on the mean whenever \code{x} is strictly positive. Unlike \code{\link[=weighted.mean]{weighted.mean()}}, however, zeros in \code{w} are not strong zeros, so infinite values in \code{x} will propagate even if the corresponding elements of \code{w} are zero.} 
 }
 
-The weights should almost always be scaled to sum to 1 to satisfy the definition of a generalized mean, although there are certain types of price indexes where the weights should not be scaled (e.g., the Vartia-I index).
+The weights are scaled to sum to 1 to satisfy the definition of a generalized mean. There are certain price indexes where the weights should not be scaled (e.g., the Vartia-I index); use \code{\link[=sum]{sum()}} for these cases.
 
 The underlying calculation returned by \code{generalized_mean()} is mostly identical to \code{\link[=weighted.mean]{weighted.mean()}}, with one important exception: missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}. In most cases \code{arithmetic_mean()} is a drop-in replacement for \code{\link[=weighted.mean]{weighted.mean()}}.
 }

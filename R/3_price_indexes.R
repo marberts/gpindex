@@ -77,7 +77,7 @@ pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) 
         generalized_mean(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
       Vartia1 = ,
       MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-        generalized_mean(r)(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm, FALSE),
+        exp(sum(log(p1 / p0) * index_weights(type)(p1, p0, q1, q0), na.rm = na.rm)),
       Walsh1 = ,
       MarshallEdgeworth = ,
       GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
