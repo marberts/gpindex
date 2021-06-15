@@ -122,7 +122,7 @@ fisher_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
 hlp_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
   wl <- index_weights("Laspeyres")(p0, q0)
   wp <- index_weights("Paasche")(p1, q1)
-  nested_mean(-1, c(1, -1), c(0.5, 0.5))(p1 / p0, wl, wp, na.rm)
+  nested_mean(-1, c(1, -1))(p1 / p0, wl, wp, na.rm)
 }
 
 #---- Lloyd Moulton index ----

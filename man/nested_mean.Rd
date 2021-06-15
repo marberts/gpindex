@@ -79,9 +79,9 @@ quadratic_mean_index2(2)(x, w1, w2)
 
 # The arithmetic AG mean index by Lent and Dorfman (2009)
 
-ag_mean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
+agmean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
 
-ag_mean_index(0.25)(x, w1, w1)
+agmean_index(0.25)(x, w1, w1)
 
 #---- Missing values ----
 

@@ -136,12 +136,11 @@ Type 'q()' to quit R.
 >                   
 > # Or the AG mean index
 > 
-> contributions_agm <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
-> contributions_agm(p1 / p0, 
-+                   index_weights("Laspeyres")(p0, q0), 
-+                   index_weights("Laspeyres")(p0, q0))
+> contributions_agmean <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
+> contributions_agmean(p1 / p0, 
++                      index_weights("Laspeyres")(p0, q0), 
++                      index_weights("Laspeyres")(p0, q0))
 [1]  0.02020872  0.18206588  0.06001941 -0.03256065  0.17841536 -0.01065698
->                   
 > 
 > 
 > 
@@ -543,9 +542,9 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > # The arithmetic AG mean index by Lent and Dorfman (2009)
 > 
-> ag_mean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
+> agmean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
 > 
-> ag_mean_index(0.25)(x, w1, w1)
+> agmean_index(0.25)(x, w1, w1)
 [1] 2.088801
 > 
 > #---- Missing values ----

@@ -66,6 +66,12 @@ all.equal(generalized_mean(0)(xna * a, w, na.rm = TRUE),
           generalized_mean(0)(xna, w, na.rm = TRUE) * generalized_mean(0)(a, factor_weights(0)(xna, w), na.rm = TRUE))
 all.equal(generalized_mean(1)(x * a, w),
           generalized_mean(1)(x, update_weights(a, w)) * generalized_mean(1)(a, w))
+# Errors and warnings
+try(generalized_mean("a"))
+try(generalized_mean(1:2))
+try(generalized_mean(NaN))
+generalized_mean(1e-9)(1)
+try(geometric_mean(1:5, 1:3))
 
 #---- Tests for generalized log means ----
 # Known values
@@ -102,6 +108,13 @@ all.equal(extended_mean(-2, 2)(a, b),
 all.equal(extended_mean(3.5, -3.5)(a, b), 
           apply(matrix(c(a, b), ncol = 2), 1, geometric_mean))
 all.equal(extended_mean(2, 2)(a, b), (a^a^2 / b^b^2)^(1 / (a^2 - b^2)) / exp(1)^(1 / 2))
+# Errors and warnings
+try(extended_mean(1, NA))
+try(extended_mean(NA, 1))
+try(extended_mean("a", mtcars))
+extended_mean(1e-9, 1)(1, 2)
+extended_mean(1, 1e-9)(1, 2)
+extended_mean(1, 1 + 1e-9)(1, 2)
 
 #---- Tests for Lehmer means ----
 # Check Pythagorean means

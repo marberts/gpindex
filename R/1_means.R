@@ -114,4 +114,4 @@ nested_mean <- function(r, s, t = c(1, 1)) {
   }
 }
 
-fisher_mean <- nested_mean(0, c(1, -1), t = c(0.5, 0.5))
+fisher_mean <- nested_mean(0, c(1, -1), t = c(1, 1))
