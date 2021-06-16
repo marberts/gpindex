@@ -137,7 +137,7 @@ cswd_index <- function(p1, p0, na.rm = FALSE) {
 }
 
 #---- Caruthers Sellwood Ward Dalen Balk index ----
-cswd_indexb <- function(p1, p0, q1, q0, na.rm = FALSE) {
+cswdb_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
   sqrt(arithmetic_mean(p1 / p0, na.rm = na.rm) /
          arithmetic_mean(q1 / q0, na.rm = na.rm) *
          arithmetic_mean(p1 * q1 / (p0 * q0), na.rm = na.rm))
@@ -163,7 +163,14 @@ stuval_index <- function(a, b) {
 }
 
 #---- AG mean index ----
-agmean_index <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  w <- index_weights("Laspeyres")(p0, q0)
-  nested_mean(1, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
+agmean_index <- function(r) {
+  force(r)
+  function(p1, p0, q0, elasticity, na.rm = FALSE) {
+    w <- index_weights("Laspeyres")(p0, q0)
+    nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
+  }
 }
+
+arithmetic_agmean_index <- agmean_index(1)
+
+geometric_agmean_index <- agmean_index(0)

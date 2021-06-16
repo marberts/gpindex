@@ -11,9 +11,10 @@
 \alias{fisher_index}
 \alias{hlp_index}
 \alias{lm_index}
-\alias{agmean_index}
+\alias{arithmetic_agmean_index}
+\alias{geometric_agmean_index}
 \alias{cswd_index}
-\alias{cswd_indexb}
+\alias{cswdb_index}
 \alias{bw_index}
 \alias{stuval_index}
 \alias{index_weights}
@@ -47,11 +48,13 @@ hlp_index(p1, p0, q1, q0, na.rm = FALSE)
 
 lm_index(p1, p0, q0, elasticity, na.rm = FALSE)
 
-agmean_index(p1, p0, q0, elasticity, na.rm = FALSE)
+arithmetic_agmean_index(p1, p0, q0, elasticity, na.rm = FALSE)
+
+geometric_agmean_index(p1, p0, q0, elasticity, na.rm = FALSE)
 
 cswd_index(p1, p0, na.rm = FALSE)
 
-cswd_indexb(p1, p0, q1, q0, na.rm = FALSE)
+cswdb_index(p1, p0, q1, q0, na.rm = FALSE)
 
 bw_index(p1, p0, na.rm = FALSE)
 
@@ -117,7 +120,7 @@ Along with the \code{lm_index()} function to calculate the Lloyd-Moulton index, 
 
 The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes, and so they get their own functions. The \code{laspeyres_index()}, \code{lowe_index()}, and \code{young_index()} functions correspond to setting the appropriate \code{type} in \code{arithmetic_index()}; \code{paasche_index()} and \code{jevons_index()} instead come from the \code{harmonic_index()} and \code{geometric_index()} functions.
 
-In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The (arithmetic) AG mean index is the arithmetic mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuval_index()} function returns a function to calculate a Stuval index of the given parameters.
+In addition to these generalized indexes, there are also functions for calculating a variety of non-generalized indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The AG mean index is the arithmetic or geometric mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuval_index()} function returns a function to calculate a Stuval index of the given parameters.
 
 The \code{index_weights()} function returns a function to calculate weights for a variety of price indexes. Weights for the following types of indexes can be calculated.
 \itemize{

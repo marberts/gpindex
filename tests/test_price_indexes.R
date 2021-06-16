@@ -79,14 +79,16 @@ qb <- runif(15, 2, 4)
               generalized_mean(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
     all.equal(cswd_index(p1, p0), 
               sqrt(arithmetic_mean(p1 / p0) * harmonic_mean(p1 / p0)))
-    all.equal(cswd_indexb(p1, p0, q1, q0), 
+    all.equal(cswdb_index(p1, p0, q1, q0), 
               sqrt(arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) * arithmetic_mean(p1 * q1 / (p0 * q0))))
     all.equal(bw_index(p1, p0), 
               arithmetic_mean(sqrt(p1 / p0)) * harmonic_mean(sqrt(p1 / p0)))
     all.equal(stuval_index(4, 4)(p1, p0, q1, q0), stuval_index(1, 1)(p1, p0, q1, q0))
     stuval_index(4, 4)(p1, p0, q1, q0) != stuval_index(2, 1)(p1, p0, q1, q0)
-    all.equal(agmean_index(p1, p0, q0, 0.25), 
+    all.equal(arithmetic_agmean_index(p1, p0, q0, 0.25), 
               0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
+    all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 
+              geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
 
 #---- Tests for quantity indexes ----
     all.equal(fisher_index(p1, p0, q1, q0),

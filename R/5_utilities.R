@@ -66,14 +66,14 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, na.rm = FALSE, type = 7) {
   m <- mean(xx, na.rm = na.rm)
   x <- x - m
   u <- cu * (mean(xx[xx >= m], na.rm = na.rm) - m) # in some versions m in the median
-  l <- -cl * (m - mean(xx[xx < m], na.rm = na.rm))
+  l <- -cl * (m - mean(xx[xx <= m], na.rm = na.rm))
   x > u | x < l
 }
 
 hb_transform <- function(x, na.rm = FALSE) {
   x <- as.numeric(x)
   if (any(x <= 0, na.rm = TRUE)) {
-    warning("some elements of 'x' are less than or equal to 0")
+    warning("some elements of 'x' are less than or equal to 0; the Hidiroglou-Berthelot transformation is not defined")
   }
   med <- median(x, na.rm = na.rm)
   res <- 1 - med / x

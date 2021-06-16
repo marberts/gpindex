@@ -33,3 +33,7 @@ x <- seq(0.1, 2, by = 0.2)
 
 all.equal(hb_transform(x), ifelse(x < median(x), 1 - median(x) / x, x / median(x) - 1))
 hb_transform(x - 1)
+
+all.equal(tukey_algorithm(integer(0)), logical(0))
+all.equal(tukey_algorithm(2), NA)
+all.equal(tukey_algorithm(x), rep(FALSE, 10))

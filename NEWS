@@ -10,7 +10,7 @@ Changes in version 0.3.0
 
 - Added some functions for standard outlier-detection methods for price relatives.
 
-- Dropped the 'scale' argument for generalized_mean(), as it really wasn't needed and had the potential to make more problems that it solved.
+- Dropped the 'scale' argument for generalized_mean(), as it really wasn't needed and had the potential to make more problems than it solved.
 
 Changes in version 0.2.5
 
