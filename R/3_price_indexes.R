@@ -22,17 +22,21 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     Palgrave = ,
     Paasche = function(p1, q1) p1 * q1,
     HybridPaasche = function(p0, q1) p0 * q1,
-    Drobish = function(p1, p0, q1, q0) (p0 * q0 / v(p0, q0) + p0 * q1 / v(p0, q1)) / 2,
+    Drobish = function(p1, p0, q1, q0) 
+      (p0 * q0 / v(p0, q0) + p0 * q1 / v(p0, q1)) / 2,
     Unnamed = ,
-    Tornqvist = function(p1, p0, q1, q0) (p0 * q0 / v(p0, q0) + p1 * q1 / v(p1, q1)) / 2,
+    Tornqvist = function(p1, p0, q1, q0) 
+      (p0 * q0 / v(p0, q0) + p1 * q1 / v(p1, q1)) / 2,
     Walsh1 = function(p0, q1, q0) p0 * sqrt(q0 * q1),
     Walsh2 = function(p1, p0, q1, q0) sqrt(p0 * q0 * p1 * q1),
     MarshallEdgeworth = function(p0, q1, q0) p0 * (q0 + q1),
     GearyKhamis = function(p0, q1, q0) p0 / (1 / q0 + 1 / q1),
     Vartia1 = ,
-    MontgomeryVartia = function(p1, p0, q1, q0) logmean(p0 * q0, p1 * q1) / logmean(v(p0, q0), v(p1, q1)),
+    MontgomeryVartia = function(p1, p0, q1, q0) 
+      logmean(p0 * q0, p1 * q1) / logmean(v(p0, q0), v(p1, q1)),
     Vartia2 = ,
-    SatoVartia = function(p1, p0, q1, q0) logmean(p0 * q0 / v(p0, q0), p1 * q1 / v(p1, q1))
+    SatoVartia = function(p1, p0, q1, q0) 
+      logmean(p0 * q0 / v(p0, q0), p1 * q1 / v(p1, q1))
   )
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
@@ -51,10 +55,10 @@ pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) 
                                 "Vartia2", "SatoVartia", "Walsh2",
                                 "Young"),
                   harmonic = c("Coggeshall", "Laspeyres", "Paasche", "Young"))
+  r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
   # return function
   function(type) {
     type <- match.arg(type, types)
-    r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
     # return function
     res <- switch(
       type,

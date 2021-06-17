@@ -53,7 +53,7 @@ Unlike the case of a generalized index, there are several ways to make contribut
 
 \code{function(x, w = rep(1, length(x))}.
 
-This computes the additive contribution for each element in \code{x} in an index based on the generalized mean of order \code{r}.
+This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r}.
 
 \code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 

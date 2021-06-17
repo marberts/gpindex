@@ -49,7 +49,7 @@ harmonic_contributions <- contributions(-1)
 #---- Nested contributions ----
 nested_contributions <- function(r, s, t = c(1, 1)) {
   contrib <- contributions(r)
-  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  if (length(s) != 2 || !is.numeric(s)) stop("'s' must be a pair of numeric values")
   r_weights <- lapply(s, transmute_weights, r)
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
   t <- as.numeric(t)
@@ -66,7 +66,7 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
 
 nested_contributions2 <- function(r, s, t = c(1, 1)) {
   arithmetic_weights <- transmute_weights(r, 1)
-  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  if (length(s) != 2 || !is.numeric(s)) stop("'s' must be a pair of numeric values")
   contrib <- lapply(s, contributions)
   mean <- lapply(s, generalized_mean)
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")

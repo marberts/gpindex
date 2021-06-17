@@ -5,7 +5,7 @@
 \title{Offset prices}
 
 \description{
-Utility functions to offset a vector of prices, computing either the price in the previous period (back price), or the price in the first period (base price). Useful when price information is stored in a table.
+Utility functions to offset a vector of prices, computing either the price in the previous period (back price), or the price in the first period (base price). Useful when price information is stored in a table. (Works well for quantities, too.)
 }
 
 \usage{

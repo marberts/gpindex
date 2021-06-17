@@ -16,7 +16,10 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > library(gpindex)
+>
+> set.seed(4321)
 > 
+> #---- Tests for offsetting prices ----
 > # Make some data for the tests
 > price <- 1:10
 > id <- letters[c(5:1, 1:5)]
@@ -65,9 +68,10 @@ NA  2  3  4  5  5  4  3  2 NA
  e  d  c  b  a  a  b  c  d  e 
 NA  2  3  4  5  5  4  3  2 NA 
 >
-> x <- 1:10
+> #---- Tests for outliers ----
+> x <- log(runif(10, 0.5, 1.5))
 >
-> all.equal(fixed_cutoff(x), x > 2)
+> all.equal(fixed_cutoff(x), x > 2 | x < 0.5)
 [1] TRUE
 > all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) / 2 |
 +             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) / 2)

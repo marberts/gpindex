@@ -16,7 +16,7 @@ Standard cutoff-based methods for detecting outliers with price relatives.
 }
 
 \usage{
-fixed_cutoff(x, cu, cl = 1 / cu)
+fixed_cutoff(x, cu = 2, cl = 1 / cu)
 
 robust_z(x, cu = 2.5, cl = cu, na.rm = FALSE)
 

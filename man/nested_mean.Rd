@@ -45,7 +45,7 @@ There is some ambiguity about how to remove missing values in \code{w1} or \code
 \references{
 Diewert, W. E. (1976). Exact and superlative index numbers. \emph{Journal of Econometrics}, 4(2): 114--145.
 
-Lent, J. and Dorfman, A, H. (2009). Using a Weighted Average of Base Period Price Indexes to Approximate a Superlative Index. \emph{Journal of Official Statistics}, 25(1):139--149.
+Lent, J. and Dorfman, A, H. (2009). Using a weighted average of base period price indexes to approximate a superlative index. \emph{Journal of Official Statistics}, 25(1):139--149.
 }
 
 \seealso{

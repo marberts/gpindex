@@ -1,5 +1,8 @@
 library(gpindex)
 
+set.seed(4321)
+
+#---- Tests for offsetting prices ----
 # Make some data for the tests
 price <- 1:10
 id <- letters[c(5:1, 1:5)]
@@ -19,9 +22,10 @@ back_price(price[-1], period[-1], id[-1])
 back_price(price, period, replace(id, 1, NA))
 back_price(replace(price, 1, NA), period, id)
 
-x <- 1:10
+#---- Tests for outliers ----
+x <- log(runif(10, 0.5, 1.5))
 
-all.equal(fixed_cutoff(x), x > 2)
+all.equal(fixed_cutoff(x), x > 2 | x < 0.5)
 all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) / 2 |
             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) / 2)
 all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) / 2 |
