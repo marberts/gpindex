@@ -62,7 +62,7 @@ extended_mean <- function(r, s) {
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     if (any_negative(a, b)) {
-      warning("some elements 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
+      warning("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
     }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
@@ -104,12 +104,13 @@ contraharmonic_mean <- lehmer_mean(2)
 #---- Nested mean ----
 nested_mean <- function(r, s, t = c(1, 1)) {
   outer_mean <- generalized_mean(r)
-  if (length(s) != 2 || !is.numeric(s)) stop("'s' must be a pair of numeric values")
-  inner_mean <- lapply(s, generalized_mean)
+  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  inner_mean1 <- generalized_mean(s[1])
+  inner_mean2 <- generalized_mean(s[2])
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
   t <- as.numeric(t)
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
-    x <- c(inner_mean[[1]](x, w1, na.rm), inner_mean[[2]](x, w2, na.rm))
+    x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))
     outer_mean(x, t, na.rm)
   }
 }
