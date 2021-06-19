@@ -71,7 +71,7 @@ This computes the additive contribution for each element of \code{x} in an index
 
 This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element of \code{x}.
 
-\code{fisher_contributions()} and \code{fisher_contributions2()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} when a geometric mean aggregate a arithmetic mean of \code{x} with weights \code{w1} and a harmonic mean of \code{x} with weights \code{w2}.
+\code{fisher_contributions()} and \code{fisher_contributions2()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} when a geometric mean aggregates an arithmetic mean of \code{x} with weights \code{w1} and a harmonic mean of \code{x} with weights \code{w2}.
 }
 
 \references{
