@@ -30,16 +30,6 @@ harmonic_mean(x, w = rep(1, length(x)), na.rm = FALSE)
 \item{na.rm}{Should missing values in \code{x} and \code{w} be removed? By default missing values in \code{x} or \code{w} return a missing value.}
 }
 
-\value{
-\code{generalized_mean()} returns a function:
-
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}.
-
-This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
-
-\code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} each return a numeric value for the generalized means of order 1, 0, and -1.
-}
-
 \details{
 The function \code{generalized_mean()} returns a function to compute the generalized mean of \code{x} with weights \code{w} and exponent \code{r} (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0}{r = 0} and \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r} otherwise). This is also called the power mean, Holder mean, or \eqn{l_p}{l_p} mean. See Bullen (2003, p. 175) for a definition, or \url{https://en.wikipedia.org/wiki/Power_mean}. The generalized mean is the solution to the optimal prediction problem: choose \eqn{m}{m} to minimize  \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m) \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}{r = 0}, \eqn{\sum_{i = 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
 
@@ -55,6 +45,16 @@ Both \code{x} and \code{w} should be strictly positive (and finite), especially 
 The weights are scaled to sum to 1 to satisfy the definition of a generalized mean. There are certain price indexes where the weights should not be scaled (e.g., the Vartia-I index); use \code{\link[=sum]{sum()}} for these cases.
 
 The underlying calculation returned by \code{generalized_mean()} is mostly identical to \code{\link[=weighted.mean]{weighted.mean()}}, with one important exception: missing values in the weights are not treated differently than missing values in \code{x}. Setting \code{na.rm = TRUE} drops missing values in both \code{x} and \code{w}, not just \code{x}. This ensures that certain useful identities are satisfied with missing values in \code{x}. In most cases \code{arithmetic_mean()} is a drop-in replacement for \code{\link[=weighted.mean]{weighted.mean()}}.
+}
+
+\value{
+\code{generalized_mean()} returns a function:
+
+\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}.
+
+This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
+
+\code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} each return a numeric value for the generalized means of order 1, 0, and -1.
 }
 
 \section{Warning}{
