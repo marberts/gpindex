@@ -88,7 +88,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link{nested_mean}} for nesting generalized means.
 
-\code{\link{transmute_weights}} transforms the weights to turn an r-generalized mean into an s-generalized mean. 
+\code{\link{transmute_weights}} transforms the weights to turn a generalized mean of order \eqn{r}{r} into a generalized mean of order \eqn{s}{s}. 
 
 \code{\link{factor_weights}} calculates the weights to factor a mean of products into a product of means.
 

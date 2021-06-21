@@ -41,8 +41,21 @@ Type 'q()' to quit R.
 > x <- 2:3
 > 
 > #---- Contributions for a geometric index ----
+>
+> geometric_mean(x) - 1 # percent change in the Jevons index
+[1] 1.44949
 > 
 > geometric_contributions(x)
+[1] 0.5505103 0.8989795
+>
+> all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
+[1] TRUE
+>
+> # This works by first transmuting the weights in the geometric mean
+> # into weights for an arithmetic mean, then finding the contributions
+> # to the percent change
+>
+> scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.5505103 0.8989795
 > 
 > # Not the only way to calculate contributions
@@ -402,7 +415,7 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > ### Name: logarithmic means
 > ### Title: Logarithmic means
-> ### Aliases: generalized_logmean logmean extended_mean
+> ### Aliases: extended_mean generalized_logmean logmean
 > 
 > ### ** Examples
 > 
@@ -984,7 +997,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Basket representation of a price index ----
 > 
-> # Any generalized index can be represented as a basket-style index
+> # Any generalized-mean index can be represented as a basket-style index
 > # by transmuting the weights, which is how some authors define a
 > # price index (e.g., Sydsaeter et al., 2005, p. 174)
 > 

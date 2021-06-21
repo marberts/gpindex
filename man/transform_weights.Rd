@@ -9,8 +9,8 @@
 \description{
 Useful transformations for the weights in a generalized mean. 
 \itemize{
-\item{Transmute weights to turn an r-generalized mean into an s-generalized mean. Useful for calculating additive and multiplicative decompositions for a generalized index.}
-\item{Factor weights to turn the generalized mean of a product into the product of generalized means. Useful for price-updating the weights in a generalized index.}
+\item{Transmute weights to turn a generalized mean of order \eqn{r}{r} into a generalized mean of order \eqn{s}{s}. Useful for calculating additive and multiplicative decompositions for a generalized-mean index.}
+\item{Factor weights to turn the generalized mean of a product into the product of generalized means. Useful for price-updating the weights in a generalized-mean index.}
 \item{Scale weights so they sum to 1.}
 }
 }
@@ -38,7 +38,7 @@ The function \code{transmute_weights()} returns a function to compute a vector o
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 
-This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. See CITE.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. See CITE for details.
 
 The function \code{factor_weights()} returns a function to compute weights \code{u(x, w)} such that 
 
@@ -47,7 +47,7 @@ generalized_mean(r)(x * y, w) == generalized_mean(r)(x, w) *
                                  generalized_mean(r)(y, u(x, w))
 }
 
-This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for chaining the Young index, and gives a way to chain generalized price indexes over time. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{update_weights()} simply calls \code{factor_weights(1)()}.
+This generalizes the result in section C.5 of Chapter 9 of the PPI Manual for chaining the Young index, and gives a way to chain generalized-mean price indexes over time. Factoring weights with \code{r = 1} sometimes gets called price-updating weights; \code{update_weights()} simply calls \code{factor_weights(1)()}.
 
 The function \code{scale_weights()} scales a vector of weights so they sum to 1 by calling \code{x / sum(x, na.rm = TRUE)}.
 
@@ -121,7 +121,7 @@ geometric_contributions(x) # the more convenient way
 
 #---- Basket representation of a price index ----
 
-# Any generalized index can be represented as a basket-style index
+# Any generalized-mean index can be represented as a basket-style index
 # by transmuting the weights, which is how some authors define a
 # price index (e.g., Sydsaeter et al., 2005, p. 174)
 
