@@ -63,13 +63,13 @@ The \code{fisher_contributions()} and \code{fisher_contributions2()} functions c
 
 This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r}.
 
-\code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
-
 \code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
 \code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
 
 This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element of \code{x}.
+
+\code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 
 \code{fisher_contributions()} and \code{fisher_contributions2()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} when a geometric mean aggregates an arithmetic mean of \code{x} with weights \code{w1} and a harmonic mean of \code{x} with weights \code{w2}.
 }

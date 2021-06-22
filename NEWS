@@ -4,7 +4,7 @@ Changes in version 0.3.0
 
 - Added the nested_mean() function to calculate nested generalized means.
 
-- The interface for nested_contributions() is now much simpler, and the function is more focused on making contributions for Fisher indexes. Added the nested_contributions2() function that implements a different algorithm.
+- The interface for nested_contributions() is now much simpler, and the function is focused on making contributions for Fisher indexes. Added the nested_contributions2() function that implements a different algorithm.
 
 - Added the AG mean index.
 
