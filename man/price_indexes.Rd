@@ -148,7 +148,7 @@ Naming for the indexes and weights generally follows the CPI manual and Balk (20
 }
 
 \value{
-\code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, \code{stuval_index()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value.
+\code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, \code{stuval_index()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value giving the change in price between the base period and current period.
 }
 
 \note{

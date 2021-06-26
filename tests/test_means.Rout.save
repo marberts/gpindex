@@ -277,6 +277,12 @@ In outer_mean(x, t, na.rm) :
 > 
 > all.equal(nested_mean(1, c(1, 1))(x, a, a), arithmetic_mean(x, a))
 [1] TRUE
+>
+> is.na(fisher_mean(1, NA, 1))
+[1] TRUE
+>
+> fisher_mean(1, NA, 1, na.rm = TRUE)
+[1] 1
 > 
 > proc.time()
    user  system elapsed 

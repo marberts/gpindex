@@ -140,3 +140,7 @@ all.equal(nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
 all.equal(nested_mean(2, c(1, 0), c(2, 0))(x, a, b), arithmetic_mean(x, a))
 
 all.equal(nested_mean(1, c(1, 1))(x, a, a), arithmetic_mean(x, a))
+
+is.na(fisher_mean(1, NA, 1))
+
+fisher_mean(1, NA, 1, na.rm = TRUE)

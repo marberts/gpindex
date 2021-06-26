@@ -51,7 +51,7 @@ Lent, J. and Dorfman, A, H. (2009). Using a weighted average of base period pric
 \seealso{
 \code{\link{generalized_mean}} for the generalized mean.
 
-\code{\link{contributions}} for quote contributions for indexes based on nested generalized means, like the Fisher index.
+\code{\link{nested_contributions}} for quote contributions for indexes based on nested generalized means, like the Fisher index.
 }
 
 \examples{

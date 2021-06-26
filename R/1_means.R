@@ -94,6 +94,7 @@ lehmer_mean <- function(r) {
   if (!is_number(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
+  # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
     arithmetic_mean(x, w * x %^% (r - 1), na.rm)
   }
@@ -108,11 +109,12 @@ nested_mean <- function(r, s, t = c(1, 1)) {
   inner_mean1 <- generalized_mean(s[1])
   inner_mean2 <- generalized_mean(s[2])
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
-  t <- as.numeric(t)
+  t <- as.numeric(t) # strip any attributes
+  # return function
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
     x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))
     outer_mean(x, t, na.rm)
   }
 }
 
-fisher_mean <- nested_mean(0, c(1, -1), t = c(1, 1))
+fisher_mean <- nested_mean(0, c(1, -1))

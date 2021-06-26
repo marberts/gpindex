@@ -26,6 +26,7 @@ back_price <- offset_price("back")
 base_price <- offset_price("base")
 
 #---- Outlier utilities ----
+# all of these start with as.numeric() to strip attributes
 quantile_method <- function(x, cu = 0.5, cl = cu, a = 0, na.rm = FALSE, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = na.rm, type = type)
@@ -65,7 +66,7 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, na.rm = FALSE, type = 7) {
   xx <- x[x != 1 & x > q[1] & x < q[2]]
   m <- mean(xx, na.rm = na.rm)
   x <- x - m
-  u <- cu * (mean(xx[xx >= m], na.rm = na.rm) - m) # in some versions m in the median
+  u <- cu * (mean(xx[xx >= m], na.rm = na.rm) - m) # in some versions m is the median
   l <- -cl * (m - mean(xx[xx <= m], na.rm = na.rm))
   x > u | x < l
 }

@@ -53,7 +53,7 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
   r_weights1 <- transmute_weights(s[1], r)
   r_weights2 <- transmute_weights(s[2], r)
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
-  t <- as.numeric(t)
+  t <- as.numeric(t) # strip attributes
   # return function
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
     v1 <- scale_weights(r_weights1(x, w1))
@@ -73,7 +73,7 @@ nested_contributions2 <- function(r, s, t = c(1, 1)) {
   mean1 <- generalized_mean(s[1])
   mean2 <- generalized_mean(s[2])
   if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
-  t <- as.numeric(t)
+  t <- as.numeric(t) # strip attributes
   # return function
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x))) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))

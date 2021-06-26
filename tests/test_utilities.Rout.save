@@ -101,6 +101,8 @@ In hb_transform(x - 1) :
 [1] TRUE
 > all.equal(tukey_algorithm(x), rep(FALSE, 10))
 [1] TRUE
+> all.equal(tukey_algorithm(c(NA, 1, 2, 3), na.rm = TRUE), c(NA, T, F, T))
+[1] TRUE
 >
 > proc.time()
    user  system elapsed 

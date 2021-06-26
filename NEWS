@@ -2,11 +2,11 @@ Changes in version 0.3.0
 
 - Most function names have changed to be less awkward; e.g., mean_generalized() is now generalized_mean(), and contributions_geometric() is now geometric_contributions(). This is unfortunately not backwards compatible, but needed to be done.
 
-- Added the nested_mean() function to calculate nested generalized means.
+- Added the nested_mean() function to calculate nested generalized means for, e.g., the Fisher index.
 
 - The interface for nested_contributions() is now much simpler, and the function is focused on making contributions for Fisher indexes. Added the nested_contributions2() function that implements a different algorithm.
 
-- Added the AG mean index.
+- Added the arithmetic_agmean_index() and geometric_agmean_index() functions to calculate the AG mean index.
 
 - Added some functions for standard outlier-detection methods for price relatives.
 
