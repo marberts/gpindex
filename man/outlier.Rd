@@ -50,7 +50,7 @@ These methods often assume that price relatives are symmetrically distributed (i
 }
 
 \value{
-A logical vector, the same length as \code{x}, that is \code{TRUE} if the corresponding element of \code{x} is identified as an outlier.
+A logical vector, the same length as \code{x}, that is \code{TRUE} if the corresponding element of \code{x} is identified as an outlier. The Tukey algorithm can return \code{NA} if there is not sufficient variation in \code{x}.
 }
 
 \references{

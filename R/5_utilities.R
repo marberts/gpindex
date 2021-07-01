@@ -64,6 +64,9 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, na.rm = FALSE, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = na.rm, type = type)
   xx <- x[x != 1 & x > q[1] & x < q[2]]
+  if (!length(xx)) {
+    warning("not enough variation in 'x'")
+  }
   m <- mean(xx, na.rm = na.rm)
   x <- x - m
   u <- cu * (mean(xx[xx >= m], na.rm = na.rm) - m) # in some versions m is the median

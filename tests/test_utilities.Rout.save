@@ -97,8 +97,12 @@ In hb_transform(x - 1) :
 >
 > all.equal(tukey_algorithm(integer(0)), logical(0))
 [1] TRUE
+Warning message:
+In tukey_algorithm(integer(0)) : not enough variation in 'x'
 > all.equal(tukey_algorithm(2), NA)
 [1] TRUE
+Warning message:
+In tukey_algorithm(2) : not enough variation in 'x'
 > all.equal(tukey_algorithm(x), rep(FALSE, 10))
 [1] TRUE
 > all.equal(tukey_algorithm(c(NA, 1, 2, 3), na.rm = TRUE), c(NA, T, F, T))
