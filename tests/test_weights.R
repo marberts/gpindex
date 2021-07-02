@@ -51,3 +51,7 @@ all.equal(sum(nested_contributions(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
 
 all.equal(sum(nested_contributions2(0, c(3, -2))(xna, w, xna), na.rm = TRUE),
           nested_mean(0, c(3, -2))(xna, w, xna, na.rm = TRUE) - 1)
+
+# TODO: Is this correct? I think it only happens when one set of weights is all NA
+all.equal(fisher_contributions(1:2, c(NA, NA)), c(0, 1 / 3))
+all.equal(fisher_contributions2(1:2, c(NA, NA)), c(NaN, NaN))
