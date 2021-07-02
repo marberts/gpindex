@@ -65,7 +65,7 @@ In each case this function augments the weights \code{w}.
 }
 
 \note{
-Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any NAs in \code{x} or \code{w} will return NA. Unless all values are NA, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}}. Similarly, the result of scaling will sum to 1 when NAs are removed.
+Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any missing values in \code{x} or \code{w} will return \code{NA}. Unless all values are \code{NA}, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}}. Similarly, the result of scaling will sum to 1 when missing values are removed.
 }
 
 \references{

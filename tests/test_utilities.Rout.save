@@ -69,17 +69,17 @@ NA  2  3  4  5  5  4  3  2 NA
 NA  2  3  4  5  5  4  3  2 NA 
 >
 > #---- Tests for outliers ----
-> x <- log(runif(10, 0.5, 1.5))
+> x <- log(runif(100, 0.1, 10))
 >
-> all.equal(fixed_cutoff(x), x > 2 | x < 0.5)
+> all.equal(fixed_cutoff(x), x > 2.5 | x < 1 / 2.5)
 [1] TRUE
-> all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) / 2 |
-+             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) / 2)
+> all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
++             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) * 2.5)
 [1] TRUE
-> all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) / 2 |
-+             x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) / 2)
+> all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5 |
++             x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5)
 [1] TRUE
-> sum(resistant_fences(x)) < sum(quantile_method(x))
+> sum(resistant_fences(x)) <= sum(quantile_method(x))
 [1] TRUE
 > all.equal(robust_z(x), abs(x - median(x)) / mad(x) > 2.5)
 [1] TRUE
@@ -97,15 +97,11 @@ In hb_transform(x - 1) :
 >
 > all.equal(tukey_algorithm(integer(0)), logical(0))
 [1] TRUE
-Warning message:
-In tukey_algorithm(integer(0)) : not enough variation in 'x'
-> all.equal(tukey_algorithm(2), NA)
+> all.equal(tukey_algorithm(2), FALSE)
 [1] TRUE
-Warning message:
-In tukey_algorithm(2) : not enough variation in 'x'
-> all.equal(tukey_algorithm(x), rep(FALSE, 10))
+> all.equal(tukey_algorithm(x), c(TRUE, rep(FALSE, 8), TRUE))
 [1] TRUE
-> all.equal(tukey_algorithm(c(NA, 1, 2, 3), na.rm = TRUE), c(NA, T, F, T))
+> all.equal(tukey_algorithm(c(NA, 1, 2, 3)), c(NA, T, F, T))
 [1] TRUE
 >
 > proc.time()
