@@ -26,11 +26,13 @@ back_price(replace(price, 1, NA), period, id)
 x <- log(runif(100, 0.1, 10))
 
 all.equal(fixed_cutoff(x), x > 2.5 | x < 1 / 2.5)
-all.equal(quantile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
+all.equal(quartile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
             x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) * 2.5)
+all.equal(quartile_method(x, a = c(0, 1)), x > median(x) + c((quantile(x, 0.75) - quantile(x, 0.5)), median(x)) * 2.5 |
+            x < median(x) - c((quantile(x, 0.5) - quantile(x, 0.25)), median(x)) * 2.5)
 all.equal(resistant_fences(x), x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5 |
             x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5)
-sum(resistant_fences(x)) <= sum(quantile_method(x))
+sum(resistant_fences(x)) <= sum(quartile_method(x))
 all.equal(robust_z(x), abs(x - median(x)) / mad(x) > 2.5)
 
 x <- seq(0.1, 2, by = 0.2)

@@ -12,6 +12,6 @@ export(generalized_mean, arithmetic_mean, geometric_mean, harmonic_mean,
        stuval_index, arithmetic_agmean_index, geometric_agmean_index,
        quantity_index,
        back_price, base_price,
-       fixed_cutoff, robust_z, quantile_method, resistant_fences, tukey_algorithm, hb_transform)
+       fixed_cutoff, robust_z, quartile_method, resistant_fences, tukey_algorithm, hb_transform)
 
 importFrom(stats, quantile, mad, median)

@@ -27,7 +27,7 @@ base_price <- offset_price("base")
 
 #---- Outlier utilities ----
 # all of these start with as.numeric() to strip attributes
-quantile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
+quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type)
   x <- x - q[2]

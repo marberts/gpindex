@@ -2,7 +2,7 @@
 \alias{outliers}
 \alias{fixed_cutoff}
 \alias{robust_z}
-\alias{quantile_method}
+\alias{quartile_method}
 \alias{resistant_fences}
 \alias{tukey_algorithm}
 \alias{hb_transform}
@@ -20,7 +20,7 @@ fixed_cutoff(x, cu = 2.5, cl = 1 / cu)
 
 robust_z(x, cu = 2.5, cl = cu)
 
-quantile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
+quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
 resistant_fences(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
@@ -41,7 +41,7 @@ Each of these functions constructs an interval of the form \eqn{[b_l(x) - c_l \t
 
 The fixed cutoff method is the simplest, and just uses the interval \eqn{[c_l, c_u]}{[cl, cu]}.
 
-The quantile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual, as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quantile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
+The quartile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual, as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quartile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
 
 The robust Z-score is the usual method to identify relatives in the (asymmetric) tails of the distribution, simply replacing the mean with the median, and the standard deviation with the median absolute deviation.
 
@@ -49,7 +49,7 @@ These methods often assume that price relatives are symmetrically distributed (i
 }
 
 \value{
-A logical vector, the same length as \code{x}, that is \code{TRUE} if the corresponding element of \code{x} is identified as an outlier.
+A logical vector, the same length as \code{x}, that is \code{TRUE} if the corresponding element of \code{x} is identified as an outlier, \code{FALSE} otherwise.
 }
 
 \references{
@@ -67,8 +67,8 @@ x <- rlnorm(10)
 
 fixed_cutoff(x)
 robust_z(x)
-quantile_method(x)
-resistant_fences(x) # this will always identify fewer outliers than the quantile method
+quartile_method(x)
+resistant_fences(x) # this will always identify fewer outliers than the quartile method
 tukey_algorithm(x)
 
 log(x)
