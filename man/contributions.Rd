@@ -47,11 +47,11 @@ fisher_contributions2(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))
 }
 
 \details{
-The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that \code{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}. This generalize the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method in CITE. The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
+The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that \code{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}. This generalize the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method in Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
 
 The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized-mean indexes of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized-mean index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002) by CITE. \code{nested_contributions2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized-mean index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002) by Martin (2021). \code{nested_contributions2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
 
 The \code{fisher_contributions()} and \code{fisher_contributions2()} functions correspond to \code{nested_contributions(0, c(1, -1))()} and \code{nested_contributions2(0, c(1, -1))()}, and are appropriate for calculating quote contributions for a Fisher index.
 }
@@ -77,7 +77,7 @@ This function takes a numeric vector \code{x} and a pair of numeric weights \cod
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
-CITE
+Martin, S. (2021). A note on general decompositions for price indexes. \emph{Prices Analytical Series}, Statistics Canada catalogue no. 62F0014M.
 
 Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Tornqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
 }
