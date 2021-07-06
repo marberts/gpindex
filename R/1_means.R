@@ -105,10 +105,13 @@ contraharmonic_mean <- lehmer_mean(2)
 #---- Nested mean ----
 nested_mean <- function(r, s, t = c(1, 1)) {
   outer_mean <- generalized_mean(r)
-  if (length(s) != 2) stop("'s' must be a pair of numeric values")
+  if (length(s) != 2) {
+    stop("'s' must be a pair of numeric values")}
   inner_mean1 <- generalized_mean(s[1])
   inner_mean2 <- generalized_mean(s[2])
-  if (length(t) != 2 || !is.numeric(t)) stop("'t' must be a pair of numeric values")
+  if (length(t) != 2 || !is.numeric(t)) {
+    stop("'t' must be a pair of numeric values")
+  }
   t <- as.numeric(t) # strip any attributes
   # return function
   function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
