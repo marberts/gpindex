@@ -9,7 +9,7 @@
 \alias{fisher_contributions2}
 
 \title{
-Additive quote contributions
+Quote contributions
 }
 
 \description{

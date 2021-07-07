@@ -31,7 +31,7 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: quote contributions
-> ### Title: Additive quote contributions
+> ### Title: Quote contributions
 > ### Aliases: contributions arithmetic_contributions geometric_contributions
 > ###   harmonic_contributions nested_contributions nested_contributions2
 > ###   fisher_contributions fisher_contributions2

@@ -1,4 +1,4 @@
-Changes in version 0.3.0
+Changes in version 0.3.1
 
 - Most function names have changed to be less awkward; e.g., mean_generalized() is now generalized_mean(), and contributions_geometric() is now geometric_contributions(). This is unfortunately not backwards compatible, but needed to be done.
 
