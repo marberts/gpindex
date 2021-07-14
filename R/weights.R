@@ -14,7 +14,7 @@ transmute_weights <- function(r, s) {
 #---- Factor weights  ----
 factor_weights <- function(r) {
   if (!is_number(r)) {
-    stop("'r' must be a finite length 1 numeric")
+    stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
   function(x, w = rep(1, length(x))) {
@@ -50,12 +50,12 @@ harmonic_contributions <- contributions(-1)
 nested_contributions <- function(r, s, t = c(1, 1)) {
   contrib <- contributions(r)
   if (length(s) != 2) {
-    stop("'s' must be a pair of numeric values")
+    stop(gettext("'s' must be a pair of numeric values"))
   }
   r_weights1 <- transmute_weights(s[1], r)
   r_weights2 <- transmute_weights(s[2], r)
   if (length(t) != 2 || !is.numeric(t)) {
-    stop("'t' must be a pair of numeric values")
+    stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip attributes
   # return function
@@ -72,14 +72,14 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
 nested_contributions2 <- function(r, s, t = c(1, 1)) {
   arithmetic_weights <- transmute_weights(r, 1)
   if (length(s) != 2) {
-    stop("'s' must be a pair of numeric values")
+    stop(gettext("'s' must be a pair of numeric values"))
   }
   contrib1 <- contributions(s[1])
   contrib2 <- contributions(s[2])
   mean1 <- generalized_mean(s[1])
   mean2 <- generalized_mean(s[2])
   if (length(t) != 2 || !is.numeric(t)) {
-    stop("'t' must be a pair of numeric values")
+    stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip attributes
   # return function

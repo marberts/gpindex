@@ -1,4 +1,4 @@
-\name{nested mean}
+\name{nested_mean}
 \alias{nested_mean}
 \alias{fisher_mean}
 

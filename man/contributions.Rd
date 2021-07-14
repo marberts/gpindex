@@ -1,4 +1,4 @@
-\name{quote contributions}
+\name{contributions}
 \alias{contributions}
 \alias{arithmetic_contributions}
 \alias{geometric_contributions}

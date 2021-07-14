@@ -30,7 +30,7 @@ Type 'q()' to quit R.
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: quote contributions
+> ### Name: contributions
 > ### Title: Quote contributions
 > ### Aliases: contributions arithmetic_contributions geometric_contributions
 > ###   harmonic_contributions nested_contributions nested_contributions2
@@ -162,7 +162,7 @@ Type 'q()' to quit R.
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: generalized mean
+> ### Name: generalized_mean
 > ### Title: Generalized mean
 > ### Aliases: generalized_mean arithmetic_mean geometric_mean harmonic_mean
 > 
@@ -313,7 +313,7 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: lehmer mean
+> ### Name: lehmer_mean
 > ### Title: Lehmer mean
 > ### Aliases: lehmer_mean contraharmonic_mean
 > 
@@ -413,7 +413,7 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: logarithmic means
+> ### Name: logarithmic_means
 > ### Title: Logarithmic means
 > ### Aliases: extended_mean generalized_logmean logmean
 > 
@@ -522,7 +522,7 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: nested mean
+> ### Name: nested_mean
 > ### Title: Nested generalized mean
 > ### Aliases: nested_mean fisher_mean
 > 
@@ -587,7 +587,7 @@ Warning in harmonic_mean(c(1, 2, -3)) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: offset prices
+> ### Name: offset_prices
 > ### Title: Offset prices
 > ### Aliases: back_price base_price
 > 
@@ -628,7 +628,7 @@ Warning in back_price(price, period) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: outlier methods
+> ### Name: outliers
 > ### Title: Outlier methods for price relatives
 > ### Aliases: outliers fixed_cutoff robust_z quartile_method
 > ###   resistant_fences tukey_algorithm hb_transform
@@ -665,7 +665,7 @@ Warning in back_price(price, period) :
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: price/quantity data
+> ### Name: price_data
 > ### Title: Sample price/quantity data
 > ### Aliases: price6 quantity6
 > 
@@ -712,7 +712,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: price indexes
+> ### Name: price_index
 > ### Title: Price indexes
 > ### Aliases: price_index arithmetic_index geometric_index harmonic_index
 > ###   laspeyres_index paasche_index jevons_index lowe_index young_index
@@ -919,7 +919,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: quantity indexes
+> ### Name: quantity_index
 > ### Title: Quantity indexes
 > ### Aliases: quantity_index
 > 
@@ -950,7 +950,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: transform weights
+> ### Name: transform_weights
 > ### Title: Transform weights
 > ### Aliases: transmute_weights factor_weights update_weights scale_weights
 > 

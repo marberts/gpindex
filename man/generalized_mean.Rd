@@ -1,4 +1,4 @@
-\name{generalized mean}
+\name{generalized_mean}
 \alias{generalized_mean}
 \alias{arithmetic_mean}
 \alias{geometric_mean}

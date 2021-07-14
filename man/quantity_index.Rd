@@ -1,4 +1,4 @@
-\name{quantity indexes}
+\name{quantity_index}
 \alias{quantity_index}
 
 \title{Quantity indexes}

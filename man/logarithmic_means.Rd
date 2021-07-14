@@ -1,4 +1,4 @@
-\name{logarithmic means}
+\name{logarithmic_means}
 \alias{extended_mean}
 \alias{generalized_logmean}
 \alias{logmean}

@@ -1,4 +1,4 @@
-\name{offset prices}
+\name{offset_prices}
 \alias{back_price}
 \alias{base_price}
 

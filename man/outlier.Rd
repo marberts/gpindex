@@ -1,4 +1,4 @@
-\name{outlier methods}
+\name{outliers}
 \alias{outliers}
 \alias{fixed_cutoff}
 \alias{robust_z}

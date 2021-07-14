@@ -1,4 +1,4 @@
-\name{transform weights}
+\name{transform_weights}
 \alias{transmute_weights}
 \alias{factor_weights}
 \alias{update_weights}

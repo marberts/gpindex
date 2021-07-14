@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gpindex 0.3.2\n"
+"POT-Creation-Date: 2021-07-13 23:19\n"
+"PO-Revision-Date: 2021-07-13\n"
+"Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "'r' must be a finite length 1 numeric"
+msgstr "'r' doit être un nombre fini de longueur 1"
+
+msgid "'r' is very small in absolute value, but not zero; this can give misleading results"
+msgstr "'r' est très petit en valeur absolue, mais pas nul; cela peut donner des résultats trompeurs"
+
+msgid "'x' and 'w' must be the same length"
+msgstr "'x' et 'w' doivent avoir la même longueur"
+
+msgid "some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"
+msgstr "certains éléments de 'x' ou 'w' sont inférieurs ou égaux à 0; la moyenne généralisée n'est pas définie"
+
+msgid "'r' and 's' must be finite length 1 numerics"
+msgstr "'r' et 'r' doivent être des nombres finis de longueur 1"
+
+msgid "'s' is very small in absolute value, but not zero; this can give misleading results"
+msgstr "'s' est très petit en valeur absolue, mais pas nul; cela peut donner des résultats trompeurs"
+
+msgid "'r' and 's' are very close in value, but not equal; this can give misleading results"
+msgstr "'r' et 's' ont des valeurs très proches, mais pas égales; cela peut donner des résultats trompeurs"
+
+msgid "some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"
+msgstr "certains éléments de 'a' ou 'b' sont inférieurs ou égaux à 0; la moyenne étendue n'est pas définie"
+
+msgid "'s' must be a pair of numeric values"
+msgstr "'s' doit être une paire de valeurs numériques"
+
+msgid "'t' must be a pair of numeric values"
+msgstr "'t' doit être une paire de valeurs numériques"
+
+msgid "'a' and 'b' must be finite length 1 numerics"
+msgstr "'a' et 'b' doivent être des nombres finis de longueur 1"
+
+msgid "'price_index' must be a function"
+msgstr "'price_index' doit être une fonction"
+
+msgid "no price/quantity arguments"
+msgstr "aucun argument prix/quantité"
+
+msgid "all arguments must be the same length"
+msgstr "tous les arguments doivent avoir la même longueur"
+
+msgid "there are duplicated period-product pairs"
+msgstr "il existe des paires période-produit en double"
+
+msgid "some elements of 'x' are less than or equal to 0; the Hidiroglou-Berthelot transformation is not defined"
+msgstr "certains éléments de 'x' sont inférieurs ou égaux à 0; la transformation d'Hidiroglou-Berthelot n'est pas définie"

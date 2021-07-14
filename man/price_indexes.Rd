@@ -1,4 +1,4 @@
-\name{price indexes}
+\name{price_index}
 \alias{price_index}
 \alias{arithmetic_index}
 \alias{geometric_index}

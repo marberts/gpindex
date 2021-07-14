@@ -16,18 +16,18 @@
 #---- Generalized mean ----
 generalized_mean <- function(r) {
   if (!is_number(r)) {
-    stop("'r' must be a finite length 1 numeric")
+    stop(gettext("'r' must be a finite length 1 numeric"))
   }
   if (small_but_not_zero(r)) {
-    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+    warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
     if (length(x) != length(w)) {
-      stop("'x' and 'w' must be the same length")
+      stop(gettext("'x' and 'w' must be the same length"))
     }
     if (any_negative(x, w)) {
-      warning("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined")
+      warning(gettext("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"))
     }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
@@ -48,21 +48,21 @@ harmonic_mean <- generalized_mean(-1)
 #---- Extended mean ----
 extended_mean <- function(r, s) {
   if (!is_number(r) || !is_number(s)) {
-    stop("'r' and 's' must be finite length 1 numerics")
+    stop(gettext("'r' and 's' must be finite length 1 numerics"))
   }
   if (small_but_not_zero(r)) {
-    warning("'r' is very small in absolute value, but not zero; this can give misleading results")
+    warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
   if (small_but_not_zero(s)) {
-    warning("'s' is very small in absolute value, but not zero; this can give misleading results")
+    warning(gettext("'s' is very small in absolute value, but not zero; this can give misleading results"))
   }
   if (small_but_not_zero(r - s)) {
-    warning("'r' and 's' are very close in value, but not equal; this can give misleading results")
+    warning(gettext("'r' and 's' are very close in value, but not equal; this can give misleading results"))
   }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     if (any_negative(a, b)) {
-      warning("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined")
+      warning(gettext("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"))
     }
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
@@ -92,7 +92,7 @@ logmean <- generalized_logmean(0)
 #---- Lehmer mean ----
 lehmer_mean <- function(r) {
   if (!is_number(r)) {
-    stop("'r' must be a finite length 1 numeric")
+    stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
   function(x, w = rep(1, length(x)), na.rm = FALSE) {
@@ -106,11 +106,12 @@ contraharmonic_mean <- lehmer_mean(2)
 nested_mean <- function(r, s, t = c(1, 1)) {
   outer_mean <- generalized_mean(r)
   if (length(s) != 2) {
-    stop("'s' must be a pair of numeric values")}
+    stop(gettext("'s' must be a pair of numeric values"))
+  }
   inner_mean1 <- generalized_mean(s[1])
   inner_mean2 <- generalized_mean(s[2])
   if (length(t) != 2 || !is.numeric(t)) {
-    stop("'t' must be a pair of numeric values")
+    stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip any attributes
   # return function

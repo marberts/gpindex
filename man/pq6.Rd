@@ -1,5 +1,5 @@
 \docType{data}
-\name{price/quantity data}
+\name{price_data}
 \alias{price6}
 \alias{quantity6}
 
