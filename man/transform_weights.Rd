@@ -57,7 +57,7 @@ Both \code{x} and \code{w} should be strictly positive. This is not enforced, bu
 \value{
 \code{transmute_weights()} and \code{factor_weights()} return a function: 
 
-\code{function(x, w = rep(1, length(x))}.
+\preformatted{function(x, w = rep(1, length(x))}
 
 In each case this function augments the weights \code{w}.
 

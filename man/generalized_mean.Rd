@@ -50,7 +50,7 @@ The underlying calculation returned by \code{generalized_mean()} is mostly ident
 \value{
 \code{generalized_mean()} returns a function:
 
-\code{function(x, w = rep(1, length(x)), na.rm = FALSE)}.
+\preformatted{function(x, w = rep(1, length(x)), na.rm = FALSE)}
 
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 

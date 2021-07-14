@@ -59,13 +59,13 @@ The \code{fisher_contributions()} and \code{fisher_contributions2()} functions c
 \value{
 \code{contributions()} returns a function: 
 
-\code{function(x, w = rep(1, length(x))}.
+\preformatted{function(x, w = rep(1, length(x))}
 
 This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r}.
 
 \code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
-\code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}.
+\preformatted{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)))}
 
 This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element of \code{x}.
 

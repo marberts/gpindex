@@ -31,7 +31,7 @@ fisher_mean(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)
 \value{
 \code{nested_mean()} returns a function:
 
-\code{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)}.
+\preformatted{function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE)}
 
 This computes the generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
 
