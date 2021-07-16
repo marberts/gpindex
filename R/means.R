@@ -1,18 +1,3 @@
-#---- Internal mean ----
-# similar to stats::weighted.mean, except that 0s in w are not
-# strong 0s, and na.rm = TRUE removes NAs in x and w
-
-.mean <- function(x, w, na.rm) {
-  if (na.rm) {
-    if (anyNA(x) || anyNA(w)) {
-      keep <- !(is.na(x) | is.na(w))
-      x <- x[keep]
-      w <- w[keep]
-    } 
-  }
-  sum(w * x) / sum(w)
-}
-
 #---- Generalized mean ----
 generalized_mean <- function(r) {
   if (!is_number(r)) {
@@ -22,18 +7,26 @@ generalized_mean <- function(r) {
     warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE) {
+  function(x, w = rep(1L, length(x)), na.rm = FALSE) {
     if (length(x) != length(w)) {
       stop(gettext("'x' and 'w' must be the same length"))
     }
     if (any_negative(x, w)) {
       warning(gettext("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"))
     }
+    # removing NAs here means that NaNs for log(negative) are not removed when na.rm = TRUE
+    if (na.rm) {
+      if (anyNA(x) || anyNA(w)) {
+        keep <- !(is.na(x) | is.na(w))
+        x <- x[keep]
+        w <- w[keep]
+      } 
+    }
     # this works more-or-less the same as genmean in StatsBase.jl
     if (r == 0) {
-      exp(.mean(log(x), w, na.rm))
+      exp(sum(log(x) * w) / sum(w))
     } else {
-      .mean(x %^% r, w, na.rm)^(1 / r) 
+      (sum(x %^% r * w) / sum(w))^(1 / r) 
     }
   }
 }
@@ -95,7 +88,7 @@ lehmer_mean <- function(r) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
-  function(x, w = rep(1, length(x)), na.rm = FALSE) {
+  function(x, w = rep(1L, length(x)), na.rm = FALSE) {
     arithmetic_mean(x, w * x %^% (r - 1), na.rm)
   }
 }
@@ -115,7 +108,7 @@ nested_mean <- function(r, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip any attributes
   # return function
-  function(x, w1 = rep(1, length(x)), w2 = rep(1, length(x)), na.rm = FALSE) {
+  function(x, w1 = rep(1L, length(x)), w2 = rep(1L, length(x)), na.rm = FALSE) {
     x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))
     outer_mean(x, t, na.rm)
   }

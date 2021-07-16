@@ -80,6 +80,19 @@ In geometric_mean(c(1, 1, 2), c(0.5, 0, 0.5)) :
 Warning message:
 In harmonic_mean(c(1, -1, 2), c(0.5, 0, 0.5)) :
   some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+> # Negative values
+> is.na(geometric_mean(-1:1))
+[1] TRUE
+Warning messages:
+1: In geometric_mean(-1:1) :
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+2: In log(x) : NaNs produced
+> is.na(geometric_mean(-1:1, na.rm = TRUE))
+[1] TRUE
+Warning messages:
+1: In geometric_mean(-1:1, na.rm = TRUE) :
+  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+2: In log(x) : NaNs produced
 > 
 > #---- Tests for generalized means ----
 > # Base implementation

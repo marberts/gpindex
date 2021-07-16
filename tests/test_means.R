@@ -32,6 +32,9 @@ all.equal(geometric_mean(replace(x, 3, 0), w), 0)
 all.equal(harmonic_mean(replace(x, 3, 0), w), 0)
 all.equal(geometric_mean(c(1, 1, 2), c(0.5, 0, 0.5)), sqrt(2))
 all.equal(harmonic_mean(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
+# Negative values
+is.na(geometric_mean(-1:1))
+is.na(geometric_mean(-1:1, na.rm = TRUE))
 
 #---- Tests for generalized means ----
 # Base implementation

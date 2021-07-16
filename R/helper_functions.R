@@ -10,8 +10,8 @@ same_length <- function(...) {
 }
 
 #---- Checks for warnings ----
-any_negative <- function(x, y) {
-  any(x <= 0, na.rm = TRUE) || any(y <= 0, na.rm = TRUE)
+any_negative <- function (...) {
+  min(..., na.rm = TRUE) <= 0
 }
 
 small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {
