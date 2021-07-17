@@ -41,9 +41,9 @@ generalized_mean <- function(r) {
         }
       }
       if (r == 0) {
-        exp(sum(log(x) * w) / sum(w))
+        exp(sum(w * log(x)) / sum(w))
       } else {
-        (sum(x %^% r * w) / sum(w))^(1 / r)
+        (sum(w * x %^% r) / sum(w))^(1 / r)
       }
     }
   }
@@ -107,10 +107,8 @@ lehmer_mean <- function(r) {
   }
   # return function
   function(x, w, na.rm = FALSE) {
-    if (missing(w) && r != 1) {
-      w <- x %^% (r - 1)
-    } else if (!missing(w)) {
-      w <- w * x %^% (r - 1)
+    if (r != 1) {
+      w <- if (missing(w)) (x %^% (r - 1)) else w * (x %^% (r - 1))
     }
     arithmetic_mean(x, w, na.rm = na.rm)
   }
@@ -131,7 +129,7 @@ nested_mean <- function(r, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip any attributes
   # return function
-  function(x, w1 = rep(1L, length(x)), w2 = rep(1L, length(x)), na.rm = FALSE) {
+  function(x, w1, w2, na.rm = FALSE) {
     x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))
     outer_mean(x, t, na.rm)
   }

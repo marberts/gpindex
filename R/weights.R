@@ -5,6 +5,7 @@ transmute_weights <- function(r, s) {
   # return function
   function(x, w) {
     if (missing(w)) {
+      # make sure NAs propagate when r == s
       if (r == s) {
         replace(rep(1, length(x)), is.na(x), NA)
       } else {
@@ -12,7 +13,8 @@ transmute_weights <- function(r, s) {
       }
     } else {
       if (r == s) {
-        replace(w, is.na(x), NA)
+        w[is.na(x)] <- NA
+        w
       } else {
         w * ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
       }
@@ -28,6 +30,7 @@ factor_weights <- function(r) {
   # return function
   function(x, w) {
     if (missing(w)) {
+      # make sure NAs propagate when r == 0
       if (r == 0) {
         replace(rep(1, length(x)), is.na(x), NA)
       } else {
@@ -35,7 +38,8 @@ factor_weights <- function(r) {
       }
     } else {
       if (r == 0) {
-        replace(w, is.na(x), NA)
+        w[is.na(x)] <- NA
+        w
       } else {
         w * x %^% r
       }

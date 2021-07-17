@@ -41,20 +41,20 @@ Type 'q()' to quit R.
 > x <- 2:3
 > 
 > #---- Contributions for a geometric index ----
->
+> 
 > geometric_mean(x) - 1 # percent change in the Jevons index
 [1] 1.44949
 > 
 > geometric_contributions(x)
 [1] 0.5505103 0.8989795
->
+> 
 > all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 [1] TRUE
->
+> 
 > # This works by first transmuting the weights in the geometric mean
 > # into weights for an arithmetic mean, then finding the contributions
 > # to the percent change
->
+> 
 > scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.5505103 0.8989795
 > 
@@ -295,14 +295,14 @@ Type 'q()' to quit R.
 > 
 > arithmetic_mean(c(1, 2, -3))
 Warning in arithmetic_mean(c(1, 2, -3)) :
-  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
 [1] 0
 > 
 > # Other times it's less obvious
 > 
 > harmonic_mean(c(1, 2, -3))
 Warning in harmonic_mean(c(1, 2, -3)) :
-  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
 [1] 2.571429
 > 
 > 
@@ -1037,7 +1037,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.272 0.015 0.294 0 0 
+Time elapsed:  0.27 0.018 0.288 0 0 
 > grDevices::dev.off()
 null device 
           1 

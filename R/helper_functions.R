@@ -49,28 +49,3 @@ v <- function(p, q) {
     e1^e2
   }
 }
-
-#---- Unit weights ----
-# The uw class optimizes weighted means with equal weights.
-# It improves performance for large (>= 1e6) vectors, but I'm not sure
-# it's worth the extra complexity
-
-# unit_weights <- function(x) structure(length(x), class = "uw")
-# 
-# sum.uw <- function(x, ..., na.rm = FALSE) sum(..., na.rm = na.rm) + unclass(x)
-# 
-# length.uw <- function(x) unclass(x)
-# 
-# `*.uw` <- function(e1, e2) {
-#   lhs <- nzchar(.Method[1])
-#   rhs <- nzchar(.Method[2])
-#   if (rhs && lhs) {
-#     structure(max(e1, e2), class = "uw")
-#   } else if (lhs) {
-#     if (length(e2) < e1) rep_len(e2, e1) else e2
-#   } else {
-#     if (length(e1) < e2) rep_len(e1, e2) else e1
-#   }
-# }
-# 
-# `[.uw` <- function(x, i) structure(length((1L)[i]), class = "uw")

@@ -85,13 +85,13 @@ In harmonic_mean(c(1, -1, 2), c(0.5, 0, 0.5)) :
 [1] TRUE
 Warning messages:
 1: In geometric_mean(-1:1) :
-  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
 2: In log(x) : NaNs produced
 > is.na(geometric_mean(-1:1, na.rm = TRUE))
 [1] TRUE
 Warning messages:
 1: In geometric_mean(-1:1, na.rm = TRUE) :
-  some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined
+  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
 2: In log(x) : NaNs produced
 > 
 > #---- Tests for generalized means ----
@@ -254,6 +254,8 @@ In extended_mean(1, 1 + 1e-09) :
 > 
 > #---- Tests for Lehmer means ----
 > # Check Pythagorean means
+> all.equal(lehmer_mean(1)(xna, na.rm = TRUE), weighted.mean(xna, na.rm = TRUE))
+[1] TRUE
 > all.equal(lehmer_mean(1)(x, w), weighted.mean(x, w))
 [1] TRUE
 > all.equal(lehmer_mean(0)(x, w), 1 / weighted.mean(1 / x, w))
@@ -290,13 +292,16 @@ In outer_mean(x, t, na.rm) :
 > 
 > all.equal(nested_mean(1, c(1, 1))(x, a, a), arithmetic_mean(x, a))
 [1] TRUE
->
+> 
+> all.equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
+[1] TRUE
+> 
 > is.na(fisher_mean(1, NA, 1))
 [1] TRUE
->
+> 
 > fisher_mean(1, NA, 1, na.rm = TRUE)
 [1] 1
 > 
 > proc.time()
    user  system elapsed 
-  0.412   0.181   0.418 
+  0.372   0.243   0.380 

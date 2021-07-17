@@ -121,6 +121,7 @@ extended_mean(1, 1 + 1e-9)(1, 2)
 
 #---- Tests for Lehmer means ----
 # Check Pythagorean means
+all.equal(lehmer_mean(1)(xna, na.rm = TRUE), weighted.mean(xna, na.rm = TRUE))
 all.equal(lehmer_mean(1)(x, w), weighted.mean(x, w))
 all.equal(lehmer_mean(0)(x, w), 1 / weighted.mean(1 / x, w))
 all.equal(lehmer_mean(0.5)(x[1:2]), sqrt(prod(x[1:2])))
@@ -143,6 +144,8 @@ all.equal(nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
 all.equal(nested_mean(2, c(1, 0), c(2, 0))(x, a, b), arithmetic_mean(x, a))
 
 all.equal(nested_mean(1, c(1, 1))(x, a, a), arithmetic_mean(x, a))
+
+all.equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
 
 is.na(fisher_mean(1, NA, 1))
 
