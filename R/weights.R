@@ -3,11 +3,20 @@ transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
   # return function
-  function(x, w = rep(1L, length(x))) {
-    res <- w * ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
-    # make sure NAs propagate so that weights scale correctly with NAs in x
-    res[if (r == s) is.na(x) & !is.na(w)] <- NA
-    res
+  function(x, w) {
+    if (missing(w)) {
+      if (r == s) {
+        replace(rep(1, length(x)), is.na(x), NA)
+      } else {
+        ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
+      }
+    } else {
+      if (r == s) {
+        replace(w, is.na(x), NA)
+      } else {
+        w * ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
+      }
+    }
   }
 }
 
@@ -17,11 +26,20 @@ factor_weights <- function(r) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
-  function(x, w = rep(1L, length(x))) {
-    res <- w * x %^% r
-    # make sure NAs propagate so that chaining works correctly with NAs in x
-    res[if (r == 0) is.na(x) & !is.na(w)] <- NA
-    res
+  function(x, w) {
+    if (missing(w)) {
+      if (r == 0) {
+        replace(rep(1, length(x)), is.na(x), NA)
+      } else {
+        x %^% r
+      }
+    } else {
+      if (r == 0) {
+        replace(w, is.na(x), NA)
+      } else {
+        w * x %^% r
+      }
+    }
   }
 }
 
@@ -35,7 +53,7 @@ scale_weights <- function(x) {
 #---- Contributions ----
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
-  function(x, w = rep(1L, length(x))) {
+  function(x, w) {
     scale_weights(arithmetic_weights(x, w)) * (x - 1)
   }
 }
@@ -59,7 +77,7 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip attributes
   # return function
-  function(x, w1 = rep(1L, length(x)), w2 = rep(1L, length(x))) {
+  function(x, w1, w2) {
     v1 <- scale_weights(r_weights1(x, w1))
     v2 <- scale_weights(r_weights2(x, w2))
     # the calculation is wrong if NAs in w1 or w2 propagate
@@ -83,7 +101,7 @@ nested_contributions2 <- function(r, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip attributes
   # return function
-  function(x, w1 = rep(1L, length(x)), w2 = rep(1L, length(x))) {
+  function(x, w1, w2) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- scale_weights(arithmetic_weights(m, t))
     u1 <- contrib1(x, w1)

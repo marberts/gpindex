@@ -7,26 +7,44 @@ generalized_mean <- function(r) {
     warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
   # return function
-  function(x, w = rep(1L, length(x)), na.rm = FALSE) {
-    if (length(x) != length(w)) {
-      stop(gettext("'x' and 'w' must be the same length"))
-    }
-    if (any_negative(x, w)) {
-      warning(gettext("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"))
-    }
-    # removing NAs here means that NaNs for log(negative) are not removed when na.rm = TRUE
-    if (na.rm) {
-      if (anyNA(x) || anyNA(w)) {
-        keep <- !(is.na(x) | is.na(w))
-        x <- x[keep]
-        w <- w[keep]
-      } 
-    }
-    # this works more-or-less the same as genmean in StatsBase.jl
-    if (r == 0) {
-      exp(sum(log(x) * w) / sum(w))
+  function(x, w, na.rm = FALSE) {
+    # no weights
+    if (missing(w)) {
+      if (any_negative(x)) {
+        warning(gettext("some elements of 'x' are less than or equal to 0; the generalized mean is not defined"))
+      }
+      # removing NAs first means that NaNs for log(negative) are not removed when na.rm = TRUE
+      if (na.rm) {
+        if (anyNA(x)) {
+          x <- x[!is.na(x)]
+        }
+      }
+      # this works more-or-less the same as genmean in StatsBase.jl
+      if (r == 0) {
+        exp(sum(log(x)) / length(x))
+      } else {
+        (sum(x %^% r) / length(x))^(1 / r)
+      }
+    # weights
     } else {
-      (sum(x %^% r * w) / sum(w))^(1 / r) 
+      if (length(x) != length(w)) {
+        stop(gettext("'x' and 'w' must be the same length"))
+      }
+      if (any_negative(x, w)) {
+        warning(gettext("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"))
+      }
+      if (na.rm) {
+        if (anyNA(x) || anyNA(w)) {
+          keep <- !(is.na(x) | is.na(w))
+          x <- x[keep]
+          w <- w[keep]
+        }
+      }
+      if (r == 0) {
+        exp(sum(log(x) * w) / sum(w))
+      } else {
+        (sum(x %^% r * w) / sum(w))^(1 / r)
+      }
     }
   }
 }
@@ -88,8 +106,13 @@ lehmer_mean <- function(r) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
-  function(x, w = rep(1L, length(x)), na.rm = FALSE) {
-    arithmetic_mean(x, w * x %^% (r - 1), na.rm)
+  function(x, w, na.rm = FALSE) {
+    if (missing(w) && r != 1) {
+      w <- x %^% (r - 1)
+    } else if (!missing(w)) {
+      w <- w * x %^% (r - 1)
+    }
+    arithmetic_mean(x, w, na.rm = na.rm)
   }
 }
 
