@@ -2,6 +2,7 @@
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
+  p <- pow(r - s)
   # return function
   function(x, w) {
     if (missing(w)) {
@@ -9,14 +10,14 @@ transmute_weights <- function(r, s) {
       if (r == s) {
         replace(rep(1, length(x)), is.na(x), NA)
       } else {
-        ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
+        p(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
       }
     } else {
       if (r == s) {
         w[is.na(x)] <- NA
         w
       } else {
-        w * ext_mean(x, gen_mean(x, w, na.rm = TRUE)) %^% (r - s)
+        w * p(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
       }
     }
   }
@@ -27,6 +28,7 @@ factor_weights <- function(r) {
   if (!is_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
+  p <- pow(r)
   # return function
   function(x, w) {
     if (missing(w)) {
@@ -34,14 +36,14 @@ factor_weights <- function(r) {
       if (r == 0) {
         replace(rep(1, length(x)), is.na(x), NA)
       } else {
-        x %^% r
+        p(x)
       }
     } else {
       if (r == 0) {
         w[is.na(x)] <- NA
         w
       } else {
-        w * x %^% r
+        w * p(x)
       }
     }
   }

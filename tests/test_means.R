@@ -131,9 +131,9 @@ all.equal(lehmer_mean(-3)(x), 1 / lehmer_mean(4)(1 / x))
 all.equal(contraharmonic_mean(xna, w, na.rm = TRUE), 1 / lehmer_mean(-1)(1 / xna, w, na.rm = TRUE))
 
 #---- Tests for %^% ----
-all.equal(mapply(gpindex:::`%^%`, list(x), seq(-2, 2, by = 0.5)[-5]),
+all.equal(mapply(function(e1, e2) gpindex:::pow(e2)(e1), list(x), seq(-2, 2, by = 0.5)[-5]),
           mapply(`^`, list(x), seq(-2, 2, by = 0.5)[-5]))
-all.equal(gpindex:::`%^%`(x, 0), 1)
+all.equal(gpindex:::pow(0)(x), 1)
 
 #---- Tests for nested means ----
 all.equal(nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),

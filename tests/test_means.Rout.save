@@ -193,7 +193,7 @@ In logmean(1, 0) :
 > all(logmean(2:3, rep(sqrt(2)^2, 5)) == c(2, logmean(3, sqrt(2)^2), 2, logmean(3, sqrt(2)^2), 2))
 [1] TRUE
 Warning messages:
-1: In a %^% s - b %^% s :
+1: In ps(a) - ps(b) :
   longer object length is not a multiple of shorter object length
 2: In a/b :
   longer object length is not a multiple of shorter object length
@@ -271,10 +271,10 @@ In extended_mean(1, 1 + 1e-09) :
 [1] TRUE
 > 
 > #---- Tests for %^% ----
-> all.equal(mapply(gpindex:::`%^%`, list(x), seq(-2, 2, by = 0.5)[-5]),
+> all.equal(mapply(function(e1, e2) gpindex:::pow(e2)(e1), list(x), seq(-2, 2, by = 0.5)[-5]),
 +           mapply(`^`, list(x), seq(-2, 2, by = 0.5)[-5]))
 [1] TRUE
-> all.equal(gpindex:::`%^%`(x, 0), 1)
+> all.equal(gpindex:::pow(0)(x), 1)
 [1] TRUE
 > 
 > #---- Tests for nested means ----

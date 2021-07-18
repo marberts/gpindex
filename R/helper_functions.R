@@ -30,22 +30,22 @@ v <- function(p, q) {
 
 #---- Custom power operator ----
 # There are a variety of optimizations for calculating power/extended means
-`%^%` <- function(e1, e2) {
-  if (e2 == 1) {
-    e1
-  } else if (e2 == 0.5) {
-    sqrt(e1)
-  } else if (e2 == 0) {
-    # making the output the same length as e1 would mean evaluating e1
+pow <- function(r) {
+  if (r == 1) {
+    function(x) x
+  } else if (r == 0.5) {
+    function(x) sqrt(x)
+  } else if (r == 0) {
+    # making the output the same length as x would mean evaluating x
     # this is also why this isn't a method for ^
-    1
-  } else if (e2 == -0.5) {
-    1 / sqrt(e1)
-  } else if (e2 == -1) {
-    1 / e1
-  } else if (e2 == -2) {
-    1 / e1^2
+    function(x) 1
+  } else if (r == -0.5) {
+    function(x) 1 / sqrt(x)
+  } else if (r == -1) {
+    function(x) 1 / x
+  } else if (r == -2) {
+    function(x) 1 / x^2
   } else {
-    e1^e2
+    function(x) x^r
   }
 }

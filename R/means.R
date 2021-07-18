@@ -6,6 +6,17 @@ generalized_mean <- function(r) {
   if (small_but_not_zero(r)) {
     warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
+  p <- pow(r)
+  unweighted_gen_mean <- if (r == 0) {
+    function(x) exp(sum(log(x)) / length(x))
+  } else {
+    function(x) (sum(p(x)) / length(x))^(1 / r)
+  }
+  gen_mean <- if (r == 0) {
+    function(x, w) exp(sum(log(x) * w) / sum(w))
+  } else {
+    function(x, w) (sum(p(x) * w) / sum(w))^(1 / r)
+  }
   # return function
   function(x, w, na.rm = FALSE) {
     # no weights
@@ -19,12 +30,7 @@ generalized_mean <- function(r) {
           x <- x[!is.na(x)]
         }
       }
-      # this works more-or-less the same as genmean in StatsBase.jl
-      if (r == 0) {
-        exp(sum(log(x)) / length(x))
-      } else {
-        (sum(x %^% r) / length(x))^(1 / r)
-      }
+      unweighted_gen_mean(x)
     # weights
     } else {
       if (length(x) != length(w)) {
@@ -40,11 +46,7 @@ generalized_mean <- function(r) {
           w <- w[keep]
         }
       }
-      if (r == 0) {
-        exp(sum(w * log(x)) / sum(w))
-      } else {
-        (sum(w * x %^% r) / sum(w))^(1 / r)
-      }
+      gen_mean(x, w)
     }
   }
 }
@@ -70,22 +72,28 @@ extended_mean <- function(r, s) {
   if (small_but_not_zero(r - s)) {
     warning(gettext("'r' and 's' are very close in value, but not equal; this can give misleading results"))
   }
+  pr <- pow(r)
+  ps <- pow(s)
+  pir <- pow(1 / r)
+  pis <- pow(1 / s)
+  pisr <- pow(1 / (s - r))
+  ext_mean <- if (r == 0 && s == 0) {
+    function(a, b) sqrt(a * b)
+  } else if (r == 0) {
+    function(a, b) pis((ps(a) - ps(b)) / log(a / b) / s)
+  } else if (s == 0) {
+    function(a, b) pir((pr(a) - pr(b)) / log(a / b) / r)
+  } else if (r == s) {
+    function(a, b) exp((pr(a) * log(a) - pr(b) * log(b)) / (pr(a) - pr(b)) - 1 / r)
+  } else {
+    function(a, b) pisr((ps(a) - ps(b)) / (pr(a) - pr(b)) * r / s)
+  }
   # return function
   function(a, b, tol = .Machine$double.eps^0.5) {
     if (any_negative(a, b)) {
       warning(gettext("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"))
     }
-    res <- if (r == 0 && s == 0) {
-      sqrt(a * b)
-    } else if (r == 0) {
-      ((a %^% s - b %^% s) / log(a / b) / s) %^% (1 / s)
-    } else if (s == 0) {
-      ((a %^% r - b %^% r) / log(a / b) / r) %^% (1 / r)
-    } else if (r == s) {
-      exp(((a %^% r) * log(a) - (b %^% r) * log(b)) / (a %^% r - b %^% r) - 1 / r)
-    } else {
-      ((a %^% s - b %^% s) / (a %^% r - b %^% r) * r / s) %^% (1 / (s - r))
-    }
+    res <- ext_mean(a, b)
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
     res[loc] <- a[wrap_around(a, loc)]
@@ -105,10 +113,11 @@ lehmer_mean <- function(r) {
   if (!is_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
+  p <- pow(r - 1)
   # return function
   function(x, w, na.rm = FALSE) {
     if (r != 1) {
-      w <- if (missing(w)) (x %^% (r - 1)) else w * (x %^% (r - 1))
+      w <- if (missing(w)) p(x) else w * p(x)
     }
     arithmetic_mean(x, w, na.rm = na.rm)
   }
