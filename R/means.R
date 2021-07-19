@@ -1,35 +1,5 @@
 #---- Generalized mean ----
-pow <- function(x, r) {
-  if (r == 1) {
-    substitute(x)
-  } else if (r == 0.5) {
-    substitute(sqrt(x))
-  } else if (r == -0.5) {
-    substitute(1 / sqrt(x))
-  } else if (r == -1) {
-    substitute(1 / x)
-  } else if (r < 0) {
-    substitute(1 / x^abs(r))
-  } else {
-    substitute(x^r)
-  }
-}
-
-wpow <- function(x, w, r) {
-  if (r == 1) {
-    substitute(w * x)
-  } else if (r == 0.5) {
-    substitute(w * sqrt(x))
-  } else if (r == -0.5) {
-    substitute(w / sqrt(x))
-  } else if (r == -1) {
-    substitute(w / x)
-  } else if (r < 0) {
-    substitute(w / x^abs(r))
-  } else {
-    substitute(w * x^r)
-  }
-}
+globalVariables(c("x", "w"), "gpindex", add = TRUE)
 
 generalized_mean <- function(r) {
   if (!is_number(r)) {
@@ -83,7 +53,8 @@ generalized_mean <- function(r) {
     eval(bquote(pow(sum(.(wpow(x, w, r))) / sum(w), 1 / r)))
   }
   # clean up enclosing environment
-  environment(res) <- list2env(list(r = r), parent = getNamespace("gpindex"))
+  enc <- list(r = r)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
 
@@ -95,6 +66,8 @@ geometric_mean <- generalized_mean(0)
 harmonic_mean <- generalized_mean(-1)
 
 #---- Extended mean ----
+globalVariables(c("a", "b"), "gpindex", add = TRUE)
+
 extended_mean <- function(r, s) {
   if (!is_number(r) || !is_number(s)) {
     stop(gettext("'r' and 's' must be finite length 1 numerics"))
@@ -120,23 +93,41 @@ extended_mean <- function(r, s) {
     res
   }
   expr <- if (r == 0 && s == 0) {
-    quote(quote(sqrt(a * b))) # double quote because of eval below
+    quote(sqrt(a * b))
   } else if (r == 0) {
     # ((a^s - b^s) / log(a / b) / s)^(1 / s)
-    bquote(pow((.(pow(a, s)) - .(pow(b, s))) / log(a / b) / s, 1 / s))
+    z <- bquote((.(pow(a, s)) - .(pow(b, s))) / log(a / b))
+    if (s != 1) {
+      eval(bquote(pow(.(z) / s, 1 / s)))
+    } else {
+      z
+    }
   } else if (s == 0) {
     # ((a^r - b^r) / log(a / b) / r)^(1 / r)
-    bquote(pow((.(pow(a, r)) - .(pow(b, r))) / log(a / b) / s, 1 / r))
+    z <- bquote((.(pow(a, r)) - .(pow(b, r))) / log(a / b))
+    if (r != 1) {
+      eval(bquote(pow(.(z) / r, 1 / r)))
+    } else {
+      z
+    }
   } else if (r == s) {
     # exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
     bquote(exp((.(pow(a, r)) * log(a) - .(pow(b, r)) * log(b)) / (.(pow(a, r)) - .(pow(b, r))) - 1 / r))
   } else {
-    # ((a^s - b^s) / (a^r - b^r) *r / s)^(1 / (s - r))
-    bquote(pow((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))) * r / s, 1 / (s - r)))
+    # ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
+    z <- bquote((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))))
+    if (r == 1) {
+      eval(bquote(pow(.(z) / s, 1 / (s - 1))))
+    } else if (s == 1) {
+      eval(bquote(pow(.(z) * r, 1 / (1 - r))))
+    } else {
+      eval(bquote(pow(.(z) * r / s, 1 / (s - r))))
+    }
   }
-  body(res)[[3]] <- bquote(res <- .(eval(expr)))
+  body(res)[[3]] <- call("<-", quote(res), expr)
   # clean up enclosing environment
-  environment(res) <- list2env(list(r = r, s = s), parent = getNamespace("gpindex"))
+  enc <- list(r = r, s = s)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
 
@@ -152,15 +143,24 @@ lehmer_mean <- function(r) {
   if (!is_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
-  p <- pow(r - 1)
   # return function
-  function(x, w, na.rm = FALSE) {
-    if (r != 1) {
-      w <- if (missing(w)) p(x) else w * p(x)
+  res <- function(x, w, na.rm = FALSE) {
+    if (missing(w)) {
+      # [[2]][[3]]
+    } else {
+      # [[2]][[4]]
     }
-    # the weights are either unaffected when r == 1, or kept as missing
-    arithmetic_mean(x, w, na.rm = na.rm)
   }
+  body(res)[[2]][[3]] <- if (r != 1) {
+    call("arithmetic_mean", quote(x), pow(x, r - 1), quote(na.rm))
+  } else {
+    call("arithmetic_mean", quote(x), na.rm = quote(na.rm))
+  }
+  body(res)[[2]][[4]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
+  # clean up enclosing environment
+  enc <- list(r = r)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 contraharmonic_mean <- lehmer_mean(2)

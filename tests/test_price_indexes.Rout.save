@@ -167,6 +167,7 @@ Type 'q()' to quit R.
 >     length(index_weights("Carli")(integer(0))) == 0
 [1] TRUE
 > 
+>
 > proc.time()
    user  system elapsed 
   0.333   0.203   0.361 

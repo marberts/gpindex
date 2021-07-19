@@ -15,3 +15,4 @@ export(generalized_mean, arithmetic_mean, geometric_mean, harmonic_mean,
        fixed_cutoff, robust_z, quartile_method, resistant_fences, tukey_algorithm, hb_transform)
 
 importFrom(stats, quantile, mad, median)
+importFrom(utils, globalVariables)

@@ -2,25 +2,30 @@
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
-  p <- pow(r - s)
   # return function
-  function(x, w) {
+  res <- function(x, w) {
     if (missing(w)) {
-      # make sure NAs propagate when r == s
-      if (r == s) {
-        replace(rep(1, length(x)), is.na(x), NA)
-      } else {
-        p(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
-      }
+      # [[2]][[3]]
     } else {
-      if (r == s) {
-        w[is.na(x)] <- NA
-        w
-      } else {
-        w * p(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
-      }
+      # [[2]][[4]]
     }
   }
+  body(res)[[2]][[3]] <- if (r == s) {
+    # make sure NAs carry on
+    quote(replace(rep(1, length(x)), is.na(x), NA))
+  } else {
+    pow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), r - s)
+  }
+  body(res)[[2]][[4]] <- if (r == s) {
+    # make sure NAs carry on
+    quote({w[is.na(x)] <- NA; w})
+  } else {
+    wpow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), w, r - s)
+  }
+  # clean up enclosing environment
+  enc <- list(r = r, s = s, gen_mean = gen_mean, ext_mean = ext_mean)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 #---- Factor weights  ----
@@ -28,25 +33,30 @@ factor_weights <- function(r) {
   if (!is_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
-  p <- pow(r)
   # return function
-  function(x, w) {
+  res <- function(x, w) {
     if (missing(w)) {
-      # make sure NAs propagate when r == 0
-      if (r == 0) {
-        replace(rep(1, length(x)), is.na(x), NA)
-      } else {
-        p(x)
-      }
+      # [[2]][[3]]
     } else {
-      if (r == 0) {
-        w[is.na(x)] <- NA
-        w
-      } else {
-        w * p(x)
-      }
+      # [[2]][[4]]
     }
   }
+  body(res)[[2]][[3]] <- if (r == 0) {
+    # make sure NAs carry on
+    quote(replace(rep(1, length(x)), is.na(x), NA))
+  } else {
+    pow(x, r)
+  }
+  body(res)[[2]][[4]] <- if (r == 0) {
+    # make sure NAs carry on
+    quote({w[is.na(x)] <- NA; w})
+  } else {
+    wpow(x, w, r)
+  }
+  # clean up enclosing environment
+  enc <- list(r = r)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 update_weights <- factor_weights(1)
