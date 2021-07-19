@@ -1,4 +1,36 @@
 #---- Generalized mean ----
+pow <- function(x, r) {
+  if (r == 1) {
+    substitute(x)
+  } else if (r == 0.5) {
+    substitute(sqrt(x))
+  } else if (r == -0.5) {
+    substitute(1 / sqrt(x))
+  } else if (r == -1) {
+    substitute(1 / x)
+  } else if (r < 0) {
+    substitute(1 / x^abs(r))
+  } else {
+    substitute(x^r)
+  }
+}
+
+wpow <- function(x, w, r) {
+  if (r == 1) {
+    substitute(w * x)
+  } else if (r == 0.5) {
+    substitute(w * sqrt(x))
+  } else if (r == -0.5) {
+    substitute(w / sqrt(x))
+  } else if (r == -1) {
+    substitute(w / x)
+  } else if (r < 0) {
+    substitute(w / x^abs(r))
+  } else {
+    substitute(w * x^r)
+  }
+}
+
 generalized_mean <- function(r) {
   if (!is_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
@@ -6,19 +38,8 @@ generalized_mean <- function(r) {
   if (small_but_not_zero(r)) {
     warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
   }
-  p <- pow(r)
-  unweighted_gen_mean <- if (r == 0) {
-    function(x) exp(sum(log(x)) / length(x))
-  } else {
-    function(x) (sum(p(x)) / length(x))^(1 / r)
-  }
-  gen_mean <- if (r == 0) {
-    function(x, w) exp(sum(log(x) * w) / sum(w))
-  } else {
-    function(x, w) (sum(p(x) * w) / sum(w))^(1 / r)
-  }
   # return function
-  function(x, w, na.rm = FALSE) {
+  res <- function(x, w, na.rm = FALSE) {
     # no weights
     if (missing(w)) {
       if (any_negative(x)) {
@@ -30,8 +51,8 @@ generalized_mean <- function(r) {
           x <- x[!is.na(x)]
         }
       }
-      unweighted_gen_mean(x)
-    # weights
+      # [[2]][[3]][[4]] 
+      # weights
     } else {
       if (length(x) != length(w)) {
         stop(gettext("'x' and 'w' must be the same length"))
@@ -46,9 +67,24 @@ generalized_mean <- function(r) {
           w <- w[keep]
         }
       }
-      gen_mean(x, w)
+      # [[2]][[4]][[5]]
     }
   }
+  # unweighted calculation
+  body(res)[[2]][[3]][[4]] <- if (r == 0) {
+    quote(exp(sum(log(x)) / length(x)))
+  } else {
+    eval(bquote(pow(sum(.(pow(x, r))) / length(x), 1 / r)))
+  }
+  # weighted calculation
+  body(res)[[2]][[4]][[5]] <- if (r == 0) {
+    quote(exp(sum(w * log(x)) / sum(w)))
+  } else {
+    eval(bquote(pow(sum(.(wpow(x, w, r))) / sum(w), 1 / r)))
+  }
+  # clean up enclosing environment
+  environment(res) <- list2env(list(r = r), parent = getNamespace("gpindex"))
+  res
 }
 
 #---- Pythagorean means ----
@@ -72,33 +108,36 @@ extended_mean <- function(r, s) {
   if (small_but_not_zero(r - s)) {
     warning(gettext("'r' and 's' are very close in value, but not equal; this can give misleading results"))
   }
-  pr <- pow(r)
-  ps <- pow(s)
-  pir <- pow(1 / r)
-  pis <- pow(1 / s)
-  pisr <- pow(1 / (s - r))
-  ext_mean <- if (r == 0 && s == 0) {
-    function(a, b) sqrt(a * b)
-  } else if (r == 0) {
-    function(a, b) pis((ps(a) - ps(b)) / log(a / b) / s)
-  } else if (s == 0) {
-    function(a, b) pir((pr(a) - pr(b)) / log(a / b) / r)
-  } else if (r == s) {
-    function(a, b) exp((pr(a) * log(a) - pr(b) * log(b)) / (pr(a) - pr(b)) - 1 / r)
-  } else {
-    function(a, b) pisr((ps(a) - ps(b)) / (pr(a) - pr(b)) * r / s)
-  }
   # return function
-  function(a, b, tol = .Machine$double.eps^0.5) {
+  res <- function(a, b, tol = .Machine$double.eps^0.5) {
     if (any_negative(a, b)) {
       warning(gettext("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"))
     }
-    res <- ext_mean(a, b)
+    res # placeholder
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
     res[loc] <- a[wrap_around(a, loc)]
     res
   }
+  expr <- if (r == 0 && s == 0) {
+    quote(quote(sqrt(a * b))) # double quote because of eval below
+  } else if (r == 0) {
+    # ((a^s - b^s) / log(a / b) / s)^(1 / s)
+    bquote(pow((.(pow(a, s)) - .(pow(b, s))) / log(a / b) / s, 1 / s))
+  } else if (s == 0) {
+    # ((a^r - b^r) / log(a / b) / r)^(1 / r)
+    bquote(pow((.(pow(a, r)) - .(pow(b, r))) / log(a / b) / s, 1 / r))
+  } else if (r == s) {
+    # exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
+    bquote(exp((.(pow(a, r)) * log(a) - .(pow(b, r)) * log(b)) / (.(pow(a, r)) - .(pow(b, r))) - 1 / r))
+  } else {
+    # ((a^s - b^s) / (a^r - b^r) *r / s)^(1 / (s - r))
+    bquote(pow((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))) * r / s, 1 / (s - r)))
+  }
+  body(res)[[3]] <- bquote(res <- .(eval(expr)))
+  # clean up enclosing environment
+  environment(res) <- list2env(list(r = r, s = s), parent = getNamespace("gpindex"))
+  res
 }
 
 #---- Logarithmic means ----
@@ -119,6 +158,7 @@ lehmer_mean <- function(r) {
     if (r != 1) {
       w <- if (missing(w)) p(x) else w * p(x)
     }
+    # the weights are either unaffected when r == 1, or kept as missing
     arithmetic_mean(x, w, na.rm = na.rm)
   }
 }

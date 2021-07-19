@@ -105,3 +105,4 @@ qb <- runif(15, 2, 4)
 #---- Tests for weights ----
     all(sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1)
     length(index_weights("Carli")(integer(0))) == 0
+    
