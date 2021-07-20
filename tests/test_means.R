@@ -92,8 +92,9 @@ all.equal(extended_mean(0, 0)(4, 4), 4)
 all.equal(extended_mean(0, 0)(1, 4), 2)
 # Symmetry
 all.equal(logmean(a, b), logmean(b, a))
+all.equal(extended_mean(0, 1)(a, b), logmean(a, b))
 all.equal(extended_mean(-0.1, 2.5)(a, b), extended_mean(2.5, -0.1)(b, a))
-all.equal(extended_mean(0, 1)(a, b), extended_mean(1, 0)(b, a))
+all.equal(extended_mean(0, 2)(a, b), extended_mean(2, 0)(b, a))
 all.equal(extended_mean(2, 1)(a, b), extended_mean(1, 2)(b, a))
 all.equal(extended_mean(1, 3)(a, b), extended_mean(3, 1)(b, a))
 # Tolerance
@@ -120,6 +121,8 @@ all.equal(extended_mean(-2, 2)(a, b),
 all.equal(extended_mean(3.5, -3.5)(a, b), 
           apply(matrix(c(a, b), ncol = 2), 1, geometric_mean))
 all.equal(extended_mean(2, 2)(a, b), (a^a^2 / b^b^2)^(1 / (a^2 - b^2)) / exp(1)^(1 / 2))
+all.equal(extended_mean(1, 1)(a, b), (a^a / b^b)^(1 / (a - b)) / exp(1))
+all.equal(extended_mean(-0.5, -0.5)(a, b), (a^a^-0.5 / b^b^-0.5)^(1 / (a^-0.5 - b^-0.5)) / exp(1)^(-2))
 # Errors and warnings
 try(extended_mean(1, NA))
 try(extended_mean(NA, 1))
@@ -155,3 +158,23 @@ all.equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
 is.na(fisher_mean(1, NA, 1))
 
 fisher_mean(1, NA, 1, na.rm = TRUE)
+
+#---- Test of pows ----
+e1 <- function(r) {
+  res <- function(x) {}
+  body(res)[[2]] <- gpindex:::pow(x, r)
+  res
+}
+
+e2 <- function(r) {
+  res <- function(x, w) {}
+  body(res)[[2]] <- gpindex:::wpow(x, w, r)
+  res
+}
+
+rs <- seq(-3, 3, by = 0.5)
+
+all.equal(Map(function(x, r) e1(r)(x), list(x), rs), 
+          Map(function(x, r) x^r, list(x), rs))
+all.equal(Map(function(x, w, r) e2(r)(x, w), list(x), list(w), rs), 
+          Map(function(x, w, r) w * x^r, list(x), list(w), rs))

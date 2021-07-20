@@ -10,17 +10,18 @@ transmute_weights <- function(r, s) {
       # [[2]][[4]]
     }
   }
+  expr <- quote(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
   body(res)[[2]][[3]] <- if (r == s) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA))
   } else {
-    pow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), r - s)
+    eval(bquote(pow(.(expr), r - s)))
   }
   body(res)[[2]][[4]] <- if (r == s) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
   } else {
-    wpow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), w, r - s)
+    eval(bquote(wpow(.(expr), w, r - s)))
   }
   # clean up enclosing environment
   enc <- list(r = r, s = s, gen_mean = gen_mean, ext_mean = ext_mean)
