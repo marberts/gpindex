@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.2.9005\n"
-"POT-Creation-Date: 2021-07-19 15:45\n"
+"Project-Id-Version: gpindex 0.3.2.9006\n"
+"POT-Creation-Date: 2021-07-20 09:44\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,13 +16,7 @@ msgstr ""
 msgid "'r' is very small in absolute value, but not zero; this can give misleading results"
 msgstr ""
 
-msgid "some elements of 'x' are less than or equal to 0; the generalized mean is not defined"
-msgstr ""
-
 msgid "'x' and 'w' must be the same length"
-msgstr ""
-
-msgid "some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"
 msgstr ""
 
 msgid "'r' and 's' must be finite length 1 numerics"
@@ -32,9 +26,6 @@ msgid "'s' is very small in absolute value, but not zero; this can give misleadi
 msgstr ""
 
 msgid "'r' and 's' are very close in value, but not equal; this can give misleading results"
-msgstr ""
-
-msgid "some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"
 msgstr ""
 
 msgid "'s' must be a pair of numeric values"

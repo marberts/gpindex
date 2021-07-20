@@ -2,6 +2,8 @@ Changes in version 0.3.2
 
 - Added French translations.
 
+- Added a number of optimizations to make the results of generalized_mean(), extended_mean(), lehmer_mean(), transmute_weights(), and factor_weights() faster in common cases.
+
 Changes in version 0.3.1
 
 - Most function names have changed to be less awkward; e.g., mean_generalized() is now generalized_mean(), and contributions_geometric() is now geometric_contributions(). This is unfortunately not backwards compatible, but needed to be done.

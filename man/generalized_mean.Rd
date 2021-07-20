@@ -189,15 +189,4 @@ arithmetic_mean(x, w)
 
 arithmetic_mean(x, w, na.rm = TRUE) # drops the second observation
 weighted.mean(x, w, na.rm = TRUE) # still returns NA
-
-#---- Negative values ----
-
-# Sometimes it makes sense to calculate a generalized mean with
-# negative inputs, so the warning can be ignored
-
-arithmetic_mean(c(1, 2, -3))
-
-# Other times it's less obvious
-
-harmonic_mean(c(1, 2, -3))
 }

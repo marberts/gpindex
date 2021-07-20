@@ -12,23 +12,17 @@ generalized_mean <- function(r) {
   res <- function(x, w, na.rm = FALSE) {
     # no weights
     if (missing(w)) {
-      if (any_negative(x)) {
-        warning(gettext("some elements of 'x' are less than or equal to 0; the generalized mean is not defined"))
-      }
       # removing NAs first means that NaNs for log(negative) are not removed when na.rm = TRUE
       if (na.rm) {
         if (anyNA(x)) {
           x <- x[!is.na(x)]
         }
       }
-      # [[2]][[3]][[4]] 
+      # [[2]][[3]][[3]] 
       # weights
     } else {
       if (length(x) != length(w)) {
         stop(gettext("'x' and 'w' must be the same length"))
-      }
-      if (any_negative(x, w)) {
-        warning(gettext("some elements of 'x' or 'w' are less than or equal to 0; the generalized mean is not defined"))
       }
       if (na.rm) {
         if (anyNA(x) || anyNA(w)) {
@@ -37,17 +31,17 @@ generalized_mean <- function(r) {
           w <- w[keep]
         }
       }
-      # [[2]][[4]][[5]]
+      # [[2]][[4]][[4]]
     }
   }
   # unweighted calculation
-  body(res)[[2]][[3]][[4]] <- if (r == 0) {
+  body(res)[[2]][[3]][[3]] <- if (r == 0) {
     quote(exp(sum(log(x)) / length(x)))
   } else {
     eval(bquote(pow(sum(.(pow(x, r))) / length(x), 1 / r)))
   }
   # weighted calculation
-  body(res)[[2]][[4]][[5]] <- if (r == 0) {
+  body(res)[[2]][[4]][[4]] <- if (r == 0) {
     quote(exp(sum(w * log(x)) / sum(w)))
   } else {
     eval(bquote(pow(sum(.(wpow(x, w, r))) / sum(w), 1 / r)))
@@ -83,9 +77,6 @@ extended_mean <- function(r, s) {
   }
   # return function
   res <- function(a, b, tol = .Machine$double.eps^0.5) {
-    if (any_negative(a, b)) {
-      warning(gettext("some elements of 'a' or 'b' are less than or equal to 0; the extended mean is not defined"))
-    }
     res # placeholder
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
@@ -112,7 +103,8 @@ extended_mean <- function(r, s) {
     }
   } else if (r == s) {
     # exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
-    bquote(exp((.(pow(a, r)) * log(a) - .(pow(b, r)) * log(b)) / (.(pow(a, r)) - .(pow(b, r))) - 1 / r))
+    bquote(exp((.(pow(a, r)) * log(a) - .(pow(b, r)) * log(b)) / 
+                 (.(pow(a, r)) - .(pow(b, r))) - 1 / r))
   } else {
     # ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
     z <- bquote((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))))
@@ -121,10 +113,10 @@ extended_mean <- function(r, s) {
     } else if (s == 1) {
       eval(bquote(pow(.(z) * r, 1 / (1 - r))))
     } else {
-      eval(bquote(pow(.(z) * r / s, 1 / (s - r))))
+      eval(bquote(pow(.(z) * (r / s), 1 / (s - r))))
     }
   }
-  body(res)[[3]] <- call("<-", quote(res), expr)
+  body(res)[[2]] <- call("<-", quote(res), expr)
   # clean up enclosing environment
   enc <- list(r = r, s = s)
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))

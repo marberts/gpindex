@@ -10,10 +10,6 @@ same_length <- function(...) {
 }
 
 #---- Checks for warnings ----
-any_negative <- function (...) {
-  min(..., 1, na.rm = TRUE) <= 0 # the 1 stops the warnings with length-0 inputs
-}
-
 small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x) < tol && x != 0
 }

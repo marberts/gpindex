@@ -288,23 +288,6 @@ Type 'q()' to quit R.
 > weighted.mean(x, w, na.rm = TRUE) # still returns NA
 [1] NA
 > 
-> #---- Negative values ----
-> 
-> # Sometimes it makes sense to calculate a generalized mean with
-> # negative inputs, so the warning can be ignored
-> 
-> arithmetic_mean(c(1, 2, -3))
-Warning in arithmetic_mean(c(1, 2, -3)) :
-  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
-[1] 0
-> 
-> # Other times it's less obvious
-> 
-> harmonic_mean(c(1, 2, -3))
-Warning in harmonic_mean(c(1, 2, -3)) :
-  some elements of 'x' are less than or equal to 0; the generalized mean is not defined
-[1] 2.571429
-> 
 > 
 > 
 > cleanEx()
