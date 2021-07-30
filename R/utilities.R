@@ -11,7 +11,7 @@ offset_price <- function(type = c("back", "base")) {
     period <- as.factor(period)
     price <- split(x, period)
     product <- as.factor(product)
-    attributes(product) <- NULL
+    attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
     if (max(vapply(product, anyDuplicated, numeric(1)))) {
       warning(gettext("there are duplicated period-product pairs"))
