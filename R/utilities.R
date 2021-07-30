@@ -10,8 +10,10 @@ offset_price <- function(type = c("back", "base")) {
     offset <- function(x) x[c(1L, if (type == "back") seq_len(length(x) - 1))]
     period <- as.factor(period)
     price <- split(x, period)
-    product <- split(as.integer(as.factor(product)), period)
-    if (any(vapply(product, anyDuplicated, numeric(1)) > 0)) {
+    product <- as.factor(product)
+    attributes(product) <- NULL
+    product <- split(product, period)
+    if (max(vapply(product, anyDuplicated, numeric(1)))) {
       warning(gettext("there are duplicated period-product pairs"))
     }
     matches <- Map(match, product, offset(product), incomparables = NA)
