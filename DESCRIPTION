@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.3.3
+Version: 0.3.3.9001
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com")
     )
@@ -11,4 +11,4 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/marberts/gpindex
 LazyData: true
-Collate: 'helper_functions.R' 'means.R' 'weights.R' 'price_indexes.R' 'quantity_index.R' 'utilities.R'
+Collate: 'helper_functions.R' 'means.R' 'weights.R' 'price_indexes.R' 'operators.R' 'utilities.R'

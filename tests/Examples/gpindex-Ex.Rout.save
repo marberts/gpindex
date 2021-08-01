@@ -606,6 +606,45 @@ Warning in back_price(price, period) :
 > 
 > 
 > cleanEx()
+> nameEx("operators")
+> ### * operators
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: operators
+> ### Title: Function operators
+> ### Aliases: quantity_index grouped
+> 
+> ### ** Examples
+> 
+> p1 <- price6[[3]]
+> p0 <- price6[[2]]
+> q1 <- quantity6[[3]]
+> q0 <- quantity6[[2]]
+> 
+> # Remap argument names to be quantities rather than prices
+> 
+> quantity_index(laspeyres_index)(q1 = q1, q0 = q0, p0 = p0)
+[1] 1.175887
+> 
+> laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
+[1] 1.175887
+> 
+> # Works with the index_weights() functions, too
+> 
+> quantity_index(index_weights("Laspeyres"))(q0 = q0, p0 = p0)
+[1] 0.96 2.70 2.47 0.91 6.58 0.48
+> 
+> # Calculate Tornqvist weights for two groups
+> 
+> f <- rep(letters[1:2], each = 3)
+> tornqvist_weights <- grouped(index_weights("Tornqvist"))
+> tornqvist_weights(p1, p0, q1, q0, group = f)
+[1] 0.18247009 0.33481172 0.48271819 0.12865397 0.81833234 0.05301369
+> 
+> 
+> 
+> cleanEx()
 > nameEx("outlier")
 > ### * outlier
 > 
@@ -639,6 +678,12 @@ Warning in back_price(price, period) :
 > hb_transform(x)
  [1] -0.918538151  1.300051411  4.154877789 -4.990623335  1.676813038
  [6]  1.890871823 -0.019423964  0.008909836 -0.008989935 -0.397291327
+> 
+> # Works the same for grouped data
+> 
+> f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
+> grouped(quartile_method)(x, group = f)
+ [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > 
 > 
 > 
@@ -897,37 +942,6 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > 
 > cleanEx()
-> nameEx("quantity_index")
-> ### * quantity_index
-> 
-> flush(stderr()); flush(stdout())
-> 
-> ### Name: quantity_index
-> ### Title: Quantity indexes
-> ### Aliases: quantity_index
-> 
-> ### ** Examples
-> 
-> p0 <- price6[[2]]
-> q1 <- quantity6[[3]]
-> q0 <- quantity6[[2]]
-> 
-> # Just remaps argument names to be quantities rather than prices
-> 
-> quantity_index(laspeyres_index)(q1 = q1, q0 = q0, p0 = p0)
-[1] 1.175887
-> 
-> laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
-[1] 1.175887
-> 
-> # Works with the index_weights() functions, too
-> 
-> quantity_index(index_weights("Laspeyres"))(q0 = q0, p0 = p0)
-[1] 0.96 2.70 2.47 0.91 6.58 0.48
-> 
-> 
-> 
-> cleanEx()
 > nameEx("transform_weights")
 > ### * transform_weights
 > 
@@ -1020,7 +1034,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.27 0.018 0.288 0 0 
+Time elapsed:  0.269 0.042 0.315 0 0 
 > grDevices::dev.off()
 null device 
           1 

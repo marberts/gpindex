@@ -84,6 +84,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \code{\link{extended_mean}} for the extended mean that underlies \code{transmute_weights()}.
 
 \code{\link{contributions}} for calculating additive quote contributions.
+
+\code{\link{grouped}} to make each of these functions operate on grouped data.
 }
 
 \examples{

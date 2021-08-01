@@ -10,7 +10,7 @@ export(generalized_mean, arithmetic_mean, geometric_mean, harmonic_mean,
        laspeyres_index, paasche_index, jevons_index, lowe_index, young_index,
        fisher_index, hlp_index, lm_index, cswd_index, cswdb_index, bw_index, 
        stuval_index, arithmetic_agmean_index, geometric_agmean_index,
-       quantity_index,
+       quantity_index, grouped,
        back_price, base_price,
        fixed_cutoff, robust_z, quartile_method, resistant_fences, tukey_algorithm, hb_transform)
 

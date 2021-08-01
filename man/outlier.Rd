@@ -60,6 +60,10 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index
 Rais, S. (2008). Outlier detection for the Consumer Price Index. \emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}. 
 }
 
+\seealso{
+\code{\link{grouped}} to make each of these functions operate on grouped data.
+}
+
 \examples{
 set.seed(1234)
 
@@ -73,4 +77,9 @@ tukey_algorithm(x)
 
 log(x)
 hb_transform(x)
+
+# Works the same for grouped data
+
+f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
+grouped(quartile_method)(x, group = f)
 }
