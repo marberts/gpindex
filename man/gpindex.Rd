@@ -12,7 +12,9 @@ A small package for calculating lots of different price indexes, and by extensio
 \section{Background}{
 Everything is framed as a price index to avoid duplication; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 
-Generalized-mean price indexes (sometimes called generalized price indexes for short) are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). Generalized-mean indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index).
+Generalized-mean price indexes (sometimes called generalized price indexes for short) are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). Generalized-mean indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. 
+
+Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index).
 }
 
 \section{Usage}{
@@ -24,7 +26,7 @@ Two important functions for decomposing generalized means are given by \code{\li
 
 On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[=index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link{price_index}} functions provide a simple wrapper, with the \code{\link[=quantity_index]{quantity_index()}} function turning each of these into its analogous quantity index.
 
-There are several utility functions for making price relatives (e.g., \code{\link[=back_price]{back_price()}}) when data are stored in a table, and identifying extreme price relatives (e.g., \code{\link[=resistant_fences]{resistant_fences()}}) that may not be suitable for a price index.
+There are several utility functions for making price relatives (e.g., \code{\link[=back_price]{back_price()}}) when data are stored in a table, and identifying extreme price relatives (e.g., \code{\link[=resistant_fences]{resistant_fences()}}) that may not be suitable for a price index. All functions can be made to work with grouped data with the \code{\link[=grouped]{grouped()}} operator.
 }
 
 \note{

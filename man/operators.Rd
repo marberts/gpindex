@@ -25,7 +25,7 @@ grouped(f)
 \value{
 \code{quantity_index()} returns a function like \code{f}, except that the role of prices/quantities is reversed.
 
-\code{grouped()} returns a function like \code{f} with a new argument \code{grouped}. This accepts a factor to split all other arguments in \code{f} into groups before applying \code{f} to each group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but more general.
+\code{grouped()} returns a function like \code{f} with a new argument \code{group}. This accepts a factor to split all other arguments in \code{f} into groups before applying \code{f} to each group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but more general.
 }
 
 \seealso{

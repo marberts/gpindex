@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.2.9006\n"
-"POT-Creation-Date: 2021-07-20 09:44\n"
+"Project-Id-Version: gpindex 0.3.3.9001\n"
+"POT-Creation-Date: 2021-08-01 13:33\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,13 +34,13 @@ msgstr ""
 msgid "'t' must be a pair of numeric values"
 msgstr ""
 
-msgid "'a' and 'b' must be finite length 1 numerics"
-msgstr ""
-
-msgid "'price_index' must be a function"
-msgstr ""
-
 msgid "no price/quantity arguments"
+msgstr ""
+
+msgid "'f' already has an argument called 'group'"
+msgstr ""
+
+msgid "'a' and 'b' must be finite length 1 numerics"
 msgstr ""
 
 msgid "all arguments must be the same length"

@@ -1,8 +1,10 @@
-Changes in version 0.3.2
+Changes in version 0.3.4
 
 - Added French translations.
 
-- Added a number of optimizations to make the results of generalized_mean(), extended_mean(), lehmer_mean(), transmute_weights(), and factor_weights() faster in common cases.
+- Made a number of optimizations to make the results of generalized_mean(), extended_mean(), lehmer_mean(), transmute_weights(), and factor_weights() faster in common cases.
+
+- Added the grouped() operator to make all functions work with grouped data.
 
 Changes in version 0.3.1
 

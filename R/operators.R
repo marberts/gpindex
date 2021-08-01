@@ -23,7 +23,7 @@ grouped <- function(f) {
   function(..., group) {
     group <- as.factor(group)
     args <- lapply(list(...), split, group)
-    res <- do.call(function(...) Map(f, ...), args)
+    res <- do.call(Map, c(f = f, args))
     res <- unsplit(res, group)
     attributes(res) <- NULL # unsplit mangles attributes
     res

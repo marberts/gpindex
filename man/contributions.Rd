@@ -47,7 +47,11 @@ fisher_contributions2(x, w1, w2)
 }
 
 \details{
-The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that \code{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}. This generalize the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method in Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
+The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that
+
+\preformatted{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}
+
+This generalize the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
 
 The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized-mean indexes of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
@@ -61,13 +65,13 @@ The \code{fisher_contributions()} and \code{fisher_contributions2()} functions c
 
 \preformatted{function(x, w)}
 
-This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r}.
+This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r} with weights \code{w}.
 
 \code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
 \preformatted{function(x, w1, w2)}
 
-This function takes a numeric vector \code{x} and a pair of numeric weights \code{w1} and \code{w2}, and returns the contribution for each element of \code{x}.
+This computes the additive contribution for each element of \code{x} when a generalized mean of order \code{r} aggregate a generalized-mean index of order \code{s[1]} with weights \code{w1} and a generalized-mean index of order \code{s[2]} with weights \code{w2}.
 
 \code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 
