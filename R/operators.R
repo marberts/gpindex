@@ -3,7 +3,9 @@ quantity_index <- function(f) {
   args <- formals(f)
   concord <- c(p1 = "q1", p0 = "q0", q1 = "p1", q0 = "p0", pb = "qb", qb = "pb")
   pqs <- intersect(names(args), concord)
-  if (!length(pqs)) stop(gettext("no price/quantity arguments"))
+  if (!length(pqs)) {
+    stop(gettext("no price/quantity arguments"))
+  }
   qps <- concord[pqs]
   not_pqs <- setdiff(names(args), concord)
   res <- function() {}

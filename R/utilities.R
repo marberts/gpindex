@@ -77,9 +77,6 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
 
 hb_transform <- function(x) {
   x <- as.numeric(x)
-  if (any(x <= 0, na.rm = TRUE)) {
-    warning(gettext("some elements of 'x' are less than or equal to 0; the Hidiroglou-Berthelot transformation is not defined"))
-  }
   med <- median(x, na.rm = TRUE)
   res <- 1 - med / x
   gemed <- x >= med

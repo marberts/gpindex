@@ -94,9 +94,6 @@ NA  2  3  4  5  5  4  3  2 NA
 > hb_transform(x - 1)
 [1] 1.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 
 [6] 1.801440e+15 5.404320e+15 9.007199e+15 1.261008e+16 1.621296e+16
-Warning message:
-In hb_transform(x - 1) : 
-   some elements of 'x' are less than or equal to 0; the Hidiroglou-Berthelot transformation is not defined
 >
 > all.equal(tukey_algorithm(integer(0)), logical(0))
 [1] TRUE
