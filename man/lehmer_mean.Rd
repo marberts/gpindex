@@ -37,7 +37,7 @@ The Lehmer mean is an alternative to the generalized mean that generalizes the P
 \value{
 \code{lehmer_mean()} returns a function:
 
-\preformatted{function(x, w, na.rm = FALSE)}
+\preformatted{function(x, w, na.rm = FALSE){...}}
 
 This computes the Lehmer mean of order \code{r} of \code{x} with weights \code{w}.
 

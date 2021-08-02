@@ -146,7 +146,7 @@ Type 'q()' to quit R.
 +                   index_weights("Paasche")(p1, q1))
 [1]  0.01781416  0.18807725  0.05791352 -0.03417296  0.18218584 -0.01089421
 >                   
-> # Or the AG mean index
+> # Or the AG mean index (tau = 0.25)
 > 
 > agmean_contributions <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
 > agmean_contributions(p1 / p0, 

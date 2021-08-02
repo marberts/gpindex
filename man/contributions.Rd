@@ -63,15 +63,15 @@ The \code{fisher_contributions()} and \code{fisher_contributions2()} functions c
 \value{
 \code{contributions()} returns a function: 
 
-\preformatted{function(x, w)}
+\preformatted{function(x, w){...}}
 
 This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r} with weights \code{w}.
 
 \code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
-\preformatted{function(x, w1, w2)}
+\preformatted{function(x, w1, w2){...}}
 
-This computes the additive contribution for each element of \code{x} when a generalized mean of order \code{r} aggregate a generalized-mean index of order \code{s[1]} with weights \code{w1} and a generalized-mean index of order \code{s[2]} with weights \code{w2}.
+This computes the additive contribution for each element of \code{x} when a generalized mean of order \code{r} aggregates a generalized-mean index of order \code{s[1]} with weights \code{w1} and a generalized-mean index of order \code{s[2]} with weights \code{w2}.
 
 \code{arithmetic_contributions()}, \code{geometric_contributions()}, and \code{harmonic_contributions()} each return a numeric vector, the same length as \code{x}, giving the contribution of each element of \code{x} in an arithmetic, geometric, or harmonic index.
 
@@ -183,7 +183,7 @@ hlp_contributions(p1 / p0,
                   index_weights("Laspeyres")(p0, q0), 
                   index_weights("Paasche")(p1, q1))
                   
-# Or the AG mean index
+# Or the AG mean index (tau = 0.25)
 
 agmean_contributions <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
 agmean_contributions(p1 / p0, 

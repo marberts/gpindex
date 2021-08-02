@@ -40,7 +40,7 @@ By definition, the generalized logarithmic mean / extended mean of \code{a} and 
 \value{
 \code{generalized_logmean()} and \code{extended_mean()} return a function: 
 
-\preformatted{function(a, b, tol = .Machine$double.eps^0.5)}
+\preformatted{function(a, b, tol = .Machine$double.eps^0.5){...}}
 
 This computes the component-wise generalized logarithmic mean of order \code{r}, or the extended mean of orders \code{r} and \code{s}, of \code{a} and \code{b}.
 
