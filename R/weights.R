@@ -31,7 +31,7 @@ transmute_weights <- function(r, s) {
 
 #---- Factor weights  ----
 factor_weights <- function(r) {
-  if (!is_number(r)) {
+  if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function

@@ -35,6 +35,11 @@ all.equal(harmonic_mean(c(1, -1, 2), c(0.5, 0, 0.5)), 4/3)
 # Negative values
 is.na(geometric_mean(-1:1))
 is.na(geometric_mean(-1:1, na.rm = TRUE))
+# Grouped means
+f <- letters[c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1)]
+all.equal(grouped(arithmetic_mean)(x, group = f), ave(x, f))
+all.equal(grouped(arithmetic_mean, na.rm = TRUE)(xna, group = f), 
+          ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE)))
 
 #---- Tests for generalized means ----
 # Base implementation

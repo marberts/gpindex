@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gpindex 0.3.2\n"
-"POT-Creation-Date: 2021-08-01 22:54\n"
+"POT-Creation-Date: 2021-08-02 23:04\n"
 "PO-Revision-Date: 2021-07-13\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -23,8 +23,8 @@ msgstr ""
 msgid "'x' and 'w' must be the same length"
 msgstr "'x' et 'w' doivent avoir la même longueur"
 
-msgid "'r' and 's' must be finite length 1 numerics"
-msgstr "'r' et 'r' doivent être des nombres finis de longueur 1"
+msgid "'s' must be a finite length 1 numeric"
+msgstr "'s' doit être un nombre fini de longueur 1"
 
 msgid ""
 "'s' is very small in absolute value, but not zero; this can give misleading "
@@ -52,8 +52,11 @@ msgstr "aucun argument prix/quantité"
 msgid "'f' already has an argument called 'group'"
 msgstr "'f' a déjà un argument appelé 'group'"
 
-msgid "'a' and 'b' must be finite length 1 numerics"
-msgstr "'a' et 'b' doivent être des nombres finis de longueur 1"
+msgid "'a' must be a finite length 1 numeric"
+msgstr "'a' doit être un nombre fini de longueur 1"
+
+msgid "'b' must be a finite length 1 numeric"
+msgstr "'b' doit être un nombre fini de longueur 1"
 
 msgid "all arguments must be the same length"
 msgstr "tous les arguments doivent avoir la même longueur"

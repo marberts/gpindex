@@ -23,7 +23,7 @@ back_price(price, period, replace(id, 1, NA))
 back_price(replace(price, 1, NA), period, id)
 
 #---- Tests for outliers ----
-x <- log(runif(100, 0.1, 10))
+x <- log(runif(1e5, 0.1, 10))
 
 all.equal(fixed_cutoff(x), x > 2.5 | x < 1 / 2.5)
 all.equal(quartile_method(x), x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |

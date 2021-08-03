@@ -1,9 +1,9 @@
-# # These tests are slow and not usually needed
-# # They really work the core computational functions
-# # Should return all TRUE
-# 
-# library(gpindex)
-# 
+# These tests are slow and not usually needed
+# They really work the core computational functions
+# Should return all TRUE
+
+library(gpindex)
+
 # set.seed(4132)
 # x <- rlnorm(15)
 # xna <- replace(rlnorm(15), c(4, 12), NA)
@@ -14,7 +14,7 @@
 # # Simple implementations
 # gmean <- function(x, w, r) {
 #   if (r != 0) {
-#     (weighted.mean(x^r, w, na.rm = TRUE))^(1 / r) 
+#     (weighted.mean(x^r, w, na.rm = TRUE))^(1 / r)
 #   } else {
 #     exp(weighted.mean(log(x), w, na.rm = TRUE))
 #   }
@@ -82,13 +82,13 @@
 # 
 # # Extended mean
 # all(apply(grid2, 1, function(p) {
-#   all.equal(extended_mean(p[1], p[2])(a, b), 
+#   all.equal(extended_mean(p[1], p[2])(a, b),
 #             emean(a, b, p[1], p[2]),
 #             check.names = FALSE)
 # }))
 # 
 # all(apply(grid2, 1, function(p) {
-#   all.equal(extended_mean(p[1], p[2])(a, b), 
+#   all.equal(extended_mean(p[1], p[2])(a, b),
 #             emean(a, b, p[2], p[1]),
 #             check.names = FALSE)
 # }))

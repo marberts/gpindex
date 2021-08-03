@@ -2,7 +2,7 @@
 globalVariables(c("x", "w"), "gpindex", add = TRUE)
 
 generalized_mean <- function(r) {
-  if (!is_number(r)) {
+  if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   if (small_but_not_zero(r)) {
@@ -63,8 +63,11 @@ harmonic_mean <- generalized_mean(-1)
 globalVariables(c("a", "b"), "gpindex", add = TRUE)
 
 extended_mean <- function(r, s) {
-  if (!is_number(r) || !is_number(s)) {
-    stop(gettext("'r' and 's' must be finite length 1 numerics"))
+  if (not_number(r)) {
+    stop(gettext("'r' must be a finite length 1 numeric"))
+  }
+  if (not_number(s)) {
+    stop(gettext("'s' must be a finite length 1 numeric"))
   }
   if (small_but_not_zero(r)) {
     warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
@@ -132,7 +135,7 @@ logmean <- generalized_logmean(0)
 
 #---- Lehmer mean ----
 lehmer_mean <- function(r) {
-  if (!is_number(r)) {
+  if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function

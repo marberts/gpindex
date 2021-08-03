@@ -156,8 +156,11 @@ bw_index <- function(p1, p0, na.rm = FALSE) {
 
 #---- Generalized Stuval index ----
 stuval_index <- function(a, b) {
-  if (!is_number(a) || !is_number(b)) {
-    stop(gettext("'a' and 'b' must be finite length 1 numerics"))
+  if (not_number(a)) {
+    stop(gettext("'a' must be a finite length 1 numeric"))
+  }
+  if (not_number(b)) {
+    stop(gettext("'b' must be a finite length 1 numeric"))
   }
   function(p1, p0, q1, q0, na.rm = FALSE) {
     pl <- laspeyres_index(p1, p0, q0, na.rm)

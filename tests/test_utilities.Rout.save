@@ -69,7 +69,7 @@ NA  2  3  4  5  5  4  3  2 NA
 NA  2  3  4  5  5  4  3  2 NA 
 >
 > #---- Tests for outliers ----
-> x <- log(runif(100, 0.1, 10))
+> x <- log(runif(1e5, 0.1, 10))
 >
 > all.equal(fixed_cutoff(x), x > 2.5 | x < 1 / 2.5)
 [1] TRUE

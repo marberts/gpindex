@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.3.9002\n"
-"POT-Creation-Date: 2021-08-01 22:54\n"
+"Project-Id-Version: gpindex 0.3.3.9003\n"
+"POT-Creation-Date: 2021-08-02 23:04\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "'x' and 'w' must be the same length"
 msgstr ""
 
-msgid "'r' and 's' must be finite length 1 numerics"
+msgid "'s' must be a finite length 1 numeric"
 msgstr ""
 
 msgid "'s' is very small in absolute value, but not zero; this can give misleading results"
@@ -40,7 +40,10 @@ msgstr ""
 msgid "'f' already has an argument called 'group'"
 msgstr ""
 
-msgid "'a' and 'b' must be finite length 1 numerics"
+msgid "'a' must be a finite length 1 numeric"
+msgstr ""
+
+msgid "'b' must be a finite length 1 numeric"
 msgstr ""
 
 msgid "all arguments must be the same length"

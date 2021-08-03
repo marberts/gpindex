@@ -1,12 +1,12 @@
 # None of these functions are exported
 #---- Argument checking ----
-is_number <- function(x) {
-  length(x) == 1 && is.numeric(x) && is.finite(x)
+not_number <- function(x) {
+  length(x) != 1 || !is.numeric(x) || !is.finite(x)
 }
 
-same_length <- function(...) {
+different_lengths <- function(...) {
   res <- lengths(list(...))
-  all(res == res[1])
+  any(res != res[1])
 }
 
 #---- Checks for warnings ----

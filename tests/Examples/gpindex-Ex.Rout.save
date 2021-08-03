@@ -641,6 +641,13 @@ Warning in back_price(price, period) :
 > tornqvist_weights <- grouped(index_weights("Tornqvist"))
 > tornqvist_weights(p1, p0, q1, q0, group = f)
 [1] 0.18247009 0.33481172 0.48271819 0.12865397 0.81833234 0.05301369
+>
+> # Calculate a mean like ave(), but with weights
+> x <- 1:6
+> w <- c(1:5, NA)
+> grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
+> grouped_mean(x, w, group = f)
+[1] 2.182247 2.182247 2.182247 4.527921 4.527921 4.527921
 > 
 > 
 > 

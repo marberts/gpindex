@@ -17,15 +17,16 @@ quantity_index <- function(f) {
   res
 }
 
-grouped <- function(f) {
+grouped <- function(f, ...) {
   f <- match.fun(f)
+  ngargs <- list(...)
   if ("group" %in% names(formals(f))) {
     stop("'f' already has an argument called 'group'")
   }
   function(..., group) {
     group <- as.factor(group)
     args <- lapply(list(...), split, group)
-    res <- do.call(Map, c(f = f, args))
+    res <- .mapply(f, args, ngargs)
     res <- unsplit(res, group)
     attributes(res) <- NULL # unsplit mangles attributes
     res

@@ -77,6 +77,13 @@ In log(x) : NaNs produced
 [1] TRUE
 Warning message:
 In log(x) : NaNs produced
+> # Grouped means
+> f <- letters[c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1)]
+> all.equal(grouped(arithmetic_mean)(x, group = f), ave(x, f))
+[1] TRUE
+> all.equal(grouped(arithmetic_mean, na.rm = TRUE)(xna, group = f), 
++           ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE)))
+[1] TRUE
 > 
 > #---- Tests for generalized means ----
 > # Base implementation
@@ -232,14 +239,12 @@ Warning messages:
 [1] TRUE
 > # Errors and warnings
 > try(extended_mean(1, NA))
-Error in extended_mean(1, NA) : 
-  'r' and 's' must be finite length 1 numerics
+Error in extended_mean(1, NA) : 's' must be a finite length 1 numeric
 > try(extended_mean(NA, 1))
-Error in extended_mean(NA, 1) : 
-  'r' and 's' must be finite length 1 numerics
+Error in extended_mean(NA, 1) : 'r' must be a finite length 1 numeric
 > try(extended_mean("a", mtcars))
 Error in extended_mean("a", mtcars) : 
-  'r' and 's' must be finite length 1 numerics
+  'r' must be a finite length 1 numeric
 > extended_mean(1e-9, 1)(1, 2)
 [1] 1.442695
 Warning message:
