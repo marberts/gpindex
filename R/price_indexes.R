@@ -2,7 +2,7 @@
 index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
                                    "Dutot", "Laspeyres", "HybridLaspeyres",
                                    "Palgrave", "Paasche", "HybridPaasche",
-                                   "Drobish", "Unnamed", "Tornqvist",
+                                   "Drobisch", "Unnamed", "Tornqvist",
                                    "Walsh1", "Walsh2", "MarshallEdgeworth",
                                    "GearyKhamis", "Vartia1", "MontgomeryVartia",
                                    "Vartia2", "SatoVartia", "Lowe",
@@ -22,7 +22,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     Palgrave = ,
     Paasche = function(p1, q1) p1 * q1,
     HybridPaasche = function(p0, q1) p0 * q1,
-    Drobish = function(p1, p0, q1, q0) 
+    Drobisch = function(p1, p0, q1, q0) 
       (p0 * q0 / v(p0, q0) + p0 * q1 / v(p0, q1)) / 2,
     Unnamed = ,
     Tornqvist = function(p1, p0, q1, q0) 
@@ -47,7 +47,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
 pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) {
   types <- switch(match.arg(class),
                   arithmetic = c("Carli", "Dutot", "Laspeyres",
-                                 "Palgrave", "Drobish", "Unnamed",
+                                 "Palgrave", "Drobisch", "Unnamed",
                                  "Walsh1", "MarshallEdgeworth", "GearyKhamis",
                                  "Lowe", "Young"),
                   geometric = c("Jevons", "Laspeyres", "Paasche",
@@ -73,7 +73,7 @@ pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) 
       Paasche = ,
       Palgrave = function(p1, p0, q1, na.rm = FALSE)
         gen_mean(p1 / p0, index_weights(type)(p1, q1), na.rm),
-      Drobish = ,
+      Drobisch = ,
       Unnamed = ,
       Vartia2 = ,
       SatoVartia = ,

@@ -94,7 +94,7 @@ The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_inde
 \item Laspeyres
 \item Palgrave
 \item Unnamed index (arithmetic analog of the Fisher)
-\item Drobish
+\item Drobisch
 \item Walsh-I (arithmetic Walsh)
 \item Marshall-Edgeworth
 \item Geary-Khamis
@@ -131,7 +131,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 \item Paasche / Palgrave
 \item Hybrid Paasche (for use in an arithmetic mean)
 \item Tornqvist / Unnamed
-\item Drobish
+\item Drobisch
 \item Walsh-I (for an arithmetic Walsh index)
 \item Walsh-II (for a geometric Walsh index)
 \item Marshall-Edgeworth
@@ -290,9 +290,9 @@ all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
 all.equal(index_weights("Tornqvist")(p1, p0, q1, q0),
           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
 
-# Drobish
+# Drobisch
 
-all.equal(index_weights("Drobish")(p1, p0, q1, q0),
+all.equal(index_weights("Drobisch")(p1, p0, q1, q0),
           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
 
 # Walsh-I

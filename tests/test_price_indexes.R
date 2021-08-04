@@ -19,7 +19,7 @@ qb <- runif(15, 2, 4)
               sum(p1 * q1) / sum(p0 * q1))
     all.equal(arithmetic_index("Palgrave")(p1, p0, q1),
               weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
-    all.equal(arithmetic_index("Drobish")(p1, p0, q1, q0),
+    all.equal(arithmetic_index("Drobisch")(p1, p0, q1, q0),
               0.5 * sum(p1 * q0) / sum(p0 * q0) + 0.5 * sum(p1 * q1) / sum(p0 * q1))
     all.equal(arithmetic_index("Unnamed")(p1, p0, q1, q0),
               weighted.mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)))

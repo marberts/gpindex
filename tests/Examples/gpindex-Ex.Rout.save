@@ -915,9 +915,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 +           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
 [1] TRUE
 > 
-> # Drobish
+> # Drobisch
 > 
-> all.equal(index_weights("Drobish")(p1, p0, q1, q0),
+> all.equal(index_weights("Drobisch")(p1, p0, q1, q0),
 +           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
 [1] TRUE
 > 
