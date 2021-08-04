@@ -61,8 +61,8 @@ w2 <- 7:9
 
 #---- Making superlative indexes ----
 
-# A function to make the superlative quadratic mean price index in Diewert (1976)
-# as a product of generalized means
+# A function to make the superlative quadratic mean price index 
+# by Diewert (1976) as a product of generalized means
 
 quadratic_mean_index <- function(x, w0, w1, r) {
   x <- sqrt(x) 
@@ -90,9 +90,11 @@ w1[2] <- NA
 
 fisher_mean(x, w1, w2, na.rm = TRUE)
 
-# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a harmonic mean
+# Same as using obs 2 and 3 in an arithmetic mean, 
+# and obs 3 in a harmonic mean
 
-geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), harmonic_mean(x, w2, na.rm = TRUE)))
+geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
+                 harmonic_mean(x, w2, na.rm = TRUE)))
 
 # Use complete.cases to use only obs 3 in both inner means
 

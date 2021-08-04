@@ -39,7 +39,9 @@ By definition, there must be at most one price for each product in each time per
 }
 
 \examples{
-dat <- data.frame(price = 1:4, product = c("a", "b", "a", "b"), period = c(1, 1, 2, 2))
+dat <- data.frame(price = 1:4, 
+                  product = c("a", "b", "a", "b"), 
+                  period = c(1, 1, 2, 2))
 
 with(dat, back_price(price, period, product))
 
@@ -55,7 +57,8 @@ with(dat, back_price(price, factor(period, levels = 2:1), product))
 
 with(dat, price / back_price(price, period, product))
 
-# Warning is given if the same product has multiple prices at any point in time
+# Warning is given if the same product has multiple prices 
+# at any point in time
 
 with(dat, price / back_price(price, period))
 }

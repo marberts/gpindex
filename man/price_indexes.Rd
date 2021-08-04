@@ -183,8 +183,8 @@ qb <- quantity6[[1]]
 
 #---- Calculating price indexes ----
 
-# Most indexes can be calculated by combining the appropriate weights with
-# the correct type of mean
+# Most indexes can be calculated by combining the appropriate 
+# weights with the correct type of mean
 
 geometric_index("Laspeyres")(p1, p0, q0)
 geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
@@ -205,8 +205,9 @@ all.equal(
   scale_weights(transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
 )
 
-# Unlike its arithmetic counterpart, the geometric Laspeyres can increase
-# when base-period prices increase if some of these prices are small
+# Unlike its arithmetic counterpart, the geometric Laspeyres 
+# can increase when base-period prices increase if some of these 
+# prices are small
 
 p0_small <- replace(p0, 1, p0[1] / 5)
 p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)

@@ -17,8 +17,8 @@ offset_price <- function(type = c("back", "base")) {
     if (max(vapply(product, anyDuplicated, numeric(1)))) {
       warning(gettext("there are duplicated period-product pairs"))
     }
-    matches <- .mapply(match, list(product, offset(product)), list(incomparables = NA))
-    res <- unsplit(.mapply(`[`, list(offset(price), matches), list()), period)
+    m <- .mapply(match, list(product, offset(product)), list(incomparables = NA))
+    res <- unsplit(.mapply(`[`, list(offset(price), m), list()), period)
     attributes(res) <- attributes(x) # unsplit mangles attributes
     res
   }

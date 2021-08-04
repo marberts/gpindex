@@ -11,12 +11,14 @@ transmute_weights <- function(r, s) {
     }
   }
   expr <- quote(ext_mean(x, gen_mean(x, w, na.rm = TRUE)))
+  # unweighted calculation
   body(res)[[2]][[3]] <- if (r == s) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA))
   } else {
     eval(bquote(pow(.(expr), r - s)))
   }
+  # weighted calculation
   body(res)[[2]][[4]] <- if (r == s) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
@@ -42,12 +44,14 @@ factor_weights <- function(r) {
       # [[2]][[4]]
     }
   }
+  # unweighted calculation
   body(res)[[2]][[3]] <- if (r == 0) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA))
   } else {
     pow(x, r)
   }
+  # weighted calculation
   body(res)[[2]][[4]] <- if (r == 0) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})

@@ -72,7 +72,7 @@ x <- rlnorm(10)
 fixed_cutoff(x)
 robust_z(x)
 quartile_method(x)
-resistant_fences(x) # this will always identify fewer outliers than the quartile method
+resistant_fences(x) # always identifies fewer outliers than quartile method
 tukey_algorithm(x)
 
 log(x)

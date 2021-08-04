@@ -2,8 +2,6 @@
 # They really work the core computational functions
 # Should return all TRUE
 
-library(gpindex)
-
 # set.seed(4132)
 # x <- rlnorm(15)
 # xna <- replace(rlnorm(15), c(4, 12), NA)

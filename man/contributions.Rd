@@ -51,7 +51,7 @@ The function \code{contributions()} is a simple wrapper for \code{\link[=transmu
 
 \preformatted{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}
 
-This generalize the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
+This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
 
 The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized-mean indexes of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
@@ -101,9 +101,9 @@ geometric_contributions(x)
 
 all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 
-# This works by first transmuting the weights in the geometric mean
-# into weights for an arithmetic mean, then finding the contributions
-# to the percent change
+# This works by first transmuting the weights in the geometric 
+# mean into weights for an arithmetic mean, then finding the 
+# contributions to the percent change
 
 scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 
@@ -114,17 +114,18 @@ transmute2 <- function(x) {
   (m - 1) / log(m) * log(x) / (x - 1) / length(x)
 }
 
-transmute2(x) * (x - 1) # this isn't proportional to the method above
+transmute2(x) * (x - 1) # not proportional to the method above
 all.equal(sum(transmute2(x) * (x - 1)), geometric_mean(x) - 1)
 
 # But these "transmuted" weights don't recover the geometric mean!
 # Not a particularly good way to calculate contributions
 
-isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), geometric_mean(x)))
+isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), 
+                 geometric_mean(x)))
 
-# There are infinitely many ways to calculate contributions, but the weights
-# from transmute_weights(0, 1)() are the *unique* weights that recover the 
-# geometric mean
+# There are infinitely many ways to calculate contributions, 
+# but the weights from transmute_weights(0, 1)() are the *unique* 
+# weights that recover the geometric mean
 
 perturb <- function(w, e) {
   w + c(e, -e) / (x - 1)
@@ -143,7 +144,8 @@ p0 <- price6[[1]]
 q1 <- quantity6[[2]]
 q0 <- quantity6[[1]]
 
-# Quote contributions for the Fisher index in section 6 of Reinsdorf et al. (2002)
+# Quote contributions for the Fisher index in 
+# section 6 of Reinsdorf et al. (2002)
 
 (con <- fisher_contributions(p1 / p0, 
                              index_weights("Laspeyres")(p0, q0), 
@@ -159,24 +161,28 @@ all.equal(sum(con), fisher_index(p1, p0, q1, q0) - 1)
 
 all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 
-# The same as the van IJzeren decomposition in section 4.2.2 of Balk (2008)
+# The same as the van IJzeren decomposition in 
+# section 4.2.2 of Balk (2008)
 
 Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
 Ql <- quantity_index(laspeyres_index)(q1, q0, p0)
 wl <- index_weights("Laspeyres")(p0, q0)
 wp <- index_weights("HybridPaasche")(p0, q1)
 
-(Qf / (Qf + Ql) * scale_weights(wl) + Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
+(Qf / (Qf + Ql) * scale_weights(wl) + 
+  Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
 
 #---- Contributions for other types of indexes ----
 
-# A function to get contributions for any superlative quadratic mean of order 'r' index
+# A function to get contributions for any 
+# superlative quadratic mean of order 'r' index
 
 superlative_contributions <- function(r) {
   nested_contributions(0, c(r / 2, - r / 2))
 }
 
-# Works for other types of indexes, like the harmonic Laspeyres Paasche index
+# Works for other types of indexes, like the harmonic 
+# Laspeyres Paasche index
                                    
 hlp_contributions <- nested_contributions(-1, c(1, -1))
 hlp_contributions(p1 / p0, 

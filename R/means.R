@@ -12,14 +12,15 @@ generalized_mean <- function(r) {
   res <- function(x, w, na.rm = FALSE) {
     # no weights
     if (missing(w)) {
-      # removing NAs first means that NaNs for log(negative) are not removed when na.rm = TRUE
+      # removing NAs first means that NaNs for log(x), x < 0,
+      # are not removed when na.rm = TRUE
       if (na.rm) {
         if (anyNA(x)) {
           x <- x[!is.na(x)]
         }
       }
       # [[2]][[3]][[3]] 
-      # weights
+    # weights
     } else {
       if (length(x) != length(w)) {
         stop(gettext("'x' and 'w' must be the same length"))
@@ -52,7 +53,6 @@ generalized_mean <- function(r) {
   res
 }
 
-#---- Pythagorean means ----
 arithmetic_mean <- generalized_mean(1)
 
 geometric_mean <- generalized_mean(0)
@@ -126,7 +126,6 @@ extended_mean <- function(r, s) {
   res
 }
 
-#---- Logarithmic means ----
 generalized_logmean <- function(r) {
   extended_mean(r, 1)
 }

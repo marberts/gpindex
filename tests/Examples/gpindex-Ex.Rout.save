@@ -51,9 +51,9 @@ Type 'q()' to quit R.
 > all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 [1] TRUE
 > 
-> # This works by first transmuting the weights in the geometric mean
-> # into weights for an arithmetic mean, then finding the contributions
-> # to the percent change
+> # This works by first transmuting the weights in the geometric 
+> # mean into weights for an arithmetic mean, then finding the 
+> # contributions to the percent change
 > 
 > scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.5505103 0.8989795
@@ -65,7 +65,7 @@ Type 'q()' to quit R.
 +   (m - 1) / log(m) * log(x) / (x - 1) / length(x)
 + }
 > 
-> transmute2(x) * (x - 1) # this isn't proportional to the method above
+> transmute2(x) * (x - 1) # not proportional to the method above
 [1] 0.5607392 0.8887506
 > all.equal(sum(transmute2(x) * (x - 1)), geometric_mean(x) - 1)
 [1] TRUE
@@ -73,12 +73,13 @@ Type 'q()' to quit R.
 > # But these "transmuted" weights don't recover the geometric mean!
 > # Not a particularly good way to calculate contributions
 > 
-> isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), geometric_mean(x)))
+> isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), 
++                  geometric_mean(x)))
 [1] FALSE
 > 
-> # There are infinitely many ways to calculate contributions, but the weights
-> # from transmute_weights(0, 1)() are the *unique* weights that recover the 
-> # geometric mean
+> # There are infinitely many ways to calculate contributions, 
+> # but the weights from transmute_weights(0, 1)() are the *unique* 
+> # weights that recover the geometric mean
 > 
 > perturb <- function(w, e) {
 +   w + c(e, -e) / (x - 1)
@@ -100,7 +101,8 @@ Type 'q()' to quit R.
 > q1 <- quantity6[[2]]
 > q0 <- quantity6[[1]]
 > 
-> # Quote contributions for the Fisher index in section 6 of Reinsdorf et al. (2002)
+> # Quote contributions for the Fisher index in 
+> # section 6 of Reinsdorf et al. (2002)
 > 
 > (con <- fisher_contributions(p1 / p0, 
 +                              index_weights("Laspeyres")(p0, q0), 
@@ -120,25 +122,29 @@ Type 'q()' to quit R.
 > all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 [1] TRUE
 > 
-> # The same as the van IJzeren decomposition in section 4.2.2 of Balk (2008)
+> # The same as the van IJzeren decomposition in 
+> # section 4.2.2 of Balk (2008)
 > 
 > Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
 > Ql <- quantity_index(laspeyres_index)(q1, q0, p0)
 > wl <- index_weights("Laspeyres")(p0, q0)
 > wp <- index_weights("HybridPaasche")(p0, q1)
 > 
-> (Qf / (Qf + Ql) * scale_weights(wl) + Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
+> (Qf / (Qf + Ql) * scale_weights(wl) + 
++   Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
 [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
 > 
 > #---- Contributions for other types of indexes ----
 > 
-> # A function to get contributions for any superlative quadratic mean of order 'r' index
+> # A function to get contributions for any 
+> # superlative quadratic mean of order 'r' index
 > 
 > superlative_contributions <- function(r) {
 +   nested_contributions(0, c(r / 2, - r / 2))
 + }
 > 
-> # Works for other types of indexes, like the harmonic Laspeyres Paasche index
+> # Works for other types of indexes, like the harmonic 
+> # Laspeyres Paasche index
 >                                    
 > hlp_contributions <- nested_contributions(-1, c(1, -1))
 > hlp_contributions(p1 / p0, 
@@ -183,8 +189,8 @@ Type 'q()' to quit R.
 > geometric_mean(x, w) # same as prod(x^w)
 [1] 2.059767
 > 
-> # Using prod() to manually calculate the geometric mean can give misleading
-> # results
+> # Using prod() to manually calculate the geometric mean 
+> # can give misleading results
 > 
 > z <- 1:1000
 > prod(z)^(1 / length(z)) # overflow
@@ -209,16 +215,16 @@ Type 'q()' to quit R.
 [1] 2.397916
 > 
 > # Cubic mean
-> # Notice that this is larger than the other means so far because the 
-> # generalized mean is increasing in r
+> # Notice that this is larger than the other means so far because 
+> # the generalized mean is increasing in r
 > 
 > generalized_mean(3)(x, w)
 [1] 2.506649
 > 
 > #---- Comparing the Pythagorean means ----
 > 
-> # The dispersion between the arithmetic, geometric, and harmonic mean usually
-> # increases as the variance of 'x' increases
+> # The dispersion between the arithmetic, geometric, and harmonic
+> # mean usually increases as the variance of 'x' increases
 > 
 > x <- c(1, 3, 5)
 > y <- c(2, 3, 4)
@@ -239,13 +245,14 @@ Type 'q()' to quit R.
 > # But the dispersion between these means is only bounded by
 > # the variance (Bullen, 2003, p. 156)
 > 
-> arithmetic_mean(x) - geometric_mean(x) >=  2 / 3 * var(x) / (2 * max(x))
+> arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 [1] TRUE
-> arithmetic_mean(x) - geometric_mean(x) <=  2 / 3 * var(x) / (2 * min(x))
+> arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
 [1] TRUE
 > 
-> # Example from Lord (2002) where the dispersion decreases as the variance increases,
-> # counter to the claims in Fisher (1922, p. 108) and the CPI manual (par. 1.14)
+> # Example by Lord (2002) where the dispersion decreases as 
+> # the variance increases, counter to the claims by 
+> # Fisher (1922, p. 108) and the CPI manual (par. 1.14)
 > 
 > x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 > y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
@@ -263,8 +270,9 @@ Type 'q()' to quit R.
 > geometric_mean(y) - harmonic_mean(y)
 [1] 0.1439479
 > 
-> # The "bias" in the arithmetic and harmonic indexes is also smaller in this case, 
-> # counter to the claim in Fisher (1922, p. 108)
+> # The "bias" in the arithmetic and harmonic indexes is also 
+> # smaller in this case, counter to the claim 
+> # by Fisher (1922, p. 108)
 > 
 > arithmetic_mean(x) * arithmetic_mean(1 / x) - 1
 [1] 0.3333333
@@ -283,7 +291,7 @@ Type 'q()' to quit R.
 > arithmetic_mean(x, w)
 [1] NA
 > 
-> arithmetic_mean(x, w, na.rm = TRUE) # drops the second observation
+> arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
 [1] 0.936339
 > weighted.mean(x, w, na.rm = TRUE) # still returns NA
 [1] NA
@@ -316,8 +324,8 @@ Type 'q()' to quit R.
 > 
 > #---- Comparing Lehmer means and generalized means ----
 > 
-> # When r < 1, the generalized mean is larger than the corresponding
-> # Lehmer mean
+> # When r < 1, the generalized mean is larger than the 
+> # corresponding Lehmer mean
 > 
 > lehmer_mean(-1)(x, w) < generalized_mean(-1)(x, w)
 [1] TRUE
@@ -327,8 +335,8 @@ Type 'q()' to quit R.
 > lehmer_mean(3)(x, w) > generalized_mean(3)(x, w)
 [1] TRUE
 > 
-> # This implies the contraharmonic mean is larger than the quadratic
-> # mean, and therefore the Pythagorean means
+> # This implies the contraharmonic mean is larger than the 
+> # quadratic mean, and therefore the Pythagorean means
 > 
 > contraharmonic_mean(x, w) > arithmetic_mean(x, w)
 [1] TRUE
@@ -342,10 +350,12 @@ Type 'q()' to quit R.
 > contraharmonic_mean(2:3) > logmean(2, 3)
 [1] TRUE
 > 
-> # The difference between the arithmetic mean and contraharmonic mean
-> # is proportional to the variance of x
+> # The difference between the arithmetic mean and 
+> # contraharmonic mean is proportional to the variance of x
 > 
-> weighted_var <- function(x, w) arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
+> weighted_var <- function(x, w) {
++   arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
++ } 
 > 
 > arithmetic_mean(x, w) + weighted_var(x, w) / arithmetic_mean(x, w)
 [1] 2.818182
@@ -355,8 +365,8 @@ Type 'q()' to quit R.
 > #---- Changing the order of the mean ----
 > 
 > # It is easy to modify the weights to turn a Lehmer mean of order r
-> # into a Lehmer mean of order s because the Lehmer mean can be expressed
-> # as an arithmetic mean
+> # into a Lehmer mean of order s because the Lehmer mean can be 
+> # expressed as an arithmetic mean
 > 
 > r <- 2
 > s <- -3
@@ -407,8 +417,8 @@ Type 'q()' to quit R.
 > 
 > #---- Comparing logarithmic means and generalized means ----
 > 
-> # The arithmetic and geometric means are special cases of the generalized 
-> # logarithmic mean
+> # The arithmetic and geometric means are special cases of the 
+> # generalized logarithmic mean
 > 
 > all.equal(generalized_logmean(2)(x, y), (x + y) / 2)
 [1] TRUE
@@ -418,11 +428,12 @@ Type 'q()' to quit R.
 > # The logarithmic mean lies between the arithmetic and geometric means
 > # because the generalized logarithmic mean is increasing in r
 > 
-> all(logmean(x, y) < (x + y) / 2) & all(logmean(x, y) > sqrt(x * y))
+> all(logmean(x, y) < (x + y) / 2) & 
++   all(logmean(x, y) > sqrt(x * y))
 [1] TRUE
 > 
-> # The harmonic mean cannot be expressed as a logarithmic mean, but can be 
-> # expressed as an extended mean
+> # The harmonic mean cannot be expressed as a logarithmic mean, 
+> # but can be expressed as an extended mean
 > 
 > all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 [1] TRUE
@@ -434,22 +445,25 @@ Type 'q()' to quit R.
 > 
 > # As are heronian and centroidal means
 > 
-> all.equal(extended_mean(0.5, 1.5)(x, y), (x + sqrt(x * y) + y) / 3)
+> all.equal(extended_mean(0.5, 1.5)(x, y), 
++           (x + sqrt(x * y) + y) / 3)
 [1] TRUE
-> all.equal(extended_mean(2, 3)(x, y), 2 / 3 * (x^2 + x * y + y^2) / (x + y))
+> all.equal(extended_mean(2, 3)(x, y), 
++           2 / 3 * (x^2 + x * y + y^2) / (x + y))
 [1] TRUE
 > 
 > #---- Approximating the logarithmic mean ----
 > 
-> # The logarithmic mean can be approximated as a convex combination of the 
-> # arithmetic and geometric means that gives more weight to the geometric mean
+> # The logarithmic mean can be approximated as a convex 
+> # combination of the arithmetic and geometric means that gives 
+> # more weight to the geometric mean
 > 
 > approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
 > approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
 > 
 > approx1 - logmean(x, y) # always a positive approximation error
 [1] 1.932965e-02 3.260257e-03 3.420021e-04 3.852275e-06
-> approx2 - logmean(x, y) # a negative approximation error in this case
+> approx2 - logmean(x, y) # a negative approximation error
 [1] -6.436118e-02 -1.212079e-02 -1.336412e-03 -1.537117e-05
 > 
 > # A better approximation
@@ -460,8 +474,8 @@ Type 'q()' to quit R.
 > 
 > #---- Some identities ----
 > 
-> # A useful identity for turning an additive change into a proportionate 
-> # change
+> # A useful identity for turning an additive change into 
+> # a proportionate change
 > 
 > all.equal(logmean(x, y) * log(x / y), x - y) 
 [1] TRUE
@@ -470,7 +484,8 @@ Type 'q()' to quit R.
 > 
 > r <- 2
 > 
-> all.equal(generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)), (x^r - y^r))
+> all.equal(generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)), 
++           (x^r - y^r))
 [1] TRUE
 > 
 > # Some other identities
@@ -517,8 +532,8 @@ Type 'q()' to quit R.
 > 
 > #---- Making superlative indexes ----
 > 
-> # A function to make the superlative quadratic mean price index in Diewert (1976)
-> # as a product of generalized means
+> # A function to make the superlative quadratic mean price index 
+> # by Diewert (1976) as a product of generalized means
 > 
 > quadratic_mean_index <- function(x, w0, w1, r) {
 +   x <- sqrt(x) 
@@ -550,9 +565,11 @@ Type 'q()' to quit R.
 > fisher_mean(x, w1, w2, na.rm = TRUE)
 [1] 2.699206
 > 
-> # Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a harmonic mean
+> # Same as using obs 2 and 3 in an arithmetic mean, 
+> # and obs 3 in a harmonic mean
 > 
-> geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), harmonic_mean(x, w2, na.rm = TRUE)))
+> geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
++                  harmonic_mean(x, w2, na.rm = TRUE)))
 [1] 2.699206
 > 
 > # Use complete.cases to use only obs 3 in both inner means
@@ -576,7 +593,9 @@ Type 'q()' to quit R.
 > 
 > ### ** Examples
 > 
-> dat <- data.frame(price = 1:4, product = c("a", "b", "a", "b"), period = c(1, 1, 2, 2))
+> dat <- data.frame(price = 1:4, 
++                   product = c("a", "b", "a", "b"), 
++                   period = c(1, 1, 2, 2))
 > 
 > with(dat, back_price(price, period, product))
 [1] 1 2 1 2
@@ -596,7 +615,8 @@ Type 'q()' to quit R.
 > with(dat, price / back_price(price, period, product))
 [1] 1 1 3 2
 > 
-> # Warning is given if the same product has multiple prices at any point in time
+> # Warning is given if the same product has multiple prices 
+> # at any point in time
 > 
 > with(dat, price / back_price(price, period))
 Warning in back_price(price, period) :
@@ -641,7 +661,7 @@ Warning in back_price(price, period) :
 > tornqvist_weights <- grouped(index_weights("Tornqvist"))
 > tornqvist_weights(p1, p0, q1, q0, group = f)
 [1] 0.18247009 0.33481172 0.48271819 0.12865397 0.81833234 0.05301369
->
+> 
 > # Calculate a mean like ave(), but with weights
 > x <- 1:6
 > w <- c(1:5, NA)
@@ -674,7 +694,7 @@ Warning in back_price(price, period) :
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > quartile_method(x)
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-> resistant_fences(x) # this will always identify fewer outliers than the quartile method
+> resistant_fences(x) # always identifies fewer outliers than quartile method
  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > tukey_algorithm(x)
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
@@ -766,8 +786,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Calculating price indexes ----
 > 
-> # Most indexes can be calculated by combining the appropriate weights with
-> # the correct type of mean
+> # Most indexes can be calculated by combining the appropriate 
+> # weights with the correct type of mean
 > 
 > geometric_index("Laspeyres")(p1, p0, q0)
 [1] 0.8705581
@@ -794,8 +814,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 + )
 [1] TRUE
 > 
-> # Unlike its arithmetic counterpart, the geometric Laspeyres can increase
-> # when base-period prices increase if some of these prices are small
+> # Unlike its arithmetic counterpart, the geometric Laspeyres 
+> # can increase when base-period prices increase if some of these 
+> # prices are small
 > 
 > p0_small <- replace(p0, 1, p0[1] / 5)
 > p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
@@ -966,8 +987,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Transforming generalized means ----
 > 
-> # Calculate the geometric mean as an arithmetic mean and harmonic mean by 
-> # transmuting the weights
+> # Calculate the geometric mean as an arithmetic mean and 
+> # harmonic mean by transmuting the weights
 > 
 > geometric_mean(x)
 [1] 2.44949
@@ -991,8 +1012,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Quote contributions ----
 > 
-> # Transmuted weights can be used to calculate quote contributions for, 
-> # e.g., a geometric price index
+> # Transmuted weights can be used to calculate quote contributions 
+> # for, e.g., a geometric price index
 > 
 > scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.5505103 0.8989795
@@ -1001,9 +1022,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Basket representation of a price index ----
 > 
-> # Any generalized-mean index can be represented as a basket-style index
-> # by transmuting the weights, which is how some authors define a
-> # price index (e.g., Sydsaeter et al., 2005, p. 174)
+> # Any generalized-mean index can be represented as a basket-style 
+> # index by transmuting the weights, which is how some authors 
+> # define a price index (e.g., Sydsaeter et al., 2005, p. 174)
 > 
 > p1 <- 2:6
 > p0 <- 1:5
@@ -1028,8 +1049,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
 [1] 12.08522
 > 
-> # In cases where x and y have the same order, Chebyshev's inequality implies
-> # that the chained calculation is too small
+> # In cases where x and y have the same order, Chebyshev's 
+> # inequality implies that the chained calculation is too small
 > 
 > arithmetic_mean(x * y, w) > arithmetic_mean(x, w) * arithmetic_mean(y, w)
 [1] TRUE
@@ -1041,7 +1062,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.269 0.042 0.315 0 0 
+Time elapsed:  0.281 0.029 0.312 0 0 
 > grDevices::dev.off()
 null device 
           1 
