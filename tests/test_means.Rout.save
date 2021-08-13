@@ -84,6 +84,18 @@ In log(x) : NaNs produced
 > all.equal(grouped(arithmetic_mean, na.rm = TRUE)(xna, group = f), 
 +           ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE)))
 [1] TRUE
+> # Balanced means
+> all.equal(arithmetic_mean(xna, w, na.rm = TRUE),
++           balanced(arithmetic_mean)(xna, w, na.rm = TRUE))
+[1] TRUE
+> all.equal(arithmetic_mean(xna, w),
++           balanced(arithmetic_mean)(xna, w))
+[1] TRUE
+> all.equal(arithmetic_mean(x, xna, na.rm = TRUE),
++           balanced(weighted.mean)(x, xna, na.rm = TRUE))
+[1] TRUE
+> all.equal(balanced(fisher_mean)(c(1, NA, 3, 4), c(NA, 1, 1, 2), c(1, 2, NA, 4), na.rm = TRUE), 4)
+[1] TRUE
 > 
 > #---- Tests for generalized means ----
 > # Base implementation

@@ -572,11 +572,9 @@ Type 'q()' to quit R.
 +                  harmonic_mean(x, w2, na.rm = TRUE)))
 [1] 2.699206
 > 
-> # Use complete.cases to use only obs 3 in both inner means
+> # Use  balanced() to use only obs 3 in both inner means
 > 
-> keep <- complete.cases(x, w1, w2)
-> 
-> fisher_mean(x[keep], w1[keep], w2[keep])
+> balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
 [1] 3
 > 
 > 
@@ -633,7 +631,7 @@ Warning in back_price(price, period) :
 > 
 > ### Name: operators
 > ### Title: Function operators
-> ### Aliases: quantity_index grouped
+> ### Aliases: quantity_index grouped balanced
 > 
 > ### ** Examples
 > 

@@ -40,6 +40,14 @@ f <- letters[c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1)]
 all.equal(grouped(arithmetic_mean)(x, group = f), ave(x, f))
 all.equal(grouped(arithmetic_mean, na.rm = TRUE)(xna, group = f), 
           ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE)))
+# Balanced means
+all.equal(arithmetic_mean(xna, w, na.rm = TRUE),
+          balanced(arithmetic_mean)(xna, w, na.rm = TRUE))
+all.equal(arithmetic_mean(xna, w),
+          balanced(arithmetic_mean)(xna, w))
+all.equal(arithmetic_mean(x, xna, na.rm = TRUE),
+          balanced(weighted.mean)(x, xna, na.rm = TRUE))
+all.equal(balanced(fisher_mean)(c(1, NA, 3, 4), c(NA, 1, 1, 2), c(1, 2, NA, 4), na.rm = TRUE), 4)
 
 #---- Tests for generalized means ----
 # Base implementation

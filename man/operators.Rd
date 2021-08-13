@@ -1,6 +1,7 @@
 \name{operators}
 \alias{quantity_index}
 \alias{grouped}
+\alias{balanced}
 
 \title{Function operators}
 
@@ -9,6 +10,7 @@ Operators to augment the way a function behaves.
 \itemize{
 \item{\code{quantity_index()} remaps price arguments into quantity argument (and vice versa) to turn a price index into a quantity index.}
 \item{\code{grouped()} makes a function applicable to grouped data.}
+\item{\code{balanced()} makes a function balance multiple input vectors when removing \code{NA}s} 
 }
 }
 
@@ -16,6 +18,8 @@ Operators to augment the way a function behaves.
 quantity_index(f)
 
 grouped(f, ...)
+
+balanced(f, ...)
 }
 
 \arguments{
@@ -28,6 +32,12 @@ grouped(f, ...)
 \code{quantity_index()} returns a function like \code{f}, except that the role of prices/quantities is reversed.
 
 \code{grouped()} returns a function like \code{f} with a new argument \code{group}. This accepts a factor to split all other arguments in \code{f} (except those specified in \code{...}) into groups before applying \code{f} to each group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but more general.
+
+\code{balanced()} returns a function like \code{f}, except that missing values are balanced across \emph{all} inputs when \code{na.rm = TRUE} (except those specified in \code{...}). This is like using \code{\link[=complete.cases]{complete.cases()}}.
+}
+
+\note{
+Additional arguments passed to \code{...} are evaluated, so the return function doesn't evaluate these arguments lazily. In most cases these additional arguments are parameters like \code{elasticity} or switches like \code{na.rm}, and eager evaluation prevents these from being changed in e.g., a loop. Lazy evaluation can be had by passing an anonymous function that partials out these arguments.
 }
 
 \seealso{

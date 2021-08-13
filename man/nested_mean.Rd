@@ -96,9 +96,7 @@ fisher_mean(x, w1, w2, na.rm = TRUE)
 geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
                  harmonic_mean(x, w2, na.rm = TRUE)))
 
-# Use complete.cases to use only obs 3 in both inner means
+# Use balanced() to use only obs 3 in both inner means
 
-keep <- complete.cases(x, w1, w2)
-
-fisher_mean(x[keep], w1[keep], w2[keep])
+balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
 }
