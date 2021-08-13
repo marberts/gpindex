@@ -21,7 +21,7 @@ grouped <- function(f, ...) {
   f <- match.fun(f)
   ngargs <- list(...)
   if ("group" %in% names(formals(f))) {
-    stop("'f' already has an argument called 'group'")
+    stop(gettext("'f' already has an argument called 'group'"))
   }
   function(..., group) {
     group <- as.factor(group)
