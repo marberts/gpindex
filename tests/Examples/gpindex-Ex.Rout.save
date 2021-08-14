@@ -666,6 +666,13 @@ Warning in back_price(price, period) :
 > grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
 > grouped_mean(x, w, group = f)
 [1] 2.182247 2.182247 2.182247 4.527921 4.527921 4.527921
+>
+> # Balance missing values for a Fisher index
+> fisher <- balanced(fisher_index)
+> fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
+[1] 0.9015449
+> fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
+[1] 0.9015449
 > 
 > 
 > 

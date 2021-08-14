@@ -10,7 +10,7 @@ Operators to augment the way a function behaves.
 \itemize{
 \item{\code{quantity_index()} remaps price arguments into quantity argument (and vice versa) to turn a price index into a quantity index.}
 \item{\code{grouped()} makes a function applicable to grouped data.}
-\item{\code{balanced()} makes a function balance multiple input vectors when removing \code{NA}s} 
+\item{\code{balanced()} makes a function balance multiple input vectors when removing \code{NA}s.}
 }
 }
 
@@ -25,7 +25,7 @@ balanced(f, ...)
 \arguments{
 \item{f}{A function.}
 
-\item{...}{Additional arguments to \code{f} that should \emph{not} be treated as grouped.}
+\item{...}{Additional arguments to \code{f} that should \emph{not} be treated as grouped / should \emph{not} be balanced.}
 }
 
 \value{
@@ -33,15 +33,15 @@ balanced(f, ...)
 
 \code{grouped()} returns a function like \code{f} with a new argument \code{group}. This accepts a factor to split all other arguments in \code{f} (except those specified in \code{...}) into groups before applying \code{f} to each group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but more general.
 
-\code{balanced()} returns a function like \code{f}, except that missing values are balanced across \emph{all} inputs when \code{na.rm = TRUE} (except those specified in \code{...}). This is like using \code{\link[=complete.cases]{complete.cases()}}.
+\code{balanced()} returns a function like \code{f}, except that missing values are balanced across \emph{all} inputs when \code{na.rm = TRUE} (except those specified in \code{...}). This is like using \code{\link[=complete.cases]{complete.cases()}} on the inputs of \code{f}.
 }
 
 \note{
-Additional arguments passed to \code{...} are evaluated, so the return function doesn't evaluate these arguments lazily. In most cases these additional arguments are parameters like \code{elasticity} or switches like \code{na.rm}, and eager evaluation prevents these from being changed in e.g., a loop. Lazy evaluation can be had by passing an anonymous function that partials out these arguments.
+Additional arguments passed to \code{...} are evaluated, so the return function doesn't evaluate these arguments lazily. In most cases these additional arguments are parameters like \code{elasticity} or switches like \code{na.rm}, and eager evaluation prevents these from being changed in, e.g., a loop. Lazy evaluation can be had by passing an anonymous function that partials out these arguments.
 }
 
 \seealso{
-\code{\link{price_index}} for the possible functions that can serve as inputs for \code{quantity_index()}.
+\code{\link{price_index}} for the possible functions that can serve as inputs for \code{quantity_index()} and \code{balanced()}.
 }
 
 \examples{
@@ -71,4 +71,9 @@ x <- 1:6
 w <- c(1:5, NA)
 grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
 grouped_mean(x, w, group = f)
+
+# Balance missing values for a Fisher index
+fisher <- balanced(fisher_index)
+fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
+fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
 }

@@ -152,9 +152,9 @@ Naming for the indexes and weights generally follows the CPI manual and Balk (20
 }
 
 \note{
-Dealing with missing values is cumbersome when making a price index, and best avoided. As there are different approaches for dealing with missing values in a price index, missing values should be dealt with prior to calculating the index. 
+There are different ways to deal with missing values in a price index, and care should be taken when relying on these functions to remove missing values. Setting \code{na.rm = TRUE} removes price relatives with missing information, either because of a missing price or a missing weight, while using all available non-missing information to make the weights. 
 
-The approach taken when \code{na.rm = TRUE} removes price relatives with missing information, either because of a missing price or a missing weight. Certain properties of an index-number formula may not work as expected with missing values, however, if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Tornqvist or Sato-Vartia index). The \code{\link[=balanced]{balanced()}} operator may be helpful.
+Certain properties of an index-number formula may not work as expected when removing missing values if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Tornqvist or Sato-Vartia index). The \code{\link[=balanced]{balanced()}} operator may be helpful, as it balances the removal of missing values across prices and quantities prior to making the weights.
 }
 
 \references{
