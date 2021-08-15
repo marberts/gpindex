@@ -83,8 +83,8 @@ qb <- runif(15, 2, 4)
               sqrt(arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) * arithmetic_mean(p1 * q1 / (p0 * q0))))
     all.equal(bw_index(p1, p0), 
               arithmetic_mean(sqrt(p1 / p0)) * harmonic_mean(sqrt(p1 / p0)))
-    all.equal(stuval_index(4, 4)(p1, p0, q1, q0), stuval_index(1, 1)(p1, p0, q1, q0))
-    stuval_index(4, 4)(p1, p0, q1, q0) != stuval_index(2, 1)(p1, p0, q1, q0)
+    all.equal(stuvel_index(4, 4)(p1, p0, q1, q0), stuvel_index(1, 1)(p1, p0, q1, q0))
+    stuvel_index(4, 4)(p1, p0, q1, q0) != stuvel_index(2, 1)(p1, p0, q1, q0)
     all.equal(arithmetic_agmean_index(p1, p0, q0, 0.25), 
               0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
     all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 

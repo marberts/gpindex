@@ -44,7 +44,7 @@ index_formulas <- function(p1, p0, q1, q0) {
     walsh1 = arithmetic_index("Walsh1")(p1, p0, q1, q0),
     vartia2 = geometric_index("Vartia2")(p1, p0, q1, q0),
     vartia1 = geometric_index("Vartia1")(p1, p0, q1, q0),
-    stuval = stuval_index(2, 2)(p1, p0, q1, q0)
+    stuvel = stuvel_index(2, 2)(p1, p0, q1, q0)
   )
 }
 

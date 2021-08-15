@@ -746,7 +746,7 @@ Warning in back_price(price, period) :
 +     walsh1 = arithmetic_index("Walsh1")(p1, p0, q1, q0),
 +     vartia2 = geometric_index("Vartia2")(p1, p0, q1, q0),
 +     vartia1 = geometric_index("Vartia1")(p1, p0, q1, q0),
-+     stuval = stuval_index(2, 2)(p1, p0, q1, q0)
++     stuvel = stuvel_index(2, 2)(p1, p0, q1, q0)
 +   )
 + }
 > 
@@ -757,7 +757,7 @@ t2             1.2542              1.3300     1.420  1.3824            1.4846
 t3             1.1346              1.2523     1.345  1.2031            1.3268
 t4             0.8732              1.1331     1.355  1.0209            1.3282
 t5             0.5556              1.0999     1.440  0.7968            1.4153
-   palgrave fisher tornqvist marshall_edgeworth walsh1 vartia2 vartia1 stuval
+   palgrave fisher tornqvist marshall_edgeworth walsh1 vartia2 vartia1 stuvel
 t1   1.0000 1.0000    1.0000             1.0000 1.0000  1.0000  1.0000 1.0000
 t2   1.6096 1.4011    1.4052             1.4010 1.4017  1.4018  1.4024 1.4042
 t3   1.4161 1.2721    1.2890             1.2656 1.2850  1.2897  1.2907 1.2742
@@ -777,7 +777,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > ### Aliases: price_index arithmetic_index geometric_index harmonic_index
 > ###   laspeyres_index paasche_index jevons_index lowe_index young_index
 > ###   fisher_index hlp_index lm_index arithmetic_agmean_index
-> ###   geometric_agmean_index cswd_index cswdb_index bw_index stuval_index
+> ###   geometric_agmean_index cswd_index cswdb_index bw_index stuvel_index
 > ###   index_weights
 > 
 > ### ** Examples

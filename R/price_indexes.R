@@ -154,8 +154,8 @@ bw_index <- function(p1, p0, na.rm = FALSE) {
   arithmetic_mean(rel, na.rm = na.rm) * harmonic_mean(rel, na.rm = na.rm)
 }
 
-#---- Generalized Stuval index ----
-stuval_index <- function(a, b) {
+#---- Generalized Stuvel index ----
+stuvel_index <- function(a, b) {
   if (not_number(a)) {
     stop(gettext("'a' must be a finite length 1 numeric"))
   }
