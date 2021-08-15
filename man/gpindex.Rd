@@ -29,8 +29,8 @@ On top of these basic mathematical tools are functions for making standard price
 There are several utility functions for making price relatives (e.g., \code{\link[=back_price]{back_price()}}) when data are stored in a table, and identifying extreme price relatives (e.g., \code{\link[=resistant_fences]{resistant_fences()}}) that may not be suitable for a price index. All functions can be made to work with grouped data with the \code{\link[=grouped]{grouped()}} operator.
 }
 
-\note{
-There are a number of R packages on the CRAN for working with price/quantity indexes that implement the standard index-number formulas (e.g., \pkg{IndexNumber}, \pkg{productivity}, \pkg{IndexNumR}, \pkg{micEconIndex}). While there is support for a large number of index-number formulas out-of-the box in this package, the focus is on the tools to easily make and work with any type of generalized-mean price index. Consequently, compared to existing packages, this package is suitable for building custom price/quantity indexes, and learning about or researching different types of index-number formulas.
+\section{Contribution}{
+There are a number of R packages on the CRAN that implement the standard index-number formulas (e.g., \pkg{IndexNumber}, \pkg{productivity}, \pkg{IndexNumR}, \pkg{micEconIndex}, \pkg{PriceIndices}). While there is support for a large number of index-number formulas out-of-the box in this package, the focus is on the tools to easily make and work with any type of generalized-mean price index. Consequently, compared to existing packages, this package is suitable for building custom price/quantity indexes, calculating indexes with sample data, decomposing indexes, and learning about or researching different types of index-number formulas.
 }
 
 \references{
