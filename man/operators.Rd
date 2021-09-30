@@ -78,4 +78,9 @@ grouped_mean(x, w, group = f)
 fisher <- balanced(fisher_index)
 fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
 fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
+
+# Operators can be combined, but some care may be needed
+
+grouped(balanced(fisher_mean), na.rm = TRUE)(x, w, group = f)
+balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
 }

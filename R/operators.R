@@ -1,7 +1,10 @@
 quantity_index <- function(f) {
   f <- match.fun(f)
   args <- formals(f)
-  concord <- c(p1 = "q1", p0 = "q0", q1 = "p1", q0 = "p0", pb = "qb", qb = "pb")
+  concord <- c(p1 = "q1", p0 = "q0", 
+               q1 = "p1", q0 = "p0", 
+               pb = "qb", qb = "pb",
+               p = "q", q = "p")
   pqs <- intersect(names(args), concord)
   if (!length(pqs)) {
     stop(gettext("no price/quantity arguments"))

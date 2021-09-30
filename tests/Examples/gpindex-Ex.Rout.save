@@ -731,6 +731,13 @@ Warning in back_price(price, period) :
 [1] 0.9015449
 > fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
 [1] 0.9015449
+>
+> # Operators can be combined, but some care may be needed
+> 
+> grouped(balanced(fisher_mean), na.rm = TRUE)(x, w, group = f)
+[1] 1.954017 1.954017 1.954017 4.499657 4.499657 4.499657
+> balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
+[1] 1.954017 1.954017 1.954017 4.499657 4.499657
 > 
 > 
 > 

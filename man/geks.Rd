@@ -14,17 +14,17 @@ Calculate an inter-temporal GEKS price index, as described in chapter 7 of Balk 
 \usage{
 geks(f)
 
-tornqvist_geks(price, quantity, period, product, 
+tornqvist_geks(p, q, period, product, 
                window = nlevels(period), n = window - 1, na.rm = FALSE)
 
-fisher_geks(price, quantity, period, product, 
+fisher_geks(p, q, period, product, 
             window = nlevels(period), n = window - 1, na.rm = FALSE)
 }
 
 \arguments{
 \item{f}{A \code{\link{price_index}} function that uses information on both base and current-period prices and quantities, and satisfies the time-reversal test. Usually a Tornqvist, Fisher, or Walsh index.}
-\item{price}{A numeric vector of prices, the same length as \code{quantity}.}
-\item{quantity}{A numeric vector of quantities, the same length as \code{price}.}
+\item{p}{A numeric vector of prices, the same length as \code{q}.}
+\item{q}{A numeric vector of quantities, the same length as \code{p}.}
 \item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{price} and \code{quantity}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
 \item{product}{A factor, or something that can be coerced into one, that gives the corresponding product identifier for each element in \code{price} and \code{quantity}.}
 \item{window}{The length of the rolling window. The default is a window that encompasses all periods in \code{period}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
@@ -36,7 +36,7 @@ fisher_geks(price, quantity, period, product,
 \code{geks()} returns a function:
 
 \preformatted{
-function(price, quantity, period, product, 
+function(p, q, period, product, 
          window = nlevels(period), n = window - 1, na.rm = FALSE)
 }
 
