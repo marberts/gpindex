@@ -144,7 +144,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
 
-Naming for the indexes and weights generally follows the CPI manual and Balk (2008). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
+Naming for the indexes and weights generally follows the CPI manual (2020) and Balk (2008). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
 }
 
 \value{
@@ -171,6 +171,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index
 \code{\link{update_weights}} for price-updating weights.
 
 \code{\link{quantity_index}} to remap the arguments in these functions for a quantity index.
+
+\code{\link{geks}} for making a GEKS index based on, e.g., the Fisher index.
 }
 
 \examples{

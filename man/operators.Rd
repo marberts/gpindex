@@ -67,12 +67,14 @@ tornqvist_weights <- grouped(index_weights("Tornqvist"))
 tornqvist_weights(p1, p0, q1, q0, group = f)
 
 # Calculate a mean like ave(), but with weights
+
 x <- 1:6
 w <- c(1:5, NA)
 grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
 grouped_mean(x, w, group = f)
 
 # Balance missing values for a Fisher index
+
 fisher <- balanced(fisher_index)
 fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
 fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])

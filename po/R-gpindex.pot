@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.4\n"
-"POT-Creation-Date: 2021-08-03 23:47\n"
+"Project-Id-Version: gpindex 0.3.5\n"
+"POT-Creation-Date: 2021-09-29 22:25\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9,6 +9,21 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+
+msgid "'price', 'quantity', 'period', and 'product' must be the same length"
+msgstr ""
+
+msgid "'window' must be greater than or equal to 2"
+msgstr ""
+
+msgid "'window' must be less than or equal to the number of levels in 'period'"
+msgstr ""
+
+msgid "'n' must be greater than or equal to 1"
+msgstr ""
+
+msgid "'n' must be less than or equal to 'window' minus 1"
+msgstr ""
 
 msgid "'r' must be a finite length 1 numeric"
 msgstr ""
