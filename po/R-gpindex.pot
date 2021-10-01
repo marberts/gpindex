@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.5.9001\n"
-"POT-Creation-Date: 2021-09-30 13:14\n"
+"Project-Id-Version: gpindex 0.3.5.9003\n"
+"POT-Creation-Date: 2021-10-01 09:53\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,9 +47,6 @@ msgid "'s' must be a pair of numeric values"
 msgstr ""
 
 msgid "'t' must be a pair of numeric values"
-msgstr ""
-
-msgid "no price/quantity arguments"
 msgstr ""
 
 msgid "'f' already has an argument called 'group'"

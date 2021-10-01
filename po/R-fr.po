@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gpindex 0.3.2\n"
-"POT-Creation-Date: 2021-09-30 13:14\n"
+"POT-Creation-Date: 2021-10-01 09:53\n"
 "PO-Revision-Date: 2021-07-13\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -11,8 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "'p', 'q', 'period', and 'product' must be the same length"
-msgstr ""
-"'p', 'q', 'period' et 'product' doivent avoir la même longueur"
+msgstr "'p', 'q', 'period' et 'product' doivent avoir la même longueur"
 
 msgid "'window' must be greater than or equal to 2"
 msgstr "'window' doit être supérieur ou égal à 2"
@@ -63,9 +62,6 @@ msgstr "'s' doit être une paire de valeurs numériques"
 msgid "'t' must be a pair of numeric values"
 msgstr "'t' doit être une paire de valeurs numériques"
 
-msgid "no price/quantity arguments"
-msgstr "aucun argument prix/quantité"
-
 msgid "'f' already has an argument called 'group'"
 msgstr "'f' a déjà un argument appelé 'group'"
 
@@ -80,3 +76,6 @@ msgstr "tous les arguments doivent avoir la même longueur"
 
 msgid "there are duplicated period-product pairs"
 msgstr "il existe des paires période-produit en double"
+
+#~ msgid "no price/quantity arguments"
+#~ msgstr "aucun argument prix/quantité"

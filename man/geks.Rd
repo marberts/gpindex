@@ -8,7 +8,7 @@ GEKS index
 }
 
 \description{
-Calculate an inter-temporal GEKS price index, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in chapter 10 of the CPI manual (2020).
+Calculate an inter-temporal GEKS price index over a rolling window, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in chapter 10 of the CPI manual (2020).
 }
 
 \usage{

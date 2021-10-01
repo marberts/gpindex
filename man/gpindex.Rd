@@ -6,7 +6,7 @@
 \title{Generalized Price and Quantity Indexes}
 
 \description{
-A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of bilateral generalized-mean index (of which most price indexes are), along with a few important indexes that don't belong to the generalized-mean family. Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0) and ILO, IMF, OECD, Eurostat, UN, and World Bank (2020, ISBN:978-1-51354-298-0) for bilateral price indexes.
+A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of bilateral generalized-mean index (of which most price indexes are), along with a few important indexes that don't belong to the generalized-mean family (e.g., superlative quadratic-mean index, GEKS). Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0) and the CPI manual (2020, ISBN:978-1-51354-298-0) for bilateral price indexes.
 }
 
 \section{Background}{
