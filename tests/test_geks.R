@@ -42,3 +42,10 @@ all.equal(as.numeric(with(dat, geks(balanced(fisher_index))(price, quantity, per
 
 all.equal(cumprod(as.numeric(unlist(with(dat, geks(balanced(arithmetic_index("Walsh1")))(price, quantity, period, product, 2, na.rm = TRUE))))), 
           as.numeric(GEKSIndex(dat, "price", "quantity", "period", "walsh", prodID = "product", window = 2, splice = "movement")[2:13]))
+
+# Default arguments should work with quantity_index()
+all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
+          with(dat, quantity_index(geks(balanced(fisher_index)))(q = price, p = quantity, period, product, na.rm = TRUE)))
+
+all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
+          with(dat, geks(balanced(quantity_index(fisher_index)))(q = price, p = quantity, period, product, na.rm = TRUE)))

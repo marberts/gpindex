@@ -96,11 +96,11 @@ qb <- runif(15, 2, 4)
     all.equal(lm_index(p1, p0, q0, 1.5), 
               quantity_index(lm_index)(p1, p0, q0, 1.5))
     all.equal(jevons_index(p1, p0), 
-              quantity_index(jevons_index)(p1, p0))
+              quantity_index(jevons_index)(q1 = p1, q0 = p0))
     all.equal(laspeyres_index(q1, q0, p0), 
               quantity_index(laspeyres_index)(q1, q0, p0))
     all.equal(index_weights("Vartia1")(p1, p0, q1, q0), 
-              quantity_index(index_weights("Vartia1"))(p1, p0, q1, q0))
+              quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0))
 
 #---- Tests for weights ----
     all(sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1)

@@ -13,7 +13,7 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
     m <- .mapply(match, list(product[js], product[i]), list(incomparables = NA))
     bp <- .mapply(`[`, list(p[i], m), list())
     bq <- .mapply(`[`, list(q[i], m), list())
-    ans <- .mapply(index, list(p[js], bp, q[js], bq), list(na.rm = na.rm))
+    ans <- .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
     c(unlist(ans, use.names = FALSE), pad)
   })
   res <- do.call(rbind, lt)
@@ -25,6 +25,7 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
 
 geks <- function(f) {
   index <- match.fun(f)
+  # return function
   function(p, q, period, product, window = nlevels(period), n = window - 1, na.rm = FALSE) {
     if (different_lengths(p, q, period, product)) {
       stop(gettext("'p', 'q', 'period', and 'product' must be the same length"))

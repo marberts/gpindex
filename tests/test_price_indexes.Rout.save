@@ -152,13 +152,13 @@ Type 'q()' to quit R.
 +               quantity_index(lm_index)(p1, p0, q0, 1.5))
 [1] TRUE
 >     all.equal(jevons_index(p1, p0), 
-+               quantity_index(jevons_index)(p1, p0))
++               quantity_index(jevons_index)(q1 = p1, q0 = p0))
 [1] TRUE
 >     all.equal(laspeyres_index(q1, q0, p0), 
 +               quantity_index(laspeyres_index)(q1, q0, p0))
 [1] TRUE
 >     all.equal(index_weights("Vartia1")(p1, p0, q1, q0), 
-+               quantity_index(index_weights("Vartia1"))(p1, p0, q1, q0))
++               quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0))
 [1] TRUE
 > 
 > #---- Tests for weights ----
