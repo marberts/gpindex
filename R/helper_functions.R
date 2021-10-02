@@ -60,7 +60,6 @@ wpow <- function(x, w, r) {
   }
 }
 
-
 #---- Geks ----
 to_scalar <- function(x) {
   trunc(as.numeric(x[1]))

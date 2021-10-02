@@ -41,7 +41,7 @@ Each of these functions constructs an interval of the form \eqn{[b_l(x) - c_l \t
 
 The fixed cutoff method is the simplest, and just uses the interval \eqn{[c_l, c_u]}{[cl, cu]}.
 
-The quartile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual, as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quartile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
+The quartile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quartile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting \code{a > 0} puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.
 
 The robust Z-score is the usual method to identify relatives in the (asymmetric) tails of the distribution, simply replacing the mean with the median, and the standard deviation with the median absolute deviation.
 

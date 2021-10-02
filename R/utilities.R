@@ -1,8 +1,6 @@
 #---- Price utilities----
-offset_price <- function(type = c("back", "base")) {
-  offset <- switch(match.arg(type),
-                   back = function(x) x[c(1L, seq_len(length(x) - 1))],
-                   base = function(x) x[1L])
+offset_price <- function(f) {
+  offset <- match.fun(f)
   # return function
   function(x, period, product = gl(1, length(x))) {
     if (different_lengths(x, period, product)) {
@@ -24,9 +22,9 @@ offset_price <- function(type = c("back", "base")) {
   }
 }
 
-back_price <- offset_price("back")
+back_price <- offset_price(function(x) x[c(1L, seq_len(length(x) - 1))])
 
-base_price <- offset_price("base")
+base_price <- offset_price(function(x) x[1L])
 
 #---- Outlier utilities ----
 # all of these start with as.numeric() to strip attributes

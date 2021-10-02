@@ -3,7 +3,7 @@ quantity_index <- function(f) {
   concord <- c(p1 = "q1", p0 = "q0", 
                q1 = "p1", q0 = "p0", 
                pb = "qb", qb = "pb",
-               p = "q", q = "p")
+               p  = "q",  q  = "p")
   # return function
   function(...) {
     dots <- list(...)

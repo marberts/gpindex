@@ -1,6 +1,6 @@
 Changes in version 0.3.6
 
-- Added the balanced() operator to make it easier to removing NAs with price index functions.
+- Added the balanced() operator to make it easier to remove NAs with price index functions.
 
 - Added the geks() function for using price-index function (e.g., fisher_index()) to makes a GEKS index.
 
