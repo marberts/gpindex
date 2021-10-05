@@ -643,7 +643,7 @@ Type 'q()' to quit R.
 > 
 > ### Name: offset_prices
 > ### Title: Offset prices
-> ### Aliases: back_price base_price
+> ### Aliases: back_price base_price back_period base_period
 > 
 > ### ** Examples
 > 
@@ -652,6 +652,11 @@ Type 'q()' to quit R.
 +                   period = c(1, 1, 2, 2))
 > 
 > with(dat, back_price(price, period, product))
+[1] 1 2 1 2
+>
+> # (Almost) identical to indexing with the back period
+>
+> with(dat, price[back_period(period, product)])
 [1] 1 2 1 2
 > 
 > # Identical to the price in the base period with only two periods
@@ -673,7 +678,7 @@ Type 'q()' to quit R.
 > # at any point in time
 > 
 > with(dat, price / back_price(price, period))
-Warning in back_price(price, period) :
+Warning in f(period, product) : 
   there are duplicated period-product pairs
 [1] 1 2 3 4
 > 

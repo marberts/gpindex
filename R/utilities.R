@@ -1,30 +1,44 @@
 #---- Price utilities----
-offset_price <- function(f) {
-  offset <- match.fun(f)
+offset_period <- function(f) {
+  f <- match.fun(f)
   # return function
-  function(x, period, product = gl(1, length(x))) {
-    if (different_lengths(x, period, product)) {
-      stop(gettext("all arguments must be the same length"))
+  function(period, product = gl(1, length(period))) {
+    if (length(period) != length(product)) {
+      stop(gettext("'period' and 'product' must be the same length"))
     }
-    if (!length(x)) return(x[0])
+    if (!length(period)) return(integer(0))
     period <- as.factor(period)
-    price <- split(x, period)
     product <- as.factor(product)
     attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
     if (max(vapply(product, anyDuplicated, numeric(1)))) {
       warning(gettext("there are duplicated period-product pairs"))
     }
-    m <- .mapply(match, list(product, offset(product)), list(incomparables = NA))
-    res <- unsplit(.mapply(`[`, list(offset(price), m), list()), period)
-    attributes(res) <- attributes(x) # unsplit mangles attributes
+    m <- .mapply(match, list(product, f(product)), list(incomparables = NA))
+    res <- split(seq_along(period), period)
+    unsplit(.mapply(`[`, list(f(res), m), list()), period)
+  }
+}
+
+back_period <- offset_period(function(x) x[c(1L, seq_len(length(x) - 1))])
+
+base_period <- offset_period(function(x) x[1L])
+
+offset_price <- function(f) {
+  f <- match.fun(f)
+  function(x, period, product = gl(1, length(x))) {
+    if (different_lengths(x, period, product)) {
+      stop(gettext("all arguments must be the same length"))
+    }
+    res <- x[f(period, product)]
+    attributes(res) <- attributes(x)
     res
   }
 }
 
-back_price <- offset_price(function(x) x[c(1L, seq_len(length(x) - 1))])
+back_price <- offset_price(back_period)
 
-base_price <- offset_price(function(x) x[1L])
+base_price <- offset_price(base_period)
 
 #---- Outlier utilities ----
 # all of these start with as.numeric() to strip attributes

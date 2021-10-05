@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.5.9003\n"
-"POT-Creation-Date: 2021-10-01 09:53\n"
+"Project-Id-Version: gpindex 0.3.6\n"
+"POT-Creation-Date: 2021-10-05 09:37\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,8 +58,11 @@ msgstr ""
 msgid "'b' must be a finite length 1 numeric"
 msgstr ""
 
-msgid "all arguments must be the same length"
+msgid "'period' and 'product' must be the same length"
 msgstr ""
 
 msgid "there are duplicated period-product pairs"
+msgstr ""
+
+msgid "all arguments must be the same length"
 msgstr ""

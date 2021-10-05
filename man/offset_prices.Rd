@@ -1,6 +1,8 @@
 \name{offset_prices}
 \alias{back_price}
 \alias{base_price}
+\alias{back_period}
+\alias{base_period}
 
 \title{Offset prices}
 
@@ -12,6 +14,10 @@ Utility functions to offset a vector of prices, computing either the price in th
 back_price(x, period, product = gl(1, length(x)))
 
 base_price(x, period, product = gl(1, length(x)))
+
+back_period(period, product = gl(1, length(period)))
+
+base_period(period, product = gl(1, length(period)))
 }
 
 \arguments{
@@ -23,11 +29,9 @@ base_price(x, period, product = gl(1, length(x)))
 }
 
 \value{
-An offset copy of \code{x}. 
+\code{back_price()} and \code{base_price()} return an offset copy of \code{x}. With \code{back_price()}, for all periods after the first, the resulting vector gives the value of \code{x} for the corresponding product in the previous period. For the first time period, the resulting vector is the same as \code{x}. With \code{base_price()}, the resulting vector gives the value of \code{x} for the corresponding product in the first period.
 
-With \code{back_price()}, for all periods after the first, the resulting vector gives the value of \code{x} for the corresponding product in the previous period. For the first time period, the resulting vector is the same as \code{x}.
-
-With \code{base_price()}, the resulting vector gives the value of \code{x} for the corresponding product in the first period.
+\code{back_period()} and \code{base_period()} return a numeric vector of indices for the back/base periods.
 }
 
 \note{
@@ -44,6 +48,10 @@ dat <- data.frame(price = 1:4,
                   period = c(1, 1, 2, 2))
 
 with(dat, back_price(price, period, product))
+
+# (Almost) identical to indexing with the back period
+
+with(dat, price[back_period(period, product)])
 
 # Identical to the price in the base period with only two periods
 
