@@ -24,7 +24,7 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
 }
 
 geks <- function(f) {
-  index <- match.fun(f)
+  f <- match.fun(f)
   # return function
   function(p, q, period, product, window = nlevels(period), n = window - 1, na.rm = FALSE) {
     if (different_lengths(p, q, period, product)) {
@@ -57,7 +57,7 @@ geks <- function(f) {
     res <- vector("list", length(windows))
     for (i in seq_along(res)) {
       w <- windows[[i]]
-      mat <- geks_matrix(index, p[w], q[w], product[w], n, window, na.rm)
+      mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm)
       mat <- apply(mat[, keep, drop = FALSE], 2, geometric_mean, na.rm = na.rm)
       res[[i]] <- mat[-1] / mat[-length(mat)]
     }

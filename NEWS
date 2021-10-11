@@ -1,3 +1,7 @@
+Changes in version 0.3.7
+
+- Added back_period() and base_period(), which are more general than back_price() and base_price().
+
 Changes in version 0.3.6
 
 - Added the balanced() operator to make it easier to remove NAs with price index functions.

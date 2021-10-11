@@ -116,19 +116,19 @@ lowe_index <- arithmetic_index("Lowe")
 
 young_index <- arithmetic_index("Young")
 
-#---- Fisher index ----
-fisher_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  wl <- index_weights("Laspeyres")(p0, q0)
-  wp <- index_weights("Paasche")(p1, q1)
-  fisher_mean(p1 / p0, wl, wp, na.rm)
+#---- Nested indexes ----
+nested_index <- function(r, s) {
+  nest_mean <- nested_mean(r, s)
+  function(p1, p0, q1, q0, na.rm = FALSE) {
+    wl <- index_weights("Laspeyres")(p0, q0)
+    wp <- index_weights("Paasche")(p1, q1)
+    nest_mean(p1 / p0, wl, wp, na.rm)
+  }
 }
 
-#---- Harmonic Laspeyres Paasche index ----
-hlp_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  wl <- index_weights("Laspeyres")(p0, q0)
-  wp <- index_weights("Paasche")(p1, q1)
-  nested_mean(-1, c(1, -1))(p1 / p0, wl, wp, na.rm)
-}
+fisher_index <- nested_index(0, c(1, -1))
+
+hlp_index <- nested_index(-1, c(1, -1))
 
 #---- Lloyd Moulton index ----
 lm_index <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
