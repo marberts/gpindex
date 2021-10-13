@@ -10,10 +10,12 @@ Calculate a generalized logarithmic mean / extended mean.
 }
 
 \usage{
+## Function factories
 extended_mean(r, s)
 
 generalized_logmean(r)
 
+## Special case
 logmean(a, b, tol = .Machine$double.eps^0.5)
 }
 
@@ -34,7 +36,7 @@ The function \code{logmean()} returns the ordinary component-wise logarithmic me
 
 Both \code{a} and \code{b} should be strictly positive. This is not enforced, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined. The usual recycling rules apply when \code{a} and \code{b} are not the same length.
 
-By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as in \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results when \code{a} and \code{b} are computed values.
+By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results when \code{a} and \code{b} are computed values.
 }
 
 \value{

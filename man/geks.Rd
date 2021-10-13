@@ -12,8 +12,10 @@ Calculate an inter-temporal GEKS price index over a rolling window, as described
 }
 
 \usage{
+## Function factory
 geks(f)
 
+## Special cases
 tornqvist_geks(p, q, period, product, 
                window = nlevels(period), n = window - 1, na.rm = FALSE)
 
@@ -37,7 +39,7 @@ fisher_geks(p, q, period, product,
 
 \preformatted{
 function(p, q, period, product, 
-         window = nlevels(period), n = window - 1, na.rm = FALSE)
+         window = nlevels(period), n = window - 1, na.rm = FALSE){...}
 }
 
 This calculates a period-over-period GEKS index with the desired index-number formula, returning a list for each window with a named-numeric vector of index values.

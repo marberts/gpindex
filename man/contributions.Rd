@@ -17,12 +17,14 @@ Calculate additive quote contributions for generalized-mean price indexes, and i
 }
 
 \usage{
+## Function factories
 contributions(r)
 
 nested_contributions(r, s, t = c(1, 1))
 
 nested_contributions2(r, s, t = c(1, 1))
 
+## Special cases
 arithmetic_contributions(x, w)
 
 geometric_contributions(x, w)
