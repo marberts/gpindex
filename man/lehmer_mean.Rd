@@ -9,8 +9,10 @@ Calculate a Lehmer mean.
 }
 
 \usage{
+## Function factory
 lehmer_mean(r)
 
+## Special case
 contraharmonic_mean(x, w, na.rm = FALSE)
 }
 
@@ -25,7 +27,7 @@ contraharmonic_mean(x, w, na.rm = FALSE)
 }
 
 \details{
-The function \code{lehmer_mean()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \eqn{wx^{r-1}}{w * x^(r-1)}. This is also called the counter-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
+The function \code{lehmer_mean()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \eqn{wx^{r-1}}{wx^(r-1)}. This is also called the counter-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
 
 The Lehmer mean of order 2 is sometimes called the contraharmonic mean. The function \code{contraharmonic_mean()} simply calls \code{lehmer_mean(2)()}. Like the generalized mean, the contraharmonic mean is the solution to an optimal prediction problem: choose \eqn{m}{m} to minimize \eqn{\sum_{i = 1}^{n} w_{i} \left(\frac{x_{i}}{m} - 1 \right)^2}{\sum w (x / m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation, replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x}, and together these bound the harmonic and arithmetic means.
 

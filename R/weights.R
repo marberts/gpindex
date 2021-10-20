@@ -101,10 +101,11 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
     v1 <- scale_weights(r_weights1(x, w1))
     v2 <- scale_weights(r_weights2(x, w2))
     # the calculation is wrong if NAs in w1 or w2 propagate
-    v1[if (!missing(w1) && anyNA(w1)) is.na(v1) & !is.na(v2)] <- 0
-    v2[if (!missing(w2) && anyNA(w2)) is.na(v2) & !is.na(v1)] <- 0
-    t[1][is.na(t[1]) & !is.na(t[2])] <- 0
-    t[2][is.na(t[2]) & !is.na(t[1])] <- 0
+    if (!missing(w1) && anyNA(w1)) v1[is.na(v1) & !is.na(v2)] <- 0
+    if (!missing(w2) && anyNA(w2)) v2[is.na(v2) & !is.na(v1)] <- 0
+    # same for t
+    if (is.na(t[1])) t[1][is.na(t[1]) & !is.na(t[2])] <- 0
+    if (is.na(t[2])) t[2][is.na(t[2]) & !is.na(t[1])] <- 0
     contrib(x, t[1] * v1 + t[2] * v2)
   }
 }
@@ -129,10 +130,11 @@ nested_contributions2 <- function(r, s, t = c(1, 1)) {
     u1 <- contrib1(x, w1)
     u2 <- contrib2(x, w2)
     # the calculation is wrong if NAs in w1 or w2 propagate
-    u1[if (!missing(w1) && anyNA(w1)) is.na(u1) & !is.na(u2)] <- 0
-    u2[if (!missing(w2) && anyNA(w2)) is.na(u2) & !is.na(u1)] <- 0
-    v[1][is.na(v[1]) & !is.na(v[2])] <- 0
-    v[2][is.na(v[2]) & !is.na(v[1])] <- 0
+    if (!missing(w1) && anyNA(w1)) u1[is.na(u1) & !is.na(u2)] <- 0
+    if (!missing(w2) && anyNA(w2)) u2[is.na(u2) & !is.na(u1)] <- 0
+    # same for v
+    if (is.na(v[1])) v[1][is.na(v[1]) & !is.na(v[2])] <- 0
+    if (is.na(v[2])) v[2][is.na(v[2]) & !is.na(v[1])] <- 0
     v[1] * u1  + v[2] * u2 
   }
 }

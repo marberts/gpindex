@@ -9,8 +9,10 @@ Calculate the (outer) generalized mean of two (inner) generalized means.
 }
 
 \usage{
+## Function factory
 nested_mean(r, s, t = c(1, 1))
 
+## Special case
 fisher_mean(x, w1, w2, na.rm = FALSE)
 }
 
@@ -39,7 +41,7 @@ This computes the generalized mean of order \code{r} of the generalized mean of 
 }
 
 \note{
-There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means.
+There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means. Use the \code{\link[=balanced]{balanced()}} operator to balanced missing values across \code{w1} and {w2} prior to any calculations.
 }
 
 \references{

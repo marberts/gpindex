@@ -11,8 +11,10 @@ Calculate a generalized mean.
 }
 
 \usage{
+## Function factory
 generalized_mean(r)
 
+## Special cases
 arithmetic_mean(x, w, na.rm = FALSE)
 
 geometric_mean(x, w, na.rm = FALSE)

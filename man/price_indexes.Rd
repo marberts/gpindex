@@ -26,12 +26,18 @@ Calculate a variety of price indexes using information on prices and quantities.
 }
 
 \usage{
+## Function factories
 arithmetic_index(type)
 
 geometric_index(type)
 
 harmonic_index(type)
 
+stuvel_index(a, b)
+
+index_weights(type)
+
+## Special cases
 laspeyres_index(p1, p0, q0, na.rm = FALSE)
 
 paasche_index(p1, p0, q1, na.rm = FALSE)
@@ -57,10 +63,6 @@ cswd_index(p1, p0, na.rm = FALSE)
 cswdb_index(p1, p0, q1, q0, na.rm = FALSE)
 
 bw_index(p1, p0, na.rm = FALSE)
-
-stuvel_index(a, b)
-
-index_weights(type)
 }
 
 \arguments{
