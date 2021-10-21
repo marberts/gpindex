@@ -182,3 +182,10 @@ agmean_index <- function(r) {
 arithmetic_agmean_index <- agmean_index(1)
 
 geometric_agmean_index <- agmean_index(0)
+
+#---- Lehr index ----
+lehr_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
+  v <- (p1 * q1 + p0 * q0) / (q1 + q0)
+  sum(p1 * q1, na.rm = na.rm) * sum(v * q0, na.rm = na.rm) /
+    sum(p0 * q0, na.rm = na.rm) / sum(v * q1, na.rm = na.rm)
+}

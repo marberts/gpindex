@@ -89,6 +89,7 @@ qb <- runif(15, 2, 4)
               0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
     all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 
               geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
+    all.equal(round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154)
 
 #---- Tests for quantity indexes ----
     all.equal(fisher_index(p1, p0, q1, q0),

@@ -143,6 +143,8 @@ Type 'q()' to quit R.
 >     all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 
 +               geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
 [1] TRUE
+>     all.equal(round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154)
+[1] TRUE
 > 
 > #---- Tests for quantity indexes ----
 >     all.equal(fisher_index(p1, p0, q1, q0),
