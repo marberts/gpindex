@@ -19,7 +19,7 @@ back_price(1:4, factor(1:4, levels = 4:1))
 back_price(price, period, id)
 back_price(price, replace(period, 2, NA), id)
 back_price(price[-1], period[-1], id[-1])
-back_price(price, period, replace(id, 1, NA))
+back_price(price, period, replace(id, 1:2, NA)) # NA products shouldn't trigger a warning
 back_price(replace(price, 1, NA), period, id)
 
 #---- Tests for outliers ----

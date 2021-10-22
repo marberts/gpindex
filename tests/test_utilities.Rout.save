@@ -59,9 +59,9 @@ e d c b a a b c d e
 > back_price(price[-1], period[-1], id[-1])
  d  c  b  a  a  b  c  d  e 
  2  3  4  5  5  4  3  2 NA 
-> back_price(price, period, replace(id, 1, NA))
+> back_price(price, period, replace(id, 1:2, NA)) # NA products shouldn't trigger a warning
  e  d  c  b  a  a  b  c  d  e 
-NA  2  3  4  5  5  4  3  2 NA 
+NA NA  3  4  5  5  4  3 NA NA 
 > back_price(replace(price, 1, NA), period, id)
  e  d  c  b  a  a  b  c  d  e 
 NA  2  3  4  5  5  4  3  2 NA 

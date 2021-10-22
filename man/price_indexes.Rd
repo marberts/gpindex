@@ -278,11 +278,21 @@ sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 
 paasche_index(p1, p0, q1) / laspeyres_index(p1, p0, q0) - 1
 
-wl <- index_weights("Laspeyres")(p0, q0)
+wl <- scale_weights(index_weights("Laspeyres")(p0, q0))
 pl <- laspeyres_index(p1, p0, q0)
 ql <- quantity_index(laspeyres_index)(q1, q0, p0)
 
-sum(scale_weights(wl) * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
+sum(wl * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
+
+# Similar decomposition for geometric Laspeyeres/Paasche
+
+wp <- scale_weights(index_weights("Paasche")(p1, q1))
+gl <- geometric_index("Laspeyres")(p1, p0, q0)
+gp <- geometric_index("Paasche")(p1, p0, q1)
+
+log(gp / gl)
+
+sum(scale_weights(wl) * (wp / wl - 1) * log(p1 / p0 / gl))
 
 #---- Making the weights for different indexes ----
 

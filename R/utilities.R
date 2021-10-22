@@ -11,7 +11,7 @@ offset_period <- function(f) {
     product <- as.factor(product)
     attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
-    if (max(vapply(product, anyDuplicated, numeric(1)))) {
+    if (max(vapply(product, anyDuplicated, numeric(1), incomparables = NA))) {
       warning(gettext("there are duplicated period-product pairs"))
     }
     m <- .mapply(match, list(product, f(product)), list(incomparables = NA))
