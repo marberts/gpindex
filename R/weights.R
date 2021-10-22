@@ -5,9 +5,9 @@ transmute_weights <- function(r, s) {
   # return function
   res <- function(x, w) {
     if (missing(w)) {
-      # [[2]][[3]]
+      # [[2]][[3]] unweighted calculation
     } else {
-      # [[2]][[4]]
+      # [[2]][[4]] weighted calculation
     }
   }
   # unweighted calculation
@@ -38,9 +38,9 @@ factor_weights <- function(r) {
   # return function
   res <- function(x, w) {
     if (missing(w)) {
-      # [[2]][[3]]
+      # [[2]][[3]] unweighted calculation
     } else {
-      # [[2]][[4]]
+      # [[2]][[4]] weighted calculation
     }
   }
   # unweighted calculation

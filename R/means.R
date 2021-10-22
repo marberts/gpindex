@@ -19,7 +19,7 @@ generalized_mean <- function(r) {
           x <- x[!is.na(x)]
         }
       }
-      # [[2]][[3]][[3]] 
+      # [[2]][[3]][[3]] unweighted calculation
     # weights
     } else {
       if (length(x) != length(w)) {
@@ -32,7 +32,7 @@ generalized_mean <- function(r) {
           w <- w[keep]
         }
       }
-      # [[2]][[4]][[4]]
+      # [[2]][[4]][[4]] weighted calculation
     }
   }
   # unweighted calculation
@@ -80,7 +80,7 @@ extended_mean <- function(r, s) {
   }
   # return function
   res <- function(a, b, tol = .Machine$double.eps^0.5) {
-    res # placeholder
+    res # placeholder for the calculation
     # set output to a when a == b
     loc <- which(abs(a - b) <= tol)
     res[loc] <- a[wrap_around(a, loc)]
@@ -140,9 +140,9 @@ lehmer_mean <- function(r) {
   # return function
   res <- function(x, w, na.rm = FALSE) {
     if (missing(w)) {
-      # [[2]][[3]]
+      # [[2]][[3]] unweighted calculation
     } else {
-      # [[2]][[4]]
+      # [[2]][[4]] weighted calculation
     }
   }
   body(res)[[2]][[3]] <- if (r != 1) {

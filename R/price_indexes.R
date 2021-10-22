@@ -22,21 +22,33 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     Palgrave = ,
     Paasche = function(p1, q1) p1 * q1,
     HybridPaasche = function(p0, q1) p0 * q1,
-    Drobisch = function(p1, p0, q1, q0) 
-      (p0 * q0 / v(p0, q0) + p0 * q1 / v(p0, q1)) / 2,
+    Drobisch = function(p1, p0, q1, q0) {
+      v0 <- p0 * q0
+      v01 <- p0 * q1
+      (v0 / sum(v0, na.rm = TRUE) + v01 / sum(v01, na.rm = TRUE)) / 2
+    },
     Unnamed = ,
-    Tornqvist = function(p1, p0, q1, q0) 
-      (p0 * q0 / v(p0, q0) + p1 * q1 / v(p1, q1)) / 2,
+    Tornqvist = function(p1, p0, q1, q0) {
+      v0 <- p0 * q0
+      v1 <- p1 * q1
+      (v0 / sum(v0, na.rm = TRUE) + v1 / sum(v1, na.rm = TRUE)) / 2
+    },
     Walsh1 = function(p0, q1, q0) p0 * sqrt(q0 * q1),
     Walsh2 = function(p1, p0, q1, q0) sqrt(p0 * q0 * p1 * q1),
     MarshallEdgeworth = function(p0, q1, q0) p0 * (q0 + q1),
     GearyKhamis = function(p0, q1, q0) p0 / (1 / q0 + 1 / q1),
     Vartia1 = ,
-    MontgomeryVartia = function(p1, p0, q1, q0) 
-      logmean(p0 * q0, p1 * q1) / logmean(v(p0, q0), v(p1, q1)),
+    MontgomeryVartia = function(p1, p0, q1, q0) {
+      v0 <- p0 * q0
+      v1 <- p1 * q1
+      logmean(v0, v1) / logmean(sum(v0, na.rm = TRUE), sum(v1, na.rm = TRUE))
+    },
     Vartia2 = ,
-    SatoVartia = function(p1, p0, q1, q0) 
-      logmean(p0 * q0 / v(p0, q0), p1 * q1 / v(p1, q1))
+    SatoVartia = function(p1, p0, q1, q0) {
+      v0 <- p0 * q0
+      v1 <- p1 * q1
+      logmean(v0 / sum(v0, na.rm = TRUE), v1 / sum(v1, na.rm = TRUE))
+    }
   )
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
@@ -120,9 +132,7 @@ young_index <- arithmetic_index("Young")
 nested_index <- function(r, s) {
   nest_mean <- nested_mean(r, s)
   function(p1, p0, q1, q0, na.rm = FALSE) {
-    wl <- index_weights("Laspeyres")(p0, q0)
-    wp <- index_weights("Paasche")(p1, q1)
-    nest_mean(p1 / p0, wl, wp, na.rm)
+    nest_mean(p1 / p0, p0 * q0, p1 * q1, na.rm)
   }
 }
 
@@ -132,8 +142,7 @@ hlp_index <- nested_index(-1, c(1, -1))
 
 #---- Lloyd Moulton index ----
 lm_index <- function(p1, p0, q0, elasticity, na.rm = FALSE) {
-  w <- index_weights("LloydMoulton")(p0, q0)
-  generalized_mean(1 - elasticity)(p1 / p0, w, na.rm)
+  generalized_mean(1 - elasticity)(p1 / p0, p0 * q0, na.rm)
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
@@ -163,9 +172,11 @@ stuvel_index <- function(a, b) {
     stop(gettext("'b' must be a finite length 1 numeric"))
   }
   function(p1, p0, q1, q0, na.rm = FALSE) {
-    pl <- laspeyres_index(p1, p0, q0, na.rm)
-    ql <- laspeyres_index(q1, q0, p0, na.rm)
-    v <- sum(p1 * q1, na.rm = na.rm) / sum(p0 * q0, na.rm = na.rm)
+    v0 <- p0 * q0
+    v1 <- p1 * q1
+    pl <- arithmetic_mean(p1 / p0, v0, na.rm)
+    ql <- arithmetic_mean(q1 / q0, v0, na.rm)
+    v <- sum(v1, na.rm = na.rm) / sum(v0, na.rm = na.rm)
     (pl - b / a * ql) / 2 + sqrt((pl - b / a * ql)^2 / 4 + b / a * v)
   }
 }
@@ -174,8 +185,8 @@ stuvel_index <- function(a, b) {
 agmean_index <- function(r) {
   force(r)
   function(p1, p0, q0, elasticity, na.rm = FALSE) {
-    w <- index_weights("Laspeyres")(p0, q0)
-    nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, w, w, na.rm)
+    v0 <- p0 * q0
+    nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))(p1 / p0, v0, v0, na.rm)
   }
 }
 
@@ -185,7 +196,9 @@ geometric_agmean_index <- agmean_index(0)
 
 #---- Lehr index ----
 lehr_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
-  v <- (p1 * q1 + p0 * q0) / (q1 + q0)
-  sum(p1 * q1, na.rm = na.rm) * sum(v * q0, na.rm = na.rm) /
-    sum(p0 * q0, na.rm = na.rm) / sum(v * q1, na.rm = na.rm)
+  v1 <- p1 * q1
+  v0 <- p0 * q0
+  v <- (v1 + v0) / (q1 + q0)
+  sum(v1, na.rm = na.rm) / sum(v0, na.rm = na.rm) *
+    sum(v * q0, na.rm = na.rm) / sum(v * q1, na.rm = na.rm)
 }
