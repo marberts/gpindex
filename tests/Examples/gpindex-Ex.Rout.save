@@ -888,15 +888,21 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 +   scale_weights(transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
 + )
 [1] TRUE
+>
+> # This strategy can be used to make more exotic indexes,
+> # like the quadratic-mean index (von der Lippe, 2001, eq. 2.2.21)
+> 
+> generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
+[1] 1.020762
 > 
 > # Unlike its arithmetic counterpart, the geometric Laspeyres 
 > # can increase when base-period prices increase if some of these 
 > # prices are small
 > 
+> gl <- geometric_index("Laspeyres")
 > p0_small <- replace(p0, 1, p0[1] / 5)
 > p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
-> geometric_index("Laspeyres")(p1, p0_small, q0) < 
-+     geometric_index("Laspeyres")(p1, p0_dx, q0)
+> gl(p1, p0_small, q0) < gl(p1, p0_dx, q0)
 [1] TRUE
 > 
 > #---- Price updating the weights in a price index ----
@@ -950,7 +956,19 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
 [1] 0.9948605
+>
+> #---- von Bortkiewicz decomposition ----
 > 
+> paasche_index(p1, p0, q1) / laspeyres_index(p1, p0, q0) - 1
+[1] -0.04099992
+> 
+> wl <- index_weights("Laspeyres")(p0, q0)
+> pl <- laspeyres_index(p1, p0, q0)
+> ql <- quantity_index(laspeyres_index)(q1, q0, p0)
+> 
+> sum(scale_weights(wl) * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
+[1] -0.04099992
+>
 > #---- Making the weights for different indexes ----
 > 
 > # Explicit calculation for each of the different weights

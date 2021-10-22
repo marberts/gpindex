@@ -147,28 +147,30 @@ Type 'q()' to quit R.
 [1] TRUE
 > 
 > #---- Tests for quantity indexes ----
->     all.equal(fisher_index(p1, p0, q1, q0),
-+               quantity_index(fisher_index)(p1, p0, q1, q0))
+> all.equal(fisher_index(p1, p0, q1, q0),
++           quantity_index(fisher_index)(p1, p0, q1, q0))
 [1] TRUE
->     all.equal(lm_index(p1, p0, q0, 1.5), 
-+               quantity_index(lm_index)(p1, p0, q0, 1.5))
+> all.equal(lm_index(p1, p0, q0, 1.5), 
++           quantity_index(lm_index)(p1, p0, p0 = q0, elas = 1.5))
 [1] TRUE
->     all.equal(jevons_index(p1, p0), 
-+               quantity_index(jevons_index)(q1 = p1, q0 = p0))
+> all.equal(jevons_index(p1, p0), 
++           quantity_index(jevons_index)(q1 = p1, q0 = p0))
 [1] TRUE
->     all.equal(laspeyres_index(q1, q0, p0), 
-+               quantity_index(laspeyres_index)(q1, q0, p0))
+> all.equal(laspeyres_index(q1, q0, p0), 
++           quantity_index(laspeyres_index)(q1, q0 = q0, p0))
 [1] TRUE
->     all.equal(index_weights("Vartia1")(p1, p0, q1, q0), 
-+               quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0))
+> all.equal(index_weights("Vartia1")(p1, p0, q1, q0), 
++           quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0))
+[1] TRUE
+> all.equal(fisher_index(q1, p1 = p1, p0 = p0, q0) * quantity_index(fisher_index)(q1, p1 = p1, p0 = p0, q0),
++           sum(p1 * q1) / sum(p0 * q0))
 [1] TRUE
 > 
 > #---- Tests for weights ----
->     all(sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1)
+> all(sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1)
 [1] TRUE
->     length(index_weights("Carli")(integer(0))) == 0
+> length(index_weights("Carli")(integer(0))) == 0
 [1] TRUE
-> 
 >
 > proc.time()
    user  system elapsed 

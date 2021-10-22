@@ -91,7 +91,7 @@ lehr_index(p1, p0, q1, q0, na.rm = FALSE)
 }
 
 \details{
-The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_index()} functions return a function to calculate a given type of arithmetic, geometric, and harmonic index. Together, these functions produce functions to calculate the following indexes.
+The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_index()} functions return a function to calculate a given type of arithmetic, geometric (logarithmic), and harmonic index. Together, these functions produce functions to calculate the following indexes.
 \itemize{
 \item \bold{Arithmetic indexes}
 \item Carli
@@ -125,7 +125,7 @@ Along with the \code{lm_index()} function to calculate the Lloyd-Moulton index, 
 
 The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes, and so they get their own functions. The \code{laspeyres_index()}, \code{lowe_index()}, and \code{young_index()} functions correspond to setting the appropriate \code{type} in \code{arithmetic_index()}; \code{paasche_index()} and \code{jevons_index()} instead come from the \code{harmonic_index()} and \code{geometric_index()} functions.
 
-In addition to these generalized-mean indexes, there are also functions for calculating a variety of non-generalized-mean indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index. The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The AG mean index is the arithmetic or geometric mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuvel_index()} function returns a function to calculate a Stuvel index of the given parameters. The Lehr index is an alternative to the Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
+In addition to these generalized-mean indexes, there are also functions for calculating a variety of non-generalized-mean indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index (8054 on Fisher's list). The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The AG mean index is the arithmetic or geometric mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuvel_index()} function returns a function to calculate a Stuvel index of the given parameters. The Lehr index is an alternative to the Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
 
 The \code{index_weights()} function returns a function to calculate weights for a variety of price indexes. Weights for the following types of indexes can be calculated.
 \itemize{
@@ -168,6 +168,8 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin Company.
 
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
+
+von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}. Federal Statistical Office, Wiesbaden.
 }
 
 \seealso{
@@ -214,14 +216,19 @@ all.equal(
   scale_weights(transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
 )
 
+# This strategy can be used to make more exotic indexes,
+# like the quadratic-mean index (von der Lippe, 2001, eq. 2.2.21)
+
+generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
+
 # Unlike its arithmetic counterpart, the geometric Laspeyres 
 # can increase when base-period prices increase if some of these 
 # prices are small
 
+gl <- geometric_index("Laspeyres")
 p0_small <- replace(p0, 1, p0[1] / 5)
 p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
-geometric_index("Laspeyres")(p1, p0_small, q0) < 
-    geometric_index("Laspeyres")(p1, p0_dx, q0)
+gl(p1, p0_small, q0) < gl(p1, p0_dx, q0)
 
 #---- Price updating the weights in a price index ----
 
@@ -266,6 +273,16 @@ laspeyres_index(p1, p_na, q0, na.rm = TRUE)
 # Only drops the last period-0 price
 
 sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
+
+#---- von Bortkiewicz decomposition ----
+
+paasche_index(p1, p0, q1) / laspeyres_index(p1, p0, q0) - 1
+
+wl <- index_weights("Laspeyres")(p0, q0)
+pl <- laspeyres_index(p1, p0, q0)
+ql <- quantity_index(laspeyres_index)(q1, q0, p0)
+
+sum(scale_weights(wl) * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
 
 #---- Making the weights for different indexes ----
 
