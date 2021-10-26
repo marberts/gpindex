@@ -98,8 +98,8 @@ The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_inde
 \item Dutot
 \item Laspeyres
 \item Palgrave
-\item Unnamed index (arithmetic analog of the Fisher)
-\item Drobisch
+\item Unnamed index (arithmetic mean of Laspeyres and Palgrave)
+\item Drobisch (arithmetic mean of Laspeyres and Paasche)
 \item Walsh-I (arithmetic Walsh)
 \item Marshall-Edgeworth
 \item Geary-Khamis
@@ -125,7 +125,7 @@ Along with the \code{lm_index()} function to calculate the Lloyd-Moulton index, 
 
 The Laspeyres, Paasche, Jevons, Lowe, and Young indexes are among the most common price indexes, and so they get their own functions. The \code{laspeyres_index()}, \code{lowe_index()}, and \code{young_index()} functions correspond to setting the appropriate \code{type} in \code{arithmetic_index()}; \code{paasche_index()} and \code{jevons_index()} instead come from the \code{harmonic_index()} and \code{geometric_index()} functions.
 
-In addition to these generalized-mean indexes, there are also functions for calculating a variety of non-generalized-mean indexes. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index (8054 on Fisher's list). The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The AG mean index is the arithmetic or geometric mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuvel_index()} function returns a function to calculate a Stuvel index of the given parameters. The Lehr index is an alternative to the Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
+In addition to these indexes, there are also functions for calculating a variety of indexes not based on the generalized mean. The Fisher index is the geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic Laspeyres Paasche index is the harmonic analog of the Fisher index (8054 on Fisher's list). The Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher index; the Balk-Walsh index is the sample analog of the Walsh index. The AG mean index is the arithmetic or geometric mean of the geometric and arithmetic Laspeyres indexes, weighted by the elasticity of substitution. The \code{stuvel_index()} function returns a function to calculate a Stuvel index of the given parameters. The Lehr index is an alternative to the Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
 
 The \code{index_weights()} function returns a function to calculate weights for a variety of price indexes. Weights for the following types of indexes can be calculated.
 \itemize{
@@ -169,7 +169,7 @@ Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin Company.
 
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
-von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}. Federal Statistical Office, Wiesbaden.
+von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
 }
 
 \seealso{
@@ -284,7 +284,7 @@ ql <- quantity_index(laspeyres_index)(q1, q0, p0)
 
 sum(wl * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
 
-# Similar decomposition for geometric Laspeyeres/Paasche
+# Similar decomposition for geometric Laspeyres/Paasche
 
 wp <- scale_weights(index_weights("Paasche")(p1, q1))
 gl <- geometric_index("Laspeyres")(p1, p0, q0)
@@ -293,6 +293,45 @@ gp <- geometric_index("Paasche")(p1, p0, q1)
 log(gp / gl)
 
 sum(scale_weights(wl) * (wp / wl - 1) * log(p1 / p0 / gl))
+
+#---- Consistency in aggregation ----
+
+p0a <- p0[1:3]; p0b <- p0[4:6]
+p1a <- p1[1:3]; p1b <- p1[4:6]
+q0a <- q0[1:3]; q0b <- q0[4:6]
+q1a <- q1[1:3]; q1b <- q1[4:6]
+
+# Indexes based on the generalized mean with value share weights
+# are consistent in aggregation
+
+lm_index(p1, p0, q0, 0.75)
+
+w <- index_weights("LloydMoulton")(p0, q0)
+Ia <- generalized_mean(0.25)(p1a / p0a, w[1:3])
+Ib <- generalized_mean(0.25)(p1b / p0b, w[4:6])
+generalized_mean(0.25)(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
+
+# Agrees with group-wise indexes
+
+all.equal(lm_index(p1a, p0a, q0a, 0.75), Ia)
+all.equal(lm_index(p1b, p0b, q0b, 0.75), Ib)
+
+# Care is needed with more complex weights, e.g., Drobisch,
+# as this doesn't fit Balk's (2008) definition (p. 113) of
+# a generalized-mean index (it's the arithmetic mean of a Laspeyres
+# and Paasche index)
+
+arithmetic_index("Drobisch")(p1, p0, q1, q0)
+
+w <- index_weights("Drobisch")(p1, p0, q1, q0)
+Ia <- arithmetic_mean(p1a / p0a, w[1:3])
+Ib <- arithmetic_mean(p1b / p0b, w[4:6])
+arithmetic_mean(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
+
+# Does not agree with group-wise indexes
+
+all.equal(arithmetic_index("Drobisch")(p1a, p0a, q1a, q0a), Ia)
+all.equal(arithmetic_index("Drobisch")(p1b, p0b, q1b, q0b), Ib)
 
 #---- Making the weights for different indexes ----
 

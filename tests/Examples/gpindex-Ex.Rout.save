@@ -969,7 +969,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > sum(wl * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
 [1] -0.04099992
 >
-> # Similar decomposition for geometric Laspeyeres/Paasche
+> # Similar decomposition for geometric Laspeyres/Paasche
 > 
 > wp <- scale_weights(index_weights("Paasche")(p1, q1))
 > gl <- geometric_index("Laspeyres")(p1, p0, q0)
@@ -980,6 +980,53 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > sum(scale_weights(wl) * (wp / wl - 1) * log(p1 / p0 / gl))
 [1] 0.1388242
+>
+> #---- Consistency in aggregation ----
+> 
+> p0a <- p0[1:3]; p0b <- p0[4:6]
+> p1a <- p1[1:3]; p1b <- p1[4:6]
+> q0a <- q0[1:3]; q0b <- q0[4:6]
+> q1a <- q1[1:3]; q1b <- q1[4:6]
+> 
+> # Indexes based on the generalized mean with value share weights
+> # are consistent in aggregation
+> 
+> lm_index(p1, p0, q0, 0.75)
+[1] 0.8962918
+> 
+> w <- index_weights("LloydMoulton")(p0, q0)
+> Ia <- generalized_mean(0.25)(p1a / p0a, w[1:3])
+> Ib <- generalized_mean(0.25)(p1b / p0b, w[4:6])
+> generalized_mean(0.25)(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
+[1] 0.8962918
+> 
+> # Agrees with group-wise indexes
+> 
+> all.equal(lm_index(p1a, p0a, q0a, 0.75), Ia)
+[1] TRUE
+> all.equal(lm_index(p1b, p0b, q0b, 0.75), Ib)
+[1] TRUE
+> 
+> # Care is needed with more complex weights, e.g., Drobisch,
+> # as this doesn't fit Balk's (2008) definition (p. 113) of
+> # a generalized-mean index (it's the arithmetic mean of a Laspeyres
+> # and Paasche index)
+> 
+> arithmetic_index("Drobisch")(p1, p0, q1, q0)
+[1] 0.9412926
+> 
+> w <- index_weights("Drobisch")(p1, p0, q1, q0)
+> Ia <- arithmetic_mean(p1a / p0a, w[1:3])
+> Ib <- arithmetic_mean(p1b / p0b, w[4:6])
+> arithmetic_mean(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
+[1] 0.9412926
+> 
+> # Does not agree with group-wise indexes
+> 
+> all.equal(arithmetic_index("Drobisch")(p1a, p0a, q1a, q0a), Ia)
+[1] "Mean relative difference: 0.000735017"
+> all.equal(arithmetic_index("Drobisch")(p1b, p0b, q1b, q0b), Ib)
+[1] "Mean relative difference: 0.0004652739"
 >
 > #---- Making the weights for different indexes ----
 > 
