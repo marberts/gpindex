@@ -12,7 +12,7 @@ A small package for calculating lots of different price indexes, and by extensio
 \section{Background}{
 Everything is framed as a price index to avoid duplication; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 
-Generalized-mean price indexes (sometimes called generalized price indexes for short) are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). Generalized-mean indexes are natural candidates for making national statistics, as these indexes are consistent in aggregation, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. 
+Generalized-mean price indexes (sometimes called generalized price indexes for short) are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). When used with value-share weights, these indexes satisfy the key homogeneity properties and are consistent in aggregation. This last feature makes generalized-mean indexes natural candidates for making national statistics, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. 
 
 Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index).
 }
