@@ -1,6 +1,8 @@
-Changes in version 0.3.7
+Changes in version 0.3.9
 
 - Added back_period() and base_period(), which are more general than back_price() and base_price().
+
+- Added lehr_index().
 
 Changes in version 0.3.6
 
