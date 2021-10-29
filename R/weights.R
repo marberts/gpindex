@@ -104,8 +104,7 @@ nested_contributions <- function(r, s, t = c(1, 1)) {
     if (!missing(w1) && anyNA(w1)) v1[is.na(v1) & !is.na(v2)] <- 0
     if (!missing(w2) && anyNA(w2)) v2[is.na(v2) & !is.na(v1)] <- 0
     # same for t
-    if (is.na(t[1])) t[1][is.na(t[1]) & !is.na(t[2])] <- 0
-    if (is.na(t[2])) t[2][is.na(t[2]) & !is.na(t[1])] <- 0
+    t[is.na(t) & !rev(is.na(t))] <- 0
     contrib(x, t[1] * v1 + t[2] * v2)
   }
 }
@@ -133,8 +132,7 @@ nested_contributions2 <- function(r, s, t = c(1, 1)) {
     if (!missing(w1) && anyNA(w1)) u1[is.na(u1) & !is.na(u2)] <- 0
     if (!missing(w2) && anyNA(w2)) u2[is.na(u2) & !is.na(u1)] <- 0
     # same for v
-    if (is.na(v[1])) v[1][is.na(v[1]) & !is.na(v[2])] <- 0
-    if (is.na(v[2])) v[2][is.na(v[2]) & !is.na(v[1])] <- 0
+    v[is.na(v) & !rev(is.na(v))] <- 0
     v[1] * u1  + v[2] * u2 
   }
 }

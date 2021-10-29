@@ -217,9 +217,13 @@ all.equal(
 )
 
 # This strategy can be used to make more exotic indexes,
-# like the quadratic-mean index (von der Lippe, 2001, eq. 2.2.21)
+# like the quadratic-mean index (von der Lippe, 2001, p. 71)
 
 generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
+
+# Or the exponential mean index (p. 64)
+
+log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 
 # Unlike its arithmetic counterpart, the geometric Laspeyres 
 # can increase when base-period prices increase if some of these 
