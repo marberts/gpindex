@@ -25,7 +25,7 @@ transmute_weights <- function(r, s) {
     wpow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), w, r - s)
   }
   # clean up enclosing environment
-  enc <- list(r = r, s = s, gen_mean = gen_mean, ext_mean = ext_mean)
+  enc <- list(gen_mean = gen_mean, ext_mean = ext_mean)
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
@@ -58,8 +58,7 @@ factor_weights <- function(r) {
     wpow(x, w, r)
   }
   # clean up enclosing environment
-  enc <- list(r = r)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  environment(res) <- getNamespace("gpindex")
   res
 }
 
