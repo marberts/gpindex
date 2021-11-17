@@ -24,14 +24,10 @@ wrap_around <- function(x, i) {
 pow <- function(x, r) {
   if (r == 1) {
     substitute(x)
-  } else if (r == 0.5) {
-    substitute(sqrt(x))
-  } else if (r == -0.5) {
-    substitute(1 / sqrt(x))
   } else if (r == -1) {
     substitute(1 / x)
-  } else if (r < 0) {
-    substitute(1 / x^abs(r))
+  } else if (r == -2) {
+    substitute(1 / x^2)
   } else {
     substitute(x^r)
   }
@@ -40,16 +36,12 @@ pow <- function(x, r) {
 wpow <- function(x, w, r) {
   if (r == 1) {
     substitute(w * x)
-  } else if (r == 0.5) {
-    substitute(w * sqrt(x))
   } else if (r == 0) {
     substitute(w)
-  } else if (r == -0.5) {
-    substitute(w / sqrt(x))
   } else if (r == -1) {
     substitute(w / x)
-  } else if (r < 0) {
-    substitute(w / x^abs(r))
+  } else if (r == -2) {
+    substitute(w / x^2)
   } else {
     substitute(w * x^r)
   }

@@ -94,6 +94,8 @@ extended_mean <- function(r, s) {
     if (s != 1) {
       eval(bquote(pow(.(z) / s, 1 / s)))
     } else {
+      # this saves dividing by 1, a common case
+      # dividing x / -1 is about the same as -x
       z
     }
   } else if (s == 0) {

@@ -143,6 +143,7 @@ try(extended_mean("a", mtcars))
 extended_mean(1e-9, 1)(1, 2)
 extended_mean(1, 1e-9)(1, 2)
 extended_mean(1, 1 + 1e-9)(1, 2)
+generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi) # no more warning
 
 #---- Tests for Lehmer means ----
 # Check Pythagorean means

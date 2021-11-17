@@ -272,6 +272,8 @@ In extended_mean(1, 1e-09) :
 Warning message:
 In extended_mean(1, 1 + 1e-09) :
   'r' and 's' are very close in value, but not equal; this can give misleading results
+> generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi) # no more warning
+[1] 0.9549297
 > 
 > #---- Tests for Lehmer means ----
 > # Check Pythagorean means
