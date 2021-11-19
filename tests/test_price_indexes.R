@@ -75,7 +75,7 @@ all.equal(fisher_index(p1, p0, q1, q0),
           geometric_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
 all.equal(hlp_index(p1, p0, q1, q0),
           harmonic_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
-all.equal(lm_index(p1, p0, q0, 1.5), 
+all.equal(lm_index(1.5)(p1, p0, q0), 
           generalized_mean(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
 all.equal(cswd_index(p1, p0), 
           sqrt(arithmetic_mean(p1 / p0) * harmonic_mean(p1 / p0)))
@@ -85,17 +85,17 @@ all.equal(bw_index(p1, p0),
           arithmetic_mean(sqrt(p1 / p0)) * harmonic_mean(sqrt(p1 / p0)))
 all.equal(stuvel_index(4, 4)(p1, p0, q1, q0), stuvel_index(1, 1)(p1, p0, q1, q0))
 stuvel_index(4, 4)(p1, p0, q1, q0) != stuvel_index(2, 1)(p1, p0, q1, q0)
-all.equal(arithmetic_agmean_index(p1, p0, q0, 0.25), 
+all.equal(arithmetic_agmean_index(0.25)(p1, p0, q0), 
           0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
-all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 
+all.equal(geometric_agmean_index(0.25)(p1, p0, q0), 
           geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
 all.equal(round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154)
 
 #---- Tests for quantity indexes ----
 all.equal(fisher_index(p1, p0, q1, q0),
           quantity_index(fisher_index)(p1, p0, q1, q0))
-all.equal(lm_index(p1, p0, q0, 1.5), 
-          quantity_index(lm_index)(p1, p0, p0 = q0, elas = 1.5))
+all.equal(lm_index(1.5)(p1, p0, q0), 
+          quantity_index(lm_index(1.5))(p1, p0, p0 = q0))
 all.equal(jevons_index(p1, p0), 
           quantity_index(jevons_index)(q1 = p1, q0 = p0))
 all.equal(laspeyres_index(q1, q0, p0), 

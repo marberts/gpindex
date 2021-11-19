@@ -34,6 +34,12 @@ geometric_index(type)
 
 harmonic_index(type)
 
+lm_index(elasticity)
+
+arithmetic_agmean_index(elasticity)
+
+geometric_agmean_index(elasticity)
+
 stuvel_index(a, b)
 
 index_weights(type)
@@ -53,12 +59,6 @@ fisher_index(p1, p0, q1, q0, na.rm = FALSE)
 
 hlp_index(p1, p0, q1, q0, na.rm = FALSE)
 
-lm_index(p1, p0, q0, elasticity, na.rm = FALSE)
-
-arithmetic_agmean_index(p1, p0, q0, elasticity, na.rm = FALSE)
-
-geometric_agmean_index(p1, p0, q0, elasticity, na.rm = FALSE)
-
 cswd_index(p1, p0, na.rm = FALSE)
 
 cswdb_index(p1, p0, q1, q0, na.rm = FALSE)
@@ -70,6 +70,10 @@ lehr_index(p1, p0, q1, q0, na.rm = FALSE)
 
 \arguments{
 \item{type}{The name of the index. See details for the possible types of indexes.}
+
+\item{elasticity}{The elasticity of substitution for the Lloyd-Moulton and AG mean indexes.}
+
+\item{a, b}{Parameters for the generalized Stuvel index.}
 
 \item{p1}{Current-period prices.}
 
@@ -84,10 +88,6 @@ lehr_index(p1, p0, q1, q0, na.rm = FALSE)
 \item{qb}{Period-b quantities for the Lowe/Young index.}
 
 \item{na.rm}{Should missing values be removed? By default missing values for prices or quantities return a missing value.}
-
-\item{elasticity}{The elasticity of substitution for the Lloyd-Moulton and AG mean indexes.}
-
-\item{a, b}{Parameters for the generalized Stuvel index.}
 }
 
 \details{
@@ -153,7 +153,7 @@ Naming for the indexes and weights generally follows the CPI manual (2020) and B
 }
 
 \value{
-\code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, \code{stuvel_index()}, and \code{index_weights()} each return a function to compute the relevant price indexes; the others return a numeric value giving the change in price between the base period and current period.
+\code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, \code{stuvel_index()}, and \code{index_weights()} each return a function to compute the relevant price indexes; \code{lm_index()}, \code{arithmetic_agmean_index()}, and \code{geometric_agmean_index()} each return a function to calculate the relevant index for a given elasticity of substitution. The others return a numeric value giving the change in price between the base period and current period.
 }
 
 \note{
@@ -308,7 +308,7 @@ q1a <- q1[1:3]; q1b <- q1[4:6]
 # Indexes based on the generalized mean with value share weights
 # are consistent in aggregation
 
-lm_index(p1, p0, q0, 0.75)
+lm_index(0.75)(p1, p0, q0)
 
 w <- index_weights("LloydMoulton")(p0, q0)
 Ia <- generalized_mean(0.25)(p1a / p0a, w[1:3])
@@ -317,8 +317,8 @@ generalized_mean(0.25)(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
 
 # Agrees with group-wise indexes
 
-all.equal(lm_index(p1a, p0a, q0a, 0.75), Ia)
-all.equal(lm_index(p1b, p0b, q0b, 0.75), Ib)
+all.equal(lm_index(0.75)(p1a, p0a, q0a), Ia)
+all.equal(lm_index(0.75)(p1b, p0b, q0b), Ib)
 
 # Care is needed with more complex weights, e.g., Drobisch,
 # as this doesn't fit Balk's (2008) definition (p. 113) of

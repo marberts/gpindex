@@ -26,6 +26,7 @@ base_period <- offset_period(function(x) x[1L])
 
 offset_price <- function(f) {
   f <- match.fun(f)
+  # return function
   function(x, period, product = gl(1, length(x))) {
     if (different_lengths(x, period, product)) {
       stop(gettext("all arguments must be the same length"))

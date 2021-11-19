@@ -6,6 +6,8 @@ Changes in version 0.3.9
 
 - Fixed a rare warning about sqrt() making NaNs in generalized_logmean(-1) when some inputs were close but not equal.
 
+- The lm_index() and *_agmean_index() functions are now function factories.
+
 Changes in version 0.3.6
 
 - Added the balanced() operator to make it easier to remove NAs with price index functions.

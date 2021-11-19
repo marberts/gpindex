@@ -121,7 +121,7 @@ Type 'q()' to quit R.
 >     all.equal(hlp_index(p1, p0, q1, q0),
 +               harmonic_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
 [1] TRUE
->     all.equal(lm_index(p1, p0, q0, 1.5), 
+>     all.equal(lm_index(1.5)(p1, p0, q0), 
 +               generalized_mean(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
 [1] TRUE
 >     all.equal(cswd_index(p1, p0), 
@@ -137,10 +137,10 @@ Type 'q()' to quit R.
 [1] TRUE
 >     stuvel_index(4, 4)(p1, p0, q1, q0) != stuvel_index(2, 1)(p1, p0, q1, q0)
 [1] TRUE
->     all.equal(arithmetic_agmean_index(p1, p0, q0, 0.25), 
+>     all.equal(arithmetic_agmean_index(0.25)(p1, p0, q0), 
 +               0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
 [1] TRUE
->     all.equal(geometric_agmean_index(p1, p0, q0, 0.25), 
+>     all.equal(geometric_agmean_index(0.25)(p1, p0, q0), 
 +               geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
 [1] TRUE
 >     all.equal(round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154)
@@ -150,8 +150,8 @@ Type 'q()' to quit R.
 > all.equal(fisher_index(p1, p0, q1, q0),
 +           quantity_index(fisher_index)(p1, p0, q1, q0))
 [1] TRUE
-> all.equal(lm_index(p1, p0, q0, 1.5), 
-+           quantity_index(lm_index)(p1, p0, p0 = q0, elas = 1.5))
+> all.equal(lm_index(1.5)(p1, p0, q0), 
++           quantity_index(lm_index(1.5))(p1, p0, p0 = q0))
 [1] TRUE
 > all.equal(jevons_index(p1, p0), 
 +           quantity_index(jevons_index)(q1 = p1, q0 = p0))

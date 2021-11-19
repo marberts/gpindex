@@ -996,7 +996,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Indexes based on the generalized mean with value share weights
 > # are consistent in aggregation
 > 
-> lm_index(p1, p0, q0, 0.75)
+> lm_index(0.75)(p1, p0, q0)
 [1] 0.8962918
 > 
 > w <- index_weights("LloydMoulton")(p0, q0)
@@ -1007,9 +1007,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > # Agrees with group-wise indexes
 > 
-> all.equal(lm_index(p1a, p0a, q0a, 0.75), Ia)
+> all.equal(lm_index(0.75)(p1a, p0a, q0a), Ia)
 [1] TRUE
-> all.equal(lm_index(p1b, p0b, q0b, 0.75), Ib)
+> all.equal(lm_index(0.75)(p1b, p0b, q0b), Ib)
 [1] TRUE
 > 
 > # Care is needed with more complex weights, e.g., Drobisch,
