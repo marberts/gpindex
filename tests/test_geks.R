@@ -45,7 +45,7 @@ all.equal(cumprod(as.numeric(unlist(with(dat, geks(balanced(arithmetic_index("Wa
 
 # Default arguments should work with quantity_index()
 all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
-          with(dat, quantity_index(geks(balanced(fisher_index)))(q = price, p = quantity, period, product, na.rm = TRUE)))
+          with(dat, quantity_index(geks(balanced(fisher_index)))(period, p = quantity, product, na.rm = TRUE, q = price)))
 
 all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
-          with(dat, geks(balanced(quantity_index(fisher_index)))(q = price, p = quantity, period, product, na.rm = TRUE)))
+          with(dat, geks(balanced(quantity_index(fisher_index)))(period, p = quantity, product, na.rm = TRUE, q = price)))

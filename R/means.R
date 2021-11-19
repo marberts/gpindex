@@ -158,10 +158,17 @@ nested_mean <- function(r, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip any attributes
   # return function
-  function(x, w1, w2, na.rm = FALSE) {
+  res <- function(x, w1, w2, na.rm = FALSE) {
     x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))
     outer_mean(x, t, na.rm)
   }
+  # clean up enclosing environment
+  enc <- list(outer_mean = outer_mean, 
+              inner_mean1 = inner_mean1, 
+              inner_mean2 = inner_mean2, 
+              t = t)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 fisher_mean <- nested_mean(0, c(1, -1))

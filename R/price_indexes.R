@@ -132,9 +132,13 @@ young_index <- arithmetic_index("Young")
 nested_index <- function(r, s) {
   nest_mean <- nested_mean(r, s)
   # return function
-  function(p1, p0, q1, q0, na.rm = FALSE) {
+  res <- function(p1, p0, q1, q0, na.rm = FALSE) {
     nest_mean(p1 / p0, p0 * q0, p1 * q1, na.rm)
   }
+  # clean up enclosing environment
+  enc <- list(nest_mean = nest_mean)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 fisher_index <- nested_index(0, c(1, -1))
@@ -145,9 +149,13 @@ hlp_index <- nested_index(-1, c(1, -1))
 lm_index <- function(elasticity) {
   gen_mean <- generalized_mean(1 - elasticity)
   # return function
-  function(p1, p0, q0, na.rm = FALSE) {
+  res <- function(p1, p0, q0, na.rm = FALSE) {
     gen_mean(p1 / p0, p0 * q0, na.rm)
   }
+  # clean up enclosing environment
+  enc <- list(gen_mean = gen_mean)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
@@ -193,10 +201,14 @@ agmean_index <- function(r) {
   function(elasticity) {
     nest_mean <- nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))
     # return function
-    function(p1, p0, q0, na.rm = FALSE) {
+    res <- function(p1, p0, q0, na.rm = FALSE) {
       v0 <- p0 * q0
       nest_mean(p1 / p0, v0, v0, na.rm)
     }
+    # clean up enclosing environment
+    enc <- list(nest_mean = nest_mean)
+    environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+    res
   }
 }
 
