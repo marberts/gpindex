@@ -1,12 +1,14 @@
 ## Test environments
 
-- local Ubuntu 20.04 installation, R 4.1.1, 3.5.0
+- local Ubuntu 20.04 installation, R 4.1.2, 3.5.0
 - win-builder (devel, release, oldrelease)
 - R-hub (fedora-clang devel)
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+
+One NOTE about possibly misspelled words in DESCRIPTION. This can be ignored, as these words of spelled correctly.
 
 ## Downstream dependencies
 

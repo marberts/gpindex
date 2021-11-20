@@ -173,7 +173,7 @@ von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, S
 }
 
 \seealso{
-\code{\link{generalized_mean}} for the generalized mean. 
+\code{\link{generalized_mean}} for the generalized mean that powers most of these functions. 
 
 \code{\link{contributions}} for calculating quote contributions. 
 

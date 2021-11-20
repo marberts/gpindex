@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
-[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://codecov.io/gh/marberts/gpindex)
+[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
 
 A small R package for calculating lots of different price indexes, and
 by extension quantity indexes. Provides tools to build and work with any
@@ -84,13 +84,13 @@ harmonic_contributions(p1 / p0, s1)
 #> [1]  0.02857143  0.71428571  0.04642857 -0.02500000  0.06666667 -0.01904762
 
 # Also works for more exotic indexes, like the Lloyd-Moulton index
-lm_index(p1, p0, q0, 0.5) # elasticity of 0.5
+lm_index(0.5)(p1, p0, q0) # elasticity of 0.5
 #> [1] 1.315599
 generalized_mean(0.5)(p1 / p0, s0)
 #> [1] 1.315599
 generalized_mean(0.5)(p1 / p0, s0) * generalized_mean(0.5)(p2 / p1, factor_weights(0.5)(p1 / p0, s0))
 #> [1] 1.003433
-lm_index(p2, p0, q0, 0.5)
+lm_index(0.5)(p2, p0, q0)
 #> [1] 1.003433
 contributions(0.5)(p1 / p0, s0)
 #> [1]  0.03361012  0.26178360  0.04942922 -0.05699229  0.06468830 -0.03691970

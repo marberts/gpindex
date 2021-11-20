@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 <!-- Badges -->
 [![CRAN status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
-[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://codecov.io/gh/marberts/gpindex)
+[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
 
 A small R package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of bilateral generalized-mean index (of which most price indexes are), along with a few important indexes that don't belong to the generalized-mean family. 
 
@@ -68,10 +68,10 @@ laspeyres_index(p2, p0, q0)
 harmonic_contributions(p1 / p0, s1)
 
 # Also works for more exotic indexes, like the Lloyd-Moulton index
-lm_index(p1, p0, q0, 0.5) # elasticity of 0.5
+lm_index(0.5)(p1, p0, q0) # elasticity of 0.5
 generalized_mean(0.5)(p1 / p0, s0)
 generalized_mean(0.5)(p1 / p0, s0) * generalized_mean(0.5)(p2 / p1, factor_weights(0.5)(p1 / p0, s0))
-lm_index(p2, p0, q0, 0.5)
+lm_index(0.5)(p2, p0, q0)
 contributions(0.5)(p1 / p0, s0)
 
 # Calculate a Fisher index over 5 periods
