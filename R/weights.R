@@ -13,7 +13,7 @@ transmute_weights <- function(r, s) {
   # unweighted calculation
   body(res)[[2]][[3]] <- if (r == s) {
     # make sure NAs carry on
-    quote(replace(rep(1, length(x)), is.na(x), NA))
+    quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(ext_mean(x, gen_mean(x, na.rm = TRUE)), r - s)
   }
@@ -46,7 +46,7 @@ factor_weights <- function(r) {
   # unweighted calculation
   body(res)[[2]][[3]] <- if (r == 0) {
     # make sure NAs carry on
-    quote(replace(rep(1, length(x)), is.na(x), NA))
+    quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(x, r)
   }
@@ -72,6 +72,7 @@ scale_weights <- function(x) {
 #---- Contributions ----
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
+  # return function
   res <- function(x, w) {
     scale_weights(arithmetic_weights(x, w)) * (x - 1)
   }

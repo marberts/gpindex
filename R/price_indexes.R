@@ -12,7 +12,7 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     match.arg(type),
     Carli = ,
     Jevons = ,
-    Coggeshall = function(p0) replace(p0, values = 1), # keep attributes
+    Coggeshall = function(p0) {p0[] <- 1; p0}, # keep attributes
     Dutot = function(p0) p0,
     Young = function(pb, qb) pb * qb,
     Lowe = function(p0, qb) p0 * qb,

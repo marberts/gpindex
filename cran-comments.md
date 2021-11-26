@@ -8,7 +8,7 @@
 
 There were no ERRORs or WARNINGs.
 
-One NOTE about possibly misspelled words in DESCRIPTION. This can be ignored, as these words of spelled correctly.
+One NOTE about possibly misspelled words in DESCRIPTION. This can be ignored, as these words are spelled correctly.
 
 ## Downstream dependencies
 

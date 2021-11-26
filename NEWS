@@ -4,7 +4,7 @@ Changes in version 0.3.9
 
 - Added lehr_index().
 
-- Fixed a rare warning about sqrt() making NaNs in generalized_logmean(-1) when some inputs were close but not equal.
+- Fixed a rare warning about sqrt() making NaNs in generalized_logmean(-1) when some inputs were close but not equal, despite no NaNs showing in the result.
 
 - The lm_index() and *_agmean_index() functions are now function factories.
 
