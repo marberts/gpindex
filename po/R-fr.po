@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gpindex 0.3.2\n"
-"POT-Creation-Date: 2021-10-05 09:37\n"
+"POT-Creation-Date: 2021-12-19 14:29\n"
 "PO-Revision-Date: 2021-07-13\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -56,8 +56,8 @@ msgstr ""
 "'r' et 's' ont des valeurs très proches, mais pas égales; cela peut donner "
 "des résultats trompeurs"
 
-msgid "'s' must be a pair of numeric values"
-msgstr "'s' doit être une paire de valeurs numériques"
+msgid "'r2' must be a pair of numeric values"
+msgstr "'r2' doit être une paire de valeurs numériques"
 
 msgid "'t' must be a pair of numeric values"
 msgstr "'t' doit être une paire de valeurs numériques"
@@ -79,3 +79,6 @@ msgstr "il existe des paires période-produit en double"
 
 msgid "all arguments must be the same length"
 msgstr "tous les arguments doivent avoir la même longueur"
+
+msgid "'s' must be a pair of numeric values"
+msgstr "'s' doit être une paire de valeurs numériques"

@@ -45,12 +45,21 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   res <- function(x, w1, w2) {
     v1 <- scale_weights(r_weights1(x, w1))
     v2 <- scale_weights(r_weights2(x, w2))
-    # the calculation is wrong if NAs in w1 or w2 propagate
-    if (!missing(w1) && anyNA(w1)) v1[is.na(v1) & !is.na(v2)] <- 0
-    if (!missing(w2) && anyNA(w2)) v2[is.na(v2) & !is.na(v1)] <- 0
-    # same for t
-    t[is.na(t) & !rev(is.na(t))] <- 0
-    s_weights(x, t[1L] * v1 + t[2L] * v2)
+    w <- if (is.na(t[1L]) && !is.na(t[2L])) {
+      v2
+    } else if (!is.na(t[1L]) && is.na(t[2L])) {
+      v1
+    } else {
+      # the calculation is wrong if NAs in w1 or w2 propagate
+      if (!missing(w1) && anyNA(w1)) {
+        v1[is.na(v1) & !is.na(v2)] <- 0
+      }
+      if (!missing(w2) && anyNA(w2)) {
+        v2[is.na(v2) & !is.na(v1)] <- 0
+      }
+      t[1L] * v1 + t[2L] * v2
+    }
+    s_weights(x, w)
   }
   # clean up enclosing environment
   enc <- list(s_weights = s_weights,
@@ -151,12 +160,20 @@ nested_contributions2 <- function(r1, r2, t = c(1, 1)) {
     v <- scale_weights(arithmetic_weights(m, t))
     u1 <- contrib1(x, w1)
     u2 <- contrib2(x, w2)
-    # the calculation is wrong if NAs in w1 or w2 propagate
-    if (!missing(w1) && anyNA(w1)) u1[is.na(u1) & !is.na(u2)] <- 0
-    if (!missing(w2) && anyNA(w2)) u2[is.na(u2) & !is.na(u1)] <- 0
-    # same for v
-    v[is.na(v) & !rev(is.na(v))] <- 0
-    v[1L] * u1  + v[2L] * u2 
+    if (is.na(v[1L]) && !is.na(v[2L])) {
+      u2
+    } else if (!is.na(v[1L]) && is.na(v[2L])) {
+      u1
+    } else {
+      # the calculation is wrong if NAs in w1 or w2 propagate
+      if (!missing(w1) && anyNA(w1)) {
+        u1[is.na(u1) & !is.na(u2)] <- 0
+      }
+      if (!missing(w2) && anyNA(w2)) {
+        u2[is.na(u2) & !is.na(u1)] <- 0
+      }
+      v[1L] * u1  + v[2L] * u2 
+    }
   }
   # clean up enclosing environment
   enc <- list(arithmetic_weights = arithmetic_weights,

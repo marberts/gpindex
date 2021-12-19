@@ -158,29 +158,31 @@ all.equal(contraharmonic_mean(xna, w, na.rm = TRUE), 1 / lehmer_mean(-1)(1 / xna
 all.equal(contraharmonic_mean(xna, na.rm = TRUE), 1 / lehmer_mean(-1)(1 / xna, na.rm = TRUE))
 
 #---- Tests for nested means ----
+all.equal(fisher_mean(x, xna, w, na.rm = TRUE),
+          geometric_mean(c(arithmetic_mean(x, xna, na.rm = TRUE),
+                           harmonic_mean(x, w))))
 all.equal(nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
           generalized_mean(-3)(c(generalized_mean(2)(xna, a, na.rm = TRUE),
                                  generalized_mean(0.3)(xna, b, na.rm = TRUE)),
                                3:4))
-
+# Cases that should reduce to a generalized mean
 all.equal(nested_mean(2, c(1, 0), c(2, 0))(x, a, b), arithmetic_mean(x, a))
-
 all.equal(nested_mean(1, c(1, 1))(x, a, a), arithmetic_mean(x, a))
-
 all.equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
-
+# NA weights
 is.na(fisher_mean(1, NA, 1))
-
 fisher_mean(1, NA, 1, na.rm = TRUE)
 # Change weights
 all.equal(fisher_mean(x, w), 
           generalized_mean(1)(x, nested_transmute(0, c(1, -1), 1)(x, w)))
-
 all.equal(nested_mean(-5, c(1.1, -1.1), 1:2)(x, w, xna, na.rm = TRUE), 
           generalized_mean(0.2)(x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, w, xna), na.rm = TRUE))
-
 all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x)),
           scale_weights(transmute_weights(1, 0)(x)))
+all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x, xna)),
+          scale_weights(transmute_weights(1, 0)(x, xna)))
+all.equal(scale_weights(nested_transmute(3, c(1, 3), 0, c(NA, 2))(x, xna)),
+          scale_weights(transmute_weights(3, 0)(x)))
 
 #---- Test of pows ----
 e1 <- function(r) {

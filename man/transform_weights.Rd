@@ -43,11 +43,11 @@ The function \code{transmute_weights()} returns a function to compute a vector o
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 
-This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. \code{nested_transmute()} does the same for nested means, so that
+\code{nested_transmute()} does the same for nested generalized means, so that
 
 \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x, v(x, w1, w2))}
 
-See Martin (2021) for details.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. See Martin (2021) for details.
 
 The function \code{factor_weights()} returns a function to compute weights \code{u(x, w)} such that 
 

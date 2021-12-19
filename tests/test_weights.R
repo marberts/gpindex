@@ -67,3 +67,9 @@ all.equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x),
 
 all.equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x),
           harmonic_contributions(x))
+
+all.equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x, xna),
+          nested_contributions2(3, c(-1, 2), c(0.75, NA))(x, xna))
+
+all.equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x, xna),
+          harmonic_contributions(x, xna))
