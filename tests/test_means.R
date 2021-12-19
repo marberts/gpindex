@@ -172,6 +172,15 @@ all.equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
 is.na(fisher_mean(1, NA, 1))
 
 fisher_mean(1, NA, 1, na.rm = TRUE)
+# Change weights
+all.equal(fisher_mean(x, w), 
+          generalized_mean(1)(x, nested_transmute(0, c(1, -1), 1)(x, w)))
+
+all.equal(nested_mean(-5, c(1.1, -1.1), 1:2)(x, w, xna, na.rm = TRUE), 
+          generalized_mean(0.2)(x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, w, xna), na.rm = TRUE))
+
+all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x)),
+          scale_weights(transmute_weights(1, 0)(x)))
 
 #---- Test of pows ----
 e1 <- function(r) {

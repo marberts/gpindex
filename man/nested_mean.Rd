@@ -10,16 +10,16 @@ Calculate the (outer) generalized mean of two (inner) generalized means.
 
 \usage{
 ## Function factory
-nested_mean(r, s, t = c(1, 1))
+nested_mean(r1, r2, t = c(1, 1))
 
 ## Special case
 fisher_mean(x, w1, w2, na.rm = FALSE)
 }
 
 \arguments{
-\item{r}{A finite number giving the order of the outer generalized mean.}
+\item{r1}{A finite number giving the order of the outer generalized mean.}
 
-\item{s}{A pair of finite numbers giving the order of the inner generalized means.}
+\item{r2}{A pair of finite numbers giving the order of the inner generalized means.}
 
 \item{t}{A pair of strictly positive weights for the inner generalized means. The default is equal weights.}
 
@@ -35,9 +35,9 @@ fisher_mean(x, w1, w2, na.rm = FALSE)
 
 \preformatted{function(x, w1, w2, na.rm = FALSE){...}}
 
-This computes the generalized mean of order \code{r} of the generalized mean of order \code{s[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{s[2]} of \code{x} with weights \code{w2}.
+This computes the generalized mean of order \code{r1} of the generalized mean of order \code{r2[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{r2[2]} of \code{x} with weights \code{w2}.
 
-\code{fisher_mean()} returns a numeric value for the geometric mean of the arithmetic and harmonic means (i.e., \code{r = 0} and \code{s = c(1, -1)}).
+\code{fisher_mean()} returns a numeric value for the geometric mean of the arithmetic and harmonic means (i.e., \code{r1 = 0} and \code{r2 = c(1, -1)}).
 }
 
 \note{

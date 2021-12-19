@@ -36,14 +36,14 @@ generalized_mean <- function(r) {
     }
   }
   # unweighted calculation
-  body(res)[[2]][[3]][[3]] <- if (r == 0) {
+  body(res)[[2L]][[3L]][[3L]] <- if (r == 0) {
     quote(exp(sum(log(x)) / length(x)))
   } else {
     z <- bquote(pow(sum(.(pow(x, r))) / length(x), 1 / r))
     eval(z)
   }
   # weighted calculation
-  body(res)[[2]][[4]][[4]] <- if (r == 0) {
+  body(res)[[2L]][[4L]][[4L]] <- if (r == 0) {
     quote(exp(sum(w * log(x)) / sum(w)))
   } else {
     z <- bquote(pow(sum(.(wpow(x, w, r))) / sum(w), 1 / r))
@@ -84,7 +84,7 @@ extended_mean <- function(r, s) {
     res # placeholder for the calculation
     # set output to a when a == b
     i <- which(abs(a - b) <= tol)
-    res[i] <- a[(i - 1) %% length(a) + 1]
+    res[i] <- a[(i - 1L) %% length(a) + 1L]
     res
   }
   expr <- if (r == 0 && s == 0) {
@@ -107,7 +107,7 @@ extended_mean <- function(r, s) {
     z <- bquote((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))))
     eval(bquote(pow(.(z) * .(r / s), 1 / (s - r))))
   }
-  body(res)[[2]] <- call("<-", quote(res), expr)
+  body(res)[[2L]] <- call("<-", quote(res), expr)
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
@@ -132,12 +132,12 @@ lehmer_mean <- function(r) {
       # [[2]][[4]] weighted calculation
     }
   }
-  body(res)[[2]][[3]] <- if (r != 1) {
+  body(res)[[2L]][[3L]] <- if (r != 1) {
     call("arithmetic_mean", quote(x), pow(x, r - 1), quote(na.rm))
   } else {
     call("arithmetic_mean", quote(x), na.rm = quote(na.rm))
   }
-  body(res)[[2]][[4]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
+  body(res)[[2L]][[4L]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
@@ -146,14 +146,14 @@ lehmer_mean <- function(r) {
 contraharmonic_mean <- lehmer_mean(2)
 
 #---- Nested mean ----
-nested_mean <- function(r, s, t = c(1, 1)) {
-  outer_mean <- generalized_mean(r)
-  if (length(s) != 2) {
-    stop(gettext("'s' must be a pair of numeric values"))
+nested_mean <- function(r1, r2, t = c(1, 1)) {
+  outer_mean <- generalized_mean(r1)
+  if (length(r2) != 2L) {
+    stop(gettext("'r2' must be a pair of numeric values"))
   }
-  inner_mean1 <- generalized_mean(s[1])
-  inner_mean2 <- generalized_mean(s[2])
-  if (length(t) != 2 || !is.numeric(t)) {
+  inner_mean1 <- generalized_mean(r2[1L])
+  inner_mean2 <- generalized_mean(r2[2L])
+  if (length(t) != 2L || !is.numeric(t)) {
     stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip any attributes

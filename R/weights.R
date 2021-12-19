@@ -11,14 +11,14 @@ transmute_weights <- function(r, s) {
     }
   }
   # unweighted calculation
-  body(res)[[2]][[3]] <- if (r == s) {
+  body(res)[[2L]][[3L]] <- if (r == s) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(ext_mean(x, gen_mean(x, na.rm = TRUE)), r - s)
   }
   # weighted calculation
-  body(res)[[2]][[4]] <- if (r == s) {
+  body(res)[[2L]][[4L]] <- if (r == s) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
   } else {
@@ -26,6 +26,37 @@ transmute_weights <- function(r, s) {
   }
   # clean up enclosing environment
   enc <- list(gen_mean = gen_mean, ext_mean = ext_mean)
+  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
+  res
+}
+
+nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
+  s_weights <- transmute_weights(r1, s)
+  if (length(r2) != 2L) {
+    stop(gettext("'s' must be a pair of numeric values"))
+  }
+  r_weights1 <- transmute_weights(r2[1L], r1)
+  r_weights2 <- transmute_weights(r2[2L], r1)
+  if (length(t) != 2L || !is.numeric(t)) {
+    stop(gettext("'t' must be a pair of numeric values"))
+  }
+  t <- as.numeric(t) # strip attributes
+  # return function
+  res <- function(x, w1, w2) {
+    v1 <- scale_weights(r_weights1(x, w1))
+    v2 <- scale_weights(r_weights2(x, w2))
+    # the calculation is wrong if NAs in w1 or w2 propagate
+    if (!missing(w1) && anyNA(w1)) v1[is.na(v1) & !is.na(v2)] <- 0
+    if (!missing(w2) && anyNA(w2)) v2[is.na(v2) & !is.na(v1)] <- 0
+    # same for t
+    t[is.na(t) & !rev(is.na(t))] <- 0
+    s_weights(x, t[1L] * v1 + t[2L] * v2)
+  }
+  # clean up enclosing environment
+  enc <- list(s_weights = s_weights,
+              r_weights1 = r_weights1,
+              r_weights2 = r_weights2,
+              t = t)
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
@@ -44,14 +75,14 @@ factor_weights <- function(r) {
     }
   }
   # unweighted calculation
-  body(res)[[2]][[3]] <- if (r == 0) {
+  body(res)[[2L]][[3L]] <- if (r == 0) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(x, r)
   }
   # weighted calculation
-  body(res)[[2]][[4]] <- if (r == 0) {
+  body(res)[[2L]][[4L]] <- if (r == 0) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
   } else {
@@ -89,47 +120,28 @@ geometric_contributions <- contributions(0)
 harmonic_contributions <- contributions(-1)
 
 #---- Nested contributions ----
-nested_contributions <- function(r, s, t = c(1, 1)) {
-  contrib <- contributions(r)
-  if (length(s) != 2) {
-    stop(gettext("'s' must be a pair of numeric values"))
-  }
-  r_weights1 <- transmute_weights(s[1], r)
-  r_weights2 <- transmute_weights(s[2], r)
-  if (length(t) != 2 || !is.numeric(t)) {
-    stop(gettext("'t' must be a pair of numeric values"))
-  }
-  t <- as.numeric(t) # strip attributes
+nested_contributions <- function(r1, r2, t = c(1, 1)) {
+  arithmetic_weights <- nested_transmute(r1, r2, 1, t)
   # return function
   res <- function(x, w1, w2) {
-    v1 <- scale_weights(r_weights1(x, w1))
-    v2 <- scale_weights(r_weights2(x, w2))
-    # the calculation is wrong if NAs in w1 or w2 propagate
-    if (!missing(w1) && anyNA(w1)) v1[is.na(v1) & !is.na(v2)] <- 0
-    if (!missing(w2) && anyNA(w2)) v2[is.na(v2) & !is.na(v1)] <- 0
-    # same for t
-    t[is.na(t) & !rev(is.na(t))] <- 0
-    contrib(x, t[1] * v1 + t[2] * v2)
+    scale_weights(arithmetic_weights(x, w1, w2)) * (x - 1)
   }
   # clean up enclosing environment
-  enc <- list(contrib = contrib,
-              r_weights1 = r_weights1,
-              r_weights2 = r_weights2,
-              t = t)
+  enc <- list(arithmetic_weights = arithmetic_weights)
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
 
-nested_contributions2 <- function(r, s, t = c(1, 1)) {
-  arithmetic_weights <- transmute_weights(r, 1)
-  if (length(s) != 2) {
-    stop(gettext("'s' must be a pair of numeric values"))
+nested_contributions2 <- function(r1, r2, t = c(1, 1)) {
+  arithmetic_weights <- transmute_weights(r1, 1)
+  if (length(r2) != 2L) {
+    stop(gettext("'r2' must be a pair of numeric values"))
   }
-  contrib1 <- contributions(s[1])
-  contrib2 <- contributions(s[2])
-  mean1 <- generalized_mean(s[1])
-  mean2 <- generalized_mean(s[2])
-  if (length(t) != 2 || !is.numeric(t)) {
+  contrib1 <- contributions(r2[1L])
+  contrib2 <- contributions(r2[2L])
+  mean1 <- generalized_mean(r2[1L])
+  mean2 <- generalized_mean(r2[2L])
+  if (length(t) != 2L || !is.numeric(t)) {
     stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip attributes
@@ -144,7 +156,7 @@ nested_contributions2 <- function(r, s, t = c(1, 1)) {
     if (!missing(w2) && anyNA(w2)) u2[is.na(u2) & !is.na(u1)] <- 0
     # same for v
     v[is.na(v) & !rev(is.na(v))] <- 0
-    v[1] * u1  + v[2] * u2 
+    v[1L] * u1  + v[2L] * u2 
   }
   # clean up enclosing environment
   enc <- list(arithmetic_weights = arithmetic_weights,

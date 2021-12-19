@@ -20,9 +20,9 @@ Calculate additive quote contributions for generalized-mean price indexes, and i
 ## Function factories
 contributions(r)
 
-nested_contributions(r, s, t = c(1, 1))
+nested_contributions(r1, r2, t = c(1, 1))
 
-nested_contributions2(r, s, t = c(1, 1))
+nested_contributions2(r1, r2, t = c(1, 1))
 
 ## Special cases
 arithmetic_contributions(x, w)
@@ -37,9 +37,9 @@ fisher_contributions2(x, w1, w2)
 }
 
 \arguments{
-\item{r}{A finite number giving the order of the generalized mean.}
+\item{r, r1}{A finite number giving the order of the generalized mean.}
 
-\item{s}{A pair of finite numbers giving the order of the inner generalized means.}
+\item{r2}{A pair of finite numbers giving the order of the inner generalized means.}
 
 \item{t}{A pair of strictly positive weights for the inner generalized means. The default is equal weights.}
 

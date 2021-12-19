@@ -6,12 +6,12 @@ offset_period <- function(f) {
     if (length(period) != length(product)) {
       stop(gettext("'period' and 'product' must be the same length"))
     }
-    if (!length(period)) return(integer(0))
+    if (!length(period)) return(integer(0L))
     period <- as.factor(period)
     product <- as.factor(product)
     attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
-    if (max(vapply(product, anyDuplicated, numeric(1), incomparables = NA))) {
+    if (max(vapply(product, anyDuplicated, numeric(1L), incomparables = NA))) {
       warning(gettext("there are duplicated period-product pairs"))
     }
     m <- .mapply(match, list(product, f(product)), list(incomparables = NA))
@@ -20,7 +20,7 @@ offset_period <- function(f) {
   }
 }
 
-back_period <- offset_period(function(x) x[c(1L, seq_len(length(x) - 1))])
+back_period <- offset_period(function(x) x[c(1L, seq_len(length(x) - 1L))])
 
 base_period <- offset_period(function(x) x[1L])
 
@@ -46,18 +46,18 @@ base_price <- offset_price(base_period)
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type)
-  x <- x - q[2]
-  u <- cu * pmax(q[3] - q[2], abs(a * q[2]))
-  l <- -cl * pmax(q[2] - q[1], abs(a * q[2]))
+  x <- x - q[2L]
+  u <- cu * pmax(q[3L] - q[2L], abs(a * q[2L]))
+  l <- -cl * pmax(q[2L] - q[1L], abs(a * q[2L]))
   x > u | x < l
 }
 
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type)
-  iqr <- pmax(q[3] - q[1], abs(a * q[2]))
-  u <- q[3] + cu * iqr
-  l <- q[1] - cl * iqr
+  iqr <- pmax(q[3L] - q[1L], abs(a * q[2L]))
+  u <- q[3L] + cu * iqr
+  l <- q[1L] - cl * iqr
   x > u | x < l
 }
 
@@ -79,7 +79,7 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   x <- as.numeric(x)
   q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = TRUE, type = type)
-  tail <- x < q[1] | x > q[2]
+  tail <- x < q[1L] | x > q[2L]
   ts <- x[x != 1 & !tail]
   if (!length(ts)) return(tail)
   m <- mean(ts, na.rm = TRUE)

@@ -1,12 +1,12 @@
 # None of these functions are exported
 #---- Argument checking ----
 not_number <- function(x) {
-  length(x) != 1 || !is.numeric(x) || !is.finite(x)
+  length(x) != 1L || !is.numeric(x) || !is.finite(x)
 }
 
 different_lengths <- function(...) {
   res <- lengths(list(...))
-  any(res != res[1])
+  any(res != res[1L])
 }
 
 small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {
@@ -44,7 +44,7 @@ wpow <- function(x, w, r) {
 
 #---- Geks helpers ----
 to_scalar <- function(x) {
-  trunc(as.numeric(x[1]))
+  trunc(as.numeric(x[1L]))
 }
 
 rolling_window <- function(n, window) {

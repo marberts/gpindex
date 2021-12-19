@@ -58,8 +58,8 @@ geks <- function(f) {
     for (i in seq_along(res)) {
       w <- windows[[i]]
       mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm)
-      mat <- apply(mat[, keep, drop = FALSE], 2, geometric_mean, na.rm = na.rm)
-      res[[i]] <- mat[-1] / mat[-length(mat)]
+      mat <- apply(mat[, keep, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
+      res[[i]] <- mat[-1L] / mat[-length(mat)]
     }
     res
   }

@@ -1134,7 +1134,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > ### Name: transform_weights
 > ### Title: Transform weights
-> ### Aliases: transmute_weights factor_weights update_weights scale_weights
+> ### Aliases: transmute_weights nested_transmute factor_weights 
+> ### update_weights scale_weights
 > 
 > ### ** Examples
 > 
@@ -1159,12 +1160,10 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > w1 <- runif(2)
 > w2 <- runif(2)
 > 
-> geometric_mean(c(arithmetic_mean(x, w1), harmonic_mean(x, w2)))
+> fisher_mean(x, w1, w2)
 [1] 2.679803
 > 
-> v1 <- scale_weights(transmute_weights(1, 0)(x, w1))
-> v2 <- scale_weights(transmute_weights(-1, 0)(x, w2))
-> arithmetic_mean(x, transmute_weights(0, 1)(x, 0.5 * v1 + 0.5 * v2))
+> arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
 [1] 2.679803
 > 
 > #---- Quote contributions ----

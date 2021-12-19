@@ -1,5 +1,6 @@
 \name{transform_weights}
 \alias{transmute_weights}
+\alias{nested_transmute}
 \alias{factor_weights}
 \alias{update_weights}
 \alias{scale_weights}
@@ -18,6 +19,8 @@ Useful transformations for the weights in a generalized mean.
 \usage{
 transmute_weights(r, s)
 
+nested_transmute(r1, r2, s, t = c(1, 1))
+
 factor_weights(r)
 
 update_weights(x, w)
@@ -27,6 +30,8 @@ scale_weights(x)
 
 \arguments{
 \item{r, s}{A finite number giving the order of the generalized mean. See details.}
+
+\item{r1, r2, t}{The same arguments as in \code{\link[=nested_mean]{nested_mean()}}. See details.}
 
 \item{x}{A strictly positive numeric vector.}
 
@@ -38,7 +43,11 @@ The function \code{transmute_weights()} returns a function to compute a vector o
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 
-This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. See Martin (2021) for details.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. \code{nested_transmute()} does the same for nested means, so that
+
+\preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x, v(x, w1, w2))}
+
+See Martin (2021) for details.
 
 The function \code{factor_weights()} returns a function to compute weights \code{u(x, w)} such that 
 
@@ -61,11 +70,15 @@ Both \code{x} and \code{w} should be strictly positive. This is not enforced, bu
 
 In each case this function augments the weights \code{w}.
 
+\code{nested_transmute()} similarly returns a function:
+
+\preformatted{function(x, w1, w2){...}}
+
 \code{update_weights()} and \code{scale_weights()} return a numeric vector the same length as \code{x}.
 }
 
 \note{
-Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any missing values in \code{x} or \code{w} will return \code{NA}. Unless all values are \code{NA}, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}}. Similarly, the result of scaling will sum to 1 when missing values are removed.
+Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any missing values in \code{x} or \code{w} will return \code{NA}. Unless all values are \code{NA}, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}} and \code{\link[=nested_mean]{nested_mean()}}. Similarly, the result of scaling will sum to 1 when missing values are removed.
 }
 
 \references{
@@ -80,6 +93,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \seealso{
 \code{\link{generalized_mean}} for the generalized mean. 
+
+\code{\link{nested_mean}} for the nested mean. 
 
 \code{\link{extended_mean}} for the extended mean that underlies \code{transmute_weights()}.
 
@@ -107,11 +122,9 @@ harmonic_mean(x, transmute_weights(0, -1)(x))
 w1 <- runif(2)
 w2 <- runif(2)
 
-geometric_mean(c(arithmetic_mean(x, w1), harmonic_mean(x, w2)))
+fisher_mean(x, w1, w2)
 
-v1 <- scale_weights(transmute_weights(1, 0)(x, w1))
-v2 <- scale_weights(transmute_weights(-1, 0)(x, w2))
-arithmetic_mean(x, transmute_weights(0, 1)(x, 0.5 * v1 + 0.5 * v2))
+arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
 
 #---- Quote contributions ----
 
