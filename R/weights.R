@@ -86,7 +86,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   # return function
   res <- function(x, w1, w2) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
-    v <- scale_weights(s_weights(m, t))
+    v <- s_weights(m, t)
     u1 <- scale_weights(s_weights1(x, w1))
     u2 <- scale_weights(s_weights2(x, w2))
     if (is.na(v[1L]) && !is.na(v[2L])) {
