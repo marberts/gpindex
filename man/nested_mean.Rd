@@ -47,6 +47,8 @@ There is some ambiguity about how to remove missing values in \code{w1} or \code
 \references{
 Diewert, W. E. (1976). Exact and superlative index numbers. \emph{Journal of Econometrics}, 4(2): 114--145.
 
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
+
 Lent, J. and Dorfman, A, H. (2009). Using a weighted average of base period price indexes to approximate a superlative index. \emph{Journal of Official Statistics}, 25(1):139--149.
 }
 
@@ -84,6 +86,25 @@ quadratic_mean_index2(2)(x, w1, w2)
 agmean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
 
 agmean_index(0.25)(x, w1, w1)
+
+#---- Walsh index ----
+
+# The (arithmetic) Walsh index is the implicit price index when using a
+# superlative quadratic mean quantity index of order 1
+
+p1 <- price6[[2]]; p0 <- price6[[1]]
+q1 <- quantity6[[2]]; q0 <- quantity6[[1]]
+
+walsh <- quadratic_mean_index2(1)
+
+sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
+
+sum(p1 * sqrt(q1 * q0)) / sum(01 * sqrt(q1 * q0))
+
+# Counter to the PPI manual (par. 1.105), it is not a
+# superlative quadratic mean price index of order 1
+
+walsh(p1 / p0, p0 * q0, p1 * q1)
 
 #---- Missing values ----
 

@@ -175,6 +175,8 @@ fisher_mean(1, NA, 1, na.rm = TRUE)
 # Change weights
 all.equal(fisher_mean(x, w), 
           generalized_mean(1)(x, nested_transmute(0, c(1, -1), 1)(x, w)))
+all.equal(fisher_mean(xna, a, na.rm = TRUE), 
+          generalized_mean(1)(xna, nested_transmute(0, c(1, -1), 1)(xna, a), na.rm = TRUE))
 all.equal(nested_mean(-5, c(1.1, -1.1), 1:2)(x, w, xna, na.rm = TRUE), 
           generalized_mean(0.2)(x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, w, xna), na.rm = TRUE))
 all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x)),
@@ -182,6 +184,19 @@ all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x)),
 all.equal(scale_weights(nested_transmute(1, c(1, 3), 0, c(1, NA))(x, xna)),
           scale_weights(transmute_weights(1, 0)(x, xna)))
 all.equal(scale_weights(nested_transmute(3, c(1, 3), 0, c(NA, 2))(x, xna)),
+          scale_weights(transmute_weights(3, 0)(x)))
+
+all.equal(fisher_mean(x, a), 
+          generalized_mean(1)(x, nested_transmute2(0, c(1, -1), 1)(x, a)))
+all.equal(fisher_mean(xna, a, na.rm = TRUE), 
+          generalized_mean(1)(xna, nested_transmute2(0, c(1, -1), 1)(xna, a), na.rm = TRUE))
+all.equal(nested_mean(-5, c(1.1, -0.1), 1:2)(x, b, xna, na.rm = TRUE), 
+          generalized_mean(0.2)(x, nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, b, xna), na.rm = TRUE))
+all.equal(scale_weights(nested_transmute2(-3, c(1, 3), 0, c(1, NA))(x)),
+          scale_weights(transmute_weights(1, 0)(x)))
+all.equal(scale_weights(nested_transmute2(-3, c(1, 3), 0, c(1, NA))(x, xna)),
+          scale_weights(transmute_weights(1, 0)(x, xna)))
+all.equal(scale_weights(nested_transmute2(-2, c(1, 3), 0, c(NA, 2))(x, xna)),
           scale_weights(transmute_weights(3, 0)(x)))
 
 #---- Test of pows ----

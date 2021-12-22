@@ -1,6 +1,7 @@
 \name{transform_weights}
 \alias{transmute_weights}
 \alias{nested_transmute}
+\alias{nested_transmute2}
 \alias{factor_weights}
 \alias{update_weights}
 \alias{scale_weights}
@@ -20,6 +21,8 @@ Useful transformations for the weights in a generalized mean.
 transmute_weights(r, s)
 
 nested_transmute(r1, r2, s, t = c(1, 1))
+
+nested_transmute2(r1, r2, s, t = c(1, 1))
 
 factor_weights(r)
 
@@ -43,11 +46,11 @@ The function \code{transmute_weights()} returns a function to compute a vector o
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 
-\code{nested_transmute()} does the same for nested generalized means, so that
+\code{nested_transmute()} and \code{nested_transmute2()} do the same for nested generalized means, so that
 
 \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x, v(x, w1, w2))}
 
-This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), although this is usually the most important case. See Martin (2021) for details.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these are usually the most important cases. See Martin (2021) for details. \code{nested_transmute2()} takes a slightly more general approach than \code{nested_transmute()}, similar to the van IJzeren arithmetic decomposition for the Fisher index in section 4.2.2 of Balk (2008), although in most cases the results are broadly similar.
 
 The function \code{factor_weights()} returns a function to compute weights \code{u(x, w)} such that 
 
@@ -88,6 +91,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 Martin, S. (2021). A note on general decompositions for price indexes. \emph{Prices Analytical Series}, Statistics Canada catalogue no. 62F0014M. Statistics Canada, Ottawa.
 
+Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Tornqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
+
 Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical Manual} (4th edition). Springer.
 }
 
@@ -125,6 +130,8 @@ w2 <- runif(2)
 fisher_mean(x, w1, w2)
 
 arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
+
+arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
 
 #---- Quote contributions ----
 

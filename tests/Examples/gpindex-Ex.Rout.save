@@ -613,6 +613,28 @@ Type 'q()' to quit R.
 > agmean_index(0.25)(x, w1, w1)
 [1] 2.088801
 > 
+> #---- Walsh index ----
+>
+> # The (arithmetic) Walsh index is the implicit price index when using a
+> # superlative quadratic mean quantity index of order 1
+> 
+> p1 <- price6[[2]]; p0 <- price6[[1]]
+> q1 <- quantity6[[2]]; q0 <- quantity6[[1]]
+> 
+> walsh <- quadratic_mean_index2(1)
+> 
+> sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
+[1] 1.401718
+> 
+> sum(p1 * sqrt(q1 * q0)) / sum(01 * sqrt(q1 * q0))
+[1] 1.401718
+> 
+> # Counter to the PPI manual (par. 1.105), it is not a
+> # superlative quadratic mean price index of order 1
+> 
+> walsh(p1 / p0, p0 * q0, p1 * q1)
+[1] 1.401534
+>
 > #---- Missing values ----
 > 
 > x[1] <- NA
@@ -1134,8 +1156,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > ### Name: transform_weights
 > ### Title: Transform weights
-> ### Aliases: transmute_weights nested_transmute factor_weights 
-> ### update_weights scale_weights
+> ### Aliases: transmute_weights nested_transmute nested_transmute2 
+> ### factor_weights update_weights scale_weights
 > 
 > ### ** Examples
 > 
@@ -1164,6 +1186,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 [1] 2.679803
 > 
 > arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
+[1] 2.679803
+>
+> arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
 [1] 2.679803
 > 
 > #---- Quote contributions ----
