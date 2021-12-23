@@ -43,13 +43,13 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   t <- as.numeric(t) # strip attributes
   # return function
   res <- function(x, w1, w2) {
-    v1 <- scale_weights(r_weights1(x, w1))
-    v2 <- scale_weights(r_weights2(x, w2))
     w <- if (is.na(t[1L]) && !is.na(t[2L])) {
-      v2
+      scale_weights(r_weights2(x, w2))
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
-      v1
+      scale_weights(r_weights1(x, w1))
     } else {
+      v1 <- scale_weights(r_weights1(x, w1))
+      v2 <- scale_weights(r_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
       if (!missing(w1) && anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
@@ -87,13 +87,13 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   res <- function(x, w1, w2) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
-    u1 <- scale_weights(s_weights1(x, w1))
-    u2 <- scale_weights(s_weights2(x, w2))
     if (is.na(v[1L]) && !is.na(v[2L])) {
-      u2
+      scale_weights(s_weights2(x, w2))
     } else if (!is.na(v[1L]) && is.na(v[2L])) {
-      u1
+      scale_weights(s_weights1(x, w1))
     } else {
+      u1 <- scale_weights(s_weights1(x, w1))
+      u2 <- scale_weights(s_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
       if (!missing(w1) && anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0
@@ -153,51 +153,3 @@ update_weights <- factor_weights(1)
 scale_weights <- function(x) {
   x / sum(x, na.rm = TRUE)
 }
-
-#---- Contributions ----
-contributions <- function(r) {
-  arithmetic_weights <- transmute_weights(r, 1)
-  # return function
-  res <- function(x, w) {
-    scale_weights(arithmetic_weights(x, w)) * (x - 1)
-  }
-  # clean up enclosing environment
-  enc <- list(arithmetic_weights = arithmetic_weights)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
-}
-
-arithmetic_contributions <- contributions(1)
-
-geometric_contributions <- contributions(0)
-
-harmonic_contributions <- contributions(-1)
-
-#---- Nested contributions ----
-nested_contributions <- function(r1, r2, t = c(1, 1)) {
-  arithmetic_weights <- nested_transmute(r1, r2, 1, t)
-  # return function
-  res <- function(x, w1, w2) {
-    scale_weights(arithmetic_weights(x, w1, w2)) * (x - 1)
-  }
-  # clean up enclosing environment
-  enc <- list(arithmetic_weights = arithmetic_weights)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
-}
-
-nested_contributions2 <- function(r1, r2, t = c(1, 1)) {
-  arithmetic_weights <- nested_transmute2(r1, r2, 1, t)
-  # return function
-  res <- function(x, w1, w2) {
-    scale_weights(arithmetic_weights(x, w1, w2)) * (x - 1)
-  }
-  # clean up enclosing environment
-  enc <- list(arithmetic_weights = arithmetic_weights)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
-}
-
-fisher_contributions <- nested_contributions(0, c(1, -1))
-
-fisher_contributions2 <- nested_contributions2(0, c(1, -1))
