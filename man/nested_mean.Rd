@@ -41,7 +41,7 @@ This computes the generalized mean of order \code{r1} of the generalized mean of
 }
 
 \note{
-There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means. Use the \code{\link[=balanced]{balanced()}} operator to balanced missing values across \code{w1} and {w2} prior to any calculations.
+There is some ambiguity about how to remove missing values in \code{w1} or \code{w2} when \code{na.rm = TRUE}. The approach here is to remove missing values when calculating each of the inner means individually, rather than removing all missing values prior to any calculations. This means that a different number of data points could be used to calculate the inner means. Use the \code{\link[=balanced]{balanced()}} operator to balance missing values across \code{w1} and {w2} prior to any calculations.
 }
 
 \references{
@@ -99,7 +99,7 @@ walsh <- quadratic_mean_index2(1)
 
 sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
 
-sum(p1 * sqrt(q1 * q0)) / sum(01 * sqrt(q1 * q0))
+sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
 
 # Counter to the PPI manual (par. 1.105), it is not a
 # superlative quadratic mean price index of order 1

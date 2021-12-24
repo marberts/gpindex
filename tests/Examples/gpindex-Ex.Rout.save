@@ -626,7 +626,7 @@ Type 'q()' to quit R.
 > sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
 [1] 1.401718
 > 
-> sum(p1 * sqrt(q1 * q0)) / sum(01 * sqrt(q1 * q0))
+> sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
 [1] 1.401718
 > 
 > # Counter to the PPI manual (par. 1.105), it is not a

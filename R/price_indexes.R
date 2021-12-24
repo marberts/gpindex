@@ -56,18 +56,17 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
 }
 
 #---- Pythagorean indexes ----
-pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) {
-  types <- switch(match.arg(class),
-                  arithmetic = c("Carli", "Dutot", "Laspeyres",
-                                 "Palgrave", "Drobisch", "Unnamed",
-                                 "Walsh1", "MarshallEdgeworth", "GearyKhamis",
-                                 "Lowe", "Young"),
-                  geometric = c("Jevons", "Laspeyres", "Paasche",
-                                "Tornqvist", "Vartia1", "MontgomeryVartia",
-                                "Vartia2", "SatoVartia", "Walsh2",
-                                "Young"),
-                  harmonic = c("Coggeshall", "Laspeyres", "Paasche", "Young"))
-  r <- switch(class, arithmetic = 1, geometric = 0, harmonic = -1)
+pythagorean_index <- function(r) {
+  types <- switch(r + 2,
+                  c("Coggeshall", "Laspeyres", "Paasche", "Young"),
+                  c("Jevons", "Laspeyres", "Paasche",
+                    "Tornqvist", "Vartia1", "MontgomeryVartia",
+                    "Vartia2", "SatoVartia", "Walsh2",
+                    "Young"),
+                  c("Carli", "Dutot", "Laspeyres",
+                    "Palgrave", "Drobisch", "Unnamed",
+                    "Walsh1", "MarshallEdgeworth", "GearyKhamis",
+                    "Lowe", "Young"))
   gen_mean <- generalized_mean(r)
   # return function
   function(type) {
@@ -111,11 +110,11 @@ pythagorean_index <- function(class = c("arithmetic", "geometric", "harmonic")) 
   }
 }
 
-arithmetic_index <- pythagorean_index("arithmetic")
+arithmetic_index <- pythagorean_index(1)
 
-geometric_index <- pythagorean_index("geometric")
+geometric_index <- pythagorean_index(0)
 
-harmonic_index <- pythagorean_index("harmonic")
+harmonic_index <- pythagorean_index(-1)
 
 #---- Common indexes ----
 laspeyres_index <- arithmetic_index("Laspeyres")

@@ -33,7 +33,7 @@ transmute_weights <- function(r, s) {
 nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
   if (length(r2) != 2L) {
-    stop(gettext("'s' must be a pair of numeric values"))
+    stop(gettext("'r2' must be a pair of numeric values"))
   }
   r_weights1 <- transmute_weights(r2[1L], r1)
   r_weights2 <- transmute_weights(r2[2L], r1)

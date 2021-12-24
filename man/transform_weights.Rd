@@ -11,7 +11,7 @@
 \description{
 Useful transformations for the weights in a generalized mean. 
 \itemize{
-\item{Transmute weights to turn a generalized mean of order \eqn{r}{r} into a generalized mean of order \eqn{s}{s}. Useful for calculating additive and multiplicative decompositions for a generalized-mean index.}
+\item{Transmute weights to turn a generalized mean of order \eqn{r}{r} into a generalized mean of order \eqn{s}{s}. Useful for calculating additive and multiplicative decompositions for a generalized-mean index, and those made of nested generalized means (e.g., Fisher index).}
 \item{Factor weights to turn the generalized mean of a product into the product of generalized means. Useful for price-updating the weights in a generalized-mean index.}
 \item{Scale weights so they sum to 1.}
 }
@@ -81,7 +81,7 @@ In each case this function augments the weights \code{w}.
 }
 
 \note{
-Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any missing values in \code{x} or \code{w} will return \code{NA}. Unless all values are \code{NA}, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}} and \code{\link[=nested_mean]{nested_mean()}}. Similarly, the result of scaling will sum to 1 when missing values are removed.
+Transmuting, factoring, and scaling weights will return a value that is the same length as \code{x}, so any missing values in \code{x} or \code{w}/\code{w1}/\code{w2} will return \code{NA}. Unless all values are \code{NA}, however, the result for transmuting or factoring will still satisfy the above identities when \code{na.rm = TRUE} in \code{\link[=generalized_mean]{generalized_mean()}} and \code{\link[=nested_mean]{nested_mean()}}. Similarly, the result of scaling will sum to 1 when missing values are removed.
 }
 
 \references{

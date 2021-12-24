@@ -79,6 +79,3 @@ msgstr "il existe des paires période-produit en double"
 
 msgid "all arguments must be the same length"
 msgstr "tous les arguments doivent avoir la même longueur"
-
-msgid "'s' must be a pair of numeric values"
-msgstr "'s' doit être une paire de valeurs numériques"

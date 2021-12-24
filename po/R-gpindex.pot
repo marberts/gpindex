@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.3.9.9002\n"
-"POT-Creation-Date: 2021-12-19 14:29\n"
+"Project-Id-Version: gpindex 0.4.0\n"
+"POT-Creation-Date: 2021-12-23 22:18\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +65,4 @@ msgid "there are duplicated period-product pairs"
 msgstr ""
 
 msgid "all arguments must be the same length"
-msgstr ""
-
-msgid "'s' must be a pair of numeric values"
 msgstr ""
