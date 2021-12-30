@@ -1,12 +1,12 @@
 #---- Index weights ----
-index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
-                                   "Dutot", "Laspeyres", "HybridLaspeyres",
+index_weights <- function(type = c("Carli", "Jevons", "Coggeshall", "Dutot", 
+                                   "Laspeyres", "HybridLaspeyres", "LloydMoulton",
                                    "Palgrave", "Paasche", "HybridPaasche",
                                    "Drobisch", "Unnamed", "Tornqvist",
                                    "Walsh1", "Walsh2", "MarshallEdgeworth",
                                    "GearyKhamis", "Vartia1", "MontgomeryVartia",
-                                   "Vartia2", "SatoVartia", "Lowe",
-                                   "Young", "LloydMoulton")) {
+                                   "Vartia2", "SatoVartia", "Theil", "Rao",
+                                   "Lowe", "Young")) {
   # return function
   res <- switch(
     match.arg(type),
@@ -23,15 +23,15 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     Paasche = function(p1, q1) p1 * q1,
     HybridPaasche = function(p0, q1) p0 * q1,
     Drobisch = function(p1, p0, q1, q0) {
-      v0 <- p0 * q0
-      v01 <- p0 * q1
-      (v0 / sum(v0, na.rm = TRUE) + v01 / sum(v01, na.rm = TRUE)) / 2
+      v0 <- scale_weights(p0 * q0)
+      v01 <- scale_weights(p0 * q1)
+      (v0 + v01) / 2
     },
     Unnamed = ,
     Tornqvist = function(p1, p0, q1, q0) {
-      v0 <- p0 * q0
-      v1 <- p1 * q1
-      (v0 / sum(v0, na.rm = TRUE) + v1 / sum(v1, na.rm = TRUE)) / 2
+      v0 <- scale_weights(p0 * q0)
+      v1 <- scale_weights(p1 * q1)
+      (v0 + v1) / 2
     },
     Walsh1 = function(p0, q1, q0) p0 * sqrt(q0 * q1),
     Walsh2 = function(p1, p0, q1, q0) sqrt(p0 * q0 * p1 * q1),
@@ -45,9 +45,19 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall",
     },
     Vartia2 = ,
     SatoVartia = function(p1, p0, q1, q0) {
-      v0 <- p0 * q0
-      v1 <- p1 * q1
-      logmean(v0 / sum(v0, na.rm = TRUE), v1 / sum(v1, na.rm = TRUE))
+      v0 <- scale_weights(p0 * q0)
+      v1 <- scale_weights(p1 * q1)
+      logmean(v0, v1)
+    },
+    Theil = function(p1, p0, q1, q0) {
+      w0 <- scale_weights(p0 * q0)
+      w1 <- scale_weights(p1 * q1)
+      ((w0 + w1) / 2 * w0 * w1)^(1 / 3)
+    },
+    Rao = function(p1, p0, q1, q0) {
+      w0 <- scale_weights(p0 * q0)
+      w1 <- scale_weights(p1 * q1)
+      w0 * w1 / (w0 + w1)
     }
   )
   # clean up enclosing environment
@@ -62,7 +72,7 @@ pythagorean_index <- function(r) {
                   c("Jevons", "Laspeyres", "Paasche",
                     "Tornqvist", "Vartia1", "MontgomeryVartia",
                     "Vartia2", "SatoVartia", "Walsh2",
-                    "Young"),
+                    "Young", "Theil", "Rao"),
                   c("Carli", "Dutot", "Laspeyres",
                     "Palgrave", "Drobisch", "Unnamed",
                     "Walsh1", "MarshallEdgeworth", "GearyKhamis",
@@ -89,7 +99,9 @@ pythagorean_index <- function(r) {
       Vartia2 = ,
       SatoVartia = ,
       Walsh2 = ,
-      Tornqvist = function(p1, p0, q1, q0, na.rm = FALSE)
+      Tornqvist = ,
+      Theil = ,
+      Rao = function(p1, p0, q1, q0, na.rm = FALSE)
         gen_mean(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
       Vartia1 = ,
       MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)

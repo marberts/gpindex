@@ -18,7 +18,7 @@ Almost all bilateral price indexes used in practice are either generalized-mean 
 }
 
 \section{Usage}{
-A generalized-mean price index is a weighted generalized mean of price relatives. Given a set of price relatives and weights, any generalized-mean price index is easily calculated with the \code{\link[=generalized_mean]{generalized_mean()}} function. What distinguishes different generalized-mean price indexes are the weights and the order of the generalized mean. For example, the standard Laspeyres index uses base-period value-share weights in a generalized mean of order 1 (arithmetic mean). Changing the order of the generalized mean to \eqn{1 - \sigma}{1 - \sigma}, where \eqn{\sigma}{\sigma} is an elasticity of substitution, gives a Lloyd-Moulton index, whereas changing the weights to current-period value-shares gives a Palgrave index. 
+A generalized-mean price index is a weighted generalized mean of price relatives. Given a set of price relatives and weights, any generalized-mean price index is easily calculated with the \code{\link[=generalized_mean]{generalized_mean()}} function. What distinguishes different generalized-mean price indexes are the weights and the order of the generalized mean. For example, the standard Laspeyres index uses base-period value-share weights in a generalized mean of order 1 (arithmetic mean). Changing the order of the generalized mean to \eqn{1 - \sigma}{1 - \sigma}, where \eqn{\sigma}{\sigma} is an elasticity of substitution, gives a Lloyd-Moulton index, whereas changing the weights to current-period value-shares gives a Palgrave index. This is the essence of the atomistic approach in chapter 2 of Selvanathan and Rao (1994).
 
 Generalized-mean indexes can also be nested together to get indexes like the Fisher, Drobisch, or AG mean index. The \code{\link[=nested_mean]{nested_mean()}} function is a simple wrapper for \code{\link[=generalized_mean]{generalized_mean()}} for these cases.
 
@@ -39,6 +39,8 @@ Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge Universit
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
+
+Selvanathan, E. A., and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 
 \seealso{

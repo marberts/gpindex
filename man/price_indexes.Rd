@@ -110,10 +110,12 @@ The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_inde
 \item Geometric Laspeyres
 \item Geometric Paasche
 \item Geometric Young
-\item Tornqvist
+\item Tornqvist (or Tornqvist-Theil)
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Walsh-II (geometric Walsh)
+\item Theil
+\item Rao
 \item \bold{Harmonic indexes}
 \item Coggeshall (equally weighted harmonic index)
 \item Paasche
@@ -143,13 +145,15 @@ The \code{index_weights()} function returns a function to calculate weights for 
 \item Geary-Khamis
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
+\item Theil
+\item Rao
 \item Lowe
 \item Young
 }
 
 The weights need not sum to 1, as this normalization isn't always appropriate (i.e., for the Vartia-I weights).
 
-Naming for the indexes and weights generally follows the CPI manual (2020) and Balk (2008). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
+Naming for the indexes and weights generally follows the CPI manual (2020), Balk (2008), and Selvanathan and Rao (1994). In several cases two or more names correspond to the same weights (e.g., Paasche and Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the examples.
 }
 
 \value{
@@ -170,6 +174,8 @@ Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin Company.
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
 von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
+
+Selvanathan, E. A., and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 
 \seealso{
@@ -403,6 +409,20 @@ all.equal(index_weights("SatoVartia")(p1, p0, q1, q0),
 
 all.equal(index_weights("Walsh2")(p1, p0, q1, q0),
           sqrt(p0 * q0 * p1 * q1))
+          
+# Theil
+
+all.equal(index_weights("Theil")(p1, p0, q1, q0),
+          {w0 <- scale_weights(p0 * q0);
+           w1 <- scale_weights(p1 * q1);
+           (w0 * w1 * (w0 + w1) / 2)^(1 / 3)})
+           
+# Rao
+
+all.equal(index_weights("Rao")(p1, p0, q1, q0),
+          {w0 <- scale_weights(p0 * q0);
+           w1 <- scale_weights(p1 * q1);
+           w0 * w1 / (w0 + w1)})
 
 # Lowe
 

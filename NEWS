@@ -1,8 +1,10 @@
-Changes in version 0.4.0
+Changes in version 0.4.1
 
 - The functions and overall structure of the package should be fairly stable from now on.
 
 - Added nested_transmute() and nested_transmute2() for transmuting the weights for nested generalized means. To be consistent with argument names, the first two arguments for nested_mean() and nested_contributions*() are now 'r1' and 'r2'.
+
+- Added the geometic Theil and Rao indexes.
 
 Changes in version 0.3.9
 
