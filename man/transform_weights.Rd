@@ -111,7 +111,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 \examples{
 x <- 1:3
 y <- 4:6
-w <- runif(3)
+w <- 3:1
 
 #---- Transforming generalized means ----
 
@@ -124,8 +124,8 @@ harmonic_mean(x, transmute_weights(0, -1)(x))
 
 # Works for nested means, too
 
-w1 <- runif(3)
-w2 <- runif(3)
+w1 <- 3:1
+w2 <- 1:3
 
 fisher_mean(x, w1, w2)
 

@@ -40,6 +40,8 @@ By definition, there must be at most one price for each product in each time per
 
 \seealso{
 \code{\link{outliers}} for common methods to detect outliers for price relatives.
+
+\code{\link{generalized_mean}} for the generalized mean.
 }
 
 \examples{

@@ -62,6 +62,8 @@ Rais, S. (2008). Outlier detection for the Consumer Price Index. \emph{Proceedin
 
 \seealso{
 \code{\link{grouped}} to make each of these functions operate on grouped data.
+
+\code{\link{back_price}}/\code{\link{base_price}} for a simple utility function to turn prices in a table into price relatives.
 }
 
 \examples{

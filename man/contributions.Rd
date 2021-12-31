@@ -199,4 +199,8 @@ agmean_contributions <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
 agmean_contributions(p1 / p0, 
                      index_weights("Laspeyres")(p0, q0), 
                      index_weights("Laspeyres")(p0, q0))
+                     
+# Or the Balk-Walsh index
+bw_contributions <- nested_contributions(0, c(0.5, -0.5))
+bw_contributions(p1 / p0)
 }

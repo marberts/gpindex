@@ -18,8 +18,8 @@ geometric_contributions <- contributions(0)
 harmonic_contributions <- contributions(-1)
 
 #---- Nested contributions ----
-nc <- function(method) {
-  nest_transmute <- switch(method, nested_transmute, nested_transmute2)
+nc <- function(nest_transmute) {
+  nest_transmute <- match.fun(nest_transmute)
   function(r1, r2, t = c(1, 1)) {
     arithmetic_weights <- nest_transmute(r1, r2, 1, t)
     # return function
@@ -32,9 +32,9 @@ nc <- function(method) {
     res
   }
 }
-nested_contributions <- nc(1)
+nested_contributions <- nc(nested_transmute)
 
-nested_contributions2 <- nc(2)
+nested_contributions2 <- nc(nested_transmute2)
 
 fisher_contributions <- nested_contributions(0, c(1, -1))
 
