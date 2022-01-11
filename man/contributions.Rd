@@ -55,9 +55,9 @@ The function \code{contributions()} is a simple wrapper for \code{\link[=transmu
 
 This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
 
-The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher or Harmonic Laspeyres Paasche index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized-mean indexes of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
+The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r} aggregates two generalized-mean indexes of \code{x} with orders \code{s}, and weights \code{w1} and \code{w2}.
 
-Unlike the case of a generalized-mean index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002) by Martin (2021). \code{nested_contributions2()} takes a slightly more general approach by constructing a weighed average of the contributions for both of the inner means. In most cases the results are broadly similar.
+Unlike the case of a generalized-mean index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002) by Martin (2021). \code{nested_contributions2()} generalizes the van IJzeren decomposition for the Fisher index (Balk, 2008, section 4.2.2) by constructing a weighted average of the contributions for both of the inner means with the approach by Martin (2021). In most cases the results are broadly similar.
 
 The \code{fisher_contributions()} and \code{fisher_contributions2()} functions correspond to \code{nested_contributions(0, c(1, -1))()} and \code{nested_contributions2(0, c(1, -1))()}, and are appropriate for calculating quote contributions for a Fisher index.
 }
@@ -201,6 +201,7 @@ agmean_contributions(p1 / p0,
                      index_weights("Laspeyres")(p0, q0))
                      
 # Or the Balk-Walsh index
+
 bw_contributions <- nested_contributions(0, c(0.5, -0.5))
 bw_contributions(p1 / p0)
 }

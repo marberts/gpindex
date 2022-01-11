@@ -32,6 +32,7 @@ nc <- function(nest_transmute) {
     res
   }
 }
+
 nested_contributions <- nc(nested_transmute)
 
 nested_contributions2 <- nc(nested_transmute2)

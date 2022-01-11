@@ -50,7 +50,7 @@ The function \code{transmute_weights()} returns a function to compute a vector o
 
 \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x, v(x, w1, w2))}
 
-This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these are usually the most important cases. See Martin (2021) for details. \code{nested_transmute2()} takes a slightly more general approach than \code{nested_transmute()}, similar to the van IJzeren arithmetic decomposition for the Fisher index in section 4.2.2 of Balk (2008), although in most cases the results are broadly similar.
+This generalizes the result for turning a geometric mean into an arithmetic mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these are usually the most important cases. See Martin (2021) for details. \code{nested_transmute2()} takes a slightly different approach than \code{nested_transmute()}, generalizing the van IJzeren arithmetic decomposition for the Fisher index in section 4.2.2 of Balk (2008) using the approach by Martin (2021), although in most cases the results are broadly similar.
 
 The function \code{factor_weights()} returns a function to compute weights \code{u(x, w)} such that 
 

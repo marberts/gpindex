@@ -161,6 +161,7 @@ Type 'q()' to quit R.
 [1]  0.02020872  0.18206588  0.06001941 -0.03256065  0.17841536 -0.01065698
 >
 > # Or the Balk-Walsh index
+>
 > bw_contributions <- nested_contributions(0, c(0.5, -0.5))
 > bw_contributions(p1 / p0)
 [1]  0.03304293  0.20895332  0.04762026 -0.06488592  0.06118424 -0.04046550
