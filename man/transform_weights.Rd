@@ -122,6 +122,14 @@ geometric_mean(x)
 arithmetic_mean(x, transmute_weights(0, 1)(x))
 harmonic_mean(x, transmute_weights(0, -1)(x))
 
+# Transmuting the weights for a harmonic mean into those
+# for an arithmetic mean is the same as using weights w / x
+
+all.equal(
+    scale_weights(transmute_weights(-1, 1)(x, w)),
+    scale_weights(w / x)
+)
+
 # Works for nested means, too
 
 w1 <- 3:1

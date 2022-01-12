@@ -1198,6 +1198,15 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 [1] 1.817121
 > harmonic_mean(x, transmute_weights(0, -1)(x))
 [1] 1.817121
+>
+> # Transmuting the weights for a harmonic mean into those
+> # for an arithmetic mean is the same as using weights w / x
+>
+> all.equal(
++     scale_weights(transmute_weights(-1, 1)(x, w)),
++     scale_weights(w / x)
++ )
+[1] TRUE
 > 
 > # Works for nested means, too
 > 
