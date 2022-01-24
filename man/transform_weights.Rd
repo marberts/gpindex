@@ -73,7 +73,7 @@ Both \code{x} and \code{w} should be strictly positive. This is not enforced, bu
 
 In each case this function augments the weights \code{w}.
 
-\code{nested_transmute()} similarly returns a function:
+\code{nested_transmute()} and \code{nested_transmute2()} similarly return a function:
 
 \preformatted{function(x, w1, w2){...}}
 

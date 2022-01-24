@@ -175,6 +175,8 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index
 
 von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
 
+von der Lippe, P. (2015). Generalized Statistical Means and New Price Index Formulas, Notes on some unexplored index formulas, their interpretations and generalizations. Munich Personal RePEc Archive paper no. 64952.
+
 Selvanathan, E. A., and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 
@@ -230,6 +232,11 @@ generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 # Or the exponential mean index (p. 64)
 
 log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
+
+# Or the arithmetic hybrid index (von der Lippe, 2015, p. 5)
+
+arithmetic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
+contraharmonic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 # Unlike its arithmetic counterpart, the geometric Laspeyres 
 # can increase when base-period prices increase if some of these 

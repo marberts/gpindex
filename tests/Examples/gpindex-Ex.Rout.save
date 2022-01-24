@@ -927,6 +927,13 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 [1] 1.013369
+>
+> # Or the arithmetic hybrid index (von der Lippe, 2015, p. 5)
+> 
+> arithmetic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
+[1] 1.084248
+> contraharmonic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
+[1] 1.084248
 > 
 > # Unlike its arithmetic counterpart, the geometric Laspeyres 
 > # can increase when base-period prices increase if some of these 

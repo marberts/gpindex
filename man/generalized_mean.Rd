@@ -37,7 +37,7 @@ The function \code{generalized_mean()} returns a function to compute the general
 
 The functions \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} compute the arithmetic, geometric, and harmonic (or subcontrary) means, also known as the Pythagorean means. These are the most useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{generalized_mean()}. 
 
-Both \code{x} and \code{w} should be strictly positive (and finite), especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean in not defined. There are two exceptions to this.
+Both \code{x} and \code{w} should be strictly positive (and finite), especially for the purpose of making a price index. This is not enforced, but the results may not make sense if the generalized mean is not defined. There are two exceptions to this.
 \enumerate{
 \item{The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x} has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and \code{r} < 0. (The analogous convention holds whenever at least one element of \code{x} is \code{Inf}: the generalized mean is \code{Inf} whenever \code{w} is strictly positive and \code{r > 0}.)} 
 

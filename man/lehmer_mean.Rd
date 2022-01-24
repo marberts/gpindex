@@ -27,13 +27,13 @@ contraharmonic_mean(x, w, na.rm = FALSE)
 }
 
 \details{
-The function \code{lehmer_mean()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \eqn{wx^{r-1}}{wx^(r-1)}. This is also called the counter-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
+The function \code{lehmer_mean()} returns a function to compute the Lehmer mean of order \code{r} of \code{x} with weights \code{w}, which is calculated as the arithmetic mean of \code{x} with weights \eqn{wx^{r-1}}{wx^(r-1)}. This is also called the counter-harmonic mean or generalized anti-harmonic mean. See Bullen (2003, p. 245) for a definition, or \url{https://en.wikipedia.org/wiki/Lehmer_mean}.
 
-The Lehmer mean of order 2 is sometimes called the contraharmonic mean. The function \code{contraharmonic_mean()} simply calls \code{lehmer_mean(2)()}. Like the generalized mean, the contraharmonic mean is the solution to an optimal prediction problem: choose \eqn{m}{m} to minimize \eqn{\sum_{i = 1}^{n} w_{i} \left(\frac{x_{i}}{m} - 1 \right)^2}{\sum w (x / m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation, replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x}, and together these bound the harmonic and arithmetic means.
+The Lehmer mean of order 2 is sometimes called the contraharmonic (or anti-harmonic) mean. The function \code{contraharmonic_mean()} simply calls \code{lehmer_mean(2)()}. Like the generalized mean, the contraharmonic mean is the solution to an optimal prediction problem: choose \eqn{m}{m} to minimize \eqn{\sum_{i = 1}^{n} w_{i} \left(\frac{x_{i}}{m} - 1 \right)^2}{\sum w (x / m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation, replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x}, and together these bound the harmonic and arithmetic means.
 
 Both \code{x} and \code{w} should be strictly positive. This is not enforced, but the results may not make sense if the generalized mean in not defined. 
 
-The Lehmer mean is an alternative to the generalized mean that generalizes the Pythagorean means. The function \code{lehmer_mean(1)()} is identical to \code{arithmetic_mean()}, \code{lehmer_mean(0)()} is identical to \code{harmonic_mean()}, and \code{lehmer_mean(0.5)()} is identical to \code{geometric_mean()} with two values and no weights.
+The Lehmer mean is an alternative to the generalized mean that generalizes the Pythagorean means. The function \code{lehmer_mean(1)()} is identical to \code{arithmetic_mean()}, \code{lehmer_mean(0)()} is identical to \code{harmonic_mean()}, and \code{lehmer_mean(0.5)()} is identical to \code{geometric_mean()} with two values and no weights. See von der Lippe (2015) for more details on the use of these means for making price indexes.
 }
 
 \value{
@@ -54,6 +54,8 @@ This computes the Lehmer mean of order \code{r} of \code{x} with weights \code{w
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}. Springer Science+Business Media.
 
 Lehmer, D. H. (1971). On the Compounding of Certain Means. \emph{Journal of Mathematical Analysis and Applications}, 36(1): 183-200.
+
+von der Lippe, P. (2015). Generalized Statistical Means and New Price Index Formulas, Notes on some unexplored index formulas, their interpretations and generalizations. Munich Personal RePEc Archive paper no. 64952.
 }
 
 \seealso{

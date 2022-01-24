@@ -5,7 +5,7 @@
 \title{Nested generalized mean}
 
 \description{
-Calculate the (outer) generalized mean of two (inner) generalized means.
+Calculate the (outer) generalized mean of two (inner) generalized means (i.e., crossing generalized means).
 }
 
 \usage{
