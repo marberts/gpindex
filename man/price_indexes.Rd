@@ -177,7 +177,7 @@ von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, S
 
 von der Lippe, P. (2015). Generalized Statistical Means and New Price Index Formulas, Notes on some unexplored index formulas, their interpretations and generalizations. Munich Personal RePEc Archive paper no. 64952.
 
-Selvanathan, E. A., and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
+Selvanathan, E. A. and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 
 \seealso{

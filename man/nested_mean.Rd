@@ -49,7 +49,7 @@ Diewert, W. E. (1976). Exact and superlative index numbers. \emph{Journal of Eco
 
 ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index Manual: Theory and Practice}. International Monetary Fund.
 
-Lent, J. and Dorfman, A, H. (2009). Using a weighted average of base period price indexes to approximate a superlative index. \emph{Journal of Official Statistics}, 25(1):139--149.
+Lent, J. and Dorfman, A. H. (2009). Using a weighted average of base period price indexes to approximate a superlative index. \emph{Journal of Official Statistics}, 25(1):139--149.
 }
 
 \seealso{

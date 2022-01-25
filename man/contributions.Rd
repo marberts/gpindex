@@ -87,7 +87,7 @@ Martin, S. (2021). A note on general decompositions for price indexes. \emph{Pri
 
 Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Tornqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
 
-Webster, M., and Tarnow-Mordi, R. C. (2019). Decomposing multilateral price indexes into the contributions of individual commodities. \emph{Journal of Official Statistics}, 35(2):461--486.
+Webster, M. and Tarnow-Mordi, R. C. (2019). Decomposing multilateral price indexes into the contributions of individual commodities. \emph{Journal of Official Statistics}, 35(2):461--486.
 }
 
 \seealso{

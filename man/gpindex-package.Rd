@@ -40,7 +40,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price Index
 
 von der Lippe, P. (2001). \emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
 
-Selvanathan, E. A., and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
+Selvanathan, E. A. and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 
 \seealso{
