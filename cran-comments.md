@@ -6,9 +6,7 @@
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs.
-
-One NOTE about possibly misspelled words in DESCRIPTION. This can be ignored, as these words are spelled correctly.
+There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
