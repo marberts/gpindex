@@ -32,6 +32,42 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm,
   res
 }
 
+geks_matrix2 <- function(index, p, q, product, n, nper, na.rm,
+                        parallel, ncpus, cl) {
+  lt <- vector("list", nper)
+  # only the last n + 1 rows are needed, so pad the top with 1s
+  ones <- seq_len(nper) < max(nper - n, 2)
+  lt[ones] <- list(rep_len(1, nper))
+  # making base prices/quantities is the slowest part of the calculation;
+  # the algorithm calculates the lower-triangular part of the GEKS matrix
+  # to avoid making relatives with different bases, then uses the 
+  # time-reversal property of the 'index' function
+  geks_lt <- function(i) {
+    js <- seq_len(i - 1)
+    pad <- rep_len(1, nper - i + 1)
+    # matching is only done for the lower-triangular part of the matrix
+    m <- .mapply(match, list(product[js], product[i]), list(incomparables = NA))
+    bp <- .mapply(`[`, list(p[i], m), list())
+    bq <- .mapply(`[`, list(q[i], m), list())
+    ans <- .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
+    c(unlist(ans, use.names = FALSE), pad)
+  }
+  rows <- seq_len(nper)[!ones]
+  if (parallel == "no") {
+    lt[rows] <- lapply(rows, geks_lt)
+  } else if (parallel == "mc") {
+    lt[rows] <- mclapply(rows, geks_lt, mc.cores = ncpus, mc.preschedule = FALSE)
+  } else if (parallel == "snow") {
+    lt[rows] <- parLapplyLB(cl, rows, geks_lt)
+    stopCluster(cl)
+  } 
+  res <- do.call(rbind, lt)
+  rownames(res) <- colnames(res) <- names(p)
+  # exploit time-reversal
+  res[upper.tri(res)] <- 1 / t(res)[upper.tri(res)]
+  res
+}
+
 geks <- function(f) {
   f <- match.fun(f)
   # return function
