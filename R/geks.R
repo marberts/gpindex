@@ -1,10 +1,11 @@
-geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
+geks_matrix <- function(index, p, q, product, n, nper, na.rm,
+                        parallel, ncpus, cl) {
+  rows <- seq_len(nper)
   # making base prices/quantities is the slowest part of the calculation;
   # the algorithm calculates the lower-triangular part of the GEKS matrix
   # to avoid making relatives with different bases, then uses the 
   # time-reversal property of the 'index' function
-  rows <- seq_len(nper)
-  lt <- lapply(rows, function(i) {
+  geks_lt <- function(i) {
     # only the last n + 1 rows are needed, so pad the top with 1s
     if (i < max(nper - n, 2)) return(rep_len(1, nper))
     js <- seq_len(i - 1)
@@ -15,7 +16,15 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
     bq <- .mapply(`[`, list(q[i], m), list())
     ans <- .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
     c(unlist(ans, use.names = FALSE), pad)
-  })
+  }
+  if (parallel == "no") {
+    lt <- lapply(rows, geks_lt)
+  } else if (parallel == "mc") {
+    lt <- mclapply(rows, geks_lt, mc.cores = ncpus, mc.preschedule = FALSE)
+  } else if (parallel == "snow") {
+    lt <- parLapplyLB(cl, rows, geks_lt)
+    stopCluster(cl)
+  } 
   res <- do.call(rbind, lt)
   rownames(res) <- colnames(res) <- names(p)
   # exploit time-reversal
@@ -26,10 +35,12 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
 geks <- function(f) {
   f <- match.fun(f)
   # return function
-  function(p, q, period, product, window = nlevels(period), n = window - 1, na.rm = FALSE) {
+  function(p, q, period, product, window = nlevels(period), n = window - 1, na.rm = FALSE,
+           parallel = c("no", "mc", "snow"), ncpus = 1, cl = makeCluster(ncpus)) {
     if (different_lengths(p, q, period, product)) {
       stop(gettext("'p', 'q', 'period', and 'product' must be the same length"))
     }
+    parallel <- match.arg(parallel)
     period <- as.factor(period)
     nper <- nlevels(period)
     if (!nper) return(list())
@@ -50,14 +61,15 @@ geks <- function(f) {
     p <- split(p, period)
     q <- split(q, period)
     product <- as.factor(product)
-    attributes(product) <- NULL # faster to match on integer codes
+    attributes(product) <- NULL # faster to match on numeric codes
     product <- split(product, period)
     windows <- rolling_window(nper, window)
     keep <- seq(window - n, window) # only the last n + 1 indexes in the window need to be kept
     res <- vector("list", length(windows))
     for (i in seq_along(res)) {
       w <- windows[[i]]
-      mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm)
+      mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm,
+                         parallel, ncpus, cl)
       mat <- apply(mat[, keep, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
       res[[i]] <- mat[-1L] / mat[-length(mat)]
     }

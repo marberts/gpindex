@@ -17,10 +17,12 @@ geks(f)
 
 ## Special cases
 tornqvist_geks(p, q, period, product, 
-               window = nlevels(period), n = window - 1, na.rm = FALSE)
+               window = nlevels(period), n = window - 1, na.rm = FALSE,
+               parallel = c("no", "mc", "snow"), ncpus = 1, cl = makeCluster(ncpus))
 
 fisher_geks(p, q, period, product, 
-            window = nlevels(period), n = window - 1, na.rm = FALSE)
+            window = nlevels(period), n = window - 1, na.rm = FALSE,
+            parallel = c("no", "mc", "snow"), ncpus = 1, cl = makeCluster(ncpus))
 }
 
 \arguments{
@@ -32,6 +34,9 @@ fisher_geks(p, q, period, product,
 \item{window}{The length of the rolling window. The default is a window that encompasses all periods in \code{period}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
 \item{n}{A number giving the length of the index series for each window. For example, if there are 13 periods in \code{window}, setting \code{n = 1} gives the index for period 13. The default gives an index for each period in \code{window}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
 \item{na.rm}{Should missing values for \code{p} and \code{q} be removed when calculating the index? By default missing values will return a missing value for the index.}
+\item{parallel}{One of \code{"no"} to compute the index in serial (the default), \code{"mc"} to use the multicore functionality in \pkg{parallel}, or \code{"snow"} to use the clusters functionality in \pkg{parallel}.}
+\item{ncpus}{Number of cpus to use for computing the index if \code{parallel} is not \code{"no"}, with a default of 1.}
+\item{cl}{A cluster that can be used in \code{\link[=parLapply]{parLapply()}} for computing the index in parallel. Only applies if \code{parallel = "snow"}.}
 }
 
 \value{
@@ -39,7 +44,8 @@ fisher_geks(p, q, period, product,
 
 \preformatted{
 function(p, q, period, product, 
-         window = nlevels(period), n = window - 1, na.rm = FALSE){...}
+         window = nlevels(period), n = window - 1, na.rm = FALSE,
+         parallel = c("no", "mc". "snow"), ncpus = 1, cl = makeCluster(ncpus)){...}
 }
 
 This calculates a period-over-period GEKS index with the desired index-number formula, returning a list for each window with a named-numeric vector of index values.

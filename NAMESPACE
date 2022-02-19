@@ -17,3 +17,4 @@ export(generalized_mean, arithmetic_mean, geometric_mean, harmonic_mean,
 
 importFrom(stats, quantile, mad, median, complete.cases)
 importFrom(utils, globalVariables)
+importFrom(parallel, mclapply, parLapplyLB, makeCluster, stopCluster)
