@@ -6,6 +6,8 @@ inr <- requireNamespace("IndexNumR", quietly = TRUE)
 all.equal(fisher_geks(integer(0), numeric(0), logical(0), character(0)),
           list())
 
+fisher_geks(integer(0), numeric(0), factor(logical(0), levels = 1:5), character(0))
+
 tornqvist_geks(1:2, 1:2, letters[1:2], c(1, 1))
 
 # Compare with the IndexNumR::GEKSIndex

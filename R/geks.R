@@ -34,10 +34,6 @@ geks_matrix <- function(index, p, q, product, n, nper, na.rm,
 
 geks_matrix2 <- function(index, p, q, product, n, nper, na.rm,
                         parallel, ncpus, cl) {
-  lt <- vector("list", nper)
-  # only the last n + 1 rows are needed, so pad the top with 1s
-  ones <- seq_len(nper) < max(nper - n, 2)
-  lt[ones] <- list(rep_len(1, nper))
   # making base prices/quantities is the slowest part of the calculation;
   # the algorithm calculates the lower-triangular part of the GEKS matrix
   # to avoid making relatives with different bases, then uses the 
@@ -52,14 +48,17 @@ geks_matrix2 <- function(index, p, q, product, n, nper, na.rm,
     ans <- .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
     c(unlist(ans, use.names = FALSE), pad)
   }
+  lt <- vector("list", nper)
+  # only the last n + 1 rows are needed, so pad the top with 1s
+  ones <- seq_len(nper) < max(nper - n, 2)
+  lt[ones] <- list(rep_len(1, nper))
   rows <- seq_len(nper)[!ones]
-  if (parallel == "no") {
-    lt[rows] <- lapply(rows, geks_lt)
+  lt[rows] <- if (parallel == "no") {
+    lapply(rows, geks_lt)
   } else if (parallel == "mc") {
-    lt[rows] <- mclapply(rows, geks_lt, mc.cores = ncpus, mc.preschedule = FALSE)
+    mclapply(rows, geks_lt, mc.cores = ncpus, mc.preschedule = FALSE)
   } else if (parallel == "snow") {
-    lt[rows] <- parLapplyLB(cl, rows, geks_lt)
-    stopCluster(cl)
+    parLapplyLB(cl, rows, geks_lt)
   } 
   res <- do.call(rbind, lt)
   rownames(res) <- colnames(res) <- names(p)
@@ -77,6 +76,10 @@ geks <- function(f) {
       stop(gettext("'p', 'q', 'period', and 'product' must be the same length"))
     }
     parallel <- match.arg(parallel)
+    if (parallel == "snow") {
+      force(cl)
+      on.exit(stopCluster(cl))
+    }
     period <- as.factor(period)
     nper <- nlevels(period)
     if (!nper) return(list())
@@ -104,7 +107,7 @@ geks <- function(f) {
     res <- vector("list", length(windows))
     for (i in seq_along(res)) {
       w <- windows[[i]]
-      mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm,
+      mat <- geks_matrix2(f, p[w], q[w], product[w], n, window, na.rm,
                          parallel, ncpus, cl)
       mat <- apply(mat[, keep, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
       res[[i]] <- mat[-1L] / mat[-length(mat)]
