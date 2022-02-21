@@ -23,7 +23,25 @@ Type 'q()' to quit R.
 > all.equal(fisher_geks(integer(0), numeric(0), logical(0), character(0)),
 +           list())
 [1] TRUE
+>
+> fisher_geks(integer(0), numeric(0), factor(logical(0), 1:5), character(0))
+[[1]]
+  2   3   4   5 
+NaN NaN NaN NaN 
+
 > 
+> fisher_geks(c(1, 5, 4, 2, 3, 6, 1, 2), 
++             c(1, 1, 2, 2, 1, 2, 3, 1), 
++             c(1, 1, 1, 1, 2, 2, 2, 2),
++             c("a", "b", "c", "d", "a", "b", "c", "d"))
+[[1]]
+        2 
+0.8164966 
+
+> 
+> fisher_index(c(3, 6, 1, 2), c(1, 5, 4, 2), c(1, 2, 3, 1), c(1, 1, 2, 2))
+[1] 0.8164966
+>
 > tornqvist_geks(1:2, 1:2, letters[1:2], c(1, 1))
 [[1]]
 b 

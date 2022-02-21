@@ -1,25 +1,33 @@
-geks_matrix <- function(index, p, q, product, n, nper, na.rm) {
+geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
   # making base prices/quantities is the slowest part of the calculation;
   # the algorithm calculates the lower-triangular part of the GEKS matrix
   # to avoid making relatives with different bases, then uses the 
   # time-reversal property of the 'index' function
   rows <- seq_len(nper)
   lt <- lapply(rows, function(i) {
-    # only the last n + 1 rows are needed, so pad the top with 1s
-    if (i < max(nper - n, 2)) return(rep_len(1, nper))
-    js <- seq_len(i - 1)
-    pad <- rep_len(1, nper - i + 1)
+    ans <- if (i < max(window - n, 2)) {
+      # only the last n + 1 rows are needed for each window, 
+      # so pad the top with NAs
+      rep_len(NA_real_, i - 1L)
+    } else {
+      js <- seq(to = i - 1L, length.out = min(window, i) - 1L)
+      m <- .mapply(match, list(product[js], product[i]), list(incomparables = NA))
+      bp <- .mapply(`[`, list(p[i], m), list())
+      bq <- .mapply(`[`, list(q[i], m), list())
+      .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
+    }
+    # add the diagonal at the end
+    ans <- c(unlist(ans, use.names = FALSE), 1)
+    front_pad <- rep_len(NA_real_, max(i - window, 0))
+    back_pad <- rep_len(NA_real_, nper - length(ans) - length(front_pad))
     # matching is only done for the lower-triangular part of the matrix
-    m <- .mapply(match, list(product[js], product[i]), list(incomparables = NA))
-    bp <- .mapply(`[`, list(p[i], m), list())
-    bq <- .mapply(`[`, list(q[i], m), list())
-    ans <- .mapply(index, list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq), list(na.rm = na.rm))
-    c(unlist(ans, use.names = FALSE), pad)
+    c(front_pad, ans, back_pad)
   })
   res <- do.call(rbind, lt)
   rownames(res) <- colnames(res) <- names(p)
   # exploit time-reversal
-  res[upper.tri(res)] <- 1 / t(res)[upper.tri(res)]
+  ut <- upper.tri(res)
+  res[ut] <- 1 / t(res)[ut]
   res
 }
 
@@ -52,14 +60,13 @@ geks <- function(f) {
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on integer codes
     product <- split(product, period)
-    windows <- rolling_window(nper, window)
-    keep <- seq(window - n, window) # only the last n + 1 indexes in the window need to be kept
-    res <- vector("list", length(windows))
+    mat <- geks_matrix(f, p, q, product, n, nper, window, na.rm)
+    rows <- seq_len(window) - 1L
+    cols <- seq(window - n, window) - 1L # only the last n + 1 indexes in the window need to be kept
+    res <- vector("list", nper - window + 1)
     for (i in seq_along(res)) {
-      w <- windows[[i]]
-      mat <- geks_matrix(f, p[w], q[w], product[w], n, window, na.rm)
-      mat <- apply(mat[, keep, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
-      res[[i]] <- mat[-1L] / mat[-length(mat)]
+      a <- apply(mat[rows + i, cols + i, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
+      res[[i]] <- a[-1L] / a[-length(a)]
     }
     res
   }
