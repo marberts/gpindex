@@ -41,8 +41,3 @@ wpow <- function(x, w, r) {
     eval(bquote(substitute(w * x^.(r))))
   }
 }
-
-#---- Geks helpers ----
-to_scalar <- function(x) {
-  trunc(as.numeric(x[1L]))
-}
