@@ -10,7 +10,7 @@ Operators to augment the way a function behaves.
 \itemize{
 \item{\code{quantity_index()} remaps price arguments into quantity argument (and vice versa) to turn a price index into a quantity index.}
 \item{\code{grouped()} makes a function applicable to grouped data.}
-\item{\code{balanced()} makes a function balance multiple input vectors when removing \code{NA}s.}
+\item{\code{balanced()} makes a function balance the removal of \code{NA}s across multiple input vectors.}
 }
 }
 
@@ -50,6 +50,7 @@ p0 <- price6[[2]]
 q1 <- quantity6[[3]]
 q0 <- quantity6[[2]]
 
+#---- Quantity index ----
 # Remap argument names to be quantities rather than prices
 
 quantity_index(laspeyres_index)(q1 = q1, q0 = q0, p0 = p0)
@@ -60,9 +61,10 @@ laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
 
 quantity_index(index_weights("Laspeyres"))(q0 = q0, p0 = p0)
 
+#---- Grouped ----
 # Calculate Tornqvist weights for two groups
 
-f <- rep(letters[1:2], each = 3)
+f <- factor(rep(letters[1:2], each = 3))
 tornqvist_weights <- grouped(index_weights("Tornqvist"))
 tornqvist_weights(p1, p0, q1, q0, group = f)
 
@@ -73,6 +75,17 @@ w <- c(1:5, NA)
 grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
 grouped_mean(x, w, group = f)
 
+# Redistribute weights
+
+w1 <- c(2, 4)
+w2 <- 1:6
+
+harmonic_mean(mapply(harmonic_mean, split(x, f), split(w2, f)), w1)
+
+wr <- grouped(scale_weights)(w2, group = f) * w1[f]
+harmonic_mean(x, wr)
+
+#---- Balanced ----
 # Balance missing values for a Fisher index
 
 fisher <- balanced(fisher_index)
