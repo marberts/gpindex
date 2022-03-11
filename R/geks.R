@@ -43,14 +43,14 @@ geks <- function(f) {
     period <- as.factor(period)
     nper <- nlevels(period)
     if (!nper) return(list())
-    window <- as.integer(window[1])
+    window <- as.integer(window[1L])
     if (window < 2L) {
       stop(gettext("'window' must be greater than or equal to 2"))
     }
     if (window > nper) {
       stop(gettext("'window' must be less than or equal to the number of levels in 'period'"))
     }
-    n <- as.integer(n[1])
+    n <- as.integer(n[1L])
     if (n < 1L) {
       stop(gettext("'n' must be greater than or equal to 1"))
     }
@@ -69,8 +69,8 @@ geks <- function(f) {
     res <- vector("list", nper - window + 1L)
     # move down the diagonal to make the geks index
     for (i in seq_along(res)) {
-      a <- apply(mat[rows + i, cols + i, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
-      res[[i]] <- a[-1L] / a[-length(a)]
+      index <- apply(mat[rows + i, cols + i, drop = FALSE], 2L, geometric_mean, na.rm = na.rm)
+      res[[i]] <- index[-1L] / index[-length(index)]
     }
     res
   }
