@@ -62,6 +62,9 @@ geks <- function(f) {
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on numeric codes
     product <- split(product, period)
+    if (max(vapply(product, anyDuplicated, numeric(1L), incomparables = NA))) {
+      warning(gettext("there are duplicated period-product pairs"))
+    }
     mat <- geks_matrix(f, p, q, product, n, nper, window, na.rm)
     rows <- seq_len(window) - 1L
     # only the last n + 1 indexes in each window need to be kept

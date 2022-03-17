@@ -23,7 +23,7 @@
 \title{Price indexes}
 
 \description{
-Calculate a variety of price indexes using information on prices and quantities.
+Calculate a variety of price indexes using information on prices and quantities at two points in time.
 }
 
 \usage{
@@ -190,6 +190,10 @@ Selvanathan, E. A. and Rao, D. S. P. (1994). \emph{Index Numbers: A Stochastic A
 \code{\link{quantity_index}} to remap the arguments in these functions for a quantity index.
 
 \code{\link{geks}} for making a GEKS index based on, e.g., the Fisher index.
+
+\code{\link{price6}} for an example of how to use these functions with more than two time periods.
+
+The \pkg{piar} package has more functionality working with price indexes for multiple groups of products over many time periods.
 }
 
 \examples{

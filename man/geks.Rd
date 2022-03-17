@@ -47,6 +47,10 @@ This calculates a period-over-period GEKS index with the desired index-number fo
 \code{tornqvist_geks()} and \code{fisher_geks()} both return a list with a named numeric vector giving the value of the respective period-over-period GEKS index for each window.
 }
 
+\note{
+Like \code{\link[=back_period]{back_period}}, if multiple prices correspond to a period-product pair, then the back price at a point in time is always the first price for that product in the previous period. Unlike a bilateral index, however, duplicated period-product pairs can have more subtle implications for a multilateral index.
+}
+
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
