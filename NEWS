@@ -1,3 +1,9 @@
+Changes in version 0.4.3
+
+- back_price() and base_price() are deprecated in favor of the more general back_period() and base_period() functions. They will be removed in a future version.
+
+- The algorithm for making GEKS indexes is now much faster with a rolling window.
+
 Changes in version 0.4.2
 
 - The functions and overall structure of the package should be fairly stable from now on.

@@ -96,7 +96,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link{price_index}} and \code{\link{quantity_index}} for simple wrappers that use \code{generalized_mean()} to calculate common indexes.
 
-\code{\link{back_price}}/\code{\link{base_price}} for a simple utility function to turn prices in a table into price relatives.
+\code{\link{back_period}}/\code{\link{base_period}} for a simple utility function to turn prices in a table into price relatives.
 }
 
 \examples{

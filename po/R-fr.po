@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gpindex 0.3.2\n"
-"POT-Creation-Date: 2021-12-19 14:29\n"
+"POT-Creation-Date: 2022-04-01 22:32\n"
 "PO-Revision-Date: 2021-07-13\n"
 "Last-Translator: Steve Martin <stevemartin041@gmail.com>\n"
 "Language-Team: none\n"
@@ -25,6 +25,9 @@ msgstr "'n' doit être supérieur ou égal à 1"
 
 msgid "'n' must be less than or equal to 'window' minus 1"
 msgstr "'n' doit être inférieur ou égal à 'window' moins 1"
+
+msgid "there are duplicated period-product pairs"
+msgstr "il existe des paires période-produit en double"
 
 msgid "'r' must be a finite length 1 numeric"
 msgstr "'r' doit être un nombre fini de longueur 1"
@@ -62,6 +65,17 @@ msgstr "'r2' doit être une paire de valeurs numériques"
 msgid "'t' must be a pair of numeric values"
 msgstr "'t' doit être une paire de valeurs numériques"
 
+msgid "'period' and 'product' must be the same length"
+msgstr "'period' et 'product' doivent avoir la même longueur"
+
+msgid ""
+"back_price()/base_price() are deprecated; use back_period()/base_period() "
+"instead"
+msgstr "back_price()/base_price() est obsolète; utilisez back_period()/base_period() à la place"
+
+msgid "all arguments must be the same length"
+msgstr "tous les arguments doivent avoir la même longueur"
+
 msgid "'f' already has an argument called 'group'"
 msgstr "'f' a déjà un argument appelé 'group'"
 
@@ -70,12 +84,3 @@ msgstr "'a' doit être un nombre fini de longueur 1"
 
 msgid "'b' must be a finite length 1 numeric"
 msgstr "'b' doit être un nombre fini de longueur 1"
-
-msgid "'period' and 'product' must be the same length"
-msgstr "'period' et 'product' doivent avoir la même longueur"
-
-msgid "there are duplicated period-product pairs"
-msgstr "il existe des paires période-produit en double"
-
-msgid "all arguments must be the same length"
-msgstr "tous les arguments doivent avoir la même longueur"

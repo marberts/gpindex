@@ -30,7 +30,7 @@ hb_transform(x)
 }
 
 \arguments{
-\item{x}{A strictly positive numeric vector of price relatives. These can be made with, e.g., \code{\link[=back_price]{back_price()}}.}
+\item{x}{A strictly positive numeric vector of price relatives. These can be made with, e.g., \code{\link[=back_period]{back_period()}}.}
 \item{cu, cl}{A numeric vector giving the upper and lower cutoffs for each element of \code{x}. The usual recycling rules apply.}
 \item{a}{A numeric vector between 0 and 1 giving the scale factor for the median to establish the minimum dispersion between quartiles for each element of \code{x}. The default does not set a minimum dispersion. The usual recycling rules apply.}
 \item{type}{See \code{\link{quantile}}.}
@@ -63,7 +63,7 @@ Rais, S. (2008). Outlier detection for the Consumer Price Index. \emph{Proceedin
 \seealso{
 \code{\link{grouped}} to make each of these functions operate on grouped data.
 
-\code{\link{back_price}}/\code{\link{base_price}} for a simple utility function to turn prices in a table into price relatives.
+\code{\link{back_period}}/\code{\link{base_period}} for a simple utility function to turn prices in a table into price relatives.
 }
 
 \examples{

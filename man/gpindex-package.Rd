@@ -26,7 +26,7 @@ Two important functions for decomposing generalized means are given by \code{\li
 
 On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with \code{\link[=index_weights]{index_weights()}}, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The \code{\link{price_index}} functions provide a simple wrapper, with the \code{\link[=quantity_index]{quantity_index()}} function turning each of these into its analogous quantity index.
 
-There are several utility functions for making price relatives (e.g., \code{\link[=back_price]{back_price()}}) when data are stored in a table, and identifying extreme price relatives (e.g., \code{\link[=resistant_fences]{resistant_fences()}}) that may not be suitable for a price index. All functions can be made to work with grouped data with the \code{\link[=grouped]{grouped()}} operator.
+There are utility functions for making price relatives (e.g., \code{\link[=back_period]{back_period()}}) when data are stored in a table, and identifying extreme price relatives (e.g., \code{\link[=resistant_fences]{resistant_fences()}}) that may not be suitable for a price index. All functions can be made to work with grouped data with the \code{\link[=grouped]{grouped()}} operator.
 }
 
 \section{Contribution}{

@@ -1,41 +1,41 @@
 \name{offset_prices}
-\alias{back_price}
-\alias{base_price}
 \alias{back_period}
 \alias{base_period}
+\alias{back_price}
+\alias{base_price}
 
 \title{Offset prices}
 
 \description{
-Utility functions to offset a vector of prices, computing either the price in the previous period (back price), or the price in the first period (base price). Useful when price information is stored in a table. (Works well for quantities, too.)
+Utility functions to offset vectors of prices and quantities. For each product, these compute either the index for the previous period (back period), or the index for the first period (base period). Useful when price information is stored in a table.
 }
 
 \usage{
-back_price(x, period, product = gl(1, length(x)))
-
-base_price(x, period, product = gl(1, length(x)))
-
 back_period(period, product = gl(1, length(period)))
 
 base_period(period, product = gl(1, length(period)))
+
+back_price(x, period, product = gl(1, length(x))) # deprecated
+
+base_price(x, period, product = gl(1, length(x))) # deprecated
 }
 
 \arguments{
+\item{period}{A factor, or something that can be coerced into one, that gives the time period for each transaction. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
+
+\item{product}{A factor, or something that can be coerced into one, that gives the product identifier for each transaction. The default is to assume that all transactions are for the same product.}
+
 \item{x}{An atomic vector of prices.}
-
-\item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{x}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
-
-\item{product}{A factor, or something that can be coerced into one, that gives the corresponding product identifier for each element in \code{x}. The default is to assume that all prices are for the same product.}
 }
 
 \value{
-\code{back_price()} and \code{base_price()} return an offset copy of \code{x}. With \code{back_price()}, for all periods after the first, the resulting vector gives the value of \code{x} for the corresponding product in the previous period. For the first time period, the resulting vector is the same as \code{x}. With \code{base_price()}, the resulting vector gives the value of \code{x} for the corresponding product in the first period.
+\code{back_period()} and \code{base_period()} return a numeric vector of indices for the back/base periods. With \code{back_period()}, for all periods after the first, the resulting vector gives the location of the corresponding product in the previous period. The locations are unchanged for the first time period. With \code{base_period()}, the resulting vector gives the location of the corresponding product in the first period.
 
-\code{back_period()} and \code{base_period()} return a numeric vector of indices for the back/base periods.
+\code{back_price()} and \code{base_price()} return an offset copy of \code{x}. 
 }
 
 \note{
-By definition, there must be at most one price for each product in each time period to determine a back price. If multiple prices correspond to a period-product pair, then the back price at a point in time is always the first price for that product in the previous period.
+By definition, there must be at most one transaction for each product in each time period to determine a back period. If multiple transactions correspond to a period-product pair, then the back period at a point in time is always the first location for that product in the previous period.
 }
 
 \seealso{
@@ -45,30 +45,26 @@ By definition, there must be at most one price for each product in each time per
 }
 
 \examples{
-dat <- data.frame(price = 1:4, 
-                  product = c("a", "b", "a", "b"), 
-                  period = c(1, 1, 2, 2))
+df <- data.frame(price = 1:6, 
+                 product = factor(c("a", "b")), 
+                 period = factor(c(1, 1, 2, 2, 3, 3)))
 
-with(dat, back_price(price, period, product))
+with(df, back_period(period, product))
 
-# (Almost) identical to indexing with the back period
+# Make period-over-period price relatives
 
-with(dat, price[back_period(period, product)])
+with(df, price / price[back_period(period, product)])
 
-# Identical to the price in the base period with only two periods
+# Make fixed-base price relatives
 
-with(dat, base_price(price, period, product))
+with(df, price / price[base_period(period, product)])
 
-# Reorder time periods by setting the levels in 'period'
+# Change the base period with relevel()
 
-with(dat, back_price(price, factor(period, levels = 2:1), product))
-
-# Calculate price relatives
-
-with(dat, price / back_price(price, period, product))
+with(df, price / price[base_period(relevel(period, "2"), product)])
 
 # Warning is given if the same product has multiple prices 
 # at any point in time
 
-with(dat, price / back_price(price, period))
+with(df, back_period(period))
 }
