@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.4.2.9005
+Version: 0.4.2.9006
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com", comment = c(ORCID = "0000-0003-2544-9480"))
     )

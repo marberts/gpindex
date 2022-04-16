@@ -64,6 +64,14 @@ all.equal(cumprod(as.numeric(unlist(with(dat, geks(arithmetic_index("Walsh1"))(p
               c(1.0566699129383, 1.11378295838144, 1.17139426903106, 1.22956960896297, 1.28838882562161, 1.34795095779689, 1.40838221049365, 1.46984928172641, 1.53258374680655, 1.59693277586978, 1.66348762735518, 1.7335492978583)
           })
 
+(test <- with(dat, geks(arithmetic_index("Walsh1"))(price, quantity, period, product, 10, 3)))
+all.equal(cumprod(as.numeric(unlist(as.numeric(c(test[[1]], test[[2]][3], test[[3]][3], test[[4]][3]))))), 
+          if (inr) {
+            {res <- as.numeric(IndexNumR::GEKSIndex(dat, "price", "quantity", "period", "walsh", prodID = "product", window = 10, splice = "movement")); res[8:13] / res[7]}
+          } else {
+            c(1.044688300757481, 1.090268005747500, 1.136945278111909, 1.184556889920806, 1.233276530383314, 1.283484684164579)
+          })
+
 dat <- dat[-c(2:3, 7, 15, 64), ]
 
 all.equal(cumprod(as.numeric(unlist(with(dat, geks(balanced(geometric_index("Tornqvist")))(price, quantity, period, product, na.rm = TRUE))))), 
