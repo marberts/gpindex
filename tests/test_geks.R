@@ -101,3 +101,13 @@ all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, produc
 
 all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
           with(dat, geks(balanced(quantity_index(fisher_index)))(period, p = quantity, product, na.rm = TRUE, q = price)))
+
+# 'n' shouldn't change subsequent values
+all.equal(with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 7)[[1]]),
+          with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE))[[1]][6:12])
+
+all.equal(with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 7)[[1]][6:7]),
+          with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 2))[[1]])
+
+all.equal(lapply(with(dat, tornqvist_geks(price, quantity, period, product, na.rm = TRUE, window = 9, n = 6)), `[`, 6),
+          with(dat, tornqvist_geks(price, quantity, period, product, na.rm = TRUE, window = 9, n = 1)))

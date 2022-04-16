@@ -160,6 +160,19 @@ b
 > all.equal(with(dat, geks(balanced(fisher_index))(price, quantity, period, product, na.rm = TRUE)),
 +           with(dat, geks(balanced(quantity_index(fisher_index)))(period, p = quantity, product, na.rm = TRUE, q = price)))
 [1] TRUE
+>
+> # 'n' shouldn't change subsequent values
+> all.equal(with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 7)[[1]]),
++           with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE))[[1]][6:12])
+[1] TRUE
+> 
+> all.equal(with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 7)[[1]][6:7]),
++           with(dat, fisher_geks(price, quantity, period, product, na.rm = TRUE, n = 2))[[1]])
+[1] TRUE
+> 
+> all.equal(lapply(with(dat, tornqvist_geks(price, quantity, period, product, na.rm = TRUE, window = 9, n = 6)), `[`, 6),
++           with(dat, tornqvist_geks(price, quantity, period, product, na.rm = TRUE, window = 9, n = 1)))
+[1] TRUE
 > 
 > proc.time()
    user  system elapsed 
