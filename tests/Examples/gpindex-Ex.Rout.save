@@ -225,8 +225,8 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
-> nameEx("generalized_mean")
-> ### * generalized_mean
+> nameEx("generalized-mean")
+> ### * generalized-mean
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -361,8 +361,8 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
-> nameEx("lehmer_mean")
-> ### * lehmer_mean
+> nameEx("lehmer-mean")
+> ### * lehmer-mean
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -463,8 +463,8 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
-> nameEx("logarithmic_means")
-> ### * logarithmic_means
+> nameEx("logarithmic-means")
+> ### * logarithmic-means
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -577,8 +577,8 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
-> nameEx("nested_mean")
-> ### * nested_mean
+> nameEx("nested-mean")
+> ### * nested-mean
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -664,8 +664,8 @@ Type 'q()' to quit R.
 > 
 > 
 > cleanEx()
-> nameEx("offset_prices")
-> ### * offset_prices
+> nameEx("offset-prices")
+> ### * offset-prices
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -875,8 +875,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > 
 > cleanEx()
-> nameEx("price_indexes")
-> ### * price_indexes
+> nameEx("price-indexes")
+> ### * price-indexes
 > 
 > flush(stderr()); flush(stdout())
 > 
@@ -1188,8 +1188,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > 
 > cleanEx()
-> nameEx("transform_weights")
-> ### * transform_weights
+> nameEx("transform-weights")
+> ### * transform-weights
 > 
 > flush(stderr()); flush(stdout())
 > 

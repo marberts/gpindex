@@ -14,10 +14,8 @@ generalized_mean <- function(r) {
     if (missing(w)) {
       # removing NAs first means that NaNs for log(x), x < 0,
       # are not removed when na.rm = TRUE
-      if (na.rm) {
-        if (anyNA(x)) {
-          x <- x[!is.na(x)]
-        }
+      if (na.rm && anyNA(x)) {
+        x <- x[!is.na(x)]
       }
       # [[2]][[3]][[3]] unweighted calculation
     # weights
@@ -25,12 +23,10 @@ generalized_mean <- function(r) {
       if (length(x) != length(w)) {
         stop(gettext("'x' and 'w' must be the same length"))
       }
-      if (na.rm) {
-        if (anyNA(x) || anyNA(w)) {
-          keep <- !(is.na(x) | is.na(w))
-          x <- x[keep]
-          w <- w[keep]
-        }
+      if (na.rm && (anyNA(x) || anyNA(w))) {
+        keep <- !(is.na(x) | is.na(w))
+        x <- x[keep]
+        w <- w[keep]
       }
       # [[2]][[4]][[4]] weighted calculation
     }
