@@ -11,14 +11,14 @@ transmute_weights <- function(r, s) {
     }
   }
   # unweighted calculation
-  body(res)[[2L]][[3L]] <- if (r == s) {
+  body(res)[[c(2L, 3L)]] <- if (r == s) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(ext_mean(x, gen_mean(x, na.rm = TRUE)), r - s)
   }
   # weighted calculation
-  body(res)[[2L]][[4L]] <- if (r == s) {
+  body(res)[[c(2L, 4L)]] <- if (r == s) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
   } else {

@@ -32,14 +32,14 @@ generalized_mean <- function(r) {
     }
   }
   # unweighted calculation
-  body(res)[[2L]][[3L]][[3L]] <- if (r == 0) {
+  body(res)[[c(2L, 3L, 3L)]] <- if (r == 0) {
     quote(exp(sum(log(x)) / length(x)))
   } else {
     z <- bquote(pow(sum(.(pow(x, r))) / length(x), 1 / r))
     eval(z)
   }
   # weighted calculation
-  body(res)[[2L]][[4L]][[4L]] <- if (r == 0) {
+  body(res)[[c(2L, 4L, 4L)]] <- if (r == 0) {
     quote(exp(sum(w * log(x)) / sum(w)))
   } else {
     z <- bquote(pow(sum(.(wpow(x, w, r))) / sum(w), 1 / r))
@@ -128,12 +128,12 @@ lehmer_mean <- function(r) {
       # [[2]][[4]] weighted calculation
     }
   }
-  body(res)[[2L]][[3L]] <- if (r != 1) {
+  body(res)[[c(2L, 3L)]] <- if (r != 1) {
     call("arithmetic_mean", quote(x), pow(x, r - 1), quote(na.rm))
   } else {
     call("arithmetic_mean", quote(x), na.rm = quote(na.rm))
   }
-  body(res)[[2L]][[4L]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
+  body(res)[[c(2L, 4L)]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
