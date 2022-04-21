@@ -129,14 +129,14 @@ factor_weights <- function(r) {
     }
   }
   # unweighted calculation
-  body(res)[[2L]][[3L]] <- if (r == 0) {
+  body(res)[[c(2L, 3L)]] <- if (r == 0) {
     # make sure NAs carry on
     quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
     pow(x, r)
   }
   # weighted calculation
-  body(res)[[2L]][[4L]] <- if (r == 0) {
+  body(res)[[c(2L, 4L)]] <- if (r == 0) {
     # make sure NAs carry on
     quote({w[is.na(x)] <- NA; w})
   } else {

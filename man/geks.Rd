@@ -30,7 +30,7 @@ fisher_geks(p, q, period, product,
 \item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{p} and \code{q}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
 \item{product}{A factor, or something that can be coerced into one, that gives the corresponding product identifier for each element in \code{p} and \code{q}.}
 \item{window}{The length of the rolling window. The default is a window that encompasses all periods in \code{period}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
-\item{n}{A number giving the length of the index series for each window. For example, if there are 13 periods in \code{window}, setting \code{n = 1} gives the index for period 13. The default gives an index for each period in \code{window}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
+\item{n}{A number giving the length of the index series for each window, starting from the end of the window. For example, if there are 13 periods in \code{window}, setting \code{n = 1} gives the index for period 13. The default gives an index for each period in \code{window}. Values that are neither integers nor length 1 are silently truncated to a length 1 integer.}
 \item{na.rm}{Should missing values for \code{p} and \code{q} be removed when calculating the index? By default missing values will return a missing value for the index.}
 }
 
