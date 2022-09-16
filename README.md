@@ -7,6 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
+[![gpindex status
+badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
 [![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
 

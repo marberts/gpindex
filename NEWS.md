@@ -1,10 +1,10 @@
-# Version 0.4.3
+## Version 0.4.3
 
 - `back_price()` and `base_price()` are deprecated in favor of the more general `back_period()` and `base_period()` functions. They will be removed in a future version.
 
 - The algorithm for making GEKS indexes is now much faster with a rolling window.
 
-# Version 0.4.2
+## Version 0.4.2
 
 - The functions and overall structure of the package should be fairly stable from now on.
 
@@ -12,7 +12,7 @@
 
 - Added the geometric Theil and Rao indexes.
 
-# Version 0.3.9
+## Version 0.3.9
 
 - Added `back_period()` and `base_period()`, which are more general than `back_price()` and `base_price()`.
 
@@ -22,13 +22,13 @@
 
 - The `lm_index()` and `*_agmean_index()` functions are now function factories.
 
-# Version 0.3.6
+## Version 0.3.6
 
 - Added the `balanced()` operator to make it easier to remove NAs with price index functions.
 
 - Added the `geks()` function for using price-index function (e.g., `fisher_index()`) to makes a GEKS index.
 
-# Version 0.3.4
+## Version 0.3.4
 
 - Added French translations.
 
@@ -36,7 +36,7 @@
 
 - Added the `grouped()` operator to make all functions work with grouped data.
 
-# Version 0.3.1
+## Version 0.3.1
 
 - Most function names have changed to be less awkward; e.g., `mean_generalized()` is now `generalized_mean()`, and `contributions_geometric()` is now `geometric_contributions()`. This is unfortunately not backwards compatible, but needed to be done.
 
