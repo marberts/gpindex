@@ -113,8 +113,8 @@ arithmetic_mean(x, w) # same as weighted.mean(x, w)
 
 geometric_mean(x, w) # same as prod(x^w)
 
-# Using prod() to manually calculate the geometric mean 
-# can give misleading results
+# Using prod() to manually calculate the geometric mean can give 
+# misleading results
 
 z <- 1:1000
 prod(z)^(1 / length(z)) # overflow
@@ -154,15 +154,15 @@ arithmetic_mean(y) - geometric_mean(y)
 geometric_mean(x) - harmonic_mean(x)
 geometric_mean(y) - harmonic_mean(y)
 
-# But the dispersion between these means is only bounded by
-# the variance (Bullen, 2003, p. 156)
+# But the dispersion between these means is only bounded by the 
+# variance (Bullen, 2003, p. 156)
 
 arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
 
-# Example by Lord (2002) where the dispersion decreases as 
-# the variance increases, counter to the claims by 
-# Fisher (1922, p. 108) and the CPI manual (par. 1.14)
+# Example by Lord (2002) where the dispersion decreases as the variance 
+# increases, counter to the claims by Fisher (1922, p. 108) and the 
+# CPI manual (par. 1.14)
 
 x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
@@ -175,9 +175,8 @@ arithmetic_mean(y) - geometric_mean(y)
 geometric_mean(x) - harmonic_mean(x)
 geometric_mean(y) - harmonic_mean(y)
 
-# The "bias" in the arithmetic and harmonic indexes is also 
-# smaller in this case, counter to the claim 
-# by Fisher (1922, p. 108)
+# The "bias" in the arithmetic and harmonic indexes is also smaller in 
+# this case, counter to the claim by Fisher (1922, p. 108)
 
 arithmetic_mean(x) * arithmetic_mean(1 / x) - 1
 arithmetic_mean(y) * arithmetic_mean(1 / y) - 1

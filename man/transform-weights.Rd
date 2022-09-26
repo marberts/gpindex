@@ -103,7 +103,7 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical M
 
 \code{\link{extended_mean}} for the extended mean that underlies \code{transmute_weights()}.
 
-\code{\link{contributions}} for calculating additive quote contributions.
+\code{\link{contributions}} for calculating additive percent-change contributions.
 
 \code{\link{grouped}} to make each of these functions operate on grouped data.
 }
@@ -126,8 +126,8 @@ harmonic_mean(x, transmute_weights(0, -1)(x))
 # for an arithmetic mean is the same as using weights w / x
 
 all.equal(
-    scale_weights(transmute_weights(-1, 1)(x, w)),
-    scale_weights(w / x)
+  scale_weights(transmute_weights(-1, 1)(x, w)),
+  scale_weights(w / x)
 )
 
 # Works for nested means, too
@@ -140,10 +140,27 @@ fisher_mean(x, w1, w2)
 arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
 arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
 
-#---- Quote contributions ----
+# Note that nested_transmute() has an invariance property
+# not shared by nested_transmute2()
 
-# Transmuted weights can be used to calculate quote contributions 
-# for, e.g., a geometric price index
+all.equal(
+  nested_transmute(0, c(1, -1), 1)(x, w1, w2),
+  transmute_weights(2, 1)(
+    x, nested_transmute(0, c(1, -1), 2)(x, w1, w2)
+  )
+)
+
+all.equal(
+  nested_transmute2(0, c(1, -1), 1)(x, w1, w2),
+  transmute_weights(2, 1)(
+    x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
+  )
+)
+
+#---- Percent-change contributions ----
+
+# Transmuted weights can be used to calculate percent-change 
+# contributions for, e.g., a geometric price index
 
 scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 geometric_contributions(x) # the more convenient way
@@ -175,5 +192,6 @@ arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
 # In cases where x and y have the same order, Chebyshev's 
 # inequality implies that the chained calculation is too small
 
-arithmetic_mean(x * y, w) > arithmetic_mean(x, w) * arithmetic_mean(y, w)
+arithmetic_mean(x * y, w) > 
+  arithmetic_mean(x, w) * arithmetic_mean(y, w)
 }

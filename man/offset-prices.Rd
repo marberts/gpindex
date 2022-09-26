@@ -42,6 +42,8 @@ By definition, there must be at most one transaction for each product in each ti
 \code{\link{outliers}} for common methods to detect outliers for price relatives.
 
 \code{\link{generalized_mean}} for the generalized mean.
+
+\code{rs_pairs} in the \pkg{rsmatrix} package for making sales pairs.
 }
 
 \examples{

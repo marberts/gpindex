@@ -9,11 +9,11 @@
 \alias{fisher_contributions2}
 
 \title{
-Quote contributions
+Percent-change contributions
 }
 
 \description{
-Calculate additive quote contributions for generalized-mean price indexes, and indexes that nest two levels of generalized means consisting of an outer generalized mean and two inner generalized means (e.g., the Fisher index).
+Calculate additive percent-change contributions for generalized-mean price indexes, and indexes that nest two levels of generalized means consisting of an outer generalized mean and two inner generalized means (e.g., the Fisher index).
 }
 
 \usage{
@@ -49,17 +49,17 @@ fisher_contributions2(x, w1, w2)
 }
 
 \details{
-The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) quote contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that
+The function \code{contributions()} is a simple wrapper for \code{\link[=transmute_weights]{transmute_weights(r, 1)()}} to calculate (additive) percent-change contributions for a price index based on a generalized mean of order \code{r}. It returns a function to compute a vector \code{v(x, w)} such that
 
 \preformatted{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}
 
-This generalizes the approach for calculating quote contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
+This generalizes the approach for calculating percent-change contributions in section 4.2 of Balk (2008) using the method by Martin (2021). The \code{arithmetic_contributions()}, \code{geometric_contributions()} and \code{harmonic_contributions()} functions cover the most important cases (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}). 
 
 The \code{nested_contributions()} and \code{nested_contributions2()} functions are the analog of \code{contributions()} for an index based on a nested generalized mean with two levels, like a Fisher index. They return a function that calculates the contribution of each element of \code{x} when a generalized mean of order \code{r1} aggregates two generalized-mean indexes of \code{x} with orders \code{r2}, and weights \code{w1} and \code{w2}.
 
 Unlike the case of a generalized-mean index, there are several ways to make contributions for an index based on nested generalized means. \code{nested_contributions()} uses a generalization of the algorithm in section 6 of Reinsdorf et al. (2002) by Martin (2021). \code{nested_contributions2()} generalizes the van IJzeren decomposition for the Fisher index (Balk, 2008, section 4.2.2) by constructing a weighted average of the contributions for both of the inner means with the approach by Martin (2021). In most cases the results are broadly similar.
 
-The \code{fisher_contributions()} and \code{fisher_contributions2()} functions correspond to \code{nested_contributions(0, c(1, -1))()} and \code{nested_contributions2(0, c(1, -1))()}, and are appropriate for calculating quote contributions for a Fisher index.
+The \code{fisher_contributions()} and \code{fisher_contributions2()} functions correspond to \code{nested_contributions(0, c(1, -1))()} and \code{nested_contributions2(0, c(1, -1))()}, and are appropriate for calculating percent-change contributions for a Fisher index.
 }
 
 \value{
@@ -83,6 +83,9 @@ This computes the additive contribution for each element of \code{x} when a gene
 \references{
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}. Cambridge University Press.
 
+Hallerbach, W. G. (2005). An alternative decomposition of the Fisher index. \emph{Economics
+Letters}, 86(2):147--152
+
 Martin, S. (2021). A note on general decompositions for price indexes. \emph{Prices Analytical Series}, Statistics Canada catalogue no. 62F0014M. Statistics Canada, Ottawa.
 
 Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Tornqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
@@ -105,9 +108,9 @@ geometric_contributions(x)
 
 all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 
-# This works by first transmuting the weights in the geometric 
-# mean into weights for an arithmetic mean, then finding the 
-# contributions to the percent change
+# This works by first transmuting the weights in the geometric mean 
+# into weights for an arithmetic mean, then finding the contributions 
+# to the percent change
 
 scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 
@@ -127,9 +130,9 @@ all.equal(sum(transmute2(x) * (x - 1)), geometric_mean(x) - 1)
 isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), 
                  geometric_mean(x)))
 
-# There are infinitely many ways to calculate contributions, 
-# but the weights from transmute_weights(0, 1)() are the *unique* 
-# weights that recover the geometric mean
+# There are infinitely many ways to calculate contributions, but the 
+# weights from transmute_weights(0, 1)() are the *unique* weights that 
+# recover the geometric mean
 
 perturb <- function(w, e) {
   w + c(e, -e) / (x - 1)
@@ -148,8 +151,8 @@ p0 <- price6[[1]]
 q1 <- quantity6[[2]]
 q0 <- quantity6[[1]]
 
-# Quote contributions for the Fisher index in 
-# section 6 of Reinsdorf et al. (2002)
+# Percent-change contributions for the Fisher index in section 6 of 
+# Reinsdorf et al. (2002)
 
 (con <- fisher_contributions(p1 / p0, 
                              index_weights("Laspeyres")(p0, q0), 
@@ -165,21 +168,35 @@ all.equal(sum(con), fisher_index(p1, p0, q1, q0) - 1)
 
 all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 
-# The same as the van IJzeren decomposition in 
-# section 4.2.2 of Balk (2008)
+# The same as the van IJzeren decomposition in section 4.2.2 of 
+# Balk (2008)
 
 Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
 Ql <- quantity_index(laspeyres_index)(q1, q0, p0)
-wl <- index_weights("Laspeyres")(p0, q0)
-wp <- index_weights("HybridPaasche")(p0, q1)
+wl <- scale_weights(index_weights("Laspeyres")(p0, q0))
+wp <- scale_weights(index_weights("HybridPaasche")(p0, q1))
 
-(Qf / (Qf + Ql) * scale_weights(wl) + 
-  Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
+(Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
+  
+# Similar to the method in section 2 of Reinsdoft et al. (2002), 
+# although those contributions aren't based on weights that sum to 1
+
+Pf <- fisher_index(p1, p0, q1, q0)
+Pl <- laspeyres_index(p1, p0, q0)
+
+(1 / (1 + Pf) * wl + Pl / (1 + Pf) * wp) * (p1 / p0 - 1)
+  
+# Also similar to the decomposition by Hallerbach (2005), noting that 
+# the Euler weights are close to unity
+
+Pp <- paasche_index(p1, p0, q1)
+
+(0.5 * sqrt(Pp / Pl) * wl + 0.5 * sqrt(Pl / Pp) * wp) * (p1 / p0 - 1)
 
 #---- Contributions for other types of indexes ----
 
-# A function to get contributions for any 
-# superlative quadratic mean of order 'r' index
+# A function to get contributions for any superlative quadratic mean of 
+# order 'r' index
 
 superlative_contributions <- function(r) {
   nested_contributions(0, c(r / 2, - r / 2))

@@ -76,8 +76,8 @@ all.equal(lehmer_mean(0.5)(x), geometric_mean(x))
 
 #---- Comparing Lehmer means and generalized means ----
 
-# When r < 1, the generalized mean is larger than the 
-# corresponding Lehmer mean
+# When r < 1, the generalized mean is larger than the corresponding 
+# Lehmer mean
 
 lehmer_mean(-1)(x, w) < generalized_mean(-1)(x, w)
 
@@ -85,19 +85,19 @@ lehmer_mean(-1)(x, w) < generalized_mean(-1)(x, w)
 
 lehmer_mean(3)(x, w) > generalized_mean(3)(x, w)
 
-# This implies the contraharmonic mean is larger than the 
-# quadratic mean, and therefore the Pythagorean means
+# This implies the contraharmonic mean is larger than the quadratic 
+# mean, and therefore the Pythagorean means
 
 contraharmonic_mean(x, w) > arithmetic_mean(x, w)
 contraharmonic_mean(x, w) > geometric_mean(x, w)
 contraharmonic_mean(x, w) > harmonic_mean(x, w)
 
-# and the logarithmic mean
+# ... and the logarithmic mean
 
 contraharmonic_mean(2:3) > logmean(2, 3)
 
-# The difference between the arithmetic mean and 
-# contraharmonic mean is proportional to the variance of x
+# The difference between the arithmetic mean and contraharmonic mean 
+# is proportional to the variance of x
 
 weighted_var <- function(x, w) {
   arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
@@ -123,15 +123,15 @@ lehmer_mean(s)(x, w * x^(r - 1) / x^(s - 1))
 lehmer_mean(r)(x, w)
 generalized_mean(s)(x, transmute_weights(1, s)(x, w * x^(r - 1)))
 
-# and vice versa
+# ... and vice versa
 
 lehmer_mean(r)(x, transmute_weights(s, 1)(x, w) / x^(r - 1))
 generalized_mean(s)(x, w)
 
-#---- Quote contributions ----
+#---- Percent-change contributions ----
 
-# Quote contributions for a price index based on the Lehmer mean
-# are easy to calculate
+# Percent-change contributions for a price index based on the Lehmer 
+# mean are easy to calculate
 
 scale_weights(w * x^(r - 1)) * (x - 1)
 }

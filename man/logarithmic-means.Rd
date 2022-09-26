@@ -89,8 +89,8 @@ all.equal(generalized_logmean(-1)(x, y), sqrt(x * y))
 all(logmean(x, y) < (x + y) / 2) & 
   all(logmean(x, y) > sqrt(x * y))
 
-# The harmonic mean cannot be expressed as a logarithmic mean, 
-# but can be expressed as an extended mean
+# The harmonic mean cannot be expressed as a logarithmic mean, but can 
+# be expressed as an extended mean
 
 all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
@@ -107,9 +107,9 @@ all.equal(extended_mean(2, 3)(x, y),
 
 #---- Approximating the logarithmic mean ----
 
-# The logarithmic mean can be approximated as a convex 
-# combination of the arithmetic and geometric means that gives 
-# more weight to the geometric mean
+# The logarithmic mean can be approximated as a convex combination of 
+# the arithmetic and geometric means that gives more weight to the 
+# geometric mean
 
 approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
 approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
@@ -124,8 +124,8 @@ approx1 / (1 + correction) - logmean(x, y)
 
 #---- Some identities ----
 
-# A useful identity for turning an additive change into 
-# a proportionate change
+# A useful identity for turning an additive change into a proportionate 
+# change
 
 all.equal(logmean(x, y) * log(x / y), x - y) 
 

@@ -55,7 +55,7 @@ Lent, J. and Dorfman, A. H. (2009). Using a weighted average of base period pric
 \seealso{
 \code{\link{generalized_mean}} for the generalized mean.
 
-\code{\link{nested_contributions}} for quote contributions for indexes based on nested generalized means, like the Fisher index.
+\code{\link{nested_contributions}} for percent-change contributions for indexes based on nested generalized means, like the Fisher index.
 }
 
 \examples{
@@ -65,8 +65,8 @@ w2 <- 7:9
 
 #---- Making superlative indexes ----
 
-# A function to make the superlative quadratic mean price index 
-# by Diewert (1976) as a product of generalized means
+# A function to make the superlative quadratic mean price index by 
+# Diewert (1976) as a product of generalized means
 
 quadratic_mean_index <- function(x, w0, w1, r) {
   x <- sqrt(x) 
@@ -101,8 +101,8 @@ sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
 
 sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
 
-# Counter to the PPI manual (par. 1.105), it is not a
-# superlative quadratic mean price index of order 1
+# Counter to the PPI manual (par. 1.105), it is not a superlative 
+# quadratic mean price index of order 1
 
 walsh(p1 / p0, p0 * q0, p1 * q1)
 
@@ -113,8 +113,8 @@ w1[2] <- NA
 
 fisher_mean(x, w1, w2, na.rm = TRUE)
 
-# Same as using obs 2 and 3 in an arithmetic mean, 
-# and obs 3 in a harmonic mean
+# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a 
+# harmonic mean
 
 geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
                  harmonic_mean(x, w2, na.rm = TRUE)))

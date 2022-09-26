@@ -1,5 +1,5 @@
 
-R version 4.1.3 (2022-03-10) -- "One Push-Up"
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
 Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -31,7 +31,7 @@ Type 'q()' to quit R.
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: contributions
-> ### Title: Quote contributions
+> ### Title: Percent-change contributions
 > ### Aliases: contributions arithmetic_contributions geometric_contributions
 > ###   harmonic_contributions nested_contributions nested_contributions2
 > ###   fisher_contributions fisher_contributions2
@@ -51,9 +51,9 @@ Type 'q()' to quit R.
 > all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 [1] TRUE
 > 
-> # This works by first transmuting the weights in the geometric 
-> # mean into weights for an arithmetic mean, then finding the 
-> # contributions to the percent change
+> # This works by first transmuting the weights in the geometric mean 
+> # into weights for an arithmetic mean, then finding the contributions 
+> # to the percent change
 > 
 > scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.5505103 0.8989795
@@ -77,9 +77,9 @@ Type 'q()' to quit R.
 +                  geometric_mean(x)))
 [1] FALSE
 > 
-> # There are infinitely many ways to calculate contributions, 
-> # but the weights from transmute_weights(0, 1)() are the *unique* 
-> # weights that recover the geometric mean
+> # There are infinitely many ways to calculate contributions, but the 
+> # weights from transmute_weights(0, 1)() are the *unique* weights that 
+> # recover the geometric mean
 > 
 > perturb <- function(w, e) {
 +   w + c(e, -e) / (x - 1)
@@ -101,8 +101,8 @@ Type 'q()' to quit R.
 > q1 <- quantity6[[2]]
 > q0 <- quantity6[[1]]
 > 
-> # Quote contributions for the Fisher index in 
-> # section 6 of Reinsdorf et al. (2002)
+> # Percent-change contributions for the Fisher index in section 6 of 
+> # Reinsdorf et al. (2002)
 > 
 > (con <- fisher_contributions(p1 / p0, 
 +                              index_weights("Laspeyres")(p0, q0), 
@@ -122,22 +122,38 @@ Type 'q()' to quit R.
 > all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 [1] TRUE
 > 
-> # The same as the van IJzeren decomposition in 
-> # section 4.2.2 of Balk (2008)
+> # The same as the van IJzeren decomposition in section 4.2.2 of 
+> # Balk (2008)
 > 
 > Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
 > Ql <- quantity_index(laspeyres_index)(q1, q0, p0)
-> wl <- index_weights("Laspeyres")(p0, q0)
-> wp <- index_weights("HybridPaasche")(p0, q1)
+> wl <- scale_weights(index_weights("Laspeyres")(p0, q0))
+> wp <- scale_weights(index_weights("HybridPaasche")(p0, q1))
 > 
-> (Qf / (Qf + Ql) * scale_weights(wl) + 
-+   Ql / (Qf + Ql) * scale_weights(wp)) * (p1 / p0 - 1)
+> (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
 [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
+>   
+> # Similar to the method in section 2 of Reinsdoft et al. (2002), 
+> # although those contributions aren't based on weights that sum to 1
+> 
+> Pf <- fisher_index(p1, p0, q1, q0)
+> Pl <- laspeyres_index(p1, p0, q0)
+> 
+> (1 / (1 + Pf) * wl + Pl / (1 + Pf) * wp) * (p1 / p0 - 1)
+[1]  0.01760668  0.18766299  0.05803833 -0.03510719  0.18397180 -0.01112258
+>   
+> # Also similar to the decomposition by Hallerbach (2005), noting that 
+> # the Euler weights are close to unity
+> 
+> Pp <- paasche_index(p1, p0, q1)
+> 
+> (0.5 * sqrt(Pp / Pl) * wl + 0.5 * sqrt(Pl / Pp) * wp) * (p1 / p0 - 1)
+[1]  0.01781577  0.18809422  0.05791874 -0.03417605  0.18220228 -0.01089519
 > 
 > #---- Contributions for other types of indexes ----
 > 
-> # A function to get contributions for any 
-> # superlative quadratic mean of order 'r' index
+> # A function to get contributions for any superlative quadratic mean of 
+> # order 'r' index
 > 
 > superlative_contributions <- function(r) {
 +   nested_contributions(0, c(r / 2, - r / 2))
@@ -251,8 +267,8 @@ Type 'q()' to quit R.
 > geometric_mean(x, w) # same as prod(x^w)
 [1] 2.059767
 > 
-> # Using prod() to manually calculate the geometric mean 
-> # can give misleading results
+> # Using prod() to manually calculate the geometric mean can give 
+> # misleading results
 > 
 > z <- 1:1000
 > prod(z)^(1 / length(z)) # overflow
@@ -304,17 +320,17 @@ Type 'q()' to quit R.
 > geometric_mean(y) - harmonic_mean(y)
 [1] 0.1152684
 > 
-> # But the dispersion between these means is only bounded by
-> # the variance (Bullen, 2003, p. 156)
+> # But the dispersion between these means is only bounded by the 
+> # variance (Bullen, 2003, p. 156)
 > 
 > arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 [1] TRUE
 > arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
 [1] TRUE
 > 
-> # Example by Lord (2002) where the dispersion decreases as 
-> # the variance increases, counter to the claims by 
-> # Fisher (1922, p. 108) and the CPI manual (par. 1.14)
+> # Example by Lord (2002) where the dispersion decreases as the variance 
+> # increases, counter to the claims by Fisher (1922, p. 108) and the 
+> # CPI manual (par. 1.14)
 > 
 > x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
 > y <- (16 + c(7 * sqrt(2), -7 * sqrt(2), 0)) / 16
@@ -332,9 +348,8 @@ Type 'q()' to quit R.
 > geometric_mean(y) - harmonic_mean(y)
 [1] 0.1439479
 > 
-> # The "bias" in the arithmetic and harmonic indexes is also 
-> # smaller in this case, counter to the claim 
-> # by Fisher (1922, p. 108)
+> # The "bias" in the arithmetic and harmonic indexes is also smaller in 
+> # this case, counter to the claim by Fisher (1922, p. 108)
 > 
 > arithmetic_mean(x) * arithmetic_mean(1 / x) - 1
 [1] 0.3333333
@@ -386,8 +401,8 @@ Type 'q()' to quit R.
 > 
 > #---- Comparing Lehmer means and generalized means ----
 > 
-> # When r < 1, the generalized mean is larger than the 
-> # corresponding Lehmer mean
+> # When r < 1, the generalized mean is larger than the corresponding 
+> # Lehmer mean
 > 
 > lehmer_mean(-1)(x, w) < generalized_mean(-1)(x, w)
 [1] TRUE
@@ -397,8 +412,8 @@ Type 'q()' to quit R.
 > lehmer_mean(3)(x, w) > generalized_mean(3)(x, w)
 [1] TRUE
 > 
-> # This implies the contraharmonic mean is larger than the 
-> # quadratic mean, and therefore the Pythagorean means
+> # This implies the contraharmonic mean is larger than the quadratic 
+> # mean, and therefore the Pythagorean means
 > 
 > contraharmonic_mean(x, w) > arithmetic_mean(x, w)
 [1] TRUE
@@ -407,13 +422,13 @@ Type 'q()' to quit R.
 > contraharmonic_mean(x, w) > harmonic_mean(x, w)
 [1] TRUE
 > 
-> # and the logarithmic mean
+> # ... and the logarithmic mean
 > 
 > contraharmonic_mean(2:3) > logmean(2, 3)
 [1] TRUE
 > 
-> # The difference between the arithmetic mean and 
-> # contraharmonic mean is proportional to the variance of x
+> # The difference between the arithmetic mean and contraharmonic mean 
+> # is proportional to the variance of x
 > 
 > weighted_var <- function(x, w) {
 +   arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
@@ -445,17 +460,17 @@ Type 'q()' to quit R.
 > generalized_mean(s)(x, transmute_weights(1, s)(x, w * x^(r - 1)))
 [1] 2.818182
 > 
-> # and vice versa
+> # ... and vice versa
 > 
 > lehmer_mean(r)(x, transmute_weights(s, 1)(x, w) / x^(r - 1))
 [1] 2.568312
 > generalized_mean(s)(x, w)
 [1] 2.568312
 > 
-> #---- Quote contributions ----
+> #---- Percent-change contributions ----
 > 
-> # Quote contributions for a price index based on the Lehmer mean
-> # are easy to calculate
+> # Percent-change contributions for a price index based on the Lehmer 
+> # mean are easy to calculate
 > 
 > scale_weights(w * x^(r - 1)) * (x - 1)
 [1] 0.1818182 1.6363636
@@ -494,8 +509,8 @@ Type 'q()' to quit R.
 +   all(logmean(x, y) > sqrt(x * y))
 [1] TRUE
 > 
-> # The harmonic mean cannot be expressed as a logarithmic mean, 
-> # but can be expressed as an extended mean
+> # The harmonic mean cannot be expressed as a logarithmic mean, but can 
+> # be expressed as an extended mean
 > 
 > all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 [1] TRUE
@@ -516,9 +531,9 @@ Type 'q()' to quit R.
 > 
 > #---- Approximating the logarithmic mean ----
 > 
-> # The logarithmic mean can be approximated as a convex 
-> # combination of the arithmetic and geometric means that gives 
-> # more weight to the geometric mean
+> # The logarithmic mean can be approximated as a convex combination of 
+> # the arithmetic and geometric means that gives more weight to the 
+> # geometric mean
 > 
 > approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
 > approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
@@ -536,8 +551,8 @@ Type 'q()' to quit R.
 > 
 > #---- Some identities ----
 > 
-> # A useful identity for turning an additive change into 
-> # a proportionate change
+> # A useful identity for turning an additive change into a proportionate 
+> # change
 > 
 > all.equal(logmean(x, y) * log(x / y), x - y) 
 [1] TRUE
@@ -594,8 +609,8 @@ Type 'q()' to quit R.
 > 
 > #---- Making superlative indexes ----
 > 
-> # A function to make the superlative quadratic mean price index 
-> # by Diewert (1976) as a product of generalized means
+> # A function to make the superlative quadratic mean price index by 
+> # Diewert (1976) as a product of generalized means
 > 
 > quadratic_mean_index <- function(x, w0, w1, r) {
 +   x <- sqrt(x) 
@@ -635,8 +650,8 @@ Type 'q()' to quit R.
 > sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
 [1] 1.401718
 > 
-> # Counter to the PPI manual (par. 1.105), it is not a
-> # superlative quadratic mean price index of order 1
+> # Counter to the PPI manual (par. 1.105), it is not a superlative 
+> # quadratic mean price index of order 1
 > 
 > walsh(p1 / p0, p0 * q0, p1 * q1)
 [1] 1.401534
@@ -649,8 +664,8 @@ Type 'q()' to quit R.
 > fisher_mean(x, w1, w2, na.rm = TRUE)
 [1] 2.699206
 > 
-> # Same as using obs 2 and 3 in an arithmetic mean, 
-> # and obs 3 in a harmonic mean
+> # Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a 
+> # harmonic mean
 > 
 > geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
 +                  harmonic_mean(x, w2, na.rm = TRUE)))
@@ -807,7 +822,7 @@ Warning in back_period(period) :
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > quartile_method(x)
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-> resistant_fences(x) # always identifies fewer outliers than quartile method
+> resistant_fences(x) # always identifies fewer outliers than above
  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > tukey_algorithm(x)
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
@@ -899,8 +914,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > #---- Calculating price indexes ----
 > 
-> # Most indexes can be calculated by combining the appropriate 
-> # weights with the correct type of mean
+> # Most indexes can be calculated by combining the appropriate weights 
+> # with the correct type of mean
 > 
 > geometric_index("Laspeyres")(p1, p0, q0)
 [1] 0.8705581
@@ -923,12 +938,14 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > all.equal(
 +   scale_weights(index_weights("HybridLaspeyres")(p1, q0)),
-+   scale_weights(transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0)))
++   scale_weights(
++     transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
++   )
 + )
 [1] TRUE
 > 
-> # This strategy can be used to make more exotic indexes,
-> # like the quadratic-mean index (von der Lippe, 2001, p. 71)
+> # This strategy can be used to make more exotic indexes, like the 
+> # quadratic-mean index (von der Lippe, 2001, p. 71)
 > 
 > generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 [1] 1.020762
@@ -945,9 +962,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > contraharmonic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 [1] 1.084248
 > 
-> # Unlike its arithmetic counterpart, the geometric Laspeyres 
-> # can increase when base-period prices increase if some of these 
-> # prices are small
+> # Unlike its arithmetic counterpart, the geometric Laspeyres can 
+> # increase when base-period prices increase if some of these prices 
+> # are small
 > 
 > gl <- geometric_index("Laspeyres")
 > p0_small <- replace(p0, 1, p0[1] / 5)
@@ -980,9 +997,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > I1 * I2
 [1] 0.5112654
 > 
-> #---- Quote contributions ----
+> #---- Percent-change contributions ----
 > 
-> # Quote contributions for the Tornqvist index
+> # Percent-change contributions for the Tornqvist index
 > 
 > w <- index_weights("Tornqvist")(p1, p0, q1, q0)
 > (con <- geometric_contributions(p1 / p0, w))
@@ -1038,8 +1055,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > q0a <- q0[1:3]; q0b <- q0[4:6]
 > q1a <- q1[1:3]; q1b <- q1[4:6]
 > 
-> # Indexes based on the generalized mean with value share weights
-> # are consistent in aggregation
+> # Indexes based on the generalized mean with value share weights are 
+> # consistent in aggregation
 > 
 > lm_index(0.75)(p1, p0, q0)
 [1] 0.8962918
@@ -1057,10 +1074,9 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > all.equal(lm_index(0.75)(p1b, p0b, q0b), Ib)
 [1] TRUE
 > 
-> # Care is needed with more complex weights, e.g., Drobisch,
-> # as this doesn't fit Balk's (2008) definition (p. 113) of
-> # a generalized-mean index (it's the arithmetic mean of a Laspeyres
-> # and Paasche index)
+> # Care is needed with more complex weights, e.g., Drobisch, as this 
+> # doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean 
+> # index (it's the arithmetic mean of a Laspeyres and Paasche index)
 > 
 > arithmetic_index("Drobisch")(p1, p0, q1, q0)
 [1] 0.9412926
@@ -1143,8 +1159,10 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > # Montgomery-Vartia / Vartia-I
 > 
-> all.equal(index_weights("MontgomeryVartia")(p1, p0, q1, q0),
-+           logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1)))
+> all.equal(
++   index_weights("MontgomeryVartia")(p1, p0, q1, q0),
++   logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
++ )
 [1] TRUE
 > 
 > # Sato-Vartia / Vartia-II
@@ -1220,8 +1238,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # for an arithmetic mean is the same as using weights w / x
 > 
 > all.equal(
-+     scale_weights(transmute_weights(-1, 1)(x, w)),
-+     scale_weights(w / x)
++   scale_weights(transmute_weights(-1, 1)(x, w)),
++   scale_weights(w / x)
 + )
 [1] TRUE
 > 
@@ -1238,10 +1256,29 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
 [1] 1.825742
 > 
-> #---- Quote contributions ----
+> # Note that nested_transmute() has an invariance property
+> # not shared by nested_transmute2()
 > 
-> # Transmuted weights can be used to calculate quote contributions 
-> # for, e.g., a geometric price index
+> all.equal(
++   nested_transmute(0, c(1, -1), 1)(x, w1, w2),
++   transmute_weights(2, 1)(
++     x, nested_transmute(0, c(1, -1), 2)(x, w1, w2)
++   )
++ )
+[1] TRUE
+> 
+> all.equal(
++   nested_transmute2(0, c(1, -1), 1)(x, w1, w2),
++   transmute_weights(2, 1)(
++     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
++   )
++ )
+[1] "Mean relative difference: 0.04366643"
+> 
+> #---- Percent-change contributions ----
+> 
+> # Transmuted weights can be used to calculate percent-change 
+> # contributions for, e.g., a geometric price index
 > 
 > scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
 [1] 0.0000000 0.3122793 0.5048413
@@ -1280,7 +1317,8 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # In cases where x and y have the same order, Chebyshev's 
 > # inequality implies that the chained calculation is too small
 > 
-> arithmetic_mean(x * y, w) > arithmetic_mean(x, w) * arithmetic_mean(y, w)
+> arithmetic_mean(x * y, w) > 
++   arithmetic_mean(x, w) * arithmetic_mean(y, w)
 [1] TRUE
 > 
 > 
@@ -1290,7 +1328,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.37 0.028 0.398 0 0 
+Time elapsed:  0.357 0.049 0.409 0 0 
 > grDevices::dev.off()
 null device 
           1 
