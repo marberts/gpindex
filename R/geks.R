@@ -42,7 +42,7 @@ geks <- function(f) {
     }
     period <- as.factor(period)
     nper <- nlevels(period)
-    if (!nper) return(list())
+    if (nper == 0L) return(list())
     window <- as.integer(window[1L])
     if (window < 2L) {
       stop(gettext("'window' must be greater than or equal to 2"))

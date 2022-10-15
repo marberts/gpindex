@@ -48,6 +48,8 @@ integer(0)
 [1]  1  2  3  4  4  3  2  1 NA
 > back_period(period, replace(id, 1:2, NA)) # NA products shouldn't trigger a warning
  [1] NA NA  3  4  5  5  4  3 NA NA
+> back_period(factor(period, levels = NA), id)
+[1] NA NA NA NA NA NA NA NA NA NA
 >
 > #---- Tests for outliers ----
 > x <- log(runif(1e5, 0.1, 10))

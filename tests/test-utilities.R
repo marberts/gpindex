@@ -21,6 +21,7 @@ back_period(period, id)
 back_period(replace(period, 2, NA), id)
 back_period(period[-1], id[-1])
 back_period(period, replace(id, 1:2, NA)) # NA products shouldn't trigger a warning
+back_period(factor(period, levels = NA), id)
 
 #---- Tests for outliers ----
 x <- log(runif(1e5, 0.1, 10))

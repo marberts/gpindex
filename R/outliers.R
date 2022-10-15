@@ -39,7 +39,7 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = TRUE, type = type)
   tail <- x < q[1L] | x > q[2L]
   ts <- x[x != 1 & !tail]
-  if (!length(ts)) return(tail)
+  if (length(ts) == 0L) return(tail)
   m <- mean(ts, na.rm = TRUE)
   x <- x - m
   u <- cu * (mean(ts[ts >= m], na.rm = TRUE) - m) # in some versions m is the median

@@ -5,8 +5,10 @@ offset_period <- function(f) {
     if (length(period) != length(product)) {
       stop(gettext("'period' and 'product' must be the same length"))
     }
-    if (!length(period)) return(integer(0L))
+    if (length(period) == 0L) return(integer(0L))
     period <- as.factor(period)
+    # factors with no levels throw an error below
+    if (nlevels(period) == 0L) return(rep(NA_integer_, length(period)))
     product <- as.factor(product)
     attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
