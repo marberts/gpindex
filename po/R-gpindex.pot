@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.4.3\n"
-"POT-Creation-Date: 2022-04-21 09:26\n"
+"Project-Id-Version: gpindex 0.4.3.9003\n"
+"POT-Creation-Date: 2022-10-16 22:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,6 +62,9 @@ msgid "all arguments must be the same length"
 msgstr ""
 
 msgid "'f' already has an argument called 'group'"
+msgstr ""
+
+msgid "'group' has no levels to group by"
 msgstr ""
 
 msgid "'a' must be a finite length 1 numeric"

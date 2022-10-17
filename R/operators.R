@@ -22,6 +22,9 @@ grouped <- function(f, ...) {
   # return function
   function(..., group) {
     group <- as.factor(group)
+    if (nlevels(group) == 0L) {
+      stop(gettext("'group' has no levels to group by"))
+    }
     args <- lapply(list(...), split, group)
     res <- .mapply(f, args, ngargs)
     res <- unsplit(res, group)
