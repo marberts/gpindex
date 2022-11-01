@@ -27,9 +27,7 @@ grouped <- function(f, ...) {
     }
     args <- lapply(list(...), split, group)
     res <- .mapply(f, args, ngargs)
-    res <- unsplit(res, group)
-    attributes(res) <- NULL # unsplit mangles attributes
-    res
+    unsplit(res, group)
   }
 }
 
