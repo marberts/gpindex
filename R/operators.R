@@ -27,7 +27,13 @@ grouped <- function(f, ...) {
     }
     args <- lapply(list(...), split, group)
     res <- .mapply(f, args, ngargs)
-    unsplit(res, group)
+    # same as unsplit(), but keeps names
+    x <- res[[1L]][rep(NA_integer_, length(group))]
+    split(x, group) <- res
+    has_names <- if (!is.null(names(x))) {
+      split(names(x), group) <- lapply(res, names)
+    }
+    x
   }
 }
 
