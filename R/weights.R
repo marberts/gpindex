@@ -20,7 +20,7 @@ transmute_weights <- function(r, s) {
   # weighted calculation
   body(res)[[c(2L, 4L)]] <- if (r == s) {
     # make sure NAs carry on
-    quote({w[is.na(x)] <- NA; w})
+    quote({w[is.na(x)] <- NA_real_; w})
   } else {
     wpow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), w, r - s)
   }
@@ -138,7 +138,7 @@ factor_weights <- function(r) {
   # weighted calculation
   body(res)[[c(2L, 4L)]] <- if (r == 0) {
     # make sure NAs carry on
-    quote({w[is.na(x)] <- NA; w})
+    quote({w[is.na(x)] <- NA_real_; w})
   } else {
     wpow(x, w, r)
   }
