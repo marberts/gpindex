@@ -103,7 +103,7 @@ extended_mean <- function(r, s) {
     z <- bquote((.(pow(a, s)) - .(pow(b, s))) / (.(pow(a, r)) - .(pow(b, r))))
     eval(bquote(pow(.(z) * .(r / s), 1 / (s - r))))
   }
-  body(res)[[2L]] <- call("<-", quote(res), expr)
+  body(res)[[2L]] <- bquote(res <- .(expr))
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
@@ -129,11 +129,13 @@ lehmer_mean <- function(r) {
     }
   }
   body(res)[[c(2L, 3L)]] <- if (r != 1) {
-    call("arithmetic_mean", quote(x), pow(x, r - 1), quote(na.rm))
+    bquote(arithmetic_mean(x, .(pow(x, r - 1)), na.rm))
   } else {
-    call("arithmetic_mean", quote(x), na.rm = quote(na.rm))
+    quote(arithmetic_mean(x, na.rm =  na.rm))
   }
-  body(res)[[c(2L, 4L)]] <- call("arithmetic_mean", quote(x), wpow(x, w, r - 1), quote(na.rm))
+  body(res)[[c(2L, 4L)]] <- bquote(
+    arithmetic_mean(x, .(wpow(x, w, r - 1)), na.rm)
+  )
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")
   res
@@ -159,10 +161,12 @@ nested_mean <- function(r1, r2, t = c(1, 1)) {
     outer_mean(x, t, na.rm)
   }
   # clean up enclosing environment
-  enc <- list(outer_mean = outer_mean, 
-              inner_mean1 = inner_mean1, 
-              inner_mean2 = inner_mean2, 
-              t = t)
+  enc <- list(
+    outer_mean = outer_mean, 
+    inner_mean1 = inner_mean1, 
+    inner_mean2 = inner_mean2, 
+    t = t
+  )
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }

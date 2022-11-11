@@ -1,3 +1,7 @@
+## Version 0.4.4
+
+- Functions for transforming weights only keep the attributes of the weights (if any), as documented.
+
 ## Version 0.4.3
 
 - `back_price()` and `base_price()` are deprecated in favor of the more general `back_period()` and `base_period()` functions. They will be removed in a future version.

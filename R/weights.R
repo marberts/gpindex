@@ -1,28 +1,34 @@
 #---- Transmute weights ----
+globalVariables(c("v", "m"), "gpindex", add = TRUE)
+
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
   # return function
-  res <- function(x, w) {
-    if (missing(w)) {
-      # [[2]][[3]] unweighted calculation
-    } else {
-      # [[2]][[4]] weighted calculation
+  if (r == s) {
+    res <- function(x, w) {
+      if (missing(w)) w <- rep(1, length(x))
+      w[is.na(x)] <- NA_real_
+      w
     }
-  }
-  # unweighted calculation
-  body(res)[[c(2L, 3L)]] <- if (r == s) {
-    # make sure NAs carry on
-    quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
-    pow(ext_mean(x, gen_mean(x, na.rm = TRUE)), r - s)
-  }
-  # weighted calculation
-  body(res)[[c(2L, 4L)]] <- if (r == s) {
-    # make sure NAs carry on
-    quote({w[is.na(x)] <- NA_real_; w})
-  } else {
-    wpow(ext_mean(x, gen_mean(x, w, na.rm = TRUE)), w, r - s)
+    res <- function(x, w) {
+      m <- gen_mean(x, w, na.rm = TRUE)
+      if (missing(w)) {
+        # [[3]][[3]] unweighted calculation
+      } else {
+        # [[3]][[4]] weighted calculation
+      }
+      v
+    }
+    body(res)[[c(3L, 3L)]] <- bquote({
+      v <- .(pow(ext_mean(x, m), r - s))
+      attributes(v) <- NULL
+    })      
+    body(res)[[c(3L, 4L)]] <- bquote({
+      v <- .(wpow(ext_mean(x, m), w, r - s))
+      attributes(v) <- attributes(w)
+    })
   }
   # clean up enclosing environment
   enc <- list(gen_mean = gen_mean, ext_mean = ext_mean)
@@ -62,10 +68,12 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
     s_weights(x, w)
   }
   # clean up enclosing environment
-  enc <- list(s_weights = s_weights,
-              r_weights1 = r_weights1,
-              r_weights2 = r_weights2,
-              t = t)
+  enc <- list(
+    s_weights = s_weights,
+    r_weights1 = r_weights1,
+    r_weights2 = r_weights2,
+    t = t
+  )
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
@@ -105,12 +113,14 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     }
   }
   # clean up enclosing environment
-  enc <- list(s_weights = s_weights,
-              s_weights1 = s_weights1,
-              s_weights2 = s_weights2,
-              mean1 = mean1,
-              mean2 = mean2,
-              t = t)
+  enc <- list(
+    s_weights = s_weights,
+    s_weights1 = s_weights1,
+    s_weights2 = s_weights2,
+    mean1 = mean1,
+    mean2 = mean2,
+    t = t
+  )
   environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
   res
 }
@@ -121,26 +131,29 @@ factor_weights <- function(r) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
   # return function
-  res <- function(x, w) {
-    if (missing(w)) {
-      # [[2]][[3]] unweighted calculation
-    } else {
-      # [[2]][[4]] weighted calculation
+  if (r == 0) {
+    res <- function(x, w) {
+      if (missing(w)) w <- rep(1, length(x))
+      w[is.na(x)] <- NA_real_
+      w
     }
-  }
-  # unweighted calculation
-  body(res)[[c(2L, 3L)]] <- if (r == 0) {
-    # make sure NAs carry on
-    quote(replace(rep(1, length(x)), is.na(x), NA_real_))
   } else {
-    pow(x, r)
-  }
-  # weighted calculation
-  body(res)[[c(2L, 4L)]] <- if (r == 0) {
-    # make sure NAs carry on
-    quote({w[is.na(x)] <- NA_real_; w})
-  } else {
-    wpow(x, w, r)
+    res <- function(x, w) {
+      if (missing(w)) {
+        # [[2]][[3]] unweighted calculation
+      } else {
+        # [[2]][[4]] weighted calculation
+      }
+      v
+    }
+    body(res)[[c(2L, 3L)]] <- bquote({
+      v <- .(pow(x, r))
+      attributes(v) <- NULL
+    })
+    body(res)[[c(2L, 4L)]] <- bquote({
+      v <- .(wpow(x, w, r))
+      attributes(v) <- attributes(w)
+    })
   }
   # clean up enclosing environment
   environment(res) <- getNamespace("gpindex")

@@ -30,7 +30,7 @@ grouped <- function(f, ...) {
     # same as unsplit(), but keeps names
     x <- res[[1L]][rep(NA_integer_, length(group))]
     split(x, group) <- res
-    has_names <- if (!is.null(names(x))) {
+    if (!is.null(names(x))) {
       split(names(x), group) <- lapply(res, names)
     }
     x

@@ -36,7 +36,7 @@ The function \code{logmean()} returns the ordinary component-wise logarithmic me
 
 Both \code{a} and \code{b} should be strictly positive. This is not enforced, but the results may not make sense when the generalized logarithmic mean / extended mean is not defined. The usual recycling rules apply when \code{a} and \code{b} are not the same length.
 
-By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0} will test for exact equality, but can give misleading results when \code{a} and \code{b} are computed values. In some cases it's useful to multiply \code{tol} by a scale factor, such as \code{max(abs(a), abs(b))}. This often doesn't matter when making price indexes, however, as \code{a} and \code{b} are around 1.
+By definition, the generalized logarithmic mean / extended mean of \code{a} and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used to test equality by checking if \code{abs(a - b) <= tol}. The default value is the same as \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0} tests for exact equality, but can give misleading results when \code{a} and \code{b} are computed values. In some cases it's useful to multiply \code{tol} by a scale factor, such as \code{max(abs(a), abs(b))}. This often doesn't matter when making price indexes, however, as \code{a} and \code{b} are usually around 1.
 }
 
 \value{
