@@ -68,7 +68,7 @@ Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean. \emph{Mathemat
 \seealso{
 \code{\link{generalized_mean}} for the generalized mean. 
 
-\code{\link{transmute_weights}} uses the extended mean to turn a generalized mean of order \eqn{r}{r} into a generalized mean of order \eqn{s}{s}.
+\code{\link{transmute_weights}} uses the extended mean to turn a generalized mean of order \eqn{r} into a generalized mean of order \eqn{s}.
 }
 
 \examples{

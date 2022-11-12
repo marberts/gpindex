@@ -1,12 +1,14 @@
 #---- Index weights ----
-index_weights <- function(type = c("Carli", "Jevons", "Coggeshall", "Dutot", 
-                                   "Laspeyres", "HybridLaspeyres", "LloydMoulton",
-                                   "Palgrave", "Paasche", "HybridPaasche",
-                                   "Drobisch", "Unnamed", "Tornqvist",
-                                   "Walsh1", "Walsh2", "MarshallEdgeworth",
-                                   "GearyKhamis", "Vartia1", "MontgomeryVartia",
-                                   "Vartia2", "SatoVartia", "Theil", "Rao",
-                                   "Lowe", "Young")) {
+index_weights <- function(
+    type = c("Carli", "Jevons", "Coggeshall", "Dutot", 
+             "Laspeyres", "HybridLaspeyres", "LloydMoulton",
+             "Palgrave", "Paasche", "HybridPaasche",
+             "Drobisch", "Unnamed", "Tornqvist",
+             "Walsh1", "Walsh2", "MarshallEdgeworth",
+             "GearyKhamis", "Vartia1", "MontgomeryVartia",
+             "Vartia2", "SatoVartia", "Theil", "Rao",
+             "Lowe", "Young")
+) {
   # return function
   res <- switch(
     match.arg(type),
@@ -67,16 +69,18 @@ index_weights <- function(type = c("Carli", "Jevons", "Coggeshall", "Dutot",
 
 #---- Pythagorean indexes ----
 pythagorean_index <- function(r) {
-  types <- switch(r + 2,
-                  c("Coggeshall", "Laspeyres", "Paasche", "Young"),
-                  c("Jevons", "Laspeyres", "Paasche",
-                    "Tornqvist", "Vartia1", "MontgomeryVartia",
-                    "Vartia2", "SatoVartia", "Walsh2",
-                    "Young", "Theil", "Rao"),
-                  c("Carli", "Dutot", "Laspeyres",
-                    "Palgrave", "Drobisch", "Unnamed",
-                    "Walsh1", "MarshallEdgeworth", "GearyKhamis",
-                    "Lowe", "Young"))
+  types <- switch(
+    r + 2,
+    c("Coggeshall", "Laspeyres", "Paasche", "Young"),
+    c("Jevons", "Laspeyres", "Paasche",
+      "Tornqvist", "Vartia1", "MontgomeryVartia",
+      "Vartia2", "SatoVartia", "Walsh2",
+      "Young", "Theil", "Rao"),
+    c("Carli", "Dutot", "Laspeyres",
+      "Palgrave", "Drobisch", "Unnamed",
+      "Walsh1", "MarshallEdgeworth", "GearyKhamis",
+      "Lowe", "Young")
+  )
   gen_mean <- generalized_mean(r)
   # return function
   function(type) {

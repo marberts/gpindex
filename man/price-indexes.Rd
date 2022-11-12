@@ -110,7 +110,7 @@ The \code{arithmetic_index()}, \code{geometric_index()}, and \code{harmonic_inde
 \item Geometric Laspeyres
 \item Geometric Paasche
 \item Geometric Young
-\item Tornqvist (or Tornqvist-Theil)
+\item Törnqvist (or Törnqvist-Theil)
 \item Montgomery-Vartia / Vartia-I
 \item Sato-Vartia / Vartia-II
 \item Walsh-II (geometric Walsh)
@@ -137,7 +137,7 @@ The \code{index_weights()} function returns a function to calculate weights for 
 \item Hybrid Laspeyres (for use in a harmonic mean)
 \item Paasche / Palgrave
 \item Hybrid Paasche (for use in an arithmetic mean)
-\item Tornqvist / Unnamed
+\item Törnqvist / Unnamed
 \item Drobisch
 \item Walsh-I (for an arithmetic Walsh index)
 \item Walsh-II (for a geometric Walsh index)
@@ -163,7 +163,7 @@ Naming for the indexes and weights generally follows the CPI manual (2020), Balk
 \note{
 There are different ways to deal with missing values in a price index, and care should be taken when relying on these functions to remove missing values. Setting \code{na.rm = TRUE} removes price relatives with missing information, either because of a missing price or a missing weight, while using all available non-missing information to make the weights. 
 
-Certain properties of an index-number formula may not work as expected when removing missing values if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Tornqvist or Sato-Vartia index). The \code{\link[=balanced]{balanced()}} operator may be helpful, as it balances the removal of missing values across prices and quantities prior to making the weights.
+Certain properties of an index-number formula may not work as expected when removing missing values if there is ambiguity about how to remove missing values from the weights (as in, e.g., a Törnqvist or Sato-Vartia index). The \code{\link[=balanced]{balanced()}} operator may be helpful, as it balances the removal of missing values across prices and quantities prior to making the weights.
 }
 
 \references{

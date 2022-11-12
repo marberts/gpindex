@@ -91,7 +91,7 @@ ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price Index
 
 Martin, S. (2021). A note on general decompositions for price indexes. \emph{Prices Analytical Series}, Statistics Canada catalogue no. 62F0014M. Statistics Canada, Ottawa.
 
-Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Tornqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
+Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive decompositions for Fisher, Törnqvist and geometric mean indexes. \emph{Journal of Economic and Social Measurement}, 28(1-2):51--61.
 
 Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists' Mathematical Manual} (4th edition). Springer.
 }

@@ -24,7 +24,7 @@ fisher_geks(p, q, period, product,
 }
 
 \arguments{
-\item{f}{A \code{\link{price_index}} function that uses information on both base and current-period prices and quantities, and satisfies the time-reversal test. Usually a Tornqvist, Fisher, or Walsh index.}
+\item{f}{A \code{\link{price_index}} function that uses information on both base and current-period prices and quantities, and satisfies the time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.}
 \item{p}{A numeric vector of prices, the same length as \code{q}.}
 \item{q}{A numeric vector of quantities, the same length as \code{p}.}
 \item{period}{A factor, or something that can be coerced into one, that gives the corresponding time period for each element in \code{p} and \code{q}. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}

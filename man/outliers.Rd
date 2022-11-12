@@ -37,7 +37,7 @@ hb_transform(x)
 }
 
 \details{
-Each of these functions constructs an interval of the form \eqn{[b_l(x) - c_l \times l(x), b_u(x) + c_u \times u(x)]}{[bl(x) - cl * l(x), bu(x) + cu * u(x)]} and assigns a value in \code{x} as \code{TRUE} if that value does not belong to the interval, \code{FALSE} otherwise. The methods differ in how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)}, \eqn{l(x)}{l(x)}, and \eqn{u(x)}{u(x)}. Any missing values in \code{x} are ignored when calculating the cutoffs, but will return \code{NA}.
+Each of these functions constructs an interval of the form \eqn{[b_l(x) - c_l \times l(x), b_u(x) + c_u \times u(x)]}{[bl(x) - cl * l(x), bu(x) + cu * u(x)]} and assigns a value in \code{x} as \code{TRUE} if that value does not belong to the interval, \code{FALSE} otherwise. The methods differ in how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)}, \eqn{l(x)}, and \eqn{u(x)}. Any missing values in \code{x} are ignored when calculating the cutoffs, but will return \code{NA}.
 
 The fixed cutoff method is the simplest, and just uses the interval \eqn{[c_l, c_u]}{[cl, cu]}.
 
