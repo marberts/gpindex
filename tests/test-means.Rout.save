@@ -164,11 +164,6 @@ Error in generalized_mean("a") : 'r' must be a finite length 1 numeric
 Error in generalized_mean(1:2) : 'r' must be a finite length 1 numeric
 > try(generalized_mean(NaN))
 Error in generalized_mean(NaN) : 'r' must be a finite length 1 numeric
-> generalized_mean(1e-9)(1)
-[1] 1
-Warning message:
-In generalized_mean(1e-09) :
-  'r' is very small in absolute value, but not zero; this can give misleading results
 > try(geometric_mean(1:5, 1:3))
 Error in geometric_mean(1:5, 1:3) : 'x' and 'w' must be the same length
 > 
@@ -257,21 +252,6 @@ Error in extended_mean(NA, 1) : 'r' must be a finite length 1 numeric
 > try(extended_mean("a", mtcars))
 Error in extended_mean("a", mtcars) : 
   'r' must be a finite length 1 numeric
-> extended_mean(1e-9, 1)(1, 2)
-[1] 1.442695
-Warning message:
-In extended_mean(1e-09, 1) :
-  'r' is very small in absolute value, but not zero; this can give misleading results
-> extended_mean(1, 1e-9)(1, 2)
-[1] 1.442695
-Warning message:
-In extended_mean(1, 1e-09) :
-  's' is very small in absolute value, but not zero; this can give misleading results
-> extended_mean(1, 1 + 1e-9)(1, 2)
-[1] 1.471518
-Warning message:
-In extended_mean(1, 1 + 1e-09) :
-  'r' and 's' are very close in value, but not equal; this can give misleading results
 > generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi) # no more warning
 [1] 0.9549297
 > 

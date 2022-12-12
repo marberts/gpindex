@@ -5,9 +5,6 @@ generalized_mean <- function(r) {
   if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
-  if (small_but_not_zero(r)) {
-    warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
-  }
   # return function
   res <- function(x, w, na.rm = FALSE) {
     # no weights
@@ -65,15 +62,6 @@ extended_mean <- function(r, s) {
   }
   if (not_number(s)) {
     stop(gettext("'s' must be a finite length 1 numeric"))
-  }
-  if (small_but_not_zero(r)) {
-    warning(gettext("'r' is very small in absolute value, but not zero; this can give misleading results"))
-  }
-  if (small_but_not_zero(s)) {
-    warning(gettext("'s' is very small in absolute value, but not zero; this can give misleading results"))
-  }
-  if (small_but_not_zero(r - s)) {
-    warning(gettext("'r' and 's' are very close in value, but not equal; this can give misleading results"))
   }
   # return function
   res <- function(a, b, tol = .Machine$double.eps^0.5) {

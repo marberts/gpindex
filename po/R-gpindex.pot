@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gpindex 0.4.3.9003\n"
-"POT-Creation-Date: 2022-10-16 22:00\n"
+"Project-Id-Version: gpindex 0.4.3.9010\n"
+"POT-Creation-Date: 2022-12-11 21:55\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,19 +31,10 @@ msgstr ""
 msgid "'r' must be a finite length 1 numeric"
 msgstr ""
 
-msgid "'r' is very small in absolute value, but not zero; this can give misleading results"
-msgstr ""
-
 msgid "'x' and 'w' must be the same length"
 msgstr ""
 
 msgid "'s' must be a finite length 1 numeric"
-msgstr ""
-
-msgid "'s' is very small in absolute value, but not zero; this can give misleading results"
-msgstr ""
-
-msgid "'r' and 's' are very close in value, but not equal; this can give misleading results"
 msgstr ""
 
 msgid "'r2' must be a pair of numeric values"

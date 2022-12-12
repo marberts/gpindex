@@ -91,7 +91,6 @@ all.equal(generalized_mean(1)(x * a, w),
 try(generalized_mean("a"))
 try(generalized_mean(1:2))
 try(generalized_mean(NaN))
-generalized_mean(1e-9)(1)
 try(geometric_mean(1:5, 1:3))
 
 #---- Tests for generalized log means ----
@@ -140,9 +139,6 @@ all.equal(extended_mean(-0.5, -0.5)(a, b), (a^a^-0.5 / b^b^-0.5)^(1 / (a^-0.5 - 
 try(extended_mean(1, NA))
 try(extended_mean(NA, 1))
 try(extended_mean("a", mtcars))
-extended_mean(1e-9, 1)(1, 2)
-extended_mean(1, 1e-9)(1, 2)
-extended_mean(1, 1 + 1e-9)(1, 2)
 generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi) # no more warning
 
 #---- Tests for Lehmer means ----

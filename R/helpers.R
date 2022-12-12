@@ -9,10 +9,6 @@ different_lengths <- function(...) {
   any(res != res[1L])
 }
 
-small_but_not_zero <- function(x, tol = .Machine$double.eps^0.5) {
-  abs(x) < tol && x != 0
-}
-
 #---- Custom power operator ----
 # There are a variety of optimizations for calculating power/extended means
 # These are important to keep the Pythagorean calculations relatively fast

@@ -59,10 +59,6 @@ This computes the generalized mean of order \code{r} of \code{x} with weights \c
 \code{arithmetic_mean()}, \code{geometric_mean()}, and \code{harmonic_mean()} each return a numeric value for the generalized means of order 1, 0, and -1.
 }
 
-\section{Warning}{
-Passing very small values for \code{r} can give misleading results, and warning is given whenever \code{abs(r)} is sufficiently small. In general, \code{r} should not be a computed value.
-}
-
 \note{
 \code{generalized_mean()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite.
 

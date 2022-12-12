@@ -49,10 +49,6 @@ This computes the component-wise generalized logarithmic mean of order \code{r},
 \code{logmean()} returns a numeric vector, the same length as \code{max(length(a), length(b))}, giving the component-wise logarithmic mean of \code{a} and \code{b}.
 }
 
-\section{Warning}{
-Passing very small values for \code{r} or \code{s} can give misleading results, and warning is given whenever \code{abs(r)} or \code{abs(s)} is sufficiently small. Similarly, values for \code{r} and \code{s} that are very close, but not equal, can give misleading results. In general, \code{r} and \code{s} should not be computed values.
-}
-
 \note{
 \code{generalized_logmean()} can be defined on the extended real line, so that \code{r = -Inf/Inf} returns \code{\link[=pmin]{pmin()}}/\code{\link[=pmax]{pmax()}}, to agree with the definition in, e.g., Bullen (2003). This is not implemented, and \code{r} must be finite as in the original formulation by Stolarsky (1975).
 }
