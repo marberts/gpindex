@@ -4,36 +4,24 @@ globalVariables(c("v", "m"), "gpindex", add = TRUE)
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
-  # return function
-  if (r == s) {
-    res <- function(x, w) {
-      if (missing(w)) w <- rep(1, length(x))
+  
+  function(x, w = NULL) {
+    if (r == s) {
+      if (is.null(w)) w <- rep.int(1, length(x))
       w[is.na(x)] <- NA_real_
       w
-    }
-  } else {
-    res <- function(x, w) {
+    } else {
       m <- gen_mean(x, w, na.rm = TRUE)
-      if (missing(w)) {
-        # [[3]][[3]] unweighted calculation
+      if (is.null(w)) {
+        v <- ext_mean(x, m)^(r - s)
+        attributes(v) <- NULL
       } else {
-        # [[3]][[4]] weighted calculation
+        v <- w * ext_mean(x, m)^(r - s)
+        attributes(v) <- attributes(w)
       }
       v
     }
-    body(res)[[c(3L, 3L)]] <- bquote({
-      v <- .(pow(ext_mean(x, m), r - s))
-      attributes(v) <- NULL
-    })      
-    body(res)[[c(3L, 4L)]] <- bquote({
-      v <- .(wpow(ext_mean(x, m), w, r - s))
-      attributes(v) <- attributes(w)
-    })
   }
-  # clean up enclosing environment
-  enc <- list(gen_mean = gen_mean, ext_mean = ext_mean)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
@@ -48,7 +36,7 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip attributes
   # return function
-  res <- function(x, w1, w2) {
+  res <- function(x, w1 = NULL, w2 = NULL) {
     w <- if (is.na(t[1L]) && !is.na(t[2L])) {
       scale_weights(r_weights2(x, w2))
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
@@ -57,10 +45,10 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
       v1 <- scale_weights(r_weights1(x, w1))
       v2 <- scale_weights(r_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
-      if (!missing(w1) && anyNA(w1)) {
+      if (!is.null(w1) && anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
       }
-      if (!missing(w2) && anyNA(w2)) {
+      if (!is.null(w2) && anyNA(w2)) {
         v2[is.na(v2) & !is.na(v1)] <- 0
       }
       t[1L] * v1 + t[2L] * v2
@@ -92,7 +80,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   }
   t <- as.numeric(t) # strip attributes
   # return function
-  res <- function(x, w1, w2) {
+  res <- function(x, w1 = NULL, w2 = NULL) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
     if (is.na(v[1L]) && !is.na(v[2L])) {
@@ -103,10 +91,10 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
       u1 <- scale_weights(s_weights1(x, w1))
       u2 <- scale_weights(s_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
-      if (!missing(w1) && anyNA(w1)) {
+      if (!is.null(w1) && anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0
       }
-      if (!missing(w2) && anyNA(w2)) {
+      if (!is.null(w2) && anyNA(w2)) {
         u2[is.na(u2) & !is.na(u1)] <- 0
       }
       v[1L] * u1  + v[2L] * u2 
@@ -130,34 +118,23 @@ factor_weights <- function(r) {
   if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
-  # return function
-  if (r == 0) {
-    res <- function(x, w) {
-      if (missing(w)) w <- rep(1, length(x))
+
+  function(x, w = NULL) {
+    if (r == 0) {
+      if (is.null(w)) w <- rep.int(1, length(x))
       w[is.na(x)] <- NA_real_
       w
-    }
-  } else {
-    res <- function(x, w) {
-      if (missing(w)) {
-        # [[2]][[3]] unweighted calculation
+    } else {
+      if (is.null(w)) {
+        v <- x^r
+        attributes(v) <- NULL
       } else {
-        # [[2]][[4]] weighted calculation
+        v <- w * x^r
+        attributes(v) <- attributes(w)
       }
       v
     }
-    body(res)[[c(2L, 3L)]] <- bquote({
-      v <- .(pow(x, r))
-      attributes(v) <- NULL
-    })
-    body(res)[[c(2L, 4L)]] <- bquote({
-      v <- .(wpow(x, w, r))
-      attributes(v) <- attributes(w)
-    })
   }
-  # clean up enclosing environment
-  environment(res) <- getNamespace("gpindex")
-  res
 }
 
 update_weights <- factor_weights(1)

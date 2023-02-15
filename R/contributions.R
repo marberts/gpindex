@@ -1,14 +1,10 @@
 #---- Contributions ----
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
-  # return function
-  res <- function(x, w) {
+  
+  function(x, w = NULL) {
     scale_weights(arithmetic_weights(x, w)) * (x - 1)
   }
-  # clean up enclosing environment
-  enc <- list(arithmetic_weights = arithmetic_weights)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 arithmetic_contributions <- contributions(1)
@@ -20,16 +16,13 @@ harmonic_contributions <- contributions(-1)
 #---- Nested contributions ----
 nc <- function(nest_transmute) {
   nest_transmute <- match.fun(nest_transmute)
+  
   function(r1, r2, t = c(1, 1)) {
     arithmetic_weights <- nest_transmute(r1, r2, 1, t)
-    # return function
-    res <- function(x, w1, w2) {
+
+    function(x, w1 = NULL, w2 = NULL) {
       scale_weights(arithmetic_weights(x, w1, w2)) * (x - 1)
     }
-    # clean up enclosing environment
-    enc <- list(arithmetic_weights = arithmetic_weights)
-    environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-    res
   }
 }
 
