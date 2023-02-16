@@ -1,8 +1,6 @@
 \name{offset_prices}
 \alias{back_period}
 \alias{base_period}
-\alias{back_price}
-\alias{base_price}
 
 \title{Offset prices}
 
@@ -14,18 +12,12 @@ Utility functions to offset vectors of prices and quantities. For each product, 
 back_period(period, product = gl(1, length(period)))
 
 base_period(period, product = gl(1, length(period)))
-
-back_price(x, period, product = gl(1, length(x))) # deprecated
-
-base_price(x, period, product = gl(1, length(x))) # deprecated
 }
 
 \arguments{
 \item{period}{A factor, or something that can be coerced into one, that gives the time period for each transaction. The ordering of time periods follows the levels of \code{period} to agree with \code{\link[=cut.Date]{cut()}}.}
 
 \item{product}{A factor, or something that can be coerced into one, that gives the product identifier for each transaction. The default is to assume that all transactions are for the same product.}
-
-\item{x}{An atomic vector of prices.}
 }
 
 \value{

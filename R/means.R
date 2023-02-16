@@ -1,6 +1,4 @@
 #---- Generalized mean ----
-globalVariables(c("x", "w"), "gpindex", add = TRUE)
-
 generalized_mean <- function(r) {
   if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
@@ -41,8 +39,6 @@ geometric_mean <- generalized_mean(0)
 harmonic_mean <- generalized_mean(-1)
 
 #---- Extended mean ----
-globalVariables(c("a", "b"), "gpindex", add = TRUE)
-
 extended_mean <- function(r, s) {
   if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))

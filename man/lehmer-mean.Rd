@@ -13,7 +13,7 @@ Calculate a Lehmer mean.
 lehmer_mean(r)
 
 ## Special case
-contraharmonic_mean(x, w, na.rm = FALSE)
+contraharmonic_mean(x, w = NULL, na.rm = FALSE)
 }
 
 \arguments{
@@ -39,7 +39,7 @@ The Lehmer mean is an alternative to the generalized mean that generalizes the P
 \value{
 \code{lehmer_mean()} returns a function:
 
-\preformatted{function(x, w, na.rm = FALSE){...}}
+\preformatted{function(x, w = NULL, na.rm = FALSE){...}}
 
 This computes the Lehmer mean of order \code{r} of \code{x} with weights \code{w}.
 

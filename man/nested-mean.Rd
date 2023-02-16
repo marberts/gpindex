@@ -13,7 +13,7 @@ Calculate the (outer) generalized mean of two (inner) generalized means (i.e., c
 nested_mean(r1, r2, t = c(1, 1))
 
 ## Special case
-fisher_mean(x, w1, w2, na.rm = FALSE)
+fisher_mean(x, w1 = NULL, w2 = NULL, na.rm = FALSE)
 }
 
 \arguments{
@@ -33,7 +33,7 @@ fisher_mean(x, w1, w2, na.rm = FALSE)
 \value{
 \code{nested_mean()} returns a function:
 
-\preformatted{function(x, w1, w2, na.rm = FALSE){...}}
+\preformatted{function(x, w1 = NULL, w2 = NULL, na.rm = FALSE){...}}
 
 This computes the generalized mean of order \code{r1} of the generalized mean of order \code{r2[1]} of \code{x} with weights \code{w1} and the generalized mean of order \code{r2[2]} of \code{x} with weights \code{w2}.
 

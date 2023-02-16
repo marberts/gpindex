@@ -1,6 +1,4 @@
 #---- Transmute weights ----
-globalVariables(c("v", "m"), "gpindex", add = TRUE)
-
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
@@ -35,8 +33,8 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
     stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip attributes
-  # return function
-  res <- function(x, w1 = NULL, w2 = NULL) {
+  
+  function(x, w1 = NULL, w2 = NULL) {
     w <- if (is.na(t[1L]) && !is.na(t[2L])) {
       scale_weights(r_weights2(x, w2))
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
@@ -55,15 +53,6 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
     }
     s_weights(x, w)
   }
-  # clean up enclosing environment
-  enc <- list(
-    s_weights = s_weights,
-    r_weights1 = r_weights1,
-    r_weights2 = r_weights2,
-    t = t
-  )
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
@@ -79,8 +68,8 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     stop(gettext("'t' must be a pair of numeric values"))
   }
   t <- as.numeric(t) # strip attributes
-  # return function
-  res <- function(x, w1 = NULL, w2 = NULL) {
+  
+  function(x, w1 = NULL, w2 = NULL) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
     if (is.na(v[1L]) && !is.na(v[2L])) {
@@ -100,17 +89,6 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
       v[1L] * u1  + v[2L] * u2 
     }
   }
-  # clean up enclosing environment
-  enc <- list(
-    s_weights = s_weights,
-    s_weights1 = s_weights1,
-    s_weights2 = s_weights2,
-    mean1 = mean1,
-    mean2 = mean2,
-    t = t
-  )
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 #---- Factor weights  ----
@@ -118,7 +96,7 @@ factor_weights <- function(r) {
   if (not_number(r)) {
     stop(gettext("'r' must be a finite length 1 numeric"))
   }
-
+  
   function(x, w = NULL) {
     if (r == 0) {
       if (is.null(w)) w <- rep.int(1, length(x))

@@ -26,7 +26,7 @@ nested_transmute2(r1, r2, s, t = c(1, 1))
 
 factor_weights(r)
 
-update_weights(x, w)
+update_weights(x, w = NULL)
 
 scale_weights(x)
 }
@@ -69,13 +69,13 @@ Both \code{x} and \code{w} should be strictly positive. This is not enforced, bu
 \value{
 \code{transmute_weights()} and \code{factor_weights()} return a function: 
 
-\preformatted{function(x, w){...}}
+\preformatted{function(x, w = NULL){...}}
 
 In each case this function augments the weights \code{w}.
 
 \code{nested_transmute()} and \code{nested_transmute2()} similarly return a function:
 
-\preformatted{function(x, w1, w2){...}}
+\preformatted{function(x, w1 = NULL, w2 = NULL){...}}
 
 \code{update_weights()} and \code{scale_weights()} return a numeric vector the same length as \code{x}.
 }

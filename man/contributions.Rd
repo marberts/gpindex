@@ -25,15 +25,15 @@ nested_contributions(r1, r2, t = c(1, 1))
 nested_contributions2(r1, r2, t = c(1, 1))
 
 ## Special cases
-arithmetic_contributions(x, w)
+arithmetic_contributions(x, w = NULL)
 
-geometric_contributions(x, w)
+geometric_contributions(x, w = NULL)
 
-harmonic_contributions(x, w)
+harmonic_contributions(x, w = NULL)
 
-fisher_contributions(x, w1, w2)
+fisher_contributions(x, w1 = NULL, w2 = NULL)
 
-fisher_contributions2(x, w1, w2)
+fisher_contributions2(x, w1 = NULL, w2 = NULL)
 }
 
 \arguments{
@@ -65,13 +65,13 @@ The \code{fisher_contributions()} and \code{fisher_contributions2()} functions c
 \value{
 \code{contributions()} returns a function: 
 
-\preformatted{function(x, w){...}}
+\preformatted{function(x, w = NULL){...}}
 
 This computes the additive contribution for each element of \code{x} in an index based on the generalized mean of order \code{r} with weights \code{w}.
 
 \code{nested_contributions()} and \code{nested_contributions2()} return a function:
 
-\preformatted{function(x, w1, w2){...}}
+\preformatted{function(x, w1 = NULL, w2 = NULL){...}}
 
 This computes the additive contribution for each element of \code{x} when a generalized mean of order \code{r1} aggregates a generalized-mean index of order \code{r2[1]} with weights \code{w1} and a generalized-mean index of order \code{r2[2]} with weights \code{w2}.
 

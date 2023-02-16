@@ -9,8 +9,7 @@ index_weights <- function(
              "Vartia2", "SatoVartia", "Theil", "Rao",
              "Lowe", "Young")
 ) {
-  # return function
-  res <- switch(
+  switch(
     match.arg(type),
     Carli = ,
     Jevons = ,
@@ -62,9 +61,6 @@ index_weights <- function(
       w0 * w1 / (w0 + w1)
     }
   )
-  # clean up enclosing environment
-  environment(res) <- getNamespace("gpindex")
-  res
 }
 
 #---- Pythagorean indexes ----
@@ -82,22 +78,23 @@ pythagorean_index <- function(r) {
       "Lowe", "Young")
   )
   gen_mean <- generalized_mean(r)
-  # return function
+  
   function(type) {
     type <- match.arg(type, types)
-    # return function
-    res <- switch(
+    weights <- index_weights(type)
+    
+    switch(
       type,
       Carli = ,
       Dutot = ,
       Jevons = ,
       Coggeshall = function(p1, p0, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(p0), na.rm),
+        gen_mean(p1 / p0, weights(p0), na.rm),
       Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-        gen_mean(p1 / p0, index_weights(type)(p0, q0), na.rm),
+        gen_mean(p1 / p0, weights(p0, q0), na.rm),
       Paasche = ,
       Palgrave = function(p1, p0, q1, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(p1, q1), na.rm),
+        gen_mean(p1 / p0, weights(p1, q1), na.rm),
       Drobisch = ,
       Unnamed = ,
       Vartia2 = ,
@@ -106,23 +103,19 @@ pythagorean_index <- function(r) {
       Tornqvist = ,
       Theil = ,
       Rao = function(p1, p0, q1, q0, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(p1, p0, q1, q0), na.rm),
+        gen_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm),
       Vartia1 = ,
       MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-        exp(sum(log(p1 / p0) * index_weights(type)(p1, p0, q1, q0), na.rm = na.rm)),
+        exp(sum(log(p1 / p0) * weights(p1, p0, q1, q0), na.rm = na.rm)),
       Walsh1 = ,
       MarshallEdgeworth = ,
       GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(p0, q1, q0), na.rm),
+        gen_mean(p1 / p0, weights(p0, q1, q0), na.rm),
       Lowe = function(p1, p0, qb, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(p0, qb), na.rm),
+        gen_mean(p1 / p0, weights(p0, qb), na.rm),
       Young = function(p1, p0, pb, qb, na.rm = FALSE)
-        gen_mean(p1 / p0, index_weights(type)(pb, qb), na.rm)
+        gen_mean(p1 / p0, weights(pb, qb), na.rm)
     )
-    # clean up enclosing environment
-    enc <- list(gen_mean = gen_mean, type = type)
-    environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-    res
   }
 }
 
@@ -146,14 +139,10 @@ young_index <- arithmetic_index("Young")
 #---- Nested indexes ----
 nested_index <- function(r, s) {
   nest_mean <- nested_mean(r, s)
-  # return function
-  res <- function(p1, p0, q1, q0, na.rm = FALSE) {
+
+  function(p1, p0, q1, q0, na.rm = FALSE) {
     nest_mean(p1 / p0, p0 * q0, p1 * q1, na.rm)
   }
-  # clean up enclosing environment
-  enc <- list(nest_mean = nest_mean)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 fisher_index <- nested_index(0, c(1, -1))
@@ -163,14 +152,10 @@ hlp_index <- nested_index(-1, c(1, -1))
 #---- Lloyd Moulton index ----
 lm_index <- function(elasticity) {
   gen_mean <- generalized_mean(1 - elasticity)
-  # return function
-  res <- function(p1, p0, q0, na.rm = FALSE) {
+  
+  function(p1, p0, q0, na.rm = FALSE) {
     gen_mean(p1 / p0, p0 * q0, na.rm)
   }
-  # clean up enclosing environment
-  enc <- list(gen_mean = gen_mean)
-  environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-  res
 }
 
 #---- Caruthers Sellwood Ward Dalen index ----
@@ -199,7 +184,7 @@ stuvel_index <- function(a, b) {
   if (not_number(b)) {
     stop(gettext("'b' must be a finite length 1 numeric"))
   }
-  # return function
+  
   function(p1, p0, q1, q0, na.rm = FALSE) {
     v0 <- p0 * q0
     v1 <- p1 * q1
@@ -215,15 +200,10 @@ agmean_index <- function(r) {
   force(r)
   function(elasticity) {
     nest_mean <- nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))
-    # return function
-    res <- function(p1, p0, q0, na.rm = FALSE) {
+    function(p1, p0, q0, na.rm = FALSE) {
       v0 <- p0 * q0
       nest_mean(p1 / p0, v0, v0, na.rm)
     }
-    # clean up enclosing environment
-    enc <- list(nest_mean = nest_mean)
-    environment(res) <- list2env(enc, parent = getNamespace("gpindex"))
-    res
   }
 }
 

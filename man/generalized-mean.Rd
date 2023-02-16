@@ -15,11 +15,11 @@ Calculate a generalized mean.
 generalized_mean(r)
 
 ## Special cases
-arithmetic_mean(x, w, na.rm = FALSE)
+arithmetic_mean(x, w = NULL, na.rm = FALSE)
 
-geometric_mean(x, w, na.rm = FALSE)
+geometric_mean(x, w = NULL, na.rm = FALSE)
 
-harmonic_mean(x, w, na.rm = FALSE)
+harmonic_mean(x, w = NULL, na.rm = FALSE)
 }
 
 \arguments{
@@ -52,7 +52,7 @@ The underlying calculation returned by \code{generalized_mean()} is mostly ident
 \value{
 \code{generalized_mean()} returns a function:
 
-\preformatted{function(x, w, na.rm = FALSE){...}}
+\preformatted{function(x, w = NULL, na.rm = FALSE){...}}
 
 This computes the generalized mean of order \code{r} of \code{x} with weights \code{w}.
 
