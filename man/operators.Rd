@@ -61,7 +61,7 @@ laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
 
 quantity_index(index_weights("Laspeyres"))(q0 = q0, p0 = p0)
 
-#---- Grouped ----
+#---- Group ----
 # Calculate Tornqvist weights for two groups
 
 f <- factor(rep(letters[1:2], each = 3))
@@ -85,7 +85,7 @@ harmonic_mean(mapply(harmonic_mean, split(x, f), split(w2, f)), w1)
 wr <- grouped(scale_weights)(w2, group = f) * w1[f]
 harmonic_mean(x, wr)
 
-#---- Balanced ----
+#---- Balance ----
 # Balance missing values for a Fisher index
 
 fisher <- balanced(fisher_index)

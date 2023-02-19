@@ -27,7 +27,7 @@ base_period(period, product = gl(1, length(period)))
 }
 
 \note{
-By definition, there must be at most one transaction for each product in each time period to determine a back period. If multiple transactions correspond to a period-product pair, then the back period at a point in time is always the first location for that product in the previous period.
+By definition, there must be at most one transaction for each product in each time period to determine a back period. If multiple transactions correspond to a period-product pair, then the back period at a point in time is always the first position for that product in the previous period.
 }
 
 \seealso{
