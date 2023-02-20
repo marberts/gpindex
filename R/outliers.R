@@ -1,5 +1,5 @@
 # having all of these start with as.numeric() strips attributes and ensures the return
-# value is a logical vector
+# value is a plain logical vector
 
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
