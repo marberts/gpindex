@@ -9,10 +9,10 @@ generalized_mean <- function(r) {
       if (na.rm && anyNA(x)) {
         x <- x[!is.na(x)]
       }
-      if (r != 0 ){
-        (sum(x^r) / length(x))^(1 / r)
-      } else {
+      if (r == 0) {
         exp(sum(log(x)) / length(x))
+      } else {
+        (sum(x^r) / length(x))^(1 / r)
       }
     } else {
       if (length(x) != length(w)) {
@@ -23,10 +23,10 @@ generalized_mean <- function(r) {
         x <- x[keep]
         w <- w[keep]
       }
-      if (r != 0 ){
-        (sum(x^r * w) / sum(w))^(1 / r)
-      } else {
+      if (r == 0) {
         exp(sum(log(x) * w) / sum(w))
+      } else {
+        (sum(x^r * w) / sum(w))^(1 / r)
       }
     }
   }

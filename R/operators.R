@@ -4,7 +4,7 @@ quantity_index <- function(f) {
                q1 = "p1", q0 = "p0", 
                pb = "qb", qb = "pb",
                p  = "q",  q  = "p")
-  # return function
+
   function(...) {
     dots <- list(...)
     pqs <- names(dots) %in% concord
@@ -19,7 +19,7 @@ grouped <- function(f, ...) {
   if ("group" %in% names(formals(f))) {
     stop(gettext("'f' already has an argument called 'group'"))
   }
-  # return function
+  
   function(..., group) {
     group <- as.factor(group)
     if (nlevels(group) == 0L) {
@@ -40,7 +40,7 @@ grouped <- function(f, ...) {
 balanced <- function(f, ...) {
   f <- match.fun(f)
   nbargs <- list(...)
-  # return function
+  
   function(..., na.rm = FALSE) {
     dots <- list(...)
     if (na.rm) {
