@@ -13,7 +13,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
       # matching is only done for the lower-triangular part of the matrix
       # match products for window - 1 periods left of the diagonal
       # to minimize the number of back prices to find
-      js <- seq(to = i - 1L, length.out = min(window, i) - 1L)
+      js <- seq.int(to = i - 1L, length.out = min(window, i) - 1L)
       m <- .mapply(match, list(product[js], product[i]), list(incomparables = NA))
       bp <- .mapply(`[`, list(p[i], m), list())
       bq <- .mapply(`[`, list(q[i], m), list())
@@ -62,13 +62,13 @@ geks <- function(f) {
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on numeric codes
     product <- split(product, period)
-    if (max(vapply(product, anyDuplicated, numeric(1L), incomparables = NA))) {
+    if (duplicate_products(product)) {
       warning(gettext("there are duplicated period-product pairs"))
     }
     mat <- geks_matrix(f, p, q, product, n, nper, window, na.rm)
     rows <- seq_len(window) - 1L
     # only the last n + 1 indexes in each window need to be kept
-    cols <- seq(window - n, window) - 1L 
+    cols <- seq.int(window - n, window) - 1L 
     res <- vector("list", nper - window + 1L)
     # move down the diagonal to make the geks index
     for (i in seq_along(res)) {

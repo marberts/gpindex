@@ -42,7 +42,8 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   if (length(ts) == 0L) return(tail)
   m <- mean(ts, na.rm = TRUE)
   x <- x - m
-  u <- cu * (mean(ts[ts >= m], na.rm = TRUE) - m) # in some versions m is the median
+  # in some versions m is the median
+  u <- cu * (mean(ts[ts >= m], na.rm = TRUE) - m)
   l <- -cl * (m - mean(ts[ts <= m], na.rm = TRUE))
   x > u | x < l | tail
 }

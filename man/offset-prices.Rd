@@ -22,8 +22,6 @@ base_period(period, product = gl(1, length(period)))
 
 \value{
 \code{back_period()} and \code{base_period()} return a numeric vector of indices for the back/base periods. With \code{back_period()}, for all periods after the first, the resulting vector gives the location of the corresponding product in the previous period. The locations are unchanged for the first time period. With \code{base_period()}, the resulting vector gives the location of the corresponding product in the first period.
-
-\code{back_price()} and \code{base_price()} return an offset copy of \code{x}. 
 }
 
 \note{

@@ -1,4 +1,6 @@
-## Version 0.4.4
+## Version 0.5.0
+
+- `back_price()` and `base_price()` have been removed.
 
 - Functions for transforming weights only keep the attributes of the weights (if any), as documented.
 

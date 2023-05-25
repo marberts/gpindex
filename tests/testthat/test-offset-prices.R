@@ -4,6 +4,12 @@ period <- rep(1:2, each = 5)
 test_that("offsetting periods works", {
   # Simple cases
   expect_identical(back_period(NULL, NULL), integer(0))
+  expect_identical(back_period(numeric(0), factor(numeric(0), 1:3)), integer(0))
+  expect_identical(back_period(factor(numeric(0), 1:3), numeric(0)), integer(0))
+  expect_identical(
+    back_period(factor(numeric(0), 1:3), factor(numeric(0), 1:3)),
+    integer(0)
+  )
   expect_identical(back_period(1:4), c(1L, 1L, 2L, 3L))
   expect_identical(base_period(1:4), rep(1L, 4))
   
@@ -30,6 +36,6 @@ test_that("offsetting periods works", {
                    c(NA, NA, 3L, 4L, 5L, 5L, 4L, 3L, NA, NA))
 })
 
-test_that("ambiguou products trigger a wanring", {
+test_that("ambiguous products trigger a wanring", {
   expect_warning(base_period(c(1, 1, 2, 3)))
 })
