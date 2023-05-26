@@ -1,5 +1,5 @@
-# having all of these start with as.numeric() strips attributes and ensures the return
-# value is a plain logical vector
+# having all of these start with as.numeric() strips attributes and ensures the
+# return value is a plain logical vector
 
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
@@ -39,7 +39,9 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = TRUE, type = type)
   tail <- x < q[1L] | x > q[2L]
   ts <- x[x != 1 & !tail]
-  if (length(ts) == 0L) return(tail)
+  if (length(ts) == 0L) {
+    return(tail)
+  }
   m <- mean(ts, na.rm = TRUE)
   x <- x - m
   # in some versions m is the median

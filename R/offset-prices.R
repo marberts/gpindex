@@ -3,10 +3,10 @@ offset_period <- function(f) {
 
   function(period, product = gl(1, length(period))) {
     if (length(period) != length(product)) {
-      stop(gettext("'period' and 'product' must be the same length"))
+      stop("'period' and 'product' must be the same length")
     }
     period <- as.factor(period)
-    # factors with no levels throw an error below
+    # factors with no levels throws an error below
     if (nlevels(period) == 0L) {
       return(rep.int(NA_integer_, length(period)))
     }
@@ -14,7 +14,7 @@ offset_period <- function(f) {
     attributes(product) <- NULL # matching is faster on factor codes
     product <- split(product, period)
     if (duplicate_products(product)) {
-      warning(gettext("there are duplicated period-product pairs"))
+      warning("there are duplicated period-product pairs")
     }
     m <- .mapply(match, list(product, f(product)), list(incomparables = NA))
     res <- split(seq_along(period), period)

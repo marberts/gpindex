@@ -2,10 +2,12 @@
 transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
-  
+
   function(x, w = NULL) {
     if (r == s) {
-      if (is.null(w)) w <- rep.int(1, length(x))
+      if (is.null(w)) {
+        w <- rep.int(1, length(x))
+      }
       w[is.na(x)] <- NA_real_
       w
     } else {
@@ -24,16 +26,19 @@ transmute_weights <- function(r, s) {
 
 nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
+  
   if (length(r2) != 2L) {
-    stop(gettext("'r2' must be a pair of numeric values"))
+    stop("'r2' must be a pair of numeric values")
   }
+  
   r_weights1 <- transmute_weights(r2[1L], r1)
   r_weights2 <- transmute_weights(r2[2L], r1)
-  if (length(t) != 2L || !is.numeric(t)) {
-    stop(gettext("'t' must be a pair of numeric values"))
+  
+  if (length(t) != 2L) {
+    stop("'t' must be a pair of numeric values")
   }
   t <- as.numeric(t) # strip attributes
-  
+
   function(x, w1 = NULL, w2 = NULL) {
     w <- if (is.na(t[1L]) && !is.na(t[2L])) {
       scale_weights(r_weights2(x, w2))
@@ -57,18 +62,22 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
 
 nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
+  
   if (length(r2) != 2L) {
-    stop(gettext("'r2' must be a pair of numeric values"))
+    stop("'r2' must be a pair of numeric values")
   }
+  
   s_weights1 <- transmute_weights(r2[1L], s)
   s_weights2 <- transmute_weights(r2[2L], s)
   mean1 <- generalized_mean(r2[1L])
   mean2 <- generalized_mean(r2[2L])
-  if (length(t) != 2L || !is.numeric(t)) {
-    stop(gettext("'t' must be a pair of numeric values"))
-  }
-  t <- as.numeric(t) # strip attributes
   
+  if (length(t) != 2L) {
+    stop("'t' must be a pair of numeric values")
+  }
+  
+  t <- as.numeric(t) # strip attributes
+
   function(x, w1 = NULL, w2 = NULL) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
@@ -86,7 +95,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
       if (!is.null(w2) && anyNA(w2)) {
         u2[is.na(u2) & !is.na(u1)] <- 0
       }
-      v[1L] * u1  + v[2L] * u2 
+      v[1L] * u1  + v[2L] * u2
     }
   }
 }
@@ -94,12 +103,14 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #---- Factor weights  ----
 factor_weights <- function(r) {
   if (not_number(r)) {
-    stop(gettext("'r' must be a finite length 1 numeric"))
+    stop("'r' must be a finite length 1 numeric")
   }
-  
+
   function(x, w = NULL) {
     if (r == 0) {
-      if (is.null(w)) w <- rep.int(1, length(x))
+      if (is.null(w)) {
+        w <- rep.int(1, length(x))
+      }
       w[is.na(x)] <- NA_real_
       w
     } else {

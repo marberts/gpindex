@@ -1,7 +1,7 @@
 #---- Contributions ----
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
-  
+
   function(x, w = NULL) {
     scale_weights(arithmetic_weights(x, w)) * (x - 1)
   }
@@ -16,7 +16,7 @@ harmonic_contributions <- contributions(-1)
 #---- Nested contributions ----
 nc <- function(nest_transmute) {
   nest_transmute <- match.fun(nest_transmute)
-  
+
   function(r1, r2, t = c(1, 1)) {
     arithmetic_weights <- nest_transmute(r1, r2, 1, t)
 

@@ -1,6 +1,6 @@
 #---- Index weights ----
 index_weights <- function(
-    type = c("Carli", "Jevons", "Coggeshall", "Dutot", 
+    type = c("Carli", "Jevons", "Coggeshall", "Dutot",
              "Laspeyres", "HybridLaspeyres", "LloydMoulton",
              "Palgrave", "Paasche", "HybridPaasche",
              "Drobisch", "Unnamed", "Tornqvist",
@@ -13,7 +13,10 @@ index_weights <- function(
     match.arg(type),
     Carli = ,
     Jevons = ,
-    Coggeshall = function(p0) {p0[] <- 1; p0}, # keep attributes
+    Coggeshall = function(p0) {
+      p0[] <- 1 # keep attributes
+      p0
+    },
     Dutot = function(p0) p0,
     Young = function(pb, qb) pb * qb,
     Lowe = function(p0, qb) p0 * qb,
@@ -78,23 +81,26 @@ pythagorean_index <- function(r) {
       "Lowe", "Young")
   )
   gen_mean <- generalized_mean(r)
-  
+
   function(type) {
     type <- match.arg(type, types)
     weights <- index_weights(type)
-    
+
     switch(
       type,
       Carli = ,
       Dutot = ,
       Jevons = ,
-      Coggeshall = function(p1, p0, na.rm = FALSE)
-        gen_mean(p1 / p0, weights(p0), na.rm),
-      Laspeyres = function(p1, p0, q0, na.rm = FALSE) 
-        gen_mean(p1 / p0, weights(p0, q0), na.rm),
+      Coggeshall = function(p1, p0, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p0), na.rm)
+      },
+      Laspeyres = function(p1, p0, q0, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p0, q0), na.rm)
+      },
       Paasche = ,
-      Palgrave = function(p1, p0, q1, na.rm = FALSE)
-        gen_mean(p1 / p0, weights(p1, q1), na.rm),
+      Palgrave = function(p1, p0, q1, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p1, q1), na.rm)
+      },
       Drobisch = ,
       Unnamed = ,
       Vartia2 = ,
@@ -102,19 +108,24 @@ pythagorean_index <- function(r) {
       Walsh2 = ,
       Tornqvist = ,
       Theil = ,
-      Rao = function(p1, p0, q1, q0, na.rm = FALSE)
-        gen_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm),
+      Rao = function(p1, p0, q1, q0, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm)
+      },
       Vartia1 = ,
-      MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE)
-        exp(sum(log(p1 / p0) * weights(p1, p0, q1, q0), na.rm = na.rm)),
+      MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE) {
+        exp(sum(log(p1 / p0) * weights(p1, p0, q1, q0), na.rm = na.rm))
+      },
       Walsh1 = ,
       MarshallEdgeworth = ,
-      GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE)
-        gen_mean(p1 / p0, weights(p0, q1, q0), na.rm),
-      Lowe = function(p1, p0, qb, na.rm = FALSE)
-        gen_mean(p1 / p0, weights(p0, qb), na.rm),
-      Young = function(p1, p0, pb, qb, na.rm = FALSE)
+      GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p0, q1, q0), na.rm)
+      },
+      Lowe = function(p1, p0, qb, na.rm = FALSE) {
+        gen_mean(p1 / p0, weights(p0, qb), na.rm)
+      },
+      Young = function(p1, p0, pb, qb, na.rm = FALSE) {
         gen_mean(p1 / p0, weights(pb, qb), na.rm)
+      }
     )
   }
 }
@@ -152,7 +163,7 @@ hlp_index <- nested_index(-1, c(1, -1))
 #---- Lloyd Moulton index ----
 lm_index <- function(elasticity) {
   gen_mean <- generalized_mean(1 - elasticity)
-  
+
   function(p1, p0, q0, na.rm = FALSE) {
     gen_mean(p1 / p0, p0 * q0, na.rm)
   }
@@ -179,12 +190,12 @@ bw_index <- function(p1, p0, na.rm = FALSE) {
 #---- Generalized Stuvel index ----
 stuvel_index <- function(a, b) {
   if (not_number(a)) {
-    stop(gettext("'a' must be a finite length 1 numeric"))
+    stop("'a' must be a finite length 1 numeric")
   }
   if (not_number(b)) {
-    stop(gettext("'b' must be a finite length 1 numeric"))
+    stop("'b' must be a finite length 1 numeric")
   }
-  
+
   function(p1, p0, q1, q0, na.rm = FALSE) {
     v0 <- p0 * q0
     v1 <- p1 * q1
@@ -198,6 +209,7 @@ stuvel_index <- function(a, b) {
 #---- AG mean index ----
 agmean_index <- function(r) {
   force(r)
+  
   function(elasticity) {
     nest_mean <- nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))
     function(p1, p0, q0, na.rm = FALSE) {

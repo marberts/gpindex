@@ -1,5 +1,5 @@
 # None of these functions are exported
-#---- Argument checking ----
+
 not_number <- function(x) {
   length(x) != 1L || !is.numeric(x) || !is.finite(x)
 }

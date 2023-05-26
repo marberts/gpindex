@@ -1,5 +1,3 @@
-library(gpindex)
-
 # Some data for tests
 set.seed(1234)
 x <- rlnorm(15)
@@ -162,7 +160,7 @@ test_that("logmeans satisfy key properties", {
                (a^a^-0.5 / b^b^-0.5)^(1 / (a^-0.5 - b^-0.5)) / exp(1)^(-2))
 })
 
-test_that("logsmean handles corner cases correctly", {
+test_that("logmeans handles corner cases correctly", {
   # Tolerance
   expect_equal(logmean(2, sqrt(2)^2), 2)
   expect_equal(generalized_logmean(0.9)(2, sqrt(2)^2), 2)

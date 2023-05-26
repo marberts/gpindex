@@ -1,9 +1,9 @@
 #---- Generalized mean ----
 generalized_mean <- function(r) {
   if (not_number(r)) {
-    stop(gettext("'r' must be a finite length 1 numeric"))
+    stop("'r' must be a finite length 1 numeric")
   }
-  
+
   function(x, w = NULL, na.rm = FALSE) {
     if (is.null(w)) {
       if (na.rm && anyNA(x)) {
@@ -16,7 +16,7 @@ generalized_mean <- function(r) {
       }
     } else {
       if (length(x) != length(w)) {
-        stop(gettext("'x' and 'w' must be the same length"))
+        stop("'x' and 'w' must be the same length")
       }
       if (na.rm && (anyNA(x) || anyNA(w))) {
         keep <- !(is.na(x) | is.na(w))
@@ -41,12 +41,12 @@ harmonic_mean <- generalized_mean(-1)
 #---- Extended mean ----
 extended_mean <- function(r, s) {
   if (not_number(r)) {
-    stop(gettext("'r' must be a finite length 1 numeric"))
+    stop("'r' must be a finite length 1 numeric")
   }
   if (not_number(s)) {
-    stop(gettext("'s' must be a finite length 1 numeric"))
+    stop("'s' must be a finite length 1 numeric")
   }
-  
+
   function(a, b, tol = .Machine$double.eps^0.5) {
     res <- if (r == 0 && s == 0) {
       sqrt(a * b)
@@ -75,11 +75,15 @@ logmean <- generalized_logmean(0)
 #---- Lehmer mean ----
 lehmer_mean <- function(r) {
   if (not_number(r)) {
-    stop(gettext("'r' must be a finite length 1 numeric"))
+    stop("'r' must be a finite length 1 numeric")
   }
-  
+
   function(x, w = NULL, na.rm = FALSE) {
-    v <- if (is.null(w)) x^(r - 1) else x^(r - 1) * w
+    v <- if (is.null(w)) {
+      x^(r - 1)
+    } else {
+      x^(r - 1) * w
+    }
     arithmetic_mean(x, v, na.rm = na.rm)
   }
 }
@@ -90,13 +94,15 @@ contraharmonic_mean <- lehmer_mean(2)
 nested_mean <- function(r1, r2, t = c(1, 1)) {
   outer_mean <- generalized_mean(r1)
   if (length(r2) != 2L) {
-    stop(gettext("'r2' must be a pair of numeric values"))
+    stop("'r2' must be a pair of numeric values")
   }
+  
   inner_mean1 <- generalized_mean(r2[1L])
   inner_mean2 <- generalized_mean(r2[2L])
-  if (length(t) != 2L || !is.numeric(t)) {
-    stop(gettext("'t' must be a pair of numeric values"))
+  if (length(t) != 2L) {
+    stop("'t' must be a pair of numeric values")
   }
+  
   t <- as.numeric(t) # strip any attributes
 
   function(x, w1 = NULL, w2 = NULL, na.rm = FALSE) {

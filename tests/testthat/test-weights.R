@@ -20,7 +20,7 @@ test_that("weights transmuate correctly", {
 })
 
 #---- Tests for contributions ----
-test_that("contributions work coeectly", {
+test_that("contributions work correctly", {
   expect_equal(arithmetic_contributions(1:4), c(0, 0.25, 0.5, 0.75))
   expect_equal(harmonic_contributions(1:4), c(0, 0.24, 0.32, 0.36))
   expect_equal(geometric_contributions(c(1, 4)), c(0, 1))
