@@ -1,5 +1,7 @@
 #---- Transmute weights ----
 transmute_weights <- function(r, s) {
+  r <- as.numeric(r)
+  s <- as.numeric(s)
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean(r, s)
 
@@ -26,18 +28,19 @@ transmute_weights <- function(r, s) {
 
 nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
-  
-  if (length(r2) != 2L) {
-    stop("'r2' must be a pair of numeric values")
+
+  r2 <- as.numeric(r2)
+  if (not_finite_pair(r2)) {
+    stop("'r2' must be a pair of finite numeric values")
   }
-  
+
   r_weights1 <- transmute_weights(r2[1L], r1)
   r_weights2 <- transmute_weights(r2[2L], r1)
-  
+
+  t <- as.numeric(t)
   if (length(t) != 2L) {
     stop("'t' must be a pair of numeric values")
   }
-  t <- as.numeric(t) # strip attributes
 
   function(x, w1 = NULL, w2 = NULL) {
     w <- if (is.na(t[1L]) && !is.na(t[2L])) {
@@ -62,21 +65,21 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
 
 nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
-  
+
+  r2 <- as.numeric(r2)
   if (length(r2) != 2L) {
-    stop("'r2' must be a pair of numeric values")
+    stop("'r2' must be a pair of finite numeric values")
   }
-  
+
   s_weights1 <- transmute_weights(r2[1L], s)
   s_weights2 <- transmute_weights(r2[2L], s)
   mean1 <- generalized_mean(r2[1L])
   mean2 <- generalized_mean(r2[2L])
-  
+
+  t <- as.numeric(t)
   if (length(t) != 2L) {
     stop("'t' must be a pair of numeric values")
   }
-  
-  t <- as.numeric(t) # strip attributes
 
   function(x, w1 = NULL, w2 = NULL) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
@@ -102,7 +105,8 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 
 #---- Factor weights  ----
 factor_weights <- function(r) {
-  if (not_number(r)) {
+  r <- as.numeric(r)
+  if (not_finite_scalar(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
 

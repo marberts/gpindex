@@ -1,6 +1,7 @@
 #---- Generalized mean ----
 generalized_mean <- function(r) {
-  if (not_number(r)) {
+  r <- as.numeric(r)
+  if (not_finite_scalar(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
 
@@ -40,10 +41,12 @@ harmonic_mean <- generalized_mean(-1)
 
 #---- Extended mean ----
 extended_mean <- function(r, s) {
-  if (not_number(r)) {
+  r <- as.numeric(r)
+  s <- as.numeric(s)
+  if (not_finite_scalar(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
-  if (not_number(s)) {
+  if (not_finite_scalar(s)) {
     stop("'s' must be a finite length 1 numeric")
   }
 
@@ -74,7 +77,8 @@ logmean <- generalized_logmean(0)
 
 #---- Lehmer mean ----
 lehmer_mean <- function(r) {
-  if (not_number(r)) {
+  r <- as.numeric(r)
+  if (not_finite_scalar(r)) {
     stop("'r' must be a finite length 1 numeric")
   }
 
@@ -93,17 +97,19 @@ contraharmonic_mean <- lehmer_mean(2)
 #---- Nested mean ----
 nested_mean <- function(r1, r2, t = c(1, 1)) {
   outer_mean <- generalized_mean(r1)
-  if (length(r2) != 2L) {
-    stop("'r2' must be a pair of numeric values")
+
+  r2 <- as.numeric(r2)
+  if (not_finite_pair(r2)) {
+    stop("'r2' must be a pair of finite numeric values")
   }
-  
+
   inner_mean1 <- generalized_mean(r2[1L])
   inner_mean2 <- generalized_mean(r2[2L])
-  if (length(t) != 2L) {
+
+  t <- as.numeric(t)
+  if (length(t) != 2) {
     stop("'t' must be a pair of numeric values")
   }
-  
-  t <- as.numeric(t) # strip any attributes
 
   function(x, w1 = NULL, w2 = NULL, na.rm = FALSE) {
     x <- c(inner_mean1(x, w1, na.rm), inner_mean2(x, w2, na.rm))

@@ -189,10 +189,12 @@ bw_index <- function(p1, p0, na.rm = FALSE) {
 
 #---- Generalized Stuvel index ----
 stuvel_index <- function(a, b) {
-  if (not_number(a)) {
+  a <- as.numeric(a)
+  b <- as.numeric(b)
+  if (not_finite_scalar(a)) {
     stop("'a' must be a finite length 1 numeric")
   }
-  if (not_number(b)) {
+  if (not_finite_scalar(b)) {
     stop("'b' must be a finite length 1 numeric")
   }
 
@@ -209,7 +211,7 @@ stuvel_index <- function(a, b) {
 #---- AG mean index ----
 agmean_index <- function(r) {
   force(r)
-  
+
   function(elasticity) {
     nest_mean <- nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))
     function(p1, p0, q0, na.rm = FALSE) {

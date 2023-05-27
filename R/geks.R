@@ -49,14 +49,14 @@ geks <- function(f) {
     if (different_lengths(p, q, period, product)) {
       stop("'p', 'q', 'period', and 'product' must be the same length")
     }
-    
+
     period <- as.factor(period)
     nper <- nlevels(period)
-    
+
     if (nper == 0L) {
       return(list())
     }
-    
+
     window <- as.integer(window[1L])
     if (window < 2L) {
       stop("'window' must be greater than or equal to 2")
@@ -65,7 +65,7 @@ geks <- function(f) {
       stop("'window' must be less than or equal to the number of levels in",
            " 'period'")
     }
-    
+
     n <- as.integer(n[1L])
     if (n < 1L) {
       stop("'n' must be greater than or equal to 1")
@@ -73,7 +73,7 @@ geks <- function(f) {
     if (n > window - 1L) {
       stop("'n' must be less than or equal to 'window' minus 1")
     }
-    
+
     p <- split(p, period)
     q <- split(q, period)
     product <- as.factor(product)
@@ -82,7 +82,7 @@ geks <- function(f) {
     if (duplicate_products(product)) {
       warning("there are duplicated period-product pairs")
     }
-    
+
     mat <- geks_matrix(f, p, q, product, n, nper, window, na.rm)
     rows <- seq_len(window) - 1L
     # only the last n + 1 indexes in each window need to be kept

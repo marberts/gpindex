@@ -25,7 +25,7 @@ grouped <- function(f, ...) {
     if (nlevels(group) == 0L) {
       stop("'group' has no levels to group by")
     }
-    
+
     args <- lapply(list(...), split, group)
     res <- .mapply(f, args, ngargs)
     # same as unsplit(), but keeps names

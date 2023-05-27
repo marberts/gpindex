@@ -18,15 +18,20 @@ test_that("arithmetic indexes work", {
   expect_equal(arithmetic_index("Palgrave")(p1, p0, q1),
                weighted.mean(p1 / p0, p1 * q1 / sum(p1 * q1)))
   expect_equal(arithmetic_index("Drobisch")(p1, p0, q1, q0),
-               0.5 * sum(p1 * q0) / sum(p0 * q0) + 0.5 * sum(p1 * q1) / sum(p0 * q1))
+               0.5 * sum(p1 * q0) / sum(p0 * q0) +
+                 0.5 * sum(p1 * q1) / sum(p0 * q1))
   expect_equal(arithmetic_index("Unnamed")(p1, p0, q1, q0),
-               weighted.mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)))
+               weighted.mean(
+                 p1 / p0,
+                 0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
+              )
   expect_equal(arithmetic_index("Walsh1")(p1, p0, q1, q0),
                sum(p1 * sqrt(q0 * q1)) / sum(p0 * sqrt(q0 * q1)))
   expect_equal(arithmetic_index("MarshallEdgeworth")(p1, p0, q1, q0),
                sum(p1 * (q0 + q1) / 2) / sum(p0 * (q0 + q1) / 2))
   expect_equal(arithmetic_index("GearyKhamis")(p1, p0, q1, q0),
-               sum(p1 * 1 / (0.5 / q0 + 0.5 / q1)) / sum(p0 * 1 / (0.5 / q0 + 0.5 / q1)))
+               sum(p1 * 1 / (0.5 / q0 + 0.5 / q1)) /
+                 sum(p0 * 1 / (0.5 / q0 + 0.5 / q1)))
   expect_equal(arithmetic_index("Lowe")(p1, p0, qb),
                sum(p1 * qb) / sum(p0 * qb))
   expect_equal(arithmetic_index("Young")(p1, p0, pb, qb),
@@ -51,7 +56,10 @@ test_that("geometric indexes work", {
   geometric_index("Vartia1")(p1, p0, q1, q0) ==
     geometric_index("MontgomeryVartia")(p1, p0, q1, q0)
   expect_equal(geometric_index("Vartia2")(p1, p0, q1, q0),
-               geometric_mean(p1 / p0, logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))))
+               geometric_mean(
+                 p1 / p0,
+                 logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+               )
   geometric_index("Vartia2")(p1, p0, q1, q0) ==
     geometric_index("SatoVartia")(p1, p0, q1, q0)
   expect_equal(geometric_index("Walsh2")(p1, p0, q1, q0),
@@ -73,38 +81,54 @@ test_that("harmonic indexes work", {
 
 test_that("the other indexes work", {
   expect_equal(fisher_index(p1, p0, q1, q0),
-               geometric_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
+               geometric_mean(
+                 c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))
+               )
   expect_equal(hlp_index(p1, p0, q1, q0),
-               harmonic_mean(c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1))))
-  expect_equal(lm_index(1.5)(p1, p0, q0), 
+               harmonic_mean(
+                 c(sum(p1 * q0) / sum(p0 * q0), sum(p1 * q1) / sum(p0 * q1)))
+               )
+  expect_equal(lm_index(1.5)(p1, p0, q0),
                generalized_mean(-0.5)(p1 / p0, p0 * q0 / sum(p0 * q0)))
-  expect_equal(cswd_index(p1, p0), 
+  expect_equal(cswd_index(p1, p0),
                sqrt(arithmetic_mean(p1 / p0) * harmonic_mean(p1 / p0)))
-  expect_equal(cswdb_index(p1, p0, q1, q0), 
-               sqrt(arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) * arithmetic_mean(p1 * q1 / (p0 * q0))))
-  expect_equal(bw_index(p1, p0), 
+  expect_equal(cswdb_index(p1, p0, q1, q0),
+               sqrt(
+                 arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) *
+                   arithmetic_mean(p1 * q1 / (p0 * q0)))
+               )
+  expect_equal(bw_index(p1, p0),
                arithmetic_mean(sqrt(p1 / p0)) * harmonic_mean(sqrt(p1 / p0)))
-  expect_equal(stuvel_index(4, 4)(p1, p0, q1, q0), stuvel_index(1, 1)(p1, p0, q1, q0))
-  expect_true(stuvel_index(4, 4)(p1, p0, q1, q0) != stuvel_index(2, 1)(p1, p0, q1, q0))
-  expect_equal(arithmetic_agmean_index(0.25)(p1, p0, q0), 
-               0.25 * geometric_index("Laspeyres")(p1, p0, q0) + 0.75 * laspeyres_index(p1, p0, q0))
-  expect_equal(geometric_agmean_index(0.25)(p1, p0, q0), 
-               geometric_index("Laspeyres")(p1, p0, q0)^0.25 * laspeyres_index(p1, p0, q0)^0.75)
-  expect_equal(round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154)
+  expect_equal(stuvel_index(4, 4)(p1, p0, q1, q0),
+               stuvel_index(1, 1)(p1, p0, q1, q0))
+  expect_true(stuvel_index(4, 4)(p1, p0, q1, q0) !=
+                stuvel_index(2, 1)(p1, p0, q1, q0))
+  expect_equal(arithmetic_agmean_index(0.25)(p1, p0, q0),
+               0.25 * geometric_index("Laspeyres")(p1, p0, q0) +
+                 0.75 * laspeyres_index(p1, p0, q0))
+  expect_equal(geometric_agmean_index(0.25)(p1, p0, q0),
+               geometric_index("Laspeyres")(p1, p0, q0)^0.25 *
+                 laspeyres_index(p1, p0, q0)^0.75)
+  expect_equal(
+    round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154
+  )
 })
 
 test_that("quantity indexes work", {
   expect_equal(fisher_index(p1, p0, q1, q0),
                quantity_index(fisher_index)(p1, p0, q1, q0))
-  expect_equal(lm_index(1.5)(p1, p0, q0), 
+  expect_equal(lm_index(1.5)(p1, p0, q0),
                quantity_index(lm_index(1.5))(p1, p0, p0 = q0))
-  expect_equal(jevons_index(p1, p0), 
+  expect_equal(jevons_index(p1, p0),
                quantity_index(jevons_index)(q1 = p1, q0 = p0))
-  expect_equal(laspeyres_index(q1, q0, p0), 
+  expect_equal(laspeyres_index(q1, q0, p0),
                quantity_index(laspeyres_index)(q1, q0 = q0, p0))
-  expect_equal(index_weights("Vartia1")(p1, p0, q1, q0), 
-               quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0))
-  expect_equal(fisher_index(q1, p1 = p1, p0 = p0, q0) * quantity_index(fisher_index)(q1, p1 = p1, p0 = p0, q0),
+  expect_equal(
+    index_weights("Vartia1")(p1, p0, q1, q0),
+    quantity_index(index_weights("Vartia1"))(q1 = p1, p0, p1 = q1, q0)
+  )
+  expect_equal(fisher_index(q1, p1 = p1, p0 = p0, q0) *
+                 quantity_index(fisher_index)(q1, p1 = p1, p0 = p0, q0),
                sum(p1 * q1) / sum(p0 * q0))
 })
 
