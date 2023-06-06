@@ -1,0 +1,38 @@
+url: https://marberts.github.io/gpindex
+
+template:
+  bootstrap: 5
+  bootswatches: united
+  
+reference:
+- title: Package overview
+  contents:
+  - gpindex-package
+
+- title: Mathematical functions
+  contents:
+  - generalized_mean
+  - logarithmic_means
+  - nested_mean
+  - lehmer_mean
+  - transform_weights
+  
+- title: Index numbers
+  contents:
+  - price_index
+  - geks
+
+- title: Percent-change contribution
+  contents:
+  - contributions
+  
+- title: Utilities
+  contents:
+  - operators
+  - outliers
+  - offset_prices
+    
+- title: Data
+  contents:
+  - price_data
+

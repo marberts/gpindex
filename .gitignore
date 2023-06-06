@@ -2,3 +2,5 @@
 .Rhistory
 .Rprofile
 *.Rproj
+inst/doc
+docs
