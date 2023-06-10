@@ -1,6 +1,8 @@
 ---
 title: "Tools for generalized price indexes"
 output: rmarkdown::html_vignette
+bibliography:
+  references.bib
 vignette: >
   %\VignetteIndexEntry{Tools for generalized price indexes}
   %\VignetteEngine{knitr::rmarkdown}
@@ -14,6 +16,25 @@ knitr::opts_chunk$set(
 )
 ```
 
+Generalized-mean price indexes are a large family of price indexes with nice properties, such as the mean-value and identity properties. When used with value-share weights, these indexes satisfy the key homogeneity properties, commensurability, and are consistent in aggregation [@balk2008]. This last feature makes generalized-mean indexes natural candidates for making national statistics, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index).^[Everything is framed as a price index to avoid duplication; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.]
+
+## Generalized-mean price indexes
+
+Consider a collection $n$ goods and services sold at two points in time, $t = 0$ and $t = 1$. Associated with each good and time period is a price $p_{it}$ and the number of units sold $q_{it}$. Comparing prices for the same product over time gives a *price relative* $r_{i} = p_{1} / p_{0}$ for each product.
+
+A (bilateral) price index is a function that aggregates prices relatives to arrive at an overall chance in price between period 0 and period 1. As the name suggests, a generalized-mean price index combines a vector of price relatives $\mathbf{r} = (r_{1}, r_{2}, \ldots, r_{n}) \in \mathbb{R}^{n}_{++}$ with a vector of weights for each product $\mathbf{w} = (w_{1}, w_{2}, \ldots, w_{n}) \in \Delta^{n - 1}$ using a generalized mean of order $\rho$
+
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) = 
+\begin{cases}
+\left(\sum_{i = 1}^{n} w_{i} r_i^{\rho}\right)^{1 / \rho} & \text{if } \rho \neq 0 \\
+\exp\left(\sum_{i = 1}^{n} w_{i} \log(r_i)\right) & \text{if } \rho = 0.
+\end{cases}
+$$
+What distinguishes different generalized-mean price indexes are the weights and the order of the generalized mean. For example, the standard Laspeyres index uses weights each product with is base-period value share, $w_{i} = p_{i0} q_{i0} / \sum_{i=1}^{n} p_{i0} q_{i0}$, in a generalized mean of order $\rho = 1$ (arithmetic mean). Changing the order of the generalized mean to $\rho = 1 - \sigma$, where $\sigma$ is an elasticity of substitution, gives a Lloyd-Moulton index, whereas changing the weights to current-period value-shares, $w_{i} = p_{i1} q_{i1} / \sum_{i=1}^{n} p_{i1} q_{i1}$, gives a Palgrave index. This is the essence of the atomistic approach in chapter 2 of @selvanathan1994.
+
 ```{r setup}
 library(gpindex)
 ```
+
+## References
