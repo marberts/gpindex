@@ -267,21 +267,6 @@ Type 'q()' to quit R.
 > geometric_mean(x, w) # same as prod(x^w)
 [1] 2.059767
 > 
-> # Using prod() to manually calculate the geometric mean can give 
-> # misleading results
-> 
-> z <- 1:1000
-> prod(z)^(1 / length(z)) # overflow
-[1] Inf
-> geometric_mean(z)
-[1] 369.4917
-> 
-> z <- seq(0.0001, by = 0.0005, length.out = 1000)
-> prod(z)^(1 / length(z)) # underflow
-[1] 0
-> geometric_mean(z)
-[1] 0.1834479
-> 
 > # Harmonic mean
 > 
 > harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)

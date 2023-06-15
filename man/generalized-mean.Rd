@@ -109,17 +109,6 @@ arithmetic_mean(x, w) # same as weighted.mean(x, w)
 
 geometric_mean(x, w) # same as prod(x^w)
 
-# Using prod() to manually calculate the geometric mean can give 
-# misleading results
-
-z <- 1:1000
-prod(z)^(1 / length(z)) # overflow
-geometric_mean(z)
-
-z <- seq(0.0001, by = 0.0005, length.out = 1000)
-prod(z)^(1 / length(z)) # underflow
-geometric_mean(z)
-
 # Harmonic mean
 
 harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)
