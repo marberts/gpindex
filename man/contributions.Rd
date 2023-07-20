@@ -178,7 +178,7 @@ wp <- scale_weights(index_weights("HybridPaasche")(p0, q1))
 
 (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
   
-# Similar to the method in section 2 of Reinsdoft et al. (2002), 
+# Similar to the method in section 2 of Reinsdorf et al. (2002), 
 # although those contributions aren't based on weights that sum to 1
 
 Pf <- fisher_index(p1, p0, q1, q0)

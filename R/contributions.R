@@ -3,7 +3,7 @@ contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
 
   function(x, w = NULL) {
-    scale_weights(arithmetic_weights(x, w)) * (x - 1)
+    (x - 1) * scale_weights(arithmetic_weights(x, w))
   }
 }
 
@@ -21,7 +21,7 @@ nc <- function(nest_transmute) {
     arithmetic_weights <- nest_transmute(r1, r2, 1, t)
 
     function(x, w1 = NULL, w2 = NULL) {
-      scale_weights(arithmetic_weights(x, w1, w2)) * (x - 1)
+      (x - 1) * scale_weights(arithmetic_weights(x, w1, w2))
     }
   }
 }

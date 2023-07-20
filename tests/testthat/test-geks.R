@@ -222,7 +222,7 @@ test_that("'n' doesn't change the value in subsequent periods", {
     )
   )
 })
-# 
+
 test_that("errors work for geks", {
   expect_error(
     with(dat, tornqvist_geks(price, quantity, period[-1], product))

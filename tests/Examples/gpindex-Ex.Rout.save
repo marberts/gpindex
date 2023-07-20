@@ -350,9 +350,6 @@ Type 'q()' to quit R.
 > 
 > w[2] <- NA
 > 
-> arithmetic_mean(x, w)
-[1] NA
-> 
 > arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
 [1] 0.936339
 > weighted.mean(x, w, na.rm = TRUE) # still returns NA

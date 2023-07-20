@@ -173,8 +173,6 @@ harmonic_mean(y) * harmonic_mean(1 / y) - 1
 
 w[2] <- NA
 
-arithmetic_mean(x, w)
-
 arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
 weighted.mean(x, w, na.rm = TRUE) # still returns NA
 }
