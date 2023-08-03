@@ -4,7 +4,6 @@ xna <- replace(x, 2, NA)
 w <- runif(15, 0, 2)
 f <- factor(sample(letters[1:3], 15, TRUE))
 
-#---- Tests for transmutting ----
 test_that("weights transmute correctly", {
   expect_equal(transmute_weights(2, 2)(x), rep(1, length(x)))
   expect_equal(transmute_weights(0, 0)(xna, w), replace(w, 2, NA))
@@ -20,7 +19,6 @@ test_that("weights transmute correctly", {
   )
 })
 
-#---- Tests for contributions ----
 test_that("contributions work correctly", {
   expect_equal(arithmetic_contributions(1:4), c(0, 0.25, 0.5, 0.75))
   expect_equal(harmonic_contributions(1:4), c(0, 0.24, 0.32, 0.36))
@@ -35,7 +33,6 @@ test_that("contributions work correctly", {
   )
 })
 
-#---- Tests for factor_weights ----
 test_that("weights factor correctly", {
   expect_equal(factor_weights(0)(c(1, NA)), c(1, NA))
   expect_equal(factor_weights(0)(x), rep(1, length(x)))
@@ -101,9 +98,15 @@ test_that("nested contributions work correctly", {
   expect_equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x),
                harmonic_contributions(x))
 
-  expect_equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x, xna),
-               nested_contributions2(3, c(-1, 2), c(0.75, NA))(x, xna))
+  expect_equal(nested_contributions(3, c(2, -1), c(NA, 0.75))(x, w2 = xna),
+               nested_contributions2(3, c(2, -1), c(NA, 0.75))(x, w2 = xna))
 
-  expect_equal(nested_contributions(3, c(-1, 2), c(0.75, NA))(x, xna),
+  expect_equal(nested_contributions(3, c(2, -1), c(NA, 0.75))(x, w2 = xna),
                harmonic_contributions(x, xna))
+  
+  expect_equal(nested_contributions(3, c(-1, 2), c(NA, NA))(x),
+               rep(NA_real_, length(x)))
+  
+  expect_equal(nested_contributions2(3, c(-1, 2), c(NA, NA))(x),
+               rep(NA_real_, length(x)))
 })

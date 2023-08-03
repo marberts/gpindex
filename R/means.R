@@ -51,16 +51,16 @@ extended_mean <- function(r, s) {
   }
 
   function(a, b, tol = .Machine$double.eps^0.5) {
-    res <- if (r == 0 && s == 0) {
-      sqrt(a * b)
+    if (r == 0 && s == 0) {
+      res <- sqrt(a * b)
     } else if (r == 0) {
-      ((a^s - b^s) / log(a / b) / s)^(1 / s)
+      res <- ((a^s - b^s) / log(a / b) / s)^(1 / s)
     } else if (s == 0) {
-      ((a^r - b^r) / log(a / b) / r)^(1 / r)
+      res <- ((a^r - b^r) / log(a / b) / r)^(1 / r)
     } else if (r == s) {
-      exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
+      res <- exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
     } else {
-      ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
+      res <- ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
     }
     # set output to a when a == b
     i <- which(abs(a - b) <= tol)
@@ -83,10 +83,9 @@ lehmer_mean <- function(r) {
   }
 
   function(x, w = NULL, na.rm = FALSE) {
-    v <- if (is.null(w)) {
-      x^(r - 1)
-    } else {
-      x^(r - 1) * w
+    v <- x^(r - 1)
+    if (!is.null(w)) {
+      v <- v * w
     }
     arithmetic_mean(x, v, na.rm = na.rm)
   }

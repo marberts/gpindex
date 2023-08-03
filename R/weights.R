@@ -43,21 +43,21 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   }
 
   function(x, w1 = NULL, w2 = NULL) {
-    w <- if (is.na(t[1L]) && !is.na(t[2L])) {
-      scale_weights(r_weights2(x, w2))
+    if (is.na(t[1L]) && !is.na(t[2L])) {
+      w <- scale_weights(r_weights2(x, w2))
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
-      scale_weights(r_weights1(x, w1))
+      w <- scale_weights(r_weights1(x, w1))
     } else {
       v1 <- scale_weights(r_weights1(x, w1))
       v2 <- scale_weights(r_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
-      if (!is.null(w1) && anyNA(w1)) {
+      if (anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
       }
-      if (!is.null(w2) && anyNA(w2)) {
+      if (anyNA(w2)) {
         v2[is.na(v2) & !is.na(v1)] <- 0
       }
-      t[1L] * v1 + t[2L] * v2
+      w <- t[1L] * v1 + t[2L] * v2
     }
     s_weights(x, w)
   }
@@ -92,10 +92,10 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
       u1 <- scale_weights(s_weights1(x, w1))
       u2 <- scale_weights(s_weights2(x, w2))
       # the calculation is wrong if NAs in w1 or w2 propagate
-      if (!is.null(w1) && anyNA(w1)) {
+      if (anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0
       }
-      if (!is.null(w2) && anyNA(w2)) {
+      if (anyNA(w2)) {
         u2[is.na(u2) & !is.na(u1)] <- 0
       }
       v[1L] * u1  + v[2L] * u2

@@ -133,7 +133,7 @@ Type 'q()' to quit R.
 > (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
 [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828
 >   
-> # Similar to the method in section 2 of Reinsdoft et al. (2002), 
+> # Similar to the method in section 2 of Reinsdorf et al. (2002), 
 > # although those contributions aren't based on weights that sum to 1
 > 
 > Pf <- fisher_index(p1, p0, q1, q0)

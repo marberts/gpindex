@@ -10,7 +10,7 @@ Imports: stats
 Suggests: testthat (>= 3.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
-URL: https://marberts.github.io/gpindex, https://github.com/marberts/gpindex
+URL: https://marberts.github.io/gpindex/, https://github.com/marberts/gpindex
 BugReports: https://github.com/marberts/gpindex/issues
 LazyData: true
 Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price-indexes.R' 'geks.R' 'operators.R' 'offset-prices.R' 'outliers.R'

@@ -54,7 +54,7 @@ test_that("generalized means satifies key properties", {
   generalized_mean(4.6)(x, w) > generalized_mean(0.6)(x, w)
 })
 
-test_that("generalized means works with transmuted wieghts", {
+test_that("generalized means work with transmuted weights", {
   expect_equal(generalized_mean(-4.4)(x),
                generalized_mean(0)(x, transmute_weights(-4.4, 0)(x)))
   expect_equal(generalized_mean(3.8)(x, w),
@@ -205,6 +205,7 @@ test_that("nested mean reduces to a generalized mean", {
                arithmetic_mean(x, a))
   expect_equal(nested_mean(-2, c(1, 3), c(NA, 0.1))(x, w, wna, na.rm = TRUE),
                generalized_mean(3)(x, wna, na.rm = TRUE))
+  expect_equal(nested_mean(-2, c(1, 3), c(NA, NA))(x), NA_real_)
   expect_equal(nested_mean(2, c(1, 1))(x, a, a), arithmetic_mean(x, a))
   expect_equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
 })
@@ -219,9 +220,9 @@ test_that("nested mean works with transmuted weights", {
     )
   )
   expect_equal(
-    nested_mean(-5, c(1.1, -1.1), 1:2)(x, w, xna, na.rm = TRUE),
+    nested_mean(-5, c(1.1, -1.1), 1:2)(x, xna, w, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, w, xna), na.rm = TRUE
+      x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, xna, w), na.rm = TRUE
     )
   )
 
@@ -236,9 +237,38 @@ test_that("nested mean works with transmuted weights", {
     )
   )
   expect_equal(
-    nested_mean(-5, c(1.1, -0.1), 1:2)(x, b, xna, na.rm = TRUE),
+    nested_mean(-5, c(1.1, -0.1), 1:2)(x, xna, b, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, b, xna), na.rm = TRUE
+      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, xna, b), na.rm = TRUE
+    )
+  )
+  
+  expect_equal(
+    nested_mean(-5, c(1.1, -0.1), c(NA, 2))(x, b, xna, na.rm = TRUE),
+    generalized_mean(0.2)(
+      x, nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
+      na.rm = TRUE
+    )
+  )
+  expect_equal(
+    nested_mean(-5, c(1.1, -0.1), c(NA, 2))(x, b, xna, na.rm = TRUE),
+    generalized_mean(0.2)(
+      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
+      na.rm = TRUE
+    )
+  )
+  expect_equal(
+    nested_mean(-5, c(1.1, -0.1), c(NA, NA))(x, b, xna, na.rm = TRUE),
+    generalized_mean(0.2)(
+      x, nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
+      na.rm = TRUE
+    )
+  )
+  expect_equal(
+    nested_mean(-5, c(1.1, -0.1), c(NA, NA))(x, b, xna, na.rm = TRUE),
+    generalized_mean(0.2)(
+      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
+      na.rm = TRUE
     )
   )
 })
