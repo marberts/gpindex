@@ -5,10 +5,10 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
   # time-reversal property of the 'index' function
   rows <- seq_len(nper)
   lt <- lapply(rows, function(i) {
-    ans <- if (i < max(window - n, 2L)) {
+    if (i < max(window - n, 2L)) {
       # only the last n + 1 rows are needed for each window,
       # so pad the top rows left of the diagonal with NA
-      rep_len(NA_real_, i - 1L)
+      ans <- rep_len(NA_real_, i - 1L)
     } else {
       # matching is only done for the lower-triangular part of the matrix
       # match products for window - 1 periods left of the diagonal
@@ -21,7 +21,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
       )
       bp <- .mapply(`[`, list(p[i], m), list())
       bq <- .mapply(`[`, list(q[i], m), list())
-      .mapply(
+      ans <- .mapply(
         index,
         list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq),
         list(na.rm = na.rm)

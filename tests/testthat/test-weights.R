@@ -103,10 +103,10 @@ test_that("nested contributions work correctly", {
 
   expect_equal(nested_contributions(3, c(2, -1), c(NA, 0.75))(x, w2 = xna),
                harmonic_contributions(x, xna))
-  
+
   expect_equal(nested_contributions(3, c(-1, 2), c(NA, NA))(x),
                rep(NA_real_, length(x)))
-  
+
   expect_equal(nested_contributions2(3, c(-1, 2), c(NA, NA))(x),
                rep(NA_real_, length(x)))
 })

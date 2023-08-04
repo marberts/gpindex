@@ -242,7 +242,7 @@ test_that("nested mean works with transmuted weights", {
       x, nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, xna, b), na.rm = TRUE
     )
   )
-  
+
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), c(NA, 2))(x, b, xna, na.rm = TRUE),
     generalized_mean(0.2)(
