@@ -41,6 +41,92 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
   res
 }
 
+
+
+#' GEKS index
+#' 
+#' Calculate an inter-temporal GEKS price index over a rolling window, as
+#' described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in
+#' chapter 10 of the CPI manual (2020).
+#' 
+#' 
+#' @aliases geks tornqvist_geks fisher_geks
+#' @param f A [price_index()] function that uses information on both
+#' base and current-period prices and quantities, and satisfies the
+#' time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.
+#' @param p A numeric vector of prices, the same length as `q`.
+#' @param q A numeric vector of quantities, the same length as `p`.
+#' @param period A factor, or something that can be coerced into one, that
+#' gives the corresponding time period for each element in `p` and
+#' `q`. The ordering of time periods follows the levels of `period`
+#' to agree with [`cut()`][cut.Date].
+#' @param product A factor, or something that can be coerced into one, that
+#' gives the corresponding product identifier for each element in `p` and
+#' `q`.
+#' @param window The length of the rolling window. The default is a window that
+#' encompasses all periods in `period`. Values that are neither integers
+#' nor length 1 are silently truncated to a length 1 integer.
+#' @param n A number giving the length of the index series for each window,
+#' starting from the end of the window. For example, if there are 13 periods in
+#' `window`, setting `n = 1` gives the index for period 13. The
+#' default gives an index for each period in `window`. Values that are
+#' neither integers nor length 1 are silently truncated to a length 1 integer.
+#' @param na.rm Should missing values for `p` and `q` be removed when
+#' calculating the index? By default missing values will return a missing value
+#' for the index.
+#' @return `geks()` returns a function:
+#' 
+#' \preformatted{ function(p, q, period, product, window = nlevels(period), n =
+#' window - 1, na.rm = FALSE){...} }
+#' 
+#' This calculates a period-over-period GEKS index with the desired
+#' index-number formula, returning a list for each window with a named-numeric
+#' vector of index values.
+#' 
+#' `tornqvist_geks()` and `fisher_geks()` both return a list with a
+#' named numeric vector giving the value of the respective period-over-period
+#' GEKS index for each window.
+#' @note Like [`back_period()`][back_period], if multiple prices
+#' correspond to a period-product pair, then the back price at a point in time
+#' is always the first price for that product in the previous period. Unlike a
+#' bilateral index, however, duplicated period-product pairs can have more
+#' subtle implications for a multilateral index.
+#' @seealso [price_index()] for price-index functions that can be
+#' used in `geks()`.
+#' @references Balk, B. M. (2008). *Price and Quantity Index Numbers*.
+#' Cambridge University Press.
+#' 
+#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). *Consumer Price
+#' Index Manual: Theory and Practice*. International Monetary Fund.
+#' 
+#' Ivancic, L., Diewert, W. E., and Fox, K. J. (2011). Scanner data, time
+#' aggregation and the construction of price indexes. *Journal of
+#' Econometrics*, 161(1): 24--35.
+#' @examples
+#' 
+#' price <- 1:6
+#' quantity <- 6:1
+#' period <- rep(1:3, 2)
+#' product <- rep(letters[1:2], each = 3)
+#' 
+#' tornqvist_geks(price, quantity, period, product)
+#' 
+#' tornqvist_geks(price, quantity, period, product, window = 2)
+#' 
+#' # Missing data
+#' 
+#' quantity[2] <- NA
+#' 
+#' # Use all non-missing data
+#' 
+#' fisher_geks(price, quantity, period, product, na.rm = TRUE)
+#' 
+#' # Remove records with any missing data
+#' 
+#' fg <- geks(balanced(fisher_index))
+#' fg(price, quantity, period, product, na.rm = TRUE)
+#' 
+#' @export geks
 geks <- function(f) {
   f <- match.fun(f)
 
