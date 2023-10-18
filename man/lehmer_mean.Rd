@@ -6,6 +6,8 @@
 \title{Lehmer mean}
 \usage{
 lehmer_mean(r)
+
+contraharmonic_mean(x, w = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{r}{A finite number giving the order of the Lehmer mean.}
@@ -62,13 +64,11 @@ the Pythagorean means. The function \code{lehmer_mean(1)()} is identical to
 }
 \note{
 \code{lehmer_mean()} can be defined on the extended real line, so that
-\code{r = -Inf/Inf} returns
-\code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the
+\code{r = -Inf / Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the
 definition in, e.g., Bullen (2003). This is not implemented, and \code{r}
 must be finite.
 }
 \examples{
-
 x <- 2:3
 w <- c(0.25, 0.75)
 
@@ -141,19 +141,20 @@ scale_weights(w * x^(r - 1)) * (x - 1)
 
 }
 \references{
-Bullen, P. S. (2003). \emph{Handbook of Means and Their
-Inequalities}. Springer Science+Business Media.
+Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}.
+Springer Science+Business Media.
 
-Lehmer, D. H. (1971). On the Compounding of Certain Means. \emph{Journal of
-Mathematical Analysis and Applications}, 36(1): 183-200.
+Lehmer, D. H. (1971). On the Compounding of Certain Means.
+\emph{Journal of Mathematical Analysis and Applications}, 36(1): 183-200.
 
 von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
 Formulas, Notes on some unexplored index formulas, their interpretations and
 generalizations. Munich Personal RePEc Archive paper no. 64952.
 }
 \seealso{
-\code{\link[=generalized_mean]{generalized_mean()}} for the generalized mean, an
-alternative to the Lehmer mean.
-
-\code{\link[=generalized_logmean]{generalized_logmean()}} for the generalized logarithmic mean.
+Other means: 
+\code{\link{extended_mean}()},
+\code{\link{generalized_mean}()},
+\code{\link{nested_mean}()}
 }
+\concept{means}

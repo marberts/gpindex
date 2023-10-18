@@ -8,6 +8,12 @@
 \title{Generalized mean}
 \usage{
 generalized_mean(r)
+
+arithmetic_mean(x, w = NULL, na.rm = FALSE)
+
+geometric_mean(x, w = NULL, na.rm = FALSE)
+
+harmonic_mean(x, w = NULL, na.rm = FALSE)
 }
 \arguments{
 \item{r}{A finite number giving the order of the generalized mean.}
@@ -51,19 +57,21 @@ minimize \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m)
 The functions \code{arithmetic_mean()}, \code{geometric_mean()}, and
 \code{harmonic_mean()} compute the arithmetic, geometric, and harmonic (or
 subcontrary) means, also known as the Pythagorean means. These are the most
-useful means for making price indexes, and correspond to setting \code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{generalized_mean()}.
+useful means for making price indexes, and correspond to setting
+\code{r = 1}, \code{r = 0}, and \code{r = -1} in \code{generalized_mean()}.
 
 Both \code{x} and \code{w} should be strictly positive (and finite),
 especially for the purpose of making a price index. This is not enforced,
 but the results may not make sense if the generalized mean is not defined.
-There are two exceptions to this. \enumerate{ \itemThe convention in Hardy
-et al. (1952, p. 13) is used in cases where \code{x} has zeros: the
-generalized mean is 0 whenever \code{w} is strictly positive and \code{r} <
-0. (The analogous convention holds whenever at least one element of \code{x}
-is \code{Inf}: the generalized mean is \code{Inf} whenever \code{w} is
-strictly positive and \code{r > 0}.)
+There are two exceptions to this.
+\enumerate{
+\item The convention in Hardy et al. (1952, p. 13) is used in cases where \code{x}
+has zeros: the generalized mean is 0 whenever \code{w} is strictly positive and
+\code{r} < 0. (The analogous convention holds whenever at least one element of \code{x}
+is \code{Inf}: the generalized mean is \code{Inf} whenever \code{w} is strictly positive
+and \code{r} > 0.)
 
-\itemSome authors let \code{w} be non-negative and sum to 1 (e.g., Sydsaeter
+\item Some authors let \code{w} be non-negative and sum to 1 (e.g., Sydsaeter
 et al., 2005, p. 47). If \code{w} has zeros, then the corresponding element
 of \code{x} has no impact on the mean whenever \code{x} is strictly
 positive. Unlike \code{\link[=weighted.mean]{weighted.mean()}}, however,
@@ -86,8 +94,7 @@ for \code{\link[=weighted.mean]{weighted.mean()}}.
 }
 \note{
 \code{generalized_mean()} can be defined on the extended real line, so
-that \code{r = -Inf/Inf} returns
-\code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the
+that \code{r = -Inf / Inf} returns \code{\link[=min]{min()}}/\code{\link[=max]{max()}}, to agree with the
 definition in, e.g., Bullen (2003). This is not implemented, and \code{r}
 must be finite.
 
@@ -101,7 +108,6 @@ geometric and harmonic means, namely the \code{geometric.mean()} and
 calculates an \emph{unweighted} generalized mean.
 }
 \examples{
-
 x <- 1:3
 w <- c(0.25, 0.25, 0.5)
 
@@ -184,8 +190,8 @@ weighted.mean(x, w, na.rm = TRUE) # still returns NA
 
 }
 \references{
-Bullen, P. S. (2003). \emph{Handbook of Means and Their
-Inequalities}. Springer Science+Business Media.
+Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}.
+Springer Science+Business Media.
 
 Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin
 Company.
@@ -193,33 +199,32 @@ Company.
 Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd
 edition). Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price
-Index Manual: Theory and Practice}. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Theory and Practice}.
+International Monetary Fund.
 
-Lord, N. (2002). Does Smaller Spread Always Mean Larger Product? \emph{The
-Mathematical Gazette}, 86(506): 273-274.
+Lord, N. (2002). Does Smaller Spread Always Mean Larger Product?
+\emph{The Mathematical Gazette}, 86(506): 273-274.
 
-Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists'
-Mathematical Manual} (4th edition). Springer.
+Sydsaeter, K., Strom, A., and Berck, P. (2005).
+\emph{Economists' Mathematical Manual} (4th edition). Springer.
 }
 \seealso{
-\code{\link[=generalized_logmean]{generalized_logmean()}} for the generalized logarithmic
-mean.
-
-\code{\link[=lehmer_mean]{lehmer_mean()}} for the Lehmer mean, an alternative to the
-generalized mean.
-
-\code{\link[=nested_mean]{nested_mean()}} for nesting generalized means.
-
 \code{\link[=transmute_weights]{transmute_weights()}} transforms the weights to turn a generalized
 mean of order \eqn{r} into a generalized mean of order \eqn{s}.
 
 \code{\link[=factor_weights]{factor_weights()}} calculates the weights to factor a mean of
 products into a product of means.
 
-\code{\link[=price_index]{price_index()}} and \code{\link[=quantity_index]{quantity_index()}} for simple
+\link{price_indexes} and \code{\link[=quantity_index]{quantity_index()}} for simple
 wrappers that use \code{generalized_mean()} to calculate common indexes.
 
 \code{\link[=back_period]{back_period()}}/\code{\link[=base_period]{base_period()}} for a simple utility
 function to turn prices in a table into price relatives.
+
+Other means: 
+\code{\link{extended_mean}()},
+\code{\link{lehmer_mean}()},
+\code{\link{nested_mean}()}
 }
+\concept{means}

@@ -17,8 +17,8 @@
 #' The functions `arithmetic_mean()`, `geometric_mean()`, and
 #' `harmonic_mean()` compute the arithmetic, geometric, and harmonic (or
 #' subcontrary) means, also known as the Pythagorean means. These are the most
-#' useful means for making price indexes, and correspond to setting `r =
-#' 1`, `r = 0`, and `r = -1` in `generalized_mean()`.
+#' useful means for making price indexes, and correspond to setting
+#' \code{r = 1}, \code{r = 0}, and \code{r = -1} in `generalized_mean()`.
 #' 
 #' Both `x` and `w` should be strictly positive (and finite),
 #' especially for the purpose of making a price index. This is not enforced,
@@ -29,7 +29,7 @@
 #' has zeros: the generalized mean is 0 whenever `w` is strictly positive and
 #' `r` < 0. (The analogous convention holds whenever at least one element of `x`
 #' is `Inf`: the generalized mean is `Inf` whenever `w` is strictly positive
-#' and `r > 0`.)
+#' and `r` > 0.)
 #' 
 #' \item Some authors let `w` be non-negative and sum to 1 (e.g., Sydsaeter
 #' et al., 2005, p. 47). If `w` has zeros, then the corresponding element
@@ -73,7 +73,7 @@
 #' 
 #' @note
 #' `generalized_mean()` can be defined on the extended real line, so
-#' that `r = -Inf/Inf` returns [`min()`]/[`max()`], to agree with the
+#' that \code{r = -Inf / Inf} returns [min()]/[max()], to agree with the
 #' definition in, e.g., Bullen (2003). This is not implemented, and `r`
 #' must be finite.
 #' 
@@ -87,21 +87,13 @@
 #' calculates an *unweighted* generalized mean.
 #' 
 #' @seealso
-#' [generalized_logmean()] for the generalized logarithmic
-#' mean.
-#' 
-#' [lehmer_mean()] for the Lehmer mean, an alternative to the
-#' generalized mean.
-#' 
-#' [nested_mean()] for nesting generalized means.
-#' 
 #' [transmute_weights()] transforms the weights to turn a generalized
 #' mean of order \eqn{r} into a generalized mean of order \eqn{s}.
 #' 
 #' [factor_weights()] calculates the weights to factor a mean of
 #' products into a product of means.
 #' 
-#' [price_index()] and [quantity_index()] for simple
+#' [price_indexes] and [quantity_index()] for simple
 #' wrappers that use `generalized_mean()` to calculate common indexes.
 #' 
 #' [back_period()]/[base_period()] for a simple utility
@@ -112,8 +104,8 @@
 #' Springer Science+Business Media.
 #' 
 #' Fisher, I. (1922). *The Making of Index Numbers*. Houghton Mifflin
-#' Company.
-#' 
+#' Company. 
+#'
 #' Hardy, G., Littlewood, J. E., and Polya, G. (1952). *Inequalities* (2nd
 #' edition). Cambridge University Press.
 #' 
@@ -208,6 +200,7 @@
 #' arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
 #' weighted.mean(x, w, na.rm = TRUE) # still returns NA
 #' 
+#' @family means
 #' @export
 generalized_mean <- function(r) {
   r <- as.numeric(r)
@@ -244,21 +237,21 @@ generalized_mean <- function(r) {
 }
 
 #' Arithmetic mean
-#' @rdname genralized_mean
+#' @rdname generalized_mean
 #' @export
 arithmetic_mean <- generalized_mean(1)
 
 #' Geometric mean
-#' @rdname genralized_mean
+#' @rdname generalized_mean
 #' @export
 geometric_mean <- generalized_mean(0)
 
 #' Harmonic mean
-#' @rdname genralized_mean
+#' @rdname generalized_mean
 #' @export
 harmonic_mean <- generalized_mean(-1)
 
-#' Logarithmic means
+#' Extended mean
 #' 
 #' Calculate a generalized logarithmic mean / extended mean.
 #' 
@@ -314,13 +307,11 @@ harmonic_mean <- generalized_mean(-1)
 #' 
 #' @note
 #' `generalized_logmean()` can be defined on the extended real line,
-#' so that `r = -Inf/Inf` returns [`pmin()`]/[`pmax()`], to agree with the
+#' so that \code{r = -Inf / Inf} returns [pmin()]/[pmax()], to agree with the
 #' definition in, e.g., Bullen (2003). This is not implemented, and `r`
 #' must be finite as in the original formulation by Stolarsky (1975).
 #' 
 #' @seealso
-#' [generalized_mean()] for the generalized mean.
-#' 
 #' [transmute_weights()] uses the extended mean to turn a generalized
 #' mean of order \eqn{r} into a generalized mean of order \eqn{s}.
 #' 
@@ -417,6 +408,7 @@ harmonic_mean <- generalized_mean(-1)
 #' integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
 #' 1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 #' 
+#' @family means
 #' @export
 extended_mean <- function(r, s) {
   r <- as.numeric(r)
@@ -490,12 +482,8 @@ logmean <- generalized_logmean(0)
 #' `geometric_mean()` with two values and no weights. See von der Lippe
 #' (2015) for more details on the use of these means for making price indexes.
 #' 
+#' @inheritParams generalized_mean
 #' @param r A finite number giving the order of the Lehmer mean.
-#' @param x A strictly positive numeric vector.
-#' @param w A strictly positive numeric vector of weights, the same length as
-#' `x`. The default is to equally weight each element of `x`.
-#' @param na.rm Should missing values in `x` and `w` be removed? By
-#' default missing values in `x` or `w` return a missing value.
 #'
 #' @returns
 #' `lehmer_mean()` returns a function:
@@ -507,17 +495,13 @@ logmean <- generalized_logmean(0)
 #' 
 #' `contraharmonic_mean()` returns a numeric value for the Lehmer mean of
 #' order 2.
+#' 
 #' @note
 #' `lehmer_mean()` can be defined on the extended real line, so that
-#' `r = -Inf/Inf` returns [`min()`]/[`max()`], to agree with the
+#' \code{r = -Inf / Inf} returns [min()]/[max()], to agree with the
 #' definition in, e.g., Bullen (2003). This is not implemented, and `r`
 #' must be finite.
-#' @seealso
-#' [generalized_mean()] for the generalized mean, an
-#' alternative to the Lehmer mean.
 #' 
-#' [generalized_logmean()] for the generalized logarithmic mean.
-#'
 #' @references
 #' Bullen, P. S. (2003). *Handbook of Means and Their Inequalities*.
 #' Springer Science+Business Media.
@@ -600,6 +584,7 @@ logmean <- generalized_logmean(0)
 #' 
 #' scale_weights(w * x^(r - 1)) * (x - 1)
 #' 
+#' @family means
 #' @export
 lehmer_mean <- function(r) {
   r <- as.numeric(r)
@@ -648,8 +633,7 @@ contraharmonic_mean <- lehmer_mean(2)
 #' generalized mean of order `r2[2]` of `x` with weights `w2`.
 #' 
 #' `fisher_mean()` returns a numeric value for the geometric mean of the
-#' arithmetic and harmonic means (i.e., `r1 = 0` and `r2 = c(1,
-#' -1)`).
+#' arithmetic and harmonic means (i.e., `r1 = 0` and `r2 = c(1, -1)`).
 #'
 #' @note
 #' There is some ambiguity about how to remove missing values in
@@ -657,10 +641,10 @@ contraharmonic_mean <- lehmer_mean(2)
 #' remove missing values when calculating each of the inner means individually,
 #' rather than removing all missing values prior to any calculations. This
 #' means that a different number of data points could be used to calculate the
-#' inner means. Use the [`balanced()`][balanced] operator to balance
+#' inner means. Use the [balanced()] operator to balance
 #' missing values across `w1` and w2 prior to any calculations.
-#' @seealso [generalized_mean()] for the generalized mean.
 #' 
+#' @seealso
 #' [nested_contributions()] for percent-change contributions for
 #' indexes based on nested generalized means, like the Fisher index.
 #'
@@ -741,6 +725,7 @@ contraharmonic_mean <- lehmer_mean(2)
 #' 
 #' balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
 #' 
+#' @family means
 #' @export
 nested_mean <- function(r1, r2, t = c(1, 1)) {
   outer_mean <- generalized_mean(r1)

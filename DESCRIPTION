@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.5.0
+Version: 0.5.0.9001
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com", comment = c(ORCID = "0000-0003-2544-9480"))
     )
@@ -13,7 +13,7 @@ Encoding: UTF-8
 URL: https://marberts.github.io/gpindex/, https://github.com/marberts/gpindex
 BugReports: https://github.com/marberts/gpindex/issues
 LazyData: true
-Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price-indexes.R' 'geks.R' 'operators.R' 'offset-prices.R' 'outliers.R'
+Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price_indexes.R' 'geks.R' 'operators.R' 'offset_prices.R' 'outliers.R' 'price_data.R' 'gpindex-package.R'
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

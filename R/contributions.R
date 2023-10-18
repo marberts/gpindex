@@ -1,6 +1,3 @@
-#---- Contributions ----
-
-
 #' Percent-change contributions
 #' 
 #' Calculate additive percent-change contributions for generalized-mean price
@@ -20,7 +17,7 @@
 #' in section 4.2 of Balk (2008) using the method by Martin (2021). The
 #' `arithmetic_contributions()`, `geometric_contributions()` and
 #' `harmonic_contributions()` functions cover the most important cases
-#' (i.e., `r = 1`, `r = 0`, and `r = -1`).
+#' (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}).
 #' 
 #' The `nested_contributions()` and `nested_contributions2()`
 #' functions are the analog of `contributions()` for an index based on a
@@ -43,19 +40,11 @@
 #' `nested_contributions2(0, c(1, -1))()`, and are appropriate for
 #' calculating percent-change contributions for a Fisher index.
 #' 
-#' @aliases contributions arithmetic_contributions geometric_contributions
-#' harmonic_contributions nested_contributions nested_contributions2
-#' fisher_contributions fisher_contributions2
-#' @param r,r1 A finite number giving the order of the generalized mean.
-#' @param r2 A pair of finite numbers giving the order of the inner generalized
-#' means.
-#' @param t A pair of strictly positive weights for the inner generalized
-#' means. The default is equal weights.
-#' @param x A strictly positive numeric vector of price relatives.
-#' @param w,w1,w2 A strictly positive numeric vector of weights, the same
-#' length as `x`. The default is to equally weight each element of
-#' `x`.
-#' @return `contributions()` returns a function:
+#' @inheritParams generalized_mean
+#' @inheritParams nested_mean
+#' 
+#' @returns
+#' `contributions()` returns a function:
 #' 
 #' \preformatted{function(x, w = NULL){...}}
 #' 
@@ -82,8 +71,12 @@
 #' each element of `x` when a geometric mean aggregates an arithmetic mean
 #' of `x` with weights `w1` and a harmonic mean of `x` with
 #' weights `w2`.
-#' @seealso [transmute_weights()] for the underlying implementation.
-#' @references Balk, B. M. (2008). *Price and Quantity Index Numbers*.
+#' 
+#' @seealso
+#' [transmute_weights()] for the underlying implementation.
+#' 
+#' @references
+#' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
 #' Cambridge University Press.
 #' 
 #' Hallerbach, W. G. (2005). An alternative decomposition of the Fisher index.
@@ -98,10 +91,10 @@
 #' *Journal of Economic and Social Measurement*, 28(1-2):51--61.
 #' 
 #' Webster, M. and Tarnow-Mordi, R. C. (2019). Decomposing multilateral price
-#' indexes into the contributions of individual commodities. *Journal of
-#' Official Statistics*, 35(2):461--486.
-#' @examples
+#' indexes into the contributions of individual commodities.
+#' *Journal of Official Statistics*, 35(2):461--486.
 #' 
+#' @examples
 #' x <- 2:3
 #' 
 #' #---- Contributions for a geometric index ----
@@ -226,7 +219,7 @@
 #' bw_contributions <- nested_contributions(0, c(0.5, -0.5))
 #' bw_contributions(p1 / p0)
 #' 
-#' @export contributions
+#' @export
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
 
@@ -235,13 +228,23 @@ contributions <- function(r) {
   }
 }
 
+#' Arithmetic contributions
+#' @rdname contributions
+#' @export
 arithmetic_contributions <- contributions(1)
 
+#' Geometric contributions
+#' @rdname contributions
+#' @export
 geometric_contributions <- contributions(0)
 
+#' Harmonic contributions
+#' @rdname contributions
+#' @export
 harmonic_contributions <- contributions(-1)
 
-#---- Nested contributions ----
+#' Factory to make nested contributions factory
+#' @noRd
 nc <- function(nest_transmute) {
   nest_transmute <- match.fun(nest_transmute)
 
@@ -254,10 +257,22 @@ nc <- function(nest_transmute) {
   }
 }
 
+#' Nested contributions
+#' @rdname contributions
+#' @export
 nested_contributions <- nc(nested_transmute)
 
+#' Nested contributions, take 2
+#' @rdname contributions
+#' @export
 nested_contributions2 <- nc(nested_transmute2)
 
+#' Fisher contributions
+#' @rdname contributions
+#' @export
 fisher_contributions <- nested_contributions(0, c(1, -1))
 
+#' Fisher contributions, take 2
+#' @rdname contributions
+#' @export
 fisher_contributions2 <- nested_contributions2(0, c(1, -1))

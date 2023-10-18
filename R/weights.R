@@ -1,4 +1,156 @@
-#---- Transmute weights ----
+#' Transmute weights
+#' 
+#' Transmute weights to turn a generalized mean of order \eqn{r} into a
+#' generalized mean of order \eqn{s}. Useful for calculating additive and
+#' multiplicative decompositions for a generalized-mean index, and those made
+#' of nested generalized means (e.g., Fisher index).
+#' 
+#' The function `transmute_weights()` returns a function to compute a
+#' vector of weights `v(x, w)` such that
+#' 
+#' \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
+#' 
+#' `nested_transmute()` and `nested_transmute2()` do the same for
+#' nested generalized means, so that
+#' 
+#' \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x,
+#' v(x, w1, w2))}
+#' 
+#' This generalizes the result for turning a geometric mean into an arithmetic
+#' mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into
+#' an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these
+#' are usually the most important cases. See Martin (2021) for details.
+#' `nested_transmute2()` takes a slightly different approach than
+#' `nested_transmute()`, generalizing the van IJzeren arithmetic
+#' decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
+#' approach by Martin (2021), although in most cases the results are broadly
+#' similar.
+#' 
+#' Both `x` and `w` should be strictly positive. This is not
+#' enforced, but the results may not make sense in cases where the generalized
+#' mean and generalized logarithmic mean are not defined.
+#' 
+#' @inheritParams nested_mean
+#' @param r,s A finite number giving the order of the generalized mean. See
+#' details.
+#' 
+#' @returns
+#' `transmute_weights()` return a function:
+#' 
+#' \preformatted{function(x, w = NULL){...}}
+#' 
+#' This function augments the weights `w`.
+#' 
+#' `nested_transmute()` and `nested_transmute2()` similarly return a
+#' function:
+#' 
+#' \preformatted{function(x, w1 = NULL, w2 = NULL){...}}
+#' 
+#' @note
+#' These function return a value that is the same length as `x`,
+#' so any missing values in `x` or the weights will return `NA`. Unless
+#' all values are `NA`, however, the result for will still satisfy the above
+#' identities when `na.rm = TRUE`.
+#' 
+#' @seealso
+#' [generalized_mean()] for the generalized mean.
+#' 
+#' [nested_mean()] for the nested mean.
+#' 
+#' [extended_mean()] for the extended mean that underlies
+#' `transmute_weights()`.
+#' 
+#' [contributions()] for calculating additive percent-change
+#' contributions.
+#' 
+#' [grouped()] to make these functions operate on grouped data.
+#' 
+#' @references
+#' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
+#' Cambridge University Press.
+#' 
+#' Martin, S. (2021). A note on general decompositions for price indexes.
+#' *Prices Analytical Series*, Statistics Canada catalogue no. 62F0014M.
+#' Statistics Canada, Ottawa.
+#' 
+#' Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive
+#' decompositions for Fisher, Törnqvist and geometric mean indexes.
+#' *Journal of Economic and Social Measurement*, 28(1-2):51--61.
+#' 
+#' Sydsaeter, K., Strom, A., and Berck, P. (2005). *Economists'
+#' Mathematical Manual* (4th edition). Springer.
+#' 
+#' @examples
+#' x <- 1:3
+#' y <- 4:6
+#' w <- 3:1
+#' 
+#' #---- Transforming generalized means ----
+#' 
+#' # Calculate the geometric mean as an arithmetic mean and 
+#' # harmonic mean by transmuting the weights
+#' 
+#' geometric_mean(x)
+#' arithmetic_mean(x, transmute_weights(0, 1)(x))
+#' harmonic_mean(x, transmute_weights(0, -1)(x))
+#' 
+#' # Transmuting the weights for a harmonic mean into those
+#' # for an arithmetic mean is the same as using weights w / x
+#' 
+#' all.equal(
+#'   scale_weights(transmute_weights(-1, 1)(x, w)),
+#'   scale_weights(w / x)
+#' )
+#' 
+#' # Works for nested means, too
+#' 
+#' w1 <- 3:1
+#' w2 <- 1:3
+#' 
+#' fisher_mean(x, w1, w2)
+#' 
+#' arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
+#' arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
+#' 
+#' # Note that nested_transmute() has an invariance property
+#' # not shared by nested_transmute2()
+#' 
+#' all.equal(
+#'   nested_transmute(0, c(1, -1), 1)(x, w1, w2),
+#'   transmute_weights(2, 1)(
+#'     x, nested_transmute(0, c(1, -1), 2)(x, w1, w2)
+#'   )
+#' )
+#' 
+#' all.equal(
+#'   nested_transmute2(0, c(1, -1), 1)(x, w1, w2),
+#'   transmute_weights(2, 1)(
+#'     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
+#'   )
+#' )
+#' 
+#' #---- Percent-change contributions ----
+#' 
+#' # Transmuted weights can be used to calculate percent-change 
+#' # contributions for, e.g., a geometric price index
+#' 
+#' scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+#' geometric_contributions(x) # the more convenient way
+#' 
+#' #---- Basket representation of a price index ----
+#' 
+#' # Any generalized-mean index can be represented as a basket-style 
+#' # index by transmuting the weights, which is how some authors 
+#' # define a price index (e.g., Sydsaeter et al., 2005, p. 174)
+#' 
+#' p1 <- 2:6
+#' p0 <- 1:5
+#' 
+#' qs <- transmute_weights(-1, 1)(p1 / p0) / p0
+#' all.equal(harmonic_mean(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
+#' 
+#' @family weights
+#' @export
 transmute_weights <- function(r, s) {
   r <- as.numeric(r)
   s <- as.numeric(s)
@@ -26,6 +178,9 @@ transmute_weights <- function(r, s) {
   }
 }
 
+#' Transmute the weights in a nested generalized mean
+#' @rdname transmute_weights
+#' @export
 nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
 
@@ -63,6 +218,9 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
   }
 }
 
+#' Transmute the weights in a nested generalized mean, take 2
+#' @rdname transmute_weights
+#' @export
 nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   s_weights <- transmute_weights(r1, s)
 
@@ -103,7 +261,74 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
   }
 }
 
-#---- Factor weights  ----
+#' Factor weights
+#' 
+#' Factor weights to turn the generalized mean of a product into the product
+#' of generalized means. Useful for price-updating the weights in a
+#' generalized-mean index.
+#' 
+#' The function `factor_weights()` returns a function to compute weights
+#' `u(x, w)` such that
+#' 
+#' \preformatted{generalized_mean(r)(x * y, w) == generalized_mean(r)(x, w) *
+#' generalized_mean(r)(y, u(x, w))}
+#' 
+#' This generalizes the result in section C.5 of Chapter 9 of the PPI Manual
+#' for chaining the Young index, and gives a way to chain generalized-mean
+#' price indexes over time. Factoring weights with \code{r = 1} sometimes gets
+#' called price-updating weights; `update_weights()` simply calls
+#' `factor_weights(1)()`.
+#' 
+#' Both `x` and `w` should be strictly positive. This is not
+#' enforced, but the results may not make sense in cases where the generalized
+#' mean and generalized logarithmic mean are not defined.
+#' 
+#' @inheritParams generalized_mean
+#' 
+#' @returns 
+#' `factor_weights()` return a function:
+#' 
+#' \preformatted{function(x, w = NULL){...}}
+#' 
+#' `update_weights()` returns a numeric vector the same length as `x`.
+#' 
+#' In both cases these functions augments the weights `w`.
+#' 
+#' @seealso
+#' [generalized_mean()] for the generalized mean.
+#' 
+#' [grouped()] to make these functions operate on grouped data.
+#' 
+#' @inherit transmute_weights note
+#' 
+#' @references
+#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004).
+#' *Producer Price Index Manual: Theory and Practice*.
+#' International Monetary Fund.
+#' 
+#' @examples
+#' x <- 1:3
+#' y <- 4:6
+#' w <- 3:1
+
+#' # Factor the harmonic mean by chaining the calculation
+#' 
+#' harmonic_mean(x * y, w)
+#' harmonic_mean(x, w) * harmonic_mean(y, factor_weights(-1)(x, w))
+#' 
+#' # The common case of an arithmetic mean
+#' 
+#' arithmetic_mean(x * y, w)
+#' arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
+#' 
+#' # In cases where x and y have the same order, Chebyshev's 
+#' # inequality implies that the chained calculation is too small
+#' 
+#' arithmetic_mean(x * y, w) > 
+#'   arithmetic_mean(x, w) * arithmetic_mean(y, w)
+#'
+#' @family weights
+#' @export
 factor_weights <- function(r) {
   r <- as.numeric(r)
   if (not_finite_scalar(r)) {
@@ -130,9 +355,28 @@ factor_weights <- function(r) {
   }
 }
 
+#' Price update weights
+#' @rdname factor_weights
+#' @export
 update_weights <- factor_weights(1)
 
-#---- Scale weights ----
+#' Scale weights
+#' 
+#' Scale a vector of weights so that they sum to 1.
+#' 
+#' @inheritParams generalized_mean
+#' 
+#' @returns
+#' A numeric vector that sums to 1 when `NA`s are removed.
+#' 
+#' @seealso
+#' [grouped()] to make this function applicable to grouped data.
+#' 
+#' @examples
+#' scale_weights(1:5)
+#' 
+#' @family weights
+#' @export
 scale_weights <- function(x) {
   x / sum(x, na.rm = TRUE)
 }

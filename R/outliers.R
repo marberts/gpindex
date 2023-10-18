@@ -55,8 +55,8 @@
 #' @seealso
 #' [grouped()] to make each of these functions operate on grouped data.
 #' 
-#' [back_period()]/[base_period()] for a simple utility
-#' function to turn prices in a table into price relatives.
+#' [back_period()]/[base_period()] for a simple utility function to turn prices
+#' in a table into price relatives.
 #' 
 #' @references
 #' Hutton, H. (2008). Dynamic outlier detection in price index
@@ -71,7 +71,6 @@
 #' Canada Annual Meeting*.
 #' 
 #' @examples
-#' 
 #' set.seed(1234)
 #' 
 #' x <- rlnorm(10)
@@ -90,10 +89,13 @@
 #' f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
 #' grouped(quartile_method)(x, group = f)
 #' 
+#' @name outliers
 #' @export
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
-  q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type)
+  q <- stats::quantile(
+    x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type
+  )
   x <- x - q[2L]
   u <- cu * pmax(q[3L] - q[2L], abs(a * q[2L]))
   l <- -cl * pmax(q[2L] - q[1L], abs(a * q[2L]))
@@ -101,11 +103,13 @@ quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 }
 
 #' Resistant fences
-#' @rdname quantile_method
+#' @rdname outliers
 #' @export
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
-  q <- quantile(x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type)
+  q <- stats::quantile(
+    x, c(0.25, 0.5, 0.75), names = FALSE, na.rm = TRUE, type = type
+  )
   iqr <- pmax(q[3L] - q[1L], abs(a * q[2L]))
   u <- q[3L] + cu * iqr
   l <- q[1L] - cl * iqr
@@ -113,12 +117,12 @@ resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 }
 
 #' Robust z-score
-#' @rdname quantile_method
+#' @rdname outliers
 #' @export
 robust_z <- function(x, cu = 2.5, cl = cu) {
   x <- as.numeric(x)
-  med <- median(x, na.rm = TRUE)
-  s <- mad(x, na.rm = TRUE)
+  med <- stats::median(x, na.rm = TRUE)
+  s <- stats::mad(x, na.rm = TRUE)
   x <- x - med
   u <- cu * s
   l <- -cl * s
@@ -126,7 +130,7 @@ robust_z <- function(x, cu = 2.5, cl = cu) {
 }
 
 #' Fixed cutoff
-#' @rdname quantile_method
+#' @rdname outliers
 #' @export
 fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
   x <- as.numeric(x)
@@ -134,11 +138,13 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
 }
 
 #' Tukey's algorithm
-#' @rdname quantile_method
+#' @rdname outliers
 #' @export
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   x <- as.numeric(x)
-  q <- quantile(x, c(0.05, 0.95), names = FALSE, na.rm = TRUE, type = type)
+  q <- stats::quantile(
+    x, c(0.05, 0.95), names = FALSE, na.rm = TRUE, type = type
+  )
   tail <- x < q[1L] | x > q[2L]
   ts <- x[x != 1 & !tail]
   if (length(ts) == 0L) {
@@ -153,11 +159,11 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
 }
 
 #' HB transform
-#' @noRd
+#' @rdname outliers
 #' @export
 hb_transform <- function(x) {
   x <- as.numeric(x)
-  med <- median(x, na.rm = TRUE)
+  med <- stats::median(x, na.rm = TRUE)
   res <- 1 - med / x
   gemed <- x >= med
   res[gemed] <- x[gemed] / med - 1
