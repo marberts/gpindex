@@ -1,8 +1,10 @@
 pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
-articles: {}
-last_built: 2023-10-12T04:02Z
+articles:
+  gpindex: gpindex.html
+  test: test.html
+last_built: 2023-10-19T04:30Z
 urls:
   reference: https://marberts.github.io/gpindex/reference
   article: https://marberts.github.io/gpindex/articles

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,8 +18,17 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
+      <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/gpindex.html">Get started</a>
+</li>
+<li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/test.html">test</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -41,7 +50,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Outlier methods for price relatives</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/marberts/gpindex/blob/HEAD/R/outliers.R" class="external-link"><code>R/outliers.R</code></a></small>
       <div class="d-none name"><code>outliers.Rd</code></div>
     </div>
 
@@ -51,13 +60,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fixed_cutoff</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">cu</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">quartile_method</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span>, a <span class="op">=</span> <span class="fl">0</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">resistant_fences</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span>, a <span class="op">=</span> <span class="fl">0</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">robust_z</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">quartile_method</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span>, a <span class="op">=</span> <span class="fl">0</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">resistant_fences</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span>, a <span class="op">=</span> <span class="fl">0</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span><span class="fu">fixed_cutoff</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="va">cu</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tukey_algorithm</span><span class="op">(</span><span class="va">x</span>, cu <span class="op">=</span> <span class="fl">2.5</span>, cl <span class="op">=</span> <span class="va">cu</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
 <span></span>
@@ -67,42 +76,78 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A strictly positive numeric vector of price relatives. These can be made with, e.g., <code><a href="offset-prices.html">back_period()</a></code>.</p></dd>
+<dd><p>A strictly positive numeric vector of price relatives. These can be
+made with, e.g., <code><a href="back_period.html">back_period()</a></code>.</p></dd>
+
 
 <dt>cu, cl</dt>
-<dd><p>A numeric vector giving the upper and lower cutoffs for each element of <code>x</code>. The usual recycling rules apply.</p></dd>
+<dd><p>A numeric vector giving the upper and lower cutoffs for each
+element of <code>x</code>. The usual recycling rules apply.</p></dd>
+
 
 <dt>a</dt>
-<dd><p>A numeric vector between 0 and 1 giving the scale factor for the median to establish the minimum dispersion between quartiles for each element of <code>x</code>. The default does not set a minimum dispersion. The usual recycling rules apply.</p></dd>
+<dd><p>A numeric vector between 0 and 1 giving the scale factor for the
+median to establish the minimum dispersion between quartiles for each
+element of <code>x</code>. The default does not set a minimum dispersion. The
+usual recycling rules apply.</p></dd>
+
 
 <dt>type</dt>
-<dd><p>See <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></code>.</p></dd>
+<dd><p>See <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile()</a></code>.</p></dd>
 
 </dl></div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Each of these functions constructs an interval of the form \([b_l(x) - c_l \times l(x), b_u(x) + c_u \times u(x)]\) and assigns a value in <code>x</code> as <code>TRUE</code> if that value does not belong to the interval, <code>FALSE</code> otherwise. The methods differ in how they construct the values \(b_l(x)\), \(b_u(x)\), \(l(x)\), and \(u(x)\). Any missing values in <code>x</code> are ignored when calculating the cutoffs, but will return <code>NA</code>.</p>
-<p>The fixed cutoff method is the simplest, and just uses the interval \([c_l, c_u]\).</p>
-<p>The quartile method and Tukey algorithm are described in paragraphs 5.113 to 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008). The resistant fences method is an alternative to the quartile method, and is described by Rais (2008) and Hutton (2008). Quantile-based methods often identify price relatives as outliers because the distribution is concentrated around 1; setting <code>a &gt; 0</code> puts a floor on the minimum dispersion between quantiles as a fraction of the median. See the references for more details.</p>
-<p>The robust Z-score is the usual method to identify relatives in the (asymmetric) tails of the distribution, simply replacing the mean with the median, and the standard deviation with the median absolute deviation.</p>
-<p>These methods often assume that price relatives are symmetrically distributed (if not Gaussian). As the distribution of price relatives often has a long right tail, the natural logarithm can be used to transform price relative before identifying outliers (sometimes under the assumption that price relatives are distributed log-normal). The Hidiroglou-Berthelot transformation is another approach, described in the CPI manual (par. 5.124).</p>
-    </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A logical vector, the same length as <code>x</code>, that is <code>TRUE</code> if the corresponding element of <code>x</code> is identified as an outlier, <code>FALSE</code> otherwise.</p>
+<p>A logical vector, the same length as <code>x</code>, that is <code>TRUE</code> if the
+corresponding element of <code>x</code> is identified as an outlier,
+<code>FALSE</code> otherwise.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Each of these functions constructs an interval of the form \([b_l(x) -
+c_l \times l(x), b_u(x) + c_u \times u(x)]\) and assigns a value in <code>x</code> as <code>TRUE</code> if that value does not
+belong to the interval, <code>FALSE</code> otherwise. The methods differ in how
+they construct the values \(b_l(x)\), \(b_u(x)\),
+\(l(x)\), and \(u(x)\). Any missing values in <code>x</code> are ignored when
+calculating the cutoffs, but will return <code>NA</code>.</p>
+<p>The fixed cutoff method is the simplest, and just uses the interval
+\([c_l, c_u]\).</p>
+<p>The quartile method and Tukey algorithm are described in paragraphs 5.113 to
+5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
+The resistant fences method is an alternative to the quartile method, and is
+described by Rais (2008) and Hutton (2008). Quantile-based methods often
+identify price relatives as outliers because the distribution is
+concentrated around 1; setting <code>a &gt; 0</code> puts a floor on the minimum
+dispersion between quantiles as a fraction of the median. See the references
+for more details.</p>
+<p>The robust Z-score is the usual method to identify relatives in the
+(asymmetric) tails of the distribution, simply replacing the mean with the
+median, and the standard deviation with the median absolute deviation.</p>
+<p>These methods often assume that price relatives are symmetrically
+distributed (if not Gaussian). As the distribution of price relatives often
+has a long right tail, the natural logarithm can be used to transform price
+relative before identifying outliers (sometimes under the assumption that
+price relatives are distributed log-normal). The Hidiroglou-Berthelot
+transformation is another approach, described in the CPI manual (par.
+5.124).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Hutton, H. (2008). Dynamic outlier detection in price index surveys. <em>Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting</em>.</p>
-<p>ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). <em>Consumer Price Index Manual: Theory and Practice</em>. International Monetary Fund.</p>
-<p>Rais, S. (2008). Outlier detection for the Consumer Price Index. <em>Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting</em>.</p>
+    <p>Hutton, H. (2008). Dynamic outlier detection in price index surveys.
+<em>Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting</em>.</p>
+<p>ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
+<em>Consumer Price Index Manual: Theory and Practice</em>.
+International Monetary Fund.</p>
+<p>Rais, S. (2008). Outlier detection for the Consumer Price Index.
+<em>Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting</em>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="operators.html">grouped</a></code> to make each of these functions operate on grouped data.</p>
-<p><code><a href="offset-prices.html">back_period</a></code>/<code><a href="offset-prices.html">base_period</a></code> for a simple utility function to turn prices in a table into price relatives.</p></div>
+    <div class="dont-index"><p><code><a href="grouped.html">grouped()</a></code> to make each of these functions operate on grouped data.</p>
+<p><code><a href="back_period.html">back_period()</a></code>/<code><a href="back_period.html">base_period()</a></code> for a simple utility function to turn prices
+in a table into price relatives.</p></div>
     </div>
 
     <div class="section level2">
@@ -132,8 +177,9 @@
 <span class="r-in"><span><span class="co"># Works the same for grouped data</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="operators.html">grouped</a></span><span class="op">(</span><span class="va">quartile_method</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, group <span class="op">=</span> <span class="va">f</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="grouped.html">grouped</a></span><span class="op">(</span><span class="va">quartile_method</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, group <span class="op">=</span> <span class="va">f</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
