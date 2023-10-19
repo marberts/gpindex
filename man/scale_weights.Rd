@@ -10,7 +10,8 @@ scale_weights(x)
 \item{x}{A strictly positive numeric vector.}
 }
 \value{
-A numeric vector that sums to 1 when \code{NA}s are removed.
+A numeric vector that sums to 1. If there are \code{NA}s in \code{x} then the result
+sums 1 to if these values are removed.
 }
 \description{
 Scale a vector of weights so that they sum to 1.

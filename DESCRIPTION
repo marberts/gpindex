@@ -1,13 +1,16 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.5.0.9001
+Version: 0.5.0.9002
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"), email = "stevemartin041@gmail.com", comment = c(ORCID = "0000-0003-2544-9480"))
     )
 Description: A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of bilateral generalized-mean index (of which most price indexes are), along with a few important indexes that don't belong to the generalized-mean family (e.g., superlative quadratic-mean indexes, GEKS). Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0), von der Lippe (2001, ISBN:3-8246-0638-0), and the CPI manual (2020, ISBN:978-1-51354-298-0) for bilateral price indexes.
 Depends: R (>= 3.5)
 Imports: stats
-Suggests: testthat (>= 3.0.0)
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://marberts.github.io/gpindex/, https://github.com/marberts/gpindex
@@ -15,5 +18,6 @@ BugReports: https://github.com/marberts/gpindex/issues
 LazyData: true
 Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price_indexes.R' 'geks.R' 'operators.R' 'offset_prices.R' 'outliers.R' 'price_data.R' 'gpindex-package.R'
 Config/testthat/edition: 3
+VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

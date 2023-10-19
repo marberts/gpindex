@@ -23,8 +23,6 @@ update_weights(x, w = NULL)
 \preformatted{function(x, w = NULL){...}}
 
 \code{update_weights()} returns a numeric vector the same length as \code{x}.
-
-In both cases these functions augments the weights \code{w}.
 }
 \description{
 Factor weights to turn the generalized mean of a product into the product
@@ -40,19 +38,15 @@ generalized_mean(r)(y, u(x, w))}
 
 This generalizes the result in section C.5 of Chapter 9 of the PPI Manual
 for chaining the Young index, and gives a way to chain generalized-mean
-price indexes over time. Factoring weights with \code{r = 1} sometimes gets
-called price-updating weights; \code{update_weights()} simply calls
-\code{factor_weights(1)()}.
+price indexes over time.
 
-Both \code{x} and \code{w} should be strictly positive. This is not
-enforced, but the results may not make sense in cases where the generalized
-mean and generalized logarithmic mean are not defined.
-}
-\note{
-These function return a value that is the same length as \code{x},
-so any missing values in \code{x} or the weights will return \code{NA}. Unless
-all values are \code{NA}, however, the result for will still satisfy the above
-identities when \code{na.rm = TRUE}.
+Factoring weights with \code{r = 1} sometimes gets called price-updating
+weights; \code{update_weights()} simply calls \code{factor_weights(1)()}.
+
+Factoring weights return a value that is the same length as \code{x},
+so any missing values in \code{x} or the weights will return \code{NA}.
+Unless all values are \code{NA}, however, the result for will still satisfy
+the above identities when \code{na.rm = TRUE}.
 }
 \examples{
 x <- 1:3
@@ -68,10 +62,10 @@ harmonic_mean(x, w) * harmonic_mean(y, factor_weights(-1)(x, w))
 arithmetic_mean(x * y, w)
 arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
 
-# In cases where x and y have the same order, Chebyshev's 
+# In cases where x and y have the same order, Chebyshev's
 # inequality implies that the chained calculation is too small
 
-arithmetic_mean(x * y, w) > 
+arithmetic_mean(x * y, w) >
   arithmetic_mean(x, w) * arithmetic_mean(y, w)
 
 }
@@ -84,8 +78,6 @@ International Monetary Fund.
 \code{\link[=generalized_mean]{generalized_mean()}} for the generalized mean.
 
 \code{\link[=grouped]{grouped()}} to make these functions operate on grouped data.
-
-\code{\link[=scale_weights]{scale_weights()}} to make weights sum to 1.
 
 Other weights: 
 \code{\link{scale_weights}()},

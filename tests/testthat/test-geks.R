@@ -79,10 +79,7 @@ test_that("geks agrees with IndexNumR", {
     cumprod(
       as.numeric(
         unlist(
-          with(
-            dat,
-            geks(arithmetic_index("Walsh1"))(price, quantity, period, product)
-          )
+          with(dat, walsh_geks(price, quantity, period, product))
         )
       )
     ),
@@ -92,7 +89,7 @@ test_that("geks agrees with IndexNumR", {
   )
   (test <- with(
     dat,
-    geks(arithmetic_index("Walsh1"))(price, quantity, period, product, 10, 3)
+    walsh_geks(price, quantity, period, product, 10, 3)
   ))
   expect_equal(
     cumprod(

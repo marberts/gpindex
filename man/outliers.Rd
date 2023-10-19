@@ -37,8 +37,8 @@ usual recycling rules apply.}
 \item{type}{See \code{\link[=quantile]{quantile()}}.}
 }
 \value{
-A logical vector, the same length as \code{x}, that is \code{TRUE}
-if the corresponding element of \code{x} is identified as an outlier,
+A logical vector, the same length as \code{x}, that is \code{TRUE} if the
+corresponding element of \code{x} is identified as an outlier,
 \code{FALSE} otherwise.
 }
 \description{
@@ -98,16 +98,15 @@ grouped(quartile_method)(x, group = f)
 
 }
 \references{
-Hutton, H. (2008). Dynamic outlier detection in price index
-surveys. \emph{Proceedings of the Survey Methods Section: Statistical
-Society of Canada Annual Meeting}.
+Hutton, H. (2008). Dynamic outlier detection in price index surveys.
+\emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). \emph{Consumer Price
-Index Manual: Theory and Practice}. International Monetary Fund.
+ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Theory and Practice}.
+International Monetary Fund.
 
 Rais, S. (2008). Outlier detection for the Consumer Price Index.
-\emph{Proceedings of the Survey Methods Section: Statistical Society of
-Canada Annual Meeting}.
+\emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}.
 }
 \seealso{
 \code{\link[=grouped]{grouped()}} to make each of these functions operate on grouped data.

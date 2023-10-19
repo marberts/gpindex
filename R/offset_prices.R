@@ -51,8 +51,6 @@ offset_period <- function(f) {
 #' @seealso
 #' [outliers] for common methods to detect outliers for price relatives.
 #' 
-#' [generalized_mean()] for the generalized mean.
-#' 
 #' `rs_pairs` in the \pkg{rsmatrix} package for making sales pairs.
 #' 
 #' @examples

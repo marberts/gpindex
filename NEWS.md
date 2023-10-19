@@ -1,3 +1,15 @@
+## Version 0.6.0
+
+- The use of `...` in `grouped()` and `balanced()` is deprecated, and will be
+removed in a future version. The same behavior can be had by using an
+anonymous function.
+
+- Added the `walsh_geks()` function.
+
+- Updated documentation.
+
+- Added a vignette.
+
 ## Version 0.5.0
 
 - `back_price()` and `base_price()` have been removed.

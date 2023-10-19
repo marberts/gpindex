@@ -5,32 +5,33 @@ template:
   bootswatches: united
   
 reference:
-- title: Package overview
-  contents:
-  - gpindex-package
-
 - title: Mathematical functions
   contents:
   - generalized_mean
-  - logarithmic_means
+  - extended_mean
   - nested_mean
   - lehmer_mean
-  - transform_weights
+  - transmute_weights
+  - factor_weights
+  - scale_weights
   
 - title: Index numbers
   contents:
-  - price_index
+  - price_indexes
+  - index_weights
   - geks
 
-- title: Percent-change contribution
+- title: Percent-change contributions
   contents:
   - contributions
   
 - title: Utilities
   contents:
-  - operators
   - outliers
-  - offset_prices
+  - back_period
+  - quantity_index
+  - grouped
+  - balanced
     
 - title: Data
   contents:

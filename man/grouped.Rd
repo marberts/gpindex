@@ -2,33 +2,23 @@
 % Please edit documentation in R/operators.R
 \name{grouped}
 \alias{grouped}
-\title{Grouped}
+\title{Grouped operator}
 \usage{
 grouped(f, ...)
 }
 \arguments{
 \item{f}{A function.}
 
-\item{...}{Additional arguments to \code{f} that should \emph{not} be treated as
-grouped.}
+\item{...}{Deprecated. Additional arguments to \code{f} that should \emph{not} be
+treated as grouped.}
 }
 \value{
-A function like \code{f} with a new argument
-\code{group}. This accepts a factor to split all other arguments in \code{f}
-(except those specified in \code{...}) into groups before applying \code{f}
-to each group and combining the results. It is similar to
-\code{\link[=ave]{ave()}}, but more general.
+A function like \code{f} with a new argument \code{group}. This accepts a factor to
+split all other arguments in \code{f} into groups before applying \code{f} to each
+group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but more general.
 }
 \description{
 Make a function applicable to grouped data.
-}
-\note{
-Additional arguments passed to \code{...} are evaluated, so the return
-function doesn't evaluate these arguments lazily. In most cases these
-additional arguments are parameters like \code{elasticity} or switches like
-\code{na.rm}, and eager evaluation prevents these from being changed in,
-e.g., a loop. Lazy evaluation can be had by passing an anonymous function
-that partials out these arguments.
 }
 \examples{
 p1 <- price6[[3]]
@@ -46,7 +36,7 @@ tornqvist_weights(p1, p0, q1, q0, group = f)
 
 x <- 1:6
 w <- c(1:5, NA)
-grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
+grouped_mean <- grouped(\(x, w) geometric_mean(x, w, na.rm = TRUE))
 grouped_mean(x, w, group = f)
 
 # Redistribute weights

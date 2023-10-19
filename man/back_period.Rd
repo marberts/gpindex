@@ -66,7 +66,5 @@ with(df, back_period(period))
 \seealso{
 \link{outliers} for common methods to detect outliers for price relatives.
 
-\code{\link[=generalized_mean]{generalized_mean()}} for the generalized mean.
-
 \code{rs_pairs} in the \pkg{rsmatrix} package for making sales pairs.
 }

@@ -29,8 +29,6 @@ means. The default is equal weights.}
 
 \preformatted{function(x, w = NULL){...}}
 
-This function augments the weights \code{w}.
-
 \code{nested_transmute()} and \code{nested_transmute2()} similarly return a
 function:
 
@@ -64,15 +62,10 @@ decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
 approach by Martin (2021), although in most cases the results are broadly
 similar.
 
-Both \code{x} and \code{w} should be strictly positive. This is not
-enforced, but the results may not make sense in cases where the generalized
-mean and generalized logarithmic mean are not defined.
-}
-\note{
-These function return a value that is the same length as \code{x},
-so any missing values in \code{x} or the weights will return \code{NA}. Unless
-all values are \code{NA}, however, the result for will still satisfy the above
-identities when \code{na.rm = TRUE}.
+Transmuting weights return a value that is the same length as \code{x},
+so any missing values in \code{x} or the weights will return \code{NA}.
+Unless all values are \code{NA}, however, the result for will still satisfy
+the above identities when \code{na.rm = TRUE}.
 }
 \examples{
 x <- 1:3
@@ -81,7 +74,7 @@ w <- 3:1
 
 #---- Transforming generalized means ----
 
-# Calculate the geometric mean as an arithmetic mean and 
+# Calculate the geometric mean as an arithmetic mean and
 # harmonic mean by transmuting the weights
 
 geometric_mean(x)
@@ -125,7 +118,7 @@ all.equal(
 
 #---- Percent-change contributions ----
 
-# Transmuted weights can be used to calculate percent-change 
+# Transmuted weights can be used to calculate percent-change
 # contributions for, e.g., a geometric price index
 
 scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
@@ -133,8 +126,8 @@ geometric_contributions(x) # the more convenient way
 
 #---- Basket representation of a price index ----
 
-# Any generalized-mean index can be represented as a basket-style 
-# index by transmuting the weights, which is how some authors 
+# Any generalized-mean index can be represented as a basket-style
+# index by transmuting the weights, which is how some authors
 # define a price index (e.g., Sydsaeter et al., 2005, p. 174)
 
 p1 <- 2:6
@@ -160,9 +153,8 @@ Sydsaeter, K., Strom, A., and Berck, P. (2005). \emph{Economists'
 Mathematical Manual} (4th edition). Springer.
 }
 \seealso{
-\code{\link[=generalized_mean]{generalized_mean()}} for the generalized mean.
-
-\code{\link[=nested_mean]{nested_mean()}} for the nested mean.
+\code{\link[=generalized_mean]{generalized_mean()}} for the generalized mean and \code{\link[=nested_mean]{nested_mean()}} for the
+nested mean.
 
 \code{\link[=extended_mean]{extended_mean()}} for the extended mean that underlies
 \code{transmute_weights()}.

@@ -1,6 +1,3 @@
-# having all of these start with as.numeric() strips attributes and ensures the
-# return value is a plain logical vector
-
 #' Outlier methods for price relatives
 #' 
 #' Standard cutoff-based methods for detecting outliers with price relatives.
@@ -48,8 +45,8 @@
 #' @param type See [quantile()].
 #' 
 #' @returns
-#' A logical vector, the same length as `x`, that is `TRUE`
-#' if the corresponding element of `x` is identified as an outlier,
+#' A logical vector, the same length as `x`, that is `TRUE` if the
+#' corresponding element of `x` is identified as an outlier,
 #' `FALSE` otherwise.
 #' 
 #' @seealso
@@ -59,16 +56,15 @@
 #' in a table into price relatives.
 #' 
 #' @references
-#' Hutton, H. (2008). Dynamic outlier detection in price index
-#' surveys. *Proceedings of the Survey Methods Section: Statistical
-#' Society of Canada Annual Meeting*.
+#' Hutton, H. (2008). Dynamic outlier detection in price index surveys.
+#' *Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting*.
 #' 
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). *Consumer Price
-#' Index Manual: Theory and Practice*. International Monetary Fund.
+#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
+#' *Consumer Price Index Manual: Theory and Practice*.
+#' International Monetary Fund.
 #' 
 #' Rais, S. (2008). Outlier detection for the Consumer Price Index.
-#' *Proceedings of the Survey Methods Section: Statistical Society of
-#' Canada Annual Meeting*.
+#' *Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting*.
 #' 
 #' @examples
 #' set.seed(1234)

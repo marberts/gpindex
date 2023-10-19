@@ -1,4 +1,4 @@
-#' Quantity index
+#' Quantity index operator
 #' 
 #' Remaps price arguments into quantity argument (and vice versa) to turn a
 #' price index into a quantity index.
@@ -41,28 +41,18 @@ quantity_index <- function(f) {
   }
 }
 
-#' Grouped
+#' Grouped operator
 #' 
 #' Make a function applicable to grouped data.
 #' 
 #' @param f A function.
-#' @param ... Additional arguments to `f` that should *not* be treated as
-#' grouped.
+#' @param ... Deprecated. Additional arguments to `f` that should *not* be
+#' treated as grouped.
 #' 
 #' @returns
-#' A function like `f` with a new argument
-#' `group`. This accepts a factor to split all other arguments in `f`
-#' (except those specified in `...`) into groups before applying `f`
-#' to each group and combining the results. It is similar to
-#' [ave()], but more general.
-#' 
-#' @note
-#' Additional arguments passed to `...` are evaluated, so the return
-#' function doesn't evaluate these arguments lazily. In most cases these
-#' additional arguments are parameters like `elasticity` or switches like
-#' `na.rm`, and eager evaluation prevents these from being changed in,
-#' e.g., a loop. Lazy evaluation can be had by passing an anonymous function
-#' that partials out these arguments.
+#' A function like `f` with a new argument `group`. This accepts a factor to
+#' split all other arguments in `f` into groups before applying `f` to each
+#' group and combining the results. It is similar to [ave()], but more general.
 #' 
 #' @examples
 #' p1 <- price6[[3]]
@@ -80,7 +70,7 @@ quantity_index <- function(f) {
 #' 
 #' x <- 1:6
 #' w <- c(1:5, NA)
-#' grouped_mean <- grouped(geometric_mean, na.rm = TRUE)
+#' grouped_mean <- grouped(\(x, w) geometric_mean(x, w, na.rm = TRUE))
 #' grouped_mean(x, w, group = f)
 #' 
 #' # Redistribute weights
@@ -98,6 +88,10 @@ quantity_index <- function(f) {
 grouped <- function(f, ...) {
   f <- match.fun(f)
   ngargs <- list(...)
+  if (length(ngargs) > 0L) {
+    warning("'...' is depecated and will be removed in a future version; ",
+            "use an anonymous function instead")
+  }
   if ("group" %in% names(formals(f))) {
     stop("'f' already has an argument called 'group'")
   }
@@ -120,19 +114,18 @@ grouped <- function(f, ...) {
   }
 }
 
-#' Balanced
+#' Balanced operator
 #'
 #' Makes a function balance the removal of `NA`s across multiple input vectors.
 #'
 #' @param f A function.
-#' @param ... Additional arguments to `f` that should *not* be balanced.
+#' @param ... Deprecated. Additional arguments to `f` that should *not* be
+#' balanced.
 #'
 #' @returns
-#' A function like `f`, except that missing values are balanced across
-#' *all* inputs when `na.rm = TRUE` (except those specified in `...`). This
-#' is like using [complete.cases()] on the inputs of `f`.
-#'
-#' @inherit grouped note
+#' A function like `f` with a new argument `na.rm`. If `na.rm = TRUE` then 
+#' [complete.cases()] is used to remove missing values across all inputs
+#' prior to calling `f`.
 #' 
 #' @examples
 #' p1 <- price6[[3]]
@@ -153,7 +146,7 @@ grouped <- function(f, ...) {
 #' 
 #' f <- factor(rep(letters[1:2], each = 3))
 #'
-#' grouped(balanced(fisher_mean), na.rm = TRUE)(x, w, group = f)
+#' grouped(\(x, w) balanced(fisher_mean)(x, w, na.rm = TRUE))(x, w, group = f)
 #' balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
 #'
 #' @family operators
@@ -161,8 +154,12 @@ grouped <- function(f, ...) {
 balanced <- function(f, ...) {
   f <- match.fun(f)
   nbargs <- list(...)
+  if (length(nbargs) > 0L) {
+    warning("'...' is depecated and will be removed in a future version; ",
+            "use an anonymous function instead")
+  }
 
-  function(..., na.rm = FALSE) {
+  function(..., na.rm) {
     dots <- list(...)
     if (na.rm) {
       dots <- lapply(dots, `[`, stats::complete.cases(...))

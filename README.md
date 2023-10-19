@@ -34,10 +34,6 @@ devtools::install_github("marberts/gpindex")
 
 ## Usage
 
-The examples here give a brief introduction to how to use the
-functionality in this package. The package-level help page
-(`package?gpindex`) gives much more detail.
-
 ``` r
 library(gpindex)
 
@@ -121,6 +117,18 @@ quadratic_mean(p1 / p0, s0) *
 quadratic_contributions(p1 / p0, s0)
 #> [1]  0.03110568  0.51154526  0.04832926 -0.03830484  0.06666667 -0.02665039
 ```
+
+## Prior work
+
+There are a number of R packages on the CRAN that implement the standard
+index-number formulas (e.g., **IndexNumber**, ***productivity***,
+***IndexNumR***, ***micEconIndex***, ***PriceIndices***). While there is
+support for a large number of index-number formulas out-of-the box in
+this package, the focus is on the tools to easily make and work with any
+type of generalized-mean price index. Consequently, compared to existing
+packages, this package is suitable for building custom price/quantity
+indexes, calculating indexes with sample data, decomposing indexes, and
+learning about or researching different types of index-number formulas.
 
 ## References
 

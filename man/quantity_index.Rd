@@ -2,7 +2,7 @@
 % Please edit documentation in R/operators.R
 \name{quantity_index}
 \alias{quantity_index}
-\title{Quantity index}
+\title{Quantity index operator}
 \usage{
 quantity_index(f)
 }

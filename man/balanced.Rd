@@ -2,30 +2,23 @@
 % Please edit documentation in R/operators.R
 \name{balanced}
 \alias{balanced}
-\title{Balanced}
+\title{Balanced operator}
 \usage{
 balanced(f, ...)
 }
 \arguments{
 \item{f}{A function.}
 
-\item{...}{Additional arguments to \code{f} that should \emph{not} be balanced.}
+\item{...}{Deprecated. Additional arguments to \code{f} that should \emph{not} be
+balanced.}
 }
 \value{
-A function like \code{f}, except that missing values are balanced across
-\emph{all} inputs when \code{na.rm = TRUE} (except those specified in \code{...}). This
-is like using \code{\link[=complete.cases]{complete.cases()}} on the inputs of \code{f}.
+A function like \code{f} with a new argument \code{na.rm}. If \code{na.rm = TRUE} then
+\code{\link[=complete.cases]{complete.cases()}} is used to remove missing values across all inputs
+prior to calling \code{f}.
 }
 \description{
 Makes a function balance the removal of \code{NA}s across multiple input vectors.
-}
-\note{
-Additional arguments passed to \code{...} are evaluated, so the return
-function doesn't evaluate these arguments lazily. In most cases these
-additional arguments are parameters like \code{elasticity} or switches like
-\code{na.rm}, and eager evaluation prevents these from being changed in,
-e.g., a loop. Lazy evaluation can be had by passing an anonymous function
-that partials out these arguments.
 }
 \examples{
 p1 <- price6[[3]]
@@ -46,7 +39,7 @@ w <- c(1:5, NA)
 
 f <- factor(rep(letters[1:2], each = 3))
 
-grouped(balanced(fisher_mean), na.rm = TRUE)(x, w, group = f)
+grouped(\(x, w) balanced(fisher_mean)(x, w, na.rm = TRUE))(x, w, group = f)
 balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
 
 }

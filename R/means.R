@@ -1,6 +1,6 @@
 #' Generalized mean
 #' 
-#' Calculate a generalized mean.
+#' Calculate a weighted generalized mean.
 #' 
 #' The function `generalized_mean()` returns a function to compute the
 #' generalized mean of `x` with weights `w` and exponent `r`
@@ -24,19 +24,18 @@
 #' especially for the purpose of making a price index. This is not enforced,
 #' but the results may not make sense if the generalized mean is not defined.
 #' There are two exceptions to this.
-#' \enumerate{
-#' \item The convention in Hardy et al. (1952, p. 13) is used in cases where `x`
+#' 1. The convention in Hardy et al. (1952, p. 13) is used in cases where `x`
 #' has zeros: the generalized mean is 0 whenever `w` is strictly positive and
 #' `r` < 0. (The analogous convention holds whenever at least one element of `x`
 #' is `Inf`: the generalized mean is `Inf` whenever `w` is strictly positive
 #' and `r` > 0.)
 #' 
-#' \item Some authors let `w` be non-negative and sum to 1 (e.g., Sydsaeter
+#' 2. Some authors let `w` be non-negative and sum to 1 (e.g., Sydsaeter
 #' et al., 2005, p. 47). If `w` has zeros, then the corresponding element
 #' of `x` has no impact on the mean whenever `x` is strictly
 #' positive. Unlike [`weighted.mean()`], however,
 #' zeros in `w` are not strong zeros, so infinite values in `x` will
-#' propagate even if the corresponding elements of `w` are zero. }
+#' propagate even if the corresponding elements of `w` are zero.
 #' 
 #' The weights are scaled to sum to 1 to satisfy the definition of a
 #' generalized mean. There are certain price indexes where the weights should
@@ -298,8 +297,7 @@ harmonic_mean <- generalized_mean(-1)
 #' \preformatted{function(a, b, tol = .Machine$double.eps^0.5){...}}
 #' 
 #' This computes the component-wise generalized logarithmic mean of order
-#' `r`, or the extended mean of orders `r` and `s`, of `a`
-#' and `b`.
+#' `r`, or the extended mean of orders `r` and `s`, of `a` and `b`.
 #' 
 #' `logmean()` returns a numeric vector, the same length as
 #' `max(length(a), length(b))`, giving the component-wise logarithmic mean
@@ -453,7 +451,7 @@ logmean <- generalized_logmean(0)
 
 #' Lehmer mean
 #' 
-#' Calculate a Lehmer mean.
+#' Calculate a weighted Lehmer mean.
 #' 
 #' The function `lehmer_mean()` returns a function to compute the Lehmer
 #' mean of order `r` of `x` with weights `w`, which is
@@ -470,10 +468,6 @@ logmean <- generalized_logmean(0)
 #' m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation,
 #' replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x},
 #' and together these bound the harmonic and arithmetic means.
-#' 
-#' Both `x` and `w` should be strictly positive. This is not
-#' enforced, but the results may not make sense if the generalized mean in not
-#' defined.
 #' 
 #' The Lehmer mean is an alternative to the generalized mean that generalizes
 #' the Pythagorean means. The function `lehmer_mean(1)()` is identical to

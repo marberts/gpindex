@@ -27,8 +27,7 @@ function:
 \preformatted{function(a, b, tol = .Machine$double.eps^0.5){...}}
 
 This computes the component-wise generalized logarithmic mean of order
-\code{r}, or the extended mean of orders \code{r} and \code{s}, of \code{a}
-and \code{b}.
+\code{r}, or the extended mean of orders \code{r} and \code{s}, of \code{a} and \code{b}.
 
 \code{logmean()} returns a numeric vector, the same length as
 \code{max(length(a), length(b))}, giving the component-wise logarithmic mean

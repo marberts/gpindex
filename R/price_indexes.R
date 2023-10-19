@@ -95,6 +95,10 @@ pythagorean_index <- function(r) {
 #' @param type The name of the index. See details for the possible types of
 #' indexes.
 #' 
+#' @returns
+#' A function of current and base period prices/quantities that calculates
+#' the relevant weights.
+#' 
 #' @note
 #' Naming for the indexes and weights generally follows the CPI manual (2020),
 #' Balk (2008), and Selvanathan and Rao (1994). In several cases two or more
@@ -114,6 +118,97 @@ pythagorean_index <- function(r) {
 #' q1 <- quantity6[[3]]
 #' pb <- price6[[1]]
 #' qb <- quantity6[[1]]
+#' 
+#' #---- Making the weights for different indexes ----
+#' 
+#' # Explicit calculation for each of the different weights
+#' # Carli/Jevons/Coggeshall
+#' 
+#' all.equal(index_weights("Carli")(p1), rep(1, length(p0)))
+#' 
+#' # Dutot
+#' 
+#' all.equal(index_weights("Dutot")(p0), p0)
+#' 
+#' # Laspeyres / Lloyd-Moulton
+#' 
+#' all.equal(index_weights("Laspeyres")(p0, q0), p0 * q0)
+#' 
+#' # Hybrid Laspeyres
+#' 
+#' all.equal(index_weights("HybridLaspeyres")(p1, q0), p1 * q0)
+#' 
+#' # Paasche / Palgrave
+#' 
+#' all.equal(index_weights("Paasche")(p1, q1), p1 * q1)
+#' 
+#' # Hybrid Paasche
+#' 
+#' all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
+#' 
+#' # Tornqvist / Unnamed
+#' 
+#' all.equal(index_weights("Tornqvist")(p1, p0, q1, q0),
+#'           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
+#' 
+#' # Drobisch
+#' 
+#' all.equal(index_weights("Drobisch")(p1, p0, q1, q0),
+#'           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
+#' 
+#' # Walsh-I
+#' 
+#' all.equal(index_weights("Walsh1")(p0, q1, q0),
+#'           p0 * sqrt(q0 * q1))
+#' 
+#' # Marshall-Edgeworth
+#' 
+#' all.equal(index_weights("MarshallEdgeworth")(p0, q1, q0),
+#'           p0 * (q0 + q1))
+#' 
+#' # Geary-Khamis
+#' 
+#' all.equal(index_weights("GearyKhamis")(p0, q1, q0),
+#'           p0 / (1 / q0 + 1 / q1))
+#' 
+#' # Montgomery-Vartia / Vartia-I
+#' 
+#' all.equal(
+#'   index_weights("MontgomeryVartia")(p1, p0, q1, q0),
+#'   logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
+#' )
+#' 
+#' # Sato-Vartia / Vartia-II
+#' 
+#' all.equal(index_weights("SatoVartia")(p1, p0, q1, q0),
+#'           logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+#' 
+#' # Walsh-II
+#' 
+#' all.equal(index_weights("Walsh2")(p1, p0, q1, q0),
+#'           sqrt(p0 * q0 * p1 * q1))
+#'           
+#' # Theil
+#' 
+#' all.equal(index_weights("Theil")(p1, p0, q1, q0),
+#'           {w0 <- scale_weights(p0 * q0);
+#'            w1 <- scale_weights(p1 * q1);
+#'            (w0 * w1 * (w0 + w1) / 2)^(1 / 3)})
+#'            
+#' # Rao
+#' 
+#' all.equal(index_weights("Rao")(p1, p0, q1, q0),
+#'           {w0 <- scale_weights(p0 * q0);
+#'            w1 <- scale_weights(p1 * q1);
+#'            w0 * w1 / (w0 + w1)})
+#' 
+#' # Lowe
+#' 
+#' all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
+#' 
+#' # Young
+#' 
+#' all.equal(index_weights("Young")(pb, qb), pb * qb)
 #' 
 #' @family price-indexes
 #' @export
@@ -486,97 +581,7 @@ index_weights <- function(
 #' all.equal(arithmetic_index("Drobisch")(p1a, p0a, q1a, q0a), Ia)
 #' all.equal(arithmetic_index("Drobisch")(p1b, p0b, q1b, q0b), Ib)
 #' 
-#' #---- Making the weights for different indexes ----
-#' 
-#' # Explicit calculation for each of the different weights
-#' # Carli/Jevons/Coggeshall
-#' 
-#' all.equal(index_weights("Carli")(p1), rep(1, length(p0)))
-#' 
-#' # Dutot
-#' 
-#' all.equal(index_weights("Dutot")(p0), p0)
-#' 
-#' # Laspeyres / Lloyd-Moulton
-#' 
-#' all.equal(index_weights("Laspeyres")(p0, q0), p0 * q0)
-#' 
-#' # Hybrid Laspeyres
-#' 
-#' all.equal(index_weights("HybridLaspeyres")(p1, q0), p1 * q0)
-#' 
-#' # Paasche / Palgrave
-#' 
-#' all.equal(index_weights("Paasche")(p1, q1), p1 * q1)
-#' 
-#' # Hybrid Paasche
-#' 
-#' all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
-#' 
-#' # Tornqvist / Unnamed
-#' 
-#' all.equal(index_weights("Tornqvist")(p1, p0, q1, q0),
-#'           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
-#' 
-#' # Drobisch
-#' 
-#' all.equal(index_weights("Drobisch")(p1, p0, q1, q0),
-#'           0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
-#' 
-#' # Walsh-I
-#' 
-#' all.equal(index_weights("Walsh1")(p0, q1, q0),
-#'           p0 * sqrt(q0 * q1))
-#' 
-#' # Marshall-Edgeworth
-#' 
-#' all.equal(index_weights("MarshallEdgeworth")(p0, q1, q0),
-#'           p0 * (q0 + q1))
-#' 
-#' # Geary-Khamis
-#' 
-#' all.equal(index_weights("GearyKhamis")(p0, q1, q0),
-#'           p0 / (1 / q0 + 1 / q1))
-#' 
-#' # Montgomery-Vartia / Vartia-I
-#' 
-#' all.equal(
-#'   index_weights("MontgomeryVartia")(p1, p0, q1, q0),
-#'   logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
-#' )
-#' 
-#' # Sato-Vartia / Vartia-II
-#' 
-#' all.equal(index_weights("SatoVartia")(p1, p0, q1, q0),
-#'           logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
-#' 
-#' # Walsh-II
-#' 
-#' all.equal(index_weights("Walsh2")(p1, p0, q1, q0),
-#'           sqrt(p0 * q0 * p1 * q1))
-#'           
-#' # Theil
-#' 
-#' all.equal(index_weights("Theil")(p1, p0, q1, q0),
-#'           {w0 <- scale_weights(p0 * q0);
-#'            w1 <- scale_weights(p1 * q1);
-#'            (w0 * w1 * (w0 + w1) / 2)^(1 / 3)})
-#'            
-#' # Rao
-#' 
-#' all.equal(index_weights("Rao")(p1, p0, q1, q0),
-#'           {w0 <- scale_weights(p0 * q0);
-#'            w1 <- scale_weights(p1 * q1);
-#'            w0 * w1 / (w0 + w1)})
-#' 
-#' # Lowe
-#' 
-#' all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
-#' 
-#' # Young
-#' 
-#' all.equal(index_weights("Young")(pb, qb), pb * qb)
-#' 
+#' @family price-indexes
 #' @export
 arithmetic_index <- pythagorean_index(1)
 
@@ -599,7 +604,6 @@ laspeyres_index <- arithmetic_index("Laspeyres")
 #' @rdname price_indexes
 #' @export
 paasche_index <- harmonic_index("Paasche")
-
 
 #' Jevons index
 #' @rdname price_indexes

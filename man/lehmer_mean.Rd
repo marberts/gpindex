@@ -32,7 +32,7 @@ This computes the Lehmer mean of order \code{r} of \code{x} with weights
 order 2.
 }
 \description{
-Calculate a Lehmer mean.
+Calculate a weighted Lehmer mean.
 }
 \details{
 The function \code{lehmer_mean()} returns a function to compute the Lehmer
@@ -50,10 +50,6 @@ is the solution to an optimal prediction problem: choose \eqn{m} to minimize
 m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation,
 replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x},
 and together these bound the harmonic and arithmetic means.
-
-Both \code{x} and \code{w} should be strictly positive. This is not
-enforced, but the results may not make sense if the generalized mean in not
-defined.
 
 The Lehmer mean is an alternative to the generalized mean that generalizes
 the Pythagorean means. The function \code{lehmer_mean(1)()} is identical to

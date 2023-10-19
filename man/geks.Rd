@@ -40,7 +40,7 @@ walsh_geks(
 )
 }
 \arguments{
-\item{f}{A price index function that uses information on both
+\item{f}{A \link[=price_indexes]{price index function} that uses information on both
 base and current-period prices and quantities, and satisfies the
 time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.}
 
@@ -67,15 +67,13 @@ starting from the end of the window. For example, if there are 13 periods in
 default gives an index for each period in \code{window}. Values that are
 neither integers nor length 1 are silently truncated to a length 1 integer.}
 
-\item{na.rm}{Should missing values for \code{p} and \code{q} be removed when
-calculating the index? By default missing values will return a missing value
-for the index.}
+\item{na.rm}{Passed to \code{f} to control if missing values are removed.}
 }
 \value{
 \code{geks()} returns a function:
 
-\preformatted{ function(p, q, period, product, window = nlevels(period), n =
-window - 1, na.rm = FALSE){...} }
+\preformatted{function(p, q, period, product, window = nlevels(period), n =
+         window - 1, na.rm = FALSE){...}}
 
 This calculates a period-over-period GEKS index with the desired
 index-number formula, returning a list for each window with a named-numeric
@@ -134,9 +132,8 @@ aggregation and the construction of price indexes.
 \emph{Journal of Econometrics}, 161(1): 24--35.
 }
 \seealso{
-\link{price_indexes} for price-index functions that can be used in \code{geks()}.
-
 Other price-indexes: 
-\code{\link{index_weights}()}
+\code{\link{index_weights}()},
+\code{\link{price_indexes}}
 }
 \concept{price-indexes}

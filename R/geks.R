@@ -49,7 +49,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in
 #' chapter 10 of the CPI manual (2020).
 #' 
-#' @param f A price index function that uses information on both
+#' @param f A [price index function][price_indexes] that uses information on both
 #' base and current-period prices and quantities, and satisfies the
 #' time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.
 #' @param p A numeric vector of prices, the same length as `q`.
@@ -69,15 +69,13 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' `window`, setting `n = 1` gives the index for period 13. The
 #' default gives an index for each period in `window`. Values that are
 #' neither integers nor length 1 are silently truncated to a length 1 integer.
-#' @param na.rm Should missing values for `p` and `q` be removed when
-#' calculating the index? By default missing values will return a missing value
-#' for the index.
+#' @param na.rm Passed to `f` to control if missing values are removed.
 #' 
 #' @returns
 #' `geks()` returns a function:
 #' 
-#' \preformatted{ function(p, q, period, product, window = nlevels(period), n =
-#' window - 1, na.rm = FALSE){...} }
+#' \preformatted{function(p, q, period, product, window = nlevels(period), n =
+#'          window - 1, na.rm = FALSE){...}}
 #' 
 #' This calculates a period-over-period GEKS index with the desired
 #' index-number formula, returning a list for each window with a named-numeric
@@ -93,9 +91,6 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' is always the first price for that product in the previous period. Unlike a
 #' bilateral index, however, duplicated period-product pairs can have more
 #' subtle implications for a multilateral index.
-#' 
-#' @seealso
-#' [price_indexes] for price-index functions that can be used in `geks()`.
 #' 
 #' @references
 #' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
