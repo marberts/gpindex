@@ -130,7 +130,7 @@ harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)
 generalized_mean(2)(x, w)
 
 # Cubic mean
-# Notice that this is larger than the other means so far because 
+# Notice that this is larger than the other means so far because
 # the generalized mean is increasing in r
 
 generalized_mean(3)(x, w)
@@ -151,14 +151,14 @@ arithmetic_mean(y) - geometric_mean(y)
 geometric_mean(x) - harmonic_mean(x)
 geometric_mean(y) - harmonic_mean(y)
 
-# But the dispersion between these means is only bounded by the 
+# But the dispersion between these means is only bounded by the
 # variance (Bullen, 2003, p. 156)
 
 arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
 
-# Example by Lord (2002) where the dispersion decreases as the variance 
-# increases, counter to the claims by Fisher (1922, p. 108) and the 
+# Example by Lord (2002) where the dispersion decreases as the variance
+# increases, counter to the claims by Fisher (1922, p. 108) and the
 # CPI manual (par. 1.14)
 
 x <- (5 + c(sqrt(5), -sqrt(5), -3)) / 4
@@ -172,7 +172,7 @@ arithmetic_mean(y) - geometric_mean(y)
 geometric_mean(x) - harmonic_mean(x)
 geometric_mean(y) - harmonic_mean(y)
 
-# The "bias" in the arithmetic and harmonic indexes is also smaller in 
+# The "bias" in the arithmetic and harmonic indexes is also smaller in
 # this case, counter to the claim by Fisher (1922, p. 108)
 
 arithmetic_mean(x) * arithmetic_mean(1 / x) - 1

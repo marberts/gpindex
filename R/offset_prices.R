@@ -25,11 +25,11 @@ offset_period <- function(f) {
 }
 
 #' Offset a vector prices or quantities
-#' 
-#' For each product, compute either the index for the previous period (back
-#' period), or the index for the first period (base period). Useful when price
+#'
+#' For each product, compute either the position of the previous period (back
+#' period), or the position of the first period (base period). Useful when price
 #' information is stored in a table.
-#' 
+#'
 #' @param period A factor, or something that can be coerced into one, that
 #' gives the time period for each transaction. The ordering of time periods
 #' follows the levels of `period` to agree with
@@ -47,36 +47,38 @@ offset_period <- function(f) {
 #' in each time period to determine a back period. If multiple transactions
 #' correspond to a period-product pair, then the back period at a point in time
 #' is always the first position for that product in the previous period.
-#' 
+#'
 #' @seealso
 #' [outliers] for common methods to detect outliers for price relatives.
-#' 
+#'
 #' `rs_pairs` in the \pkg{rsmatrix} package for making sales pairs.
-#' 
+#'
 #' @examples
-#' df <- data.frame(price = 1:6, 
-#'                  product = factor(c("a", "b")), 
-#'                  period = factor(c(1, 1, 2, 2, 3, 3)))
-#' 
+#' df <- data.frame(
+#'   price = 1:6,
+#'   product = factor(c("a", "b")),
+#'   period = factor(c(1, 1, 2, 2, 3, 3))
+#' )
+#'
 #' with(df, back_period(period, product))
-#' 
+#'
 #' # Make period-over-period price relatives
-#' 
+#'
 #' with(df, price / price[back_period(period, product)])
-#' 
+#'
 #' # Make fixed-base price relatives
-#' 
+#'
 #' with(df, price / price[base_period(period, product)])
-#' 
+#'
 #' # Change the base period with relevel()
-#' 
+#'
 #' with(df, price / price[base_period(relevel(period, "2"), product)])
-#' 
-#' # Warning is given if the same product has multiple prices 
+#'
+#' # Warning is given if the same product has multiple prices
 #' # at any point in time
-#' 
+#'
 #' with(df, back_period(period))
-#' 
+#'
 #' @export
 back_period <- offset_period(function(x) x[c(1L, seq_len(length(x) - 1L))])
 

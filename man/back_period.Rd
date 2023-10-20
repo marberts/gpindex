@@ -28,8 +28,8 @@ for the first time period. With \code{base_period()}, the resulting vector
 gives the location of the corresponding product in the first period.
 }
 \description{
-For each product, compute either the index for the previous period (back
-period), or the index for the first period (base period). Useful when price
+For each product, compute either the position of the previous period (back
+period), or the position of the first period (base period). Useful when price
 information is stored in a table.
 }
 \note{
@@ -39,9 +39,11 @@ correspond to a period-product pair, then the back period at a point in time
 is always the first position for that product in the previous period.
 }
 \examples{
-df <- data.frame(price = 1:6, 
-                 product = factor(c("a", "b")), 
-                 period = factor(c(1, 1, 2, 2, 3, 3)))
+df <- data.frame(
+  price = 1:6,
+  product = factor(c("a", "b")),
+  period = factor(c(1, 1, 2, 2, 3, 3))
+)
 
 with(df, back_period(period, product))
 
@@ -57,7 +59,7 @@ with(df, price / price[base_period(period, product)])
 
 with(df, price / price[base_period(relevel(period, "2"), product)])
 
-# Warning is given if the same product has multiple prices 
+# Warning is given if the same product has multiple prices
 # at any point in time
 
 with(df, back_period(period))

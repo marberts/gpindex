@@ -80,7 +80,7 @@ y <- 1:4
 
 #---- Comparing logarithmic means and generalized means ----
 
-# The arithmetic and geometric means are special cases of the 
+# The arithmetic and geometric means are special cases of the
 # generalized logarithmic mean
 
 all.equal(generalized_logmean(2)(x, y), (x + y) / 2)
@@ -89,10 +89,10 @@ all.equal(generalized_logmean(-1)(x, y), sqrt(x * y))
 # The logarithmic mean lies between the arithmetic and geometric means
 # because the generalized logarithmic mean is increasing in r
 
-all(logmean(x, y) < (x + y) / 2) & 
+all(logmean(x, y) < (x + y) / 2) &
   all(logmean(x, y) > sqrt(x * y))
 
-# The harmonic mean cannot be expressed as a logarithmic mean, but can 
+# The harmonic mean cannot be expressed as a logarithmic mean, but can
 # be expressed as an extended mean
 
 all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
@@ -103,19 +103,23 @@ all.equal(extended_mean(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 
 # As are heronian and centroidal means
 
-all.equal(extended_mean(0.5, 1.5)(x, y), 
-          (x + sqrt(x * y) + y) / 3)
-all.equal(extended_mean(2, 3)(x, y), 
-          2 / 3 * (x^2 + x * y + y^2) / (x + y))
+all.equal(
+  extended_mean(0.5, 1.5)(x, y),
+  (x + sqrt(x * y) + y) / 3
+)
+all.equal(
+  extended_mean(2, 3)(x, y),
+  2 / 3 * (x^2 + x * y + y^2) / (x + y)
+)
 
 #---- Approximating the logarithmic mean ----
 
-# The logarithmic mean can be approximated as a convex combination of 
-# the arithmetic and geometric means that gives more weight to the 
+# The logarithmic mean can be approximated as a convex combination of
+# the arithmetic and geometric means that gives more weight to the
 # geometric mean
 
-approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y) 
-approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3) 
+approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)
+approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3)
 
 approx1 - logmean(x, y) # always a positive approximation error
 approx2 - logmean(x, y) # a negative approximation error
@@ -127,28 +131,36 @@ approx1 / (1 + correction) - logmean(x, y)
 
 #---- Some identities ----
 
-# A useful identity for turning an additive change into a proportionate 
+# A useful identity for turning an additive change into a proportionate
 # change
 
-all.equal(logmean(x, y) * log(x / y), x - y) 
+all.equal(logmean(x, y) * log(x / y), x - y)
 
 # Works for other orders, too
 
 r <- 2
 
-all.equal(generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)), 
-          (x^r - y^r))
+all.equal(
+  generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)),
+  (x^r - y^r)
+)
 
 # Some other identities
 
-all.equal(generalized_logmean(-2)(1, 2), 
-          (harmonic_mean(1:2) * geometric_mean(1:2)^2)^(1 / 3))
+all.equal(
+  generalized_logmean(-2)(1, 2),
+  (harmonic_mean(1:2) * geometric_mean(1:2)^2)^(1 / 3)
+)
 
-all.equal(generalized_logmean(0.5)(1, 2), 
-          (arithmetic_mean(1:2) + geometric_mean(1:2)) / 2)
+all.equal(
+  generalized_logmean(0.5)(1, 2),
+  (arithmetic_mean(1:2) + geometric_mean(1:2)) / 2
+)
 
-all.equal(logmean(1, 2),
-          geometric_mean(1:2)^2 * logmean(1, 1/2))
+all.equal(
+  logmean(1, 2),
+  geometric_mean(1:2)^2 * logmean(1, 1 / 2)
+)
 
 #---- Integral representations of the logarithmic mean ----
 

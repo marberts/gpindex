@@ -59,11 +59,11 @@ w2 <- 7:9
 
 #---- Making superlative indexes ----
 
-# A function to make the superlative quadratic mean price index by 
+# A function to make the superlative quadratic mean price index by
 # Diewert (1976) as a product of generalized means
 
 quadratic_mean_index <- function(x, w0, w1, r) {
-  x <- sqrt(x) 
+  x <- sqrt(x)
   generalized_mean(r)(x, w0) * generalized_mean(-r)(x, w1)
 }
 
@@ -86,8 +86,10 @@ agmean_index(0.25)(x, w1, w1)
 # The (arithmetic) Walsh index is the implicit price index when using a
 # superlative quadratic mean quantity index of order 1
 
-p1 <- price6[[2]]; p0 <- price6[[1]]
-q1 <- quantity6[[2]]; q0 <- quantity6[[1]]
+p1 <- price6[[2]]
+p0 <- price6[[1]]
+q1 <- quantity6[[2]]
+q0 <- quantity6[[1]]
 
 walsh <- quadratic_mean_index2(1)
 
@@ -95,7 +97,7 @@ sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
 
 sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
 
-# Counter to the PPI manual (par. 1.105), it is not a superlative 
+# Counter to the PPI manual (par. 1.105), it is not a superlative
 # quadratic mean price index of order 1
 
 walsh(p1 / p0, p0 * q0, p1 * q1)
@@ -107,11 +109,13 @@ w1[2] <- NA
 
 fisher_mean(x, w1, w2, na.rm = TRUE)
 
-# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a 
+# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a
 # harmonic mean
 
-geometric_mean(c(arithmetic_mean(x, w1, na.rm = TRUE), 
-                 harmonic_mean(x, w2, na.rm = TRUE)))
+geometric_mean(c(
+  arithmetic_mean(x, w1, na.rm = TRUE),
+  harmonic_mean(x, w2, na.rm = TRUE)
+))
 
 # Use balanced() to use only obs 3 in both inner means
 

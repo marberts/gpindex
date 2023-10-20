@@ -128,8 +128,8 @@ geometric_contributions(x)
 
 all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 
-# This works by first transmuting the weights in the geometric mean 
-# into weights for an arithmetic mean, then finding the contributions 
+# This works by first transmuting the weights in the geometric mean
+# into weights for an arithmetic mean, then finding the contributions
 # to the percent change
 
 scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
@@ -147,11 +147,13 @@ all.equal(sum(transmute2(x) * (x - 1)), geometric_mean(x) - 1)
 # But these "transmuted" weights don't recover the geometric mean!
 # Not a particularly good way to calculate contributions
 
-isTRUE(all.equal(arithmetic_mean(x, transmute2(x)), 
-                 geometric_mean(x)))
+isTRUE(all.equal(
+  arithmetic_mean(x, transmute2(x)),
+  geometric_mean(x)
+))
 
-# There are infinitely many ways to calculate contributions, but the 
-# weights from transmute_weights(0, 1)() are the *unique* weights that 
+# There are infinitely many ways to calculate contributions, but the
+# weights from transmute_weights(0, 1)() are the *unique* weights that
 # recover the geometric mean
 
 perturb <- function(w, e) {
@@ -159,10 +161,14 @@ perturb <- function(w, e) {
 }
 
 perturb(transmute2(x), 0.1) * (x - 1)
-all.equal(sum(perturb(transmute2(x), 0.1) * (x - 1)),
-          geometric_mean(x) - 1)
-isTRUE(all.equal(arithmetic_mean(x, perturb(transmute2(x), 0.1)),
-                 geometric_mean(x)))
+all.equal(
+  sum(perturb(transmute2(x), 0.1) * (x - 1)),
+  geometric_mean(x) - 1
+)
+isTRUE(all.equal(
+  arithmetic_mean(x, perturb(transmute2(x), 0.1)),
+  geometric_mean(x)
+))
 
 #---- Contributions for a Fisher index ----
 
@@ -171,24 +177,28 @@ p0 <- price6[[1]]
 q1 <- quantity6[[2]]
 q0 <- quantity6[[1]]
 
-# Percent-change contributions for the Fisher index in section 6 of 
+# Percent-change contributions for the Fisher index in section 6 of
 # Reinsdorf et al. (2002)
 
-(con <- fisher_contributions(p1 / p0, 
-                             index_weights("Laspeyres")(p0, q0), 
-                             index_weights("Paasche")(p1, q1)))
+(con <- fisher_contributions(
+  p1 / p0,
+  index_weights("Laspeyres")(p0, q0),
+  index_weights("Paasche")(p1, q1)
+))
 
 all.equal(sum(con), fisher_index(p1, p0, q1, q0) - 1)
 
 # Not the only way
 
-(con2 <- fisher_contributions2(p1 / p0, 
-                               index_weights("Laspeyres")(p0, q0), 
-                               index_weights("Paasche")(p1, q1)))
+(con2 <- fisher_contributions2(
+  p1 / p0,
+  index_weights("Laspeyres")(p0, q0),
+  index_weights("Paasche")(p1, q1)
+))
 
 all.equal(sum(con2), fisher_index(p1, p0, q1, q0) - 1)
 
-# The same as the van IJzeren decomposition in section 4.2.2 of 
+# The same as the van IJzeren decomposition in section 4.2.2 of
 # Balk (2008)
 
 Qf <- quantity_index(fisher_index)(q1, q0, p1, p0)
@@ -197,16 +207,16 @@ wl <- scale_weights(index_weights("Laspeyres")(p0, q0))
 wp <- scale_weights(index_weights("HybridPaasche")(p0, q1))
 
 (Qf / (Qf + Ql) * wl + Ql / (Qf + Ql) * wp) * (p1 / p0 - 1)
-  
-# Similar to the method in section 2 of Reinsdorf et al. (2002), 
+
+# Similar to the method in section 2 of Reinsdorf et al. (2002),
 # although those contributions aren't based on weights that sum to 1
 
 Pf <- fisher_index(p1, p0, q1, q0)
 Pl <- laspeyres_index(p1, p0, q0)
 
 (1 / (1 + Pf) * wl + Pl / (1 + Pf) * wp) * (p1 / p0 - 1)
-  
-# Also similar to the decomposition by Hallerbach (2005), noting that 
+
+# Also similar to the decomposition by Hallerbach (2005), noting that
 # the Euler weights are close to unity
 
 Pp <- paasche_index(p1, p0, q1)
@@ -215,28 +225,32 @@ Pp <- paasche_index(p1, p0, q1)
 
 #---- Contributions for other types of indexes ----
 
-# A function to get contributions for any superlative quadratic mean of 
+# A function to get contributions for any superlative quadratic mean of
 # order 'r' index
 
 superlative_contributions <- function(r) {
-  nested_contributions(0, c(r / 2, - r / 2))
+  nested_contributions(0, c(r / 2, -r / 2))
 }
 
-# Works for other types of indexes, like the harmonic 
+# Works for other types of indexes, like the harmonic
 # Laspeyres Paasche index
-                                   
+
 hlp_contributions <- nested_contributions(-1, c(1, -1))
-hlp_contributions(p1 / p0, 
-                  index_weights("Laspeyres")(p0, q0), 
-                  index_weights("Paasche")(p1, q1))
-                  
+hlp_contributions(
+  p1 / p0,
+  index_weights("Laspeyres")(p0, q0),
+  index_weights("Paasche")(p1, q1)
+)
+
 # Or the AG mean index (tau = 0.25)
 
 agmean_contributions <- nested_contributions(1, c(0, 1), c(0.25, 0.75))
-agmean_contributions(p1 / p0, 
-                     index_weights("Laspeyres")(p0, q0), 
-                     index_weights("Laspeyres")(p0, q0))
-                     
+agmean_contributions(
+  p1 / p0,
+  index_weights("Laspeyres")(p0, q0),
+  index_weights("Laspeyres")(p0, q0)
+)
+
 # Or the Balk-Walsh index
 
 bw_contributions <- nested_contributions(0, c(0.5, -0.5))

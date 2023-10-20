@@ -132,6 +132,9 @@ aggregation and the construction of price indexes.
 \emph{Journal of Econometrics}, 161(1): 24--35.
 }
 \seealso{
+\code{GEKSIndex()} in the \pkg{indexNumR} package for an implementation of the
+GEKS index with more options.
+
 Other price-indexes: 
 \code{\link{index_weights}()},
 \code{\link{price_indexes}}

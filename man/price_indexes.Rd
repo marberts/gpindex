@@ -83,10 +83,9 @@ AG mean indexes.}
 \item{a, b}{Parameters for the generalized Stuvel index.}
 }
 \value{
-\code{arithmetic_index()}, \code{geometric_index()},
-\code{harmonic_index()}, and \code{stuvel_index()}
-each return a function to compute the relevant price indexes;
-\code{lm_index()}, \code{arithmetic_agmean_index()}, and
+\code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, and
+\code{stuvel_index()} each return a function to compute the relevant price
+indexes; \code{lm_index()}, \code{arithmetic_agmean_index()}, and
 \code{geometric_agmean_index()} each return a function to calculate the
 relevant index for a given elasticity of substitution. The others return a
 numeric value giving the change in price between the base period and current
@@ -181,7 +180,7 @@ qb <- quantity6[[1]]
 
 #---- Calculating price indexes ----
 
-# Most indexes can be calculated by combining the appropriate weights 
+# Most indexes can be calculated by combining the appropriate weights
 # with the correct type of mean
 
 geometric_index("Laspeyres")(p1, p0, q0)
@@ -190,7 +189,7 @@ geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 # Arithmetic Laspeyres index
 
 laspeyres_index(p1, p0, q0)
-arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0)) 
+arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
 # Harmonic calculation for the arithmetic Laspeyres
 
@@ -205,7 +204,7 @@ all.equal(
   )
 )
 
-# This strategy can be used to make more exotic indexes, like the 
+# This strategy can be used to make more exotic indexes, like the
 # quadratic-mean index (von der Lippe, 2001, p. 71)
 
 generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
@@ -219,8 +218,8 @@ log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 arithmetic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
 contraharmonic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
-# Unlike its arithmetic counterpart, the geometric Laspeyres can 
-# increase when base-period prices increase if some of these prices 
+# Unlike its arithmetic counterpart, the geometric Laspeyres can
+# increase when base-period prices increase if some of these prices
 # are small
 
 gl <- geometric_index("Laspeyres")
@@ -235,7 +234,7 @@ gl(p1, p0_small, q0) < gl(p1, p0_dx, q0)
 p2 <- price6[[4]]
 laspeyres_index(p2, p0, q0)
 
-I1 <- laspeyres_index(p1, p0, q0) 
+I1 <- laspeyres_index(p1, p0, q0)
 w_pu <- update_weights(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- arithmetic_mean(p2 / p1, w_pu)
 I1 * I2
@@ -244,7 +243,7 @@ I1 * I2
 
 harmonic_index("Laspeyres")(p2, p0, q0)
 
-I1 <- harmonic_index("Laspeyres")(p1, p0, q0) 
+I1 <- harmonic_index("Laspeyres")(p1, p0, q0)
 w_pu <- factor_weights(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 I2 <- harmonic_mean(p2 / p1, w_pu)
 I1 * I2
@@ -294,12 +293,16 @@ sum(scale_weights(wl) * (wp / wl - 1) * log(p1 / p0 / gl))
 
 #---- Consistency in aggregation ----
 
-p0a <- p0[1:3]; p0b <- p0[4:6]
-p1a <- p1[1:3]; p1b <- p1[4:6]
-q0a <- q0[1:3]; q0b <- q0[4:6]
-q1a <- q1[1:3]; q1b <- q1[4:6]
+p0a <- p0[1:3]
+p0b <- p0[4:6]
+p1a <- p1[1:3]
+p1b <- p1[4:6]
+q0a <- q0[1:3]
+q0b <- q0[4:6]
+q1a <- q1[1:3]
+q1b <- q1[4:6]
 
-# Indexes based on the generalized mean with value share weights are 
+# Indexes based on the generalized mean with value share weights are
 # consistent in aggregation
 
 lm_index(0.75)(p1, p0, q0)
@@ -314,8 +317,8 @@ generalized_mean(0.25)(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
 all.equal(lm_index(0.75)(p1a, p0a, q0a), Ia)
 all.equal(lm_index(0.75)(p1b, p0b, q0b), Ib)
 
-# Care is needed with more complex weights, e.g., Drobisch, as this 
-# doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean 
+# Care is needed with more complex weights, e.g., Drobisch, as this
+# doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean
 # index (it's the arithmetic mean of a Laspeyres and Paasche index)
 
 arithmetic_index("Drobisch")(p1, p0, q1, q0)
@@ -361,8 +364,6 @@ most of these functions.
 
 \code{\link[=quantity_index]{quantity_index()}} to remap the arguments in these functions for a
 quantity index.
-
-\code{\link[=geks]{geks()}} for making a GEKS index based on, e.g., the Fisher index.
 
 \code{\link[=price6]{price6()}} for an example of how to use these functions with more
 than two time periods.

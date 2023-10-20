@@ -25,7 +25,7 @@ means.}
 means. The default is equal weights.}
 }
 \value{
-\code{transmute_weights()} return a function:
+\code{transmute_weights()} returns a function:
 
 \preformatted{function(x, w = NULL){...}}
 
@@ -41,13 +41,13 @@ multiplicative decompositions for a generalized-mean index, and those made
 of nested generalized means (e.g., Fisher index).
 }
 \details{
-The function \code{transmute_weights()} returns a function to compute a
+The function \code{transmute_weights(r, s)} returns a function to compute a
 vector of weights \code{v(x, w)} such that
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 
-\code{nested_transmute()} and \code{nested_transmute2()} do the same for
-nested generalized means, so that
+\code{nested_transmute(r1, r2, t, s)} and \code{nested_transmute2(r1, r2, t, s)} do
+the same for nested generalized means, so that
 
 \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x,
 v(x, w1, w2))}
@@ -62,7 +62,7 @@ decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
 approach by Martin (2021), although in most cases the results are broadly
 similar.
 
-Transmuting weights return a value that is the same length as \code{x},
+Transmuting weights returns a value that is the same length as \code{x},
 so any missing values in \code{x} or the weights will return \code{NA}.
 Unless all values are \code{NA}, however, the result for will still satisfy
 the above identities when \code{na.rm = TRUE}.

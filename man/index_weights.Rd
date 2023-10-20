@@ -93,28 +93,38 @@ all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
 
 # Tornqvist / Unnamed
 
-all.equal(index_weights("Tornqvist")(p1, p0, q1, q0),
-          0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1))
+all.equal(
+  index_weights("Tornqvist")(p1, p0, q1, q0),
+  0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+)
 
 # Drobisch
 
-all.equal(index_weights("Drobisch")(p1, p0, q1, q0),
-          0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1))
+all.equal(
+  index_weights("Drobisch")(p1, p0, q1, q0),
+  0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
+)
 
 # Walsh-I
 
-all.equal(index_weights("Walsh1")(p0, q1, q0),
-          p0 * sqrt(q0 * q1))
+all.equal(
+  index_weights("Walsh1")(p0, q1, q0),
+  p0 * sqrt(q0 * q1)
+)
 
 # Marshall-Edgeworth
 
-all.equal(index_weights("MarshallEdgeworth")(p0, q1, q0),
-          p0 * (q0 + q1))
+all.equal(
+  index_weights("MarshallEdgeworth")(p0, q1, q0),
+  p0 * (q0 + q1)
+)
 
 # Geary-Khamis
 
-all.equal(index_weights("GearyKhamis")(p0, q1, q0),
-          p0 / (1 / q0 + 1 / q1))
+all.equal(
+  index_weights("GearyKhamis")(p0, q1, q0),
+  p0 / (1 / q0 + 1 / q1)
+)
 
 # Montgomery-Vartia / Vartia-I
 
@@ -125,27 +135,33 @@ all.equal(
 
 # Sato-Vartia / Vartia-II
 
-all.equal(index_weights("SatoVartia")(p1, p0, q1, q0),
-          logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1)))
+all.equal(
+  index_weights("SatoVartia")(p1, p0, q1, q0),
+  logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
+)
 
 # Walsh-II
 
-all.equal(index_weights("Walsh2")(p1, p0, q1, q0),
-          sqrt(p0 * q0 * p1 * q1))
-          
+all.equal(
+  index_weights("Walsh2")(p1, p0, q1, q0),
+  sqrt(p0 * q0 * p1 * q1)
+)
+
 # Theil
 
-all.equal(index_weights("Theil")(p1, p0, q1, q0),
-          {w0 <- scale_weights(p0 * q0);
-           w1 <- scale_weights(p1 * q1);
-           (w0 * w1 * (w0 + w1) / 2)^(1 / 3)})
-           
+all.equal(index_weights("Theil")(p1, p0, q1, q0), {
+  w0 <- scale_weights(p0 * q0)
+  w1 <- scale_weights(p1 * q1)
+  (w0 * w1 * (w0 + w1) / 2)^(1 / 3)
+})
+
 # Rao
 
-all.equal(index_weights("Rao")(p1, p0, q1, q0),
-          {w0 <- scale_weights(p0 * q0);
-           w1 <- scale_weights(p1 * q1);
-           w0 * w1 / (w0 + w1)})
+all.equal(index_weights("Rao")(p1, p0, q1, q0), {
+  w0 <- scale_weights(p0 * q0)
+  w1 <- scale_weights(p1 * q1)
+  w0 * w1 / (w0 + w1)
+})
 
 # Lowe
 

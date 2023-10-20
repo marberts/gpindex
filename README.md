@@ -29,7 +29,7 @@ install.packages("gpindex")
 The development version can be installed from GitHub.
 
 ``` r
-devtools::install_github("marberts/gpindex")
+pak::pak("marberts/gpindex")
 ```
 
 ## Usage

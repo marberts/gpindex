@@ -28,7 +28,8 @@ from tables 19.1 and 19.2 in the PPI manual.
 # Recreate tables 3.4, 3.6, and 3.12 from Balk (2008)
 
 index_formulas <- function(p1, p0, q1, q0) {
-  c(harmonic_laspeyres = harmonic_index("Laspeyres")(p1, p0, q0),
+  c(
+    harmonic_laspeyres = harmonic_index("Laspeyres")(p1, p0, q0),
     geometric_laspeyres = geometric_index("Laspeyres")(p1, p0, q0),
     laspeyres = arithmetic_index("Laspeyres")(p1, p0, q0),
     paasche = harmonic_index("Paasche")(p1, p0, q1),

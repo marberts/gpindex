@@ -44,11 +44,11 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 }
 
 #' GEKS index
-#' 
+#'
 #' Calculate an inter-temporal GEKS price index over a rolling window, as
 #' described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in
 #' chapter 10 of the CPI manual (2020).
-#' 
+#'
 #' @param f A [price index function][price_indexes] that uses information on both
 #' base and current-period prices and quantities, and satisfies the
 #' time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.
@@ -70,63 +70,68 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' default gives an index for each period in `window`. Values that are
 #' neither integers nor length 1 are silently truncated to a length 1 integer.
 #' @param na.rm Passed to `f` to control if missing values are removed.
-#' 
+#'
 #' @returns
 #' `geks()` returns a function:
-#' 
+#'
 #' \preformatted{function(p, q, period, product, window = nlevels(period), n =
 #'          window - 1, na.rm = FALSE){...}}
-#' 
+#'
 #' This calculates a period-over-period GEKS index with the desired
 #' index-number formula, returning a list for each window with a named-numeric
 #' vector of index values.
-#' 
+#'
 #' `tornqvist_geks()`, `fisher_geks()`, and `walsh_geks` each return a list
 #' with a named numeric vector giving the value of the respective
 #' period-over-period GEKS index for each window.
-#' 
+#'
 #' @note
 #' Like [`back_period()`][back_period], if multiple prices
 #' correspond to a period-product pair, then the back price at a point in time
 #' is always the first price for that product in the previous period. Unlike a
 #' bilateral index, however, duplicated period-product pairs can have more
 #' subtle implications for a multilateral index.
-#' 
+#'
+#' @seealso
+#'
+#' `GEKSIndex()` in the \pkg{indexNumR} package for an implementation of the
+#' GEKS index with more options.
+#'
 #' @references
 #' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
 #' Cambridge University Press.
-#' 
+#'
 #' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
 #' *Consumer Price Index Manual: Theory and Practice*.
 #' International Monetary Fund.
-#' 
+#'
 #' Ivancic, L., Diewert, W. E., and Fox, K. J. (2011). Scanner data, time
 #' aggregation and the construction of price indexes.
 #' *Journal of Econometrics*, 161(1): 24--35.
-#' 
+#'
 #' @examples
 #' price <- 1:6
 #' quantity <- 6:1
 #' period <- rep(1:3, 2)
 #' product <- rep(letters[1:2], each = 3)
-#' 
+#'
 #' tornqvist_geks(price, quantity, period, product)
-#' 
+#'
 #' tornqvist_geks(price, quantity, period, product, window = 2)
-#' 
+#'
 #' # Missing data
-#' 
+#'
 #' quantity[2] <- NA
-#' 
+#'
 #' # Use all non-missing data
-#' 
+#'
 #' fisher_geks(price, quantity, period, product, na.rm = TRUE)
-#' 
+#'
 #' # Remove records with any missing data
-#' 
+#'
 #' fg <- geks(balanced(fisher_index))
 #' fg(price, quantity, period, product, na.rm = TRUE)
-#' 
+#'
 #' @family price-indexes
 #' @export
 geks <- function(f) {
@@ -150,8 +155,10 @@ geks <- function(f) {
       stop("'window' must be greater than or equal to 2")
     }
     if (window > nper) {
-      stop("'window' must be less than or equal to the number of levels in",
-           " 'period'")
+      stop(
+        "'window' must be less than or equal to the number of levels in",
+        " 'period'"
+      )
     }
 
     n <- as.integer(n[1L])

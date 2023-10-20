@@ -30,11 +30,11 @@ of generalized means. Useful for price-updating the weights in a
 generalized-mean index.
 }
 \details{
-The function \code{factor_weights()} returns a function to compute weights
+The function \code{factor_weights(r)} returns a function to compute weights
 \code{u(x, w)} such that
 
-\preformatted{generalized_mean(r)(x * y, w) == generalized_mean(r)(x, w) *
-generalized_mean(r)(y, u(x, w))}
+\preformatted{generalized_mean(r)(x * y, w) ==
+  generalized_mean(r)(x, w) * generalized_mean(r)(y, u(x, w))}
 
 This generalizes the result in section C.5 of Chapter 9 of the PPI Manual
 for chaining the Young index, and gives a way to chain generalized-mean
@@ -46,7 +46,7 @@ weights; \code{update_weights()} simply calls \code{factor_weights(1)()}.
 Factoring weights return a value that is the same length as \code{x},
 so any missing values in \code{x} or the weights will return \code{NA}.
 Unless all values are \code{NA}, however, the result for will still satisfy
-the above identities when \code{na.rm = TRUE}.
+the above identity when \code{na.rm = TRUE}.
 }
 \examples{
 x <- 1:3

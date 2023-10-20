@@ -14,33 +14,94 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Background
+Generalized-mean price indexes are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). When used with value-share weights, these indexes satisfy the key homogeneity properties, commensurability, and are consistent in aggregation. This last feature makes generalized-mean indexes natural candidates for making national statistics, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. 
 
-Everything is framed as a price index to avoid duplication; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
+Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index). The purpose of this vignette is to show some of the key functions for working with generalized-mean indexes. In what follows, everything is framed as a price index to avoid duplication; it is trivial to turn a price index into its analogous quantity index by simply switching prices and quantities.
 
-Generalized-mean price indexes (sometimes called generalized price indexes for short) are a large family of price indexes with nice properties, such as the mean-value and identity properties (e.g., Balk, 2008, Chapter 3). When used with value-share weights, these indexes satisfy the key homogeneity properties, commensurability, and are consistent in aggregation. This last feature makes generalized-mean indexes natural candidates for making national statistics, and this justifies the hierarchical structure used by national statistical agencies for calculating and disseminating collections of price indexes. 
+## Making generalized-mean indexes
 
-Almost all bilateral price indexes used in practice are either generalized-mean indexes (like the Laspeyres and Paasche index) or are nested generalized-mean indexes (like the Fisher index).
+A generalized-mean price index is a weighted generalized mean of price relatives. Given a set of price relatives and weights, any generalized-mean price index is easily calculated with the `generalized_mean()` function. What distinguishes different generalized-mean price indexes are the weights and the order of the generalized mean. For example, the standard Laspeyres index uses base-period value-share weights in a generalized mean of order 1 (arithmetic mean).
 
-## Usage
+```{r}
+library(gpindex)
 
-A generalized-mean price index is a weighted generalized mean of price relatives. Given a set of price relatives and weights, any generalized-mean price index is easily calculated with the `generalized_mean()` function. What distinguishes different generalized-mean price indexes are the weights and the order of the generalized mean. For example, the standard Laspeyres index uses base-period value-share weights in a generalized mean of order 1 (arithmetic mean). Changing the order of the generalized mean to $1 - \sigma$, where $\sigma$ is an elasticity of substitution, gives a Lloyd-Moulton index, whereas changing the weights to current-period value-shares gives a Palgrave index. This is the essence of the atomistic approach in chapter 2 of Selvanathan and Rao (1994).
+# Start with some data on prices and quantities for 6 products
+# over 5 periods
+price6
+quantity6
+
+# We'll only need prices and quantities for a few periods
+p0 <- price6[[1]]; p1 <- price6[[2]]; p2 <- price6[[3]]
+q0 <- price6[[1]]; q1 <- price6[[2]]
+
+s0 <- p0 * q0; s1 <- p1 * q1
+
+# Laspeyres index
+arithmetic_mean(p1 / p0, s0)
+```
+
+Changing the order of the generalized mean to $1 - \sigma$, where $\sigma$ is an elasticity of substitution, gives a Lloyd-Moulton index, whereas changing the weights to current-period value-shares gives a Palgrave index. This is the essence of the atomistic approach in chapter 2 of Selvanathan and Rao (1994).
+
+```{r}
+# Lloyd-Moulton index (elasticity of substitution -1)
+quadratic_mean <- generalized_mean(2)
+quadratic_mean(p1 / p0, s0)
+
+# Palgrave index
+arithmetic_mean(p1 / p0, s1)
+```
 
 Generalized-mean indexes can also be nested together to get indexes like the Fisher, Drobisch, or AG mean index. The `nested_mean()` function is a simple wrapper for `generalized_mean()` for these cases.
 
-Two important functions for decomposing generalized means are given by `transmute_weights()` and `factor_weights()`. These functions augment the weights in a generalized mean, and can be used to calculate percent-change contributions (with, e.g., `contributions()`) and price-update weights for generalized-mean indexes. Together these functions provide the key mathematical apparatus to work with any generalized-mean index, and those that nest generalized-mean indexes.
+```{r}
+# Fisher index
+fisher_mean(p1 / p0, s0, s1)
+
+# Drobisch index
+drobisch_mean <- nested_mean(1, c(1, 1))
+drobisch_mean(p1 / p0, s0, s1)
+
+# Geometric AG mean index (elasticity of substitution 0.25)
+ag_mean <- nested_mean(0, c(0, 1), c(0.25, 0.75))
+ag_mean(p1 / p0, s0, s0)
+```
 
 On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with `index_weights()`, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The `price_index` functions provide a simple wrapper, with the `quantity_index()` function turning each of these into its analogous quantity index.
 
-There are utility functions for making price relatives (e.g., `back_period()`) when data are stored in a table, and identifying extreme price relatives (e.g., `resistant_fences()`) that may not be suitable for a price index. All functions can be made to work with grouped data with the `grouped()` operator.
-}
+## Decomposing indexes
+
+Two important functions for decomposing generalized means are given by `transmute_weights()` and `factor_weights()`. These functions augment the weights in a generalized mean, and can be used to calculate percent-change contributions (with, e.g., `contributions()`) and price-update weights for generalized-mean indexes.
+
+```{r}
+quadratic_decomposition <- transmute_weights(2, 1)
+
+arithmetic_mean(p1 / p0, quadratic_decomposition(p1 / p0, s0))
+quadratic_mean(p1 / p0, s0)
+
+quadratic_contributions <- contributions(2)
+quadratic_contributions(p1 / p0, s0)
+
+quadratic_update <- factor_weights(2)
+
+quadratic_mean(p2 / p0, s0)
+quadratic_mean(p2 / p1, quadratic_update(p1 / p0, s0)) *
+  quadratic_mean(p1 / p0, s0)
+```
+
+Percent-change contributions can similarly be calculated for indexes that nest generalized means.
+
+```{r}
+ag_decomposition <- nested_transmute(0, c(0, 1), 1, c(0.25, 0.75))
+
+ag_mean(p1 / p0, s0, s0)
+arithmetic_mean(p1/ p0, ag_decomposition(p1 / p0, s0, s0))
+
+ag_contributions <- nested_contributions(0, c(0, 1), c(0.25, 0.75))
+ag_contributions(p1 / p0, s0, s0)
+```
 
 ## References
 
 Balk, B. M. (2008). *Price and Quantity Index Numbers*. Cambridge University Press.
-
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). *Consumer Price Index Manual: Theory and Practice*. International Monetary Fund.
-
-von der Lippe, P. (2001). *Chain Indices: A Study in Price Index Theory*, Spectrum of Federal Statistics vol. 16. Federal Statistical Office, Wiesbaden.
 
 Selvanathan, E. A. and Rao, D. S. P. (1994). *Index Numbers: A Stochastic Approach*. MacMillan.

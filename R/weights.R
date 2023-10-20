@@ -5,13 +5,13 @@
 #' multiplicative decompositions for a generalized-mean index, and those made
 #' of nested generalized means (e.g., Fisher index).
 #'
-#' The function `transmute_weights()` returns a function to compute a
+#' The function `transmute_weights(r, s)` returns a function to compute a
 #' vector of weights `v(x, w)` such that
 #'
 #' \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
 #'
-#' `nested_transmute()` and `nested_transmute2()` do the same for
-#' nested generalized means, so that
+#' `nested_transmute(r1, r2, t, s)` and `nested_transmute2(r1, r2, t, s)` do
+#' the same for nested generalized means, so that
 #'
 #' \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x,
 #' v(x, w1, w2))}
@@ -26,7 +26,7 @@
 #' approach by Martin (2021), although in most cases the results are broadly
 #' similar.
 #'
-#' Transmuting weights return a value that is the same length as \code{x},
+#' Transmuting weights returns a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
 #' Unless all values are \code{NA}, however, the result for will still satisfy
 #' the above identities when \code{na.rm = TRUE}.
@@ -36,7 +36,7 @@
 #' details.
 #'
 #' @returns
-#' `transmute_weights()` return a function:
+#' `transmute_weights()` returns a function:
 #'
 #' \preformatted{function(x, w = NULL){...}}
 #'
@@ -259,11 +259,11 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #' of generalized means. Useful for price-updating the weights in a
 #' generalized-mean index.
 #'
-#' The function `factor_weights()` returns a function to compute weights
+#' The function `factor_weights(r)` returns a function to compute weights
 #' `u(x, w)` such that
 #'
-#' \preformatted{generalized_mean(r)(x * y, w) == generalized_mean(r)(x, w) *
-#' generalized_mean(r)(y, u(x, w))}
+#' \preformatted{generalized_mean(r)(x * y, w) ==
+#'   generalized_mean(r)(x, w) * generalized_mean(r)(y, u(x, w))}
 #'
 #' This generalizes the result in section C.5 of Chapter 9 of the PPI Manual
 #' for chaining the Young index, and gives a way to chain generalized-mean
@@ -275,7 +275,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #' Factoring weights return a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
 #' Unless all values are \code{NA}, however, the result for will still satisfy
-#' the above identities when \code{na.rm = TRUE}.
+#' the above identity when \code{na.rm = TRUE}.
 #'
 #' @inheritParams generalized_mean
 #'
