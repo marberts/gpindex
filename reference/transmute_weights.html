@@ -16,7 +16,7 @@ of nested generalized means (e.g., Fisher index)."><!-- mathjax --><script src="
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,12 +29,6 @@ of nested generalized means (e.g., Fisher index)."><!-- mathjax --><script src="
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -101,7 +95,7 @@ means. The default is equal weights.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code>transmute_weights()</code> return a function:</p>
+<p><code>transmute_weights()</code> returns a function:</p>
 
 
 <div class="sourceCode"><pre><code><span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">{</span><span class="va">...</span><span class="op">}</span></span></code></pre></div>
@@ -118,12 +112,12 @@ function:</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The function <code>transmute_weights()</code> returns a function to compute a
+    <p>The function <code>transmute_weights(r, s)</code> returns a function to compute a
 vector of weights <code>v(x, w)</code> such that</p>
 <div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fu">v</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
-<p><code>nested_transmute()</code> and <code>nested_transmute2()</code> do the same for
-nested generalized means, so that</p>
+<p><code>nested_transmute(r1, r2, t, s)</code> and <code>nested_transmute2(r1, r2, t, s)</code> do
+the same for nested generalized means, so that</p>
 <div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="va">r1</span>, <span class="va">r2</span>, <span class="va">t</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>,</span>
 <span><span class="fu">v</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
@@ -136,7 +130,7 @@ are usually the most important cases. See Martin (2021) for details.
 decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
 approach by Martin (2021), although in most cases the results are broadly
 similar.</p>
-<p>Transmuting weights return a value that is the same length as <code>x</code>,
+<p>Transmuting weights returns a value that is the same length as <code>x</code>,
 so any missing values in <code>x</code> or the weights will return <code>NA</code>.
 Unless all values are <code>NA</code>, however, the result for will still satisfy
 the above identities when <code>na.rm = TRUE</code>.</p>

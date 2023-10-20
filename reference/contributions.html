@@ -16,7 +16,7 @@ index)."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,12 +29,6 @@ index)."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mat
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -230,8 +224,8 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">geometric_contributions</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># This works by first transmuting the weights in the geometric mean </span></span></span>
-<span class="r-in"><span><span class="co"># into weights for an arithmetic mean, then finding the contributions </span></span></span>
+<span class="r-in"><span><span class="co"># This works by first transmuting the weights in the geometric mean</span></span></span>
+<span class="r-in"><span><span class="co"># into weights for an arithmetic mean, then finding the contributions</span></span></span>
 <span class="r-in"><span><span class="co"># to the percent change</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
@@ -252,12 +246,14 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span><span class="co"># But these "transmuted" weights don't recover the geometric mean!</span></span></span>
 <span class="r-in"><span><span class="co"># Not a particularly good way to calculate contributions</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                 <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># There are infinitely many ways to calculate contributions, but the </span></span></span>
-<span class="r-in"><span><span class="co"># weights from transmute_weights(0, 1)() are the *unique* weights that </span></span></span>
+<span class="r-in"><span><span class="co"># There are infinitely many ways to calculate contributions, but the</span></span></span>
+<span class="r-in"><span><span class="co"># weights from transmute_weights(0, 1)() are the *unique* weights that</span></span></span>
 <span class="r-in"><span><span class="co"># recover the geometric mean</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">perturb</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">w</span>, <span class="va">e</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -266,11 +262,15 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">perturb</span><span class="op">(</span><span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6607392 0.7887506</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">perturb</span><span class="op">(</span><span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>          <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">perturb</span><span class="op">(</span><span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">perturb</span><span class="op">(</span><span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                 <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">perturb</span><span class="op">(</span><span class="fu">transmute2</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Contributions for a Fisher index ----</span></span></span>
@@ -280,12 +280,14 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Percent-change contributions for the Fisher index in section 6 of </span></span></span>
+<span class="r-in"><span><span class="co"># Percent-change contributions for the Fisher index in section 6 of</span></span></span>
 <span class="r-in"><span><span class="co"># Reinsdorf et al. (2002)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">fisher_contributions</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, </span></span>
-<span class="r-in"><span>                             <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                             <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">fisher_contributions</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01782904  0.18814917  0.05792820 -0.03414299  0.18217457 -0.01088796</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span>, <span class="fu"><a href="price_indexes.html">fisher_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
@@ -293,15 +295,17 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Not the only way</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="va">con2</span> <span class="op">&lt;-</span> <span class="fu">fisher_contributions2</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, </span></span>
-<span class="r-in"><span>                               <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                               <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">con2</span> <span class="op">&lt;-</span> <span class="fu">fisher_contributions2</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">con2</span><span class="op">)</span>, <span class="fu"><a href="price_indexes.html">fisher_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The same as the van IJzeren decomposition in section 4.2.2 of </span></span></span>
+<span class="r-in"><span><span class="co"># The same as the van IJzeren decomposition in section 4.2.2 of</span></span></span>
 <span class="r-in"><span><span class="co"># Balk (2008)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">Qf</span> <span class="op">&lt;-</span> <span class="fu"><a href="quantity_index.html">quantity_index</a></span><span class="op">(</span><span class="va">fisher_index</span><span class="op">)</span><span class="op">(</span><span class="va">q1</span>, <span class="va">q0</span>, <span class="va">p1</span>, <span class="va">p0</span><span class="op">)</span></span></span>
@@ -311,8 +315,8 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">Qf</span> <span class="op">/</span> <span class="op">(</span><span class="va">Qf</span> <span class="op">+</span> <span class="va">Ql</span><span class="op">)</span> <span class="op">*</span> <span class="va">wl</span> <span class="op">+</span> <span class="va">Ql</span> <span class="op">/</span> <span class="op">(</span><span class="va">Qf</span> <span class="op">+</span> <span class="va">Ql</span><span class="op">)</span> <span class="op">*</span> <span class="va">wp</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01782865  0.18815627  0.05792735 -0.03414531  0.18217135 -0.01088828</span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="co"># Similar to the method in section 2 of Reinsdorf et al. (2002), </span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Similar to the method in section 2 of Reinsdorf et al. (2002),</span></span></span>
 <span class="r-in"><span><span class="co"># although those contributions aren't based on weights that sum to 1</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">Pf</span> <span class="op">&lt;-</span> <span class="fu"><a href="price_indexes.html">fisher_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span></span></span>
@@ -320,8 +324,8 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Pf</span><span class="op">)</span> <span class="op">*</span> <span class="va">wl</span> <span class="op">+</span> <span class="va">Pl</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Pf</span><span class="op">)</span> <span class="op">*</span> <span class="va">wp</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01760668  0.18766299  0.05803833 -0.03510719  0.18397180 -0.01112258</span>
-<span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="co"># Also similar to the decomposition by Hallerbach (2005), noting that </span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Also similar to the decomposition by Hallerbach (2005), noting that</span></span></span>
 <span class="r-in"><span><span class="co"># the Euler weights are close to unity</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">Pp</span> <span class="op">&lt;-</span> <span class="fu"><a href="price_indexes.html">paasche_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span><span class="op">)</span></span></span>
@@ -331,30 +335,34 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Contributions for other types of indexes ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># A function to get contributions for any superlative quadratic mean of </span></span></span>
+<span class="r-in"><span><span class="co"># A function to get contributions for any superlative quadratic mean of</span></span></span>
 <span class="r-in"><span><span class="co"># order 'r' index</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">superlative_contributions</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">nested_contributions</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">-</span> <span class="va">r</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">nested_contributions</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">-</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Works for other types of indexes, like the harmonic </span></span></span>
+<span class="r-in"><span><span class="co"># Works for other types of indexes, like the harmonic</span></span></span>
 <span class="r-in"><span><span class="co"># Laspeyres Paasche index</span></span></span>
-<span class="r-in"><span>                                   </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">hlp_contributions</span> <span class="op">&lt;-</span> <span class="fu">nested_contributions</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">hlp_contributions</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, </span></span>
-<span class="r-in"><span>                  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">hlp_contributions</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01781416  0.18807725  0.05791352 -0.03417296  0.18218584 -0.01089421</span>
-<span class="r-in"><span>                  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Or the AG mean index (tau = 0.25)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">agmean_contributions</span> <span class="op">&lt;-</span> <span class="fu">nested_contributions</span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">agmean_contributions</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, </span></span>
-<span class="r-in"><span>                     <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                     <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">agmean_contributions</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.02020872  0.18206588  0.06001941 -0.03256065  0.17841536 -0.01065698</span>
-<span class="r-in"><span>                     </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Or the Balk-Walsh index</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bw_contributions</span> <span class="op">&lt;-</span> <span class="fu">nested_contributions</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +23,6 @@
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -228,7 +222,7 @@ function to turn prices in a table into price relatives.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.397916</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Cubic mean</span></span></span>
-<span class="r-in"><span><span class="co"># Notice that this is larger than the other means so far because </span></span></span>
+<span class="r-in"><span><span class="co"># Notice that this is larger than the other means so far because</span></span></span>
 <span class="r-in"><span><span class="co"># the generalized mean is increasing in r</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">generalized_mean</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
@@ -255,7 +249,7 @@ function to turn prices in a table into price relatives.</p>
 <span class="r-in"><span><span class="fu">geometric_mean</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">-</span> <span class="fu">harmonic_mean</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1152684</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># But the dispersion between these means is only bounded by the </span></span></span>
+<span class="r-in"><span><span class="co"># But the dispersion between these means is only bounded by the</span></span></span>
 <span class="r-in"><span><span class="co"># variance (Bullen, 2003, p. 156)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">arithmetic_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -263,8 +257,8 @@ function to turn prices in a table into price relatives.</p>
 <span class="r-in"><span><span class="fu">arithmetic_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example by Lord (2002) where the dispersion decreases as the variance </span></span></span>
-<span class="r-in"><span><span class="co"># increases, counter to the claims by Fisher (1922, p. 108) and the </span></span></span>
+<span class="r-in"><span><span class="co"># Example by Lord (2002) where the dispersion decreases as the variance</span></span></span>
+<span class="r-in"><span><span class="co"># increases, counter to the claims by Fisher (1922, p. 108) and the</span></span></span>
 <span class="r-in"><span><span class="co"># CPI manual (par. 1.14)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">5</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">4</span></span></span>
@@ -283,7 +277,7 @@ function to turn prices in a table into price relatives.</p>
 <span class="r-in"><span><span class="fu">geometric_mean</span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op">-</span> <span class="fu">harmonic_mean</span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1439479</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The "bias" in the arithmetic and harmonic indexes is also smaller in </span></span></span>
+<span class="r-in"><span><span class="co"># The "bias" in the arithmetic and harmonic indexes is also smaller in</span></span></span>
 <span class="r-in"><span><span class="co"># this case, counter to the claim by Fisher (1922, p. 108)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">arithmetic_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="fu">arithmetic_mean</span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></span>

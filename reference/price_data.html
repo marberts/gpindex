@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +23,6 @@
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -82,7 +76,8 @@ from tables 19.1 and 19.2 in the PPI manual.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Recreate tables 3.4, 3.6, and 3.12 from Balk (2008)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">index_formulas</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>harmonic_laspeyres <span class="op">=</span> <span class="fu"><a href="price_indexes.html">harmonic_index</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    harmonic_laspeyres <span class="op">=</span> <span class="fu"><a href="price_indexes.html">harmonic_index</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    geometric_laspeyres <span class="op">=</span> <span class="fu"><a href="price_indexes.html">geometric_index</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    laspeyres <span class="op">=</span> <span class="fu"><a href="price_indexes.html">arithmetic_index</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    paasche <span class="op">=</span> <span class="fu"><a href="price_indexes.html">harmonic_index</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span><span class="op">)</span>,</span></span>

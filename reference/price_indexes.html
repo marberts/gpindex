@@ -12,7 +12,7 @@ quantities at two points in time."><!-- mathjax --><script src="https://cdnjs.cl
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,12 +25,6 @@ quantities at two points in time."><!-- mathjax --><script src="https://cdnjs.cl
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -149,12 +143,9 @@ AG mean indexes.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code>arithmetic_index()</code>, <code>geometric_index()</code>,
-<code>harmonic_index()</code>, and <code>stuvel_index()</code></p>
-
-
-<p>each return a function to compute the relevant price indexes;
-<code>lm_index()</code>, <code>arithmetic_agmean_index()</code>, and
+<p><code>arithmetic_index()</code>, <code>geometric_index()</code>, <code>harmonic_index()</code>, and
+<code>stuvel_index()</code> each return a function to compute the relevant price
+indexes; <code>lm_index()</code>, <code>arithmetic_agmean_index()</code>, and
 <code>geometric_agmean_index()</code> each return a function to calculate the
 relevant index for a given elasticity of substitution. The others return a
 numeric value giving the change in price between the base period and current
@@ -255,7 +246,6 @@ most of these functions.</p>
 <p><code><a href="contributions.html">contributions()</a></code> for calculating percent-change contributions.</p>
 <p><code><a href="quantity_index.html">quantity_index()</a></code> to remap the arguments in these functions for a
 quantity index.</p>
-<p><code><a href="geks.html">geks()</a></code> for making a GEKS index based on, e.g., the Fisher index.</p>
 <p><code><a href="price_data.html">price6()</a></code> for an example of how to use these functions with more
 than two time periods.</p>
 <p>The <span class="pkg">piar</span> package has more functionality working with price indexes for
@@ -276,7 +266,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Calculating price indexes ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Most indexes can be calculated by combining the appropriate weights </span></span></span>
+<span class="r-in"><span><span class="co"># Most indexes can be calculated by combining the appropriate weights</span></span></span>
 <span class="r-in"><span><span class="co"># with the correct type of mean</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
@@ -288,7 +278,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Harmonic calculation for the arithmetic Laspeyres</span></span></span>
@@ -306,7 +296,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># This strategy can be used to make more exotic indexes, like the </span></span></span>
+<span class="r-in"><span><span class="co"># This strategy can be used to make more exotic indexes, like the</span></span></span>
 <span class="r-in"><span><span class="co"># quadratic-mean index (von der Lippe, 2001, p. 71)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -324,8 +314,8 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span><span class="fu"><a href="lehmer_mean.html">contraharmonic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.084248</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Unlike its arithmetic counterpart, the geometric Laspeyres can </span></span></span>
-<span class="r-in"><span><span class="co"># increase when base-period prices increase if some of these prices </span></span></span>
+<span class="r-in"><span><span class="co"># Unlike its arithmetic counterpart, the geometric Laspeyres can</span></span></span>
+<span class="r-in"><span><span class="co"># increase when base-period prices increase if some of these prices</span></span></span>
 <span class="r-in"><span><span class="co"># are small</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">gl</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span></span></span>
@@ -342,7 +332,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.970922</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">w_pu</span> <span class="op">&lt;-</span> <span class="fu"><a href="factor_weights.html">update_weights</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">I2</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="va">w_pu</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">I1</span> <span class="op">*</span> <span class="va">I2</span></span></span>
@@ -353,7 +343,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span><span class="fu">harmonic_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5112654</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">harmonic_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">harmonic_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">w_pu</span> <span class="op">&lt;-</span> <span class="fu"><a href="factor_weights.html">factor_weights</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">I2</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="va">w_pu</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">I1</span> <span class="op">*</span> <span class="va">I2</span></span></span>
@@ -412,12 +402,16 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Consistency in aggregation ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p0a</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>; <span class="va">p0b</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">p1a</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>; <span class="va">p1b</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q0a</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>; <span class="va">q0b</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q1a</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>; <span class="va">q1b</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p0a</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p0b</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p1a</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p1b</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q0a</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q0b</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q1a</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q1b</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Indexes based on the generalized mean with value share weights are </span></span></span>
+<span class="r-in"><span><span class="co"># Indexes based on the generalized mean with value share weights are</span></span></span>
 <span class="r-in"><span><span class="co"># consistent in aggregation</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">lm_index</span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
@@ -436,8 +430,8 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">lm_index</span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">(</span><span class="va">p1b</span>, <span class="va">p0b</span>, <span class="va">q0b</span><span class="op">)</span>, <span class="va">Ib</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Care is needed with more complex weights, e.g., Drobisch, as this </span></span></span>
-<span class="r-in"><span><span class="co"># doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean </span></span></span>
+<span class="r-in"><span><span class="co"># Care is needed with more complex weights, e.g., Drobisch, as this</span></span></span>
+<span class="r-in"><span><span class="co"># doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean</span></span></span>
 <span class="r-in"><span><span class="co"># index (it's the arithmetic mean of a Laspeyres and Paasche index)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">arithmetic_index</span><span class="op">(</span><span class="st">"Drobisch"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span></span></span>

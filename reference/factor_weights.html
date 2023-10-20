@@ -14,7 +14,7 @@ generalized-mean index."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,12 +27,6 @@ generalized-mean index."><!-- mathjax --><script src="https://cdnjs.cloudflare.c
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -101,10 +95,10 @@ generalized-mean index.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The function <code>factor_weights()</code> returns a function to compute weights
+    <p>The function <code>factor_weights(r)</code> returns a function to compute weights
 <code>u(x, w)</code> such that</p>
-<div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span>, <span class="va">w</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">*</span></span>
-<span><span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">y</span>, <span class="fu">u</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span>, <span class="va">w</span><span class="op">)</span> <span class="op">==</span></span>
+<span>  <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">y</span>, <span class="fu">u</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
 <p>This generalizes the result in section C.5 of Chapter 9 of the PPI Manual
 for chaining the Young index, and gives a way to chain generalized-mean
@@ -114,7 +108,7 @@ weights; <code>update_weights()</code> simply calls <code>factor_weights(1)()</c
 <p>Factoring weights return a value that is the same length as <code>x</code>,
 so any missing values in <code>x</code> or the weights will return <code>NA</code>.
 Unless all values are <code>NA</code>, however, the result for will still satisfy
-the above identities when <code>na.rm = TRUE</code>.</p>
+the above identity when <code>na.rm = TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

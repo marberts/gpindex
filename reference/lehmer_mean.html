@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +23,6 @@
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -166,7 +160,7 @@ generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Comparing Lehmer means and generalized means ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># When r &lt; 1, the generalized mean is larger than the corresponding </span></span></span>
+<span class="r-in"><span><span class="co"># When r &lt; 1, the generalized mean is larger than the corresponding</span></span></span>
 <span class="r-in"><span><span class="co"># Lehmer mean</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">lehmer_mean</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
@@ -177,7 +171,7 @@ generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <span class="r-in"><span><span class="fu">lehmer_mean</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># This implies the contraharmonic mean is larger than the quadratic </span></span></span>
+<span class="r-in"><span><span class="co"># This implies the contraharmonic mean is larger than the quadratic</span></span></span>
 <span class="r-in"><span><span class="co"># mean, and therefore the Pythagorean means</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">contraharmonic_mean</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
@@ -192,12 +186,12 @@ generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <span class="r-in"><span><span class="fu">contraharmonic_mean</span><span class="op">(</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="extended_mean.html">logmean</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The difference between the arithmetic mean and contraharmonic mean </span></span></span>
+<span class="r-in"><span><span class="co"># The difference between the arithmetic mean and contraharmonic mean</span></span></span>
 <span class="r-in"><span><span class="co"># is proportional to the variance of x</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">weighted_var</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span>, <span class="va">w</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span></span>
-<span class="r-in"><span><span class="op">}</span> </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">+</span> <span class="fu">weighted_var</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.818182</span>
@@ -207,7 +201,7 @@ generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <span class="r-in"><span><span class="co">#---- Changing the order of the mean ----</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># It is easy to modify the weights to turn a Lehmer mean of order r</span></span></span>
-<span class="r-in"><span><span class="co"># into a Lehmer mean of order s because the Lehmer mean can be </span></span></span>
+<span class="r-in"><span><span class="co"># into a Lehmer mean of order s because the Lehmer mean can be</span></span></span>
 <span class="r-in"><span><span class="co"># expressed as an arithmetic mean</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
@@ -234,7 +228,7 @@ generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Percent-change contributions ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Percent-change contributions for a price index based on the Lehmer </span></span></span>
+<span class="r-in"><span><span class="co"># Percent-change contributions for a price index based on the Lehmer</span></span></span>
 <span class="r-in"><span><span class="co"># mean are easy to calculate</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span> <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="op">(</span><span class="va">r</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>

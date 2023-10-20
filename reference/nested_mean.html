@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,12 +25,6 @@
 </li>
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/test.html">test</a>
-  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -157,11 +151,11 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Making superlative indexes ----</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># A function to make the superlative quadratic mean price index by </span></span></span>
+<span class="r-in"><span><span class="co"># A function to make the superlative quadratic mean price index by</span></span></span>
 <span class="r-in"><span><span class="co"># Diewert (1976) as a product of generalized means</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">quadratic_mean_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">w0</span>, <span class="va">w1</span>, <span class="va">r</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w0</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="op">-</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
@@ -187,8 +181,10 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span><span class="co"># The (arithmetic) Walsh index is the implicit price index when using a</span></span></span>
 <span class="r-in"><span><span class="co"># superlative quadratic mean quantity index of order 1</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>; <span class="va">p0</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>; <span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">walsh</span> <span class="op">&lt;-</span> <span class="fu">quadratic_mean_index2</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -198,7 +194,7 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">q1</span> <span class="op">*</span> <span class="va">q0</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p0</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">q1</span> <span class="op">*</span> <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.401718</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Counter to the PPI manual (par. 1.105), it is not a superlative </span></span></span>
+<span class="r-in"><span><span class="co"># Counter to the PPI manual (par. 1.105), it is not a superlative</span></span></span>
 <span class="r-in"><span><span class="co"># quadratic mean price index of order 1</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">walsh</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span>, <span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span><span class="op">)</span></span></span>
@@ -212,11 +208,13 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span><span class="fu">fisher_mean</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.699206</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a </span></span></span>
+<span class="r-in"><span><span class="co"># Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a</span></span></span>
 <span class="r-in"><span><span class="co"># harmonic mean</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span></span>
-<span class="r-in"><span>                 <span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w2</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w2</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.699206</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use balanced() to use only obs 3 in both inner means</span></span></span>
