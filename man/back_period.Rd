@@ -13,7 +13,7 @@ base_period(period, product = gl(1, length(period)))
 \item{period}{A factor, or something that can be coerced into one, that
 gives the time period for each transaction. The ordering of time periods
 follows the levels of \code{period} to agree with
-\link[=cut.Date]{cut()}.}
+\code{\link[=cut.Date]{cut()}}.}
 
 \item{product}{A factor, or something that can be coerced into one, that
 gives the product identifier for each transaction. The default is to assume

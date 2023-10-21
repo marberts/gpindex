@@ -33,7 +33,7 @@ offset_period <- function(f) {
 #' @param period A factor, or something that can be coerced into one, that
 #' gives the time period for each transaction. The ordering of time periods
 #' follows the levels of `period` to agree with
-#' [cut()][cut.Date].
+#' [`cut()`][cut.Date].
 #' @param product A factor, or something that can be coerced into one, that
 #' gives the product identifier for each transaction. The default is to assume
 #' that all transactions are for the same product.

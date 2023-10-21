@@ -51,7 +51,7 @@ time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.}
 \item{period}{A factor, or something that can be coerced into one, that
 gives the corresponding time period for each element in \code{p} and
 \code{q}. The ordering of time periods follows the levels of \code{period}
-to agree with \link[=cut.Date]{cut()}.}
+to agree with \code{\link[=cut.Date]{cut()}}.}
 
 \item{product}{A factor, or something that can be coerced into one, that
 gives the corresponding product identifier for each element in \code{p} and

@@ -57,7 +57,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' @param period A factor, or something that can be coerced into one, that
 #' gives the corresponding time period for each element in `p` and
 #' `q`. The ordering of time periods follows the levels of `period`
-#' to agree with [cut()][cut.Date].
+#' to agree with [`cut()`][cut.Date].
 #' @param product A factor, or something that can be coerced into one, that
 #' gives the corresponding product identifier for each element in `p` and
 #' `q`.
