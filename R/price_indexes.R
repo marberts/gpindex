@@ -396,9 +396,8 @@ index_weights <- function(
 #' Certain properties of an index-number formula may not work as expected when
 #' removing missing values if there is ambiguity about how to remove missing
 #' values from the weights (as in, e.g., a Törnqvist or Sato-Vartia index). The
-#' [`balanced()`][balanced] operator may be helpful, as it balances
-#' the removal of missing values across prices and quantities prior to making
-#' the weights.
+#' [balanced()] operator may be helpful, as it balances the removal of missing
+#' values across prices and quantities prior to making the weights.
 #'
 #' @seealso
 #' [generalized_mean()] for the generalized mean that powers

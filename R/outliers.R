@@ -35,7 +35,7 @@
 #' 5.124).
 #'
 #' @param x A strictly positive numeric vector of price relatives. These can be
-#' made with, e.g., [`back_period()`].
+#' made with, e.g., [back_period()].
 #' @param cu,cl A numeric vector giving the upper and lower cutoffs for each
 #' element of `x`. The usual recycling rules apply.
 #' @param a A numeric vector between 0 and 1 giving the scale factor for the

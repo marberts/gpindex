@@ -57,8 +57,11 @@ quantity6
 #> 6 0.5 0.6 0.8 1.3  2.5
 
 # We'll only need prices and quantities for a few periods
-p0 <- price6[[1]]; p1 <- price6[[2]]; p2 <- price6[[3]]
-q0 <- price6[[1]]; q1 <- price6[[2]]
+p0 <- price6[[1]]
+p1 <- price6[[2]]
+p2 <- price6[[3]]
+q0 <- price6[[1]]
+q1 <- price6[[2]]
 
 # There are functions to calculate all common price indexes,
 # like the Laspeyres and Paasche index
@@ -69,7 +72,8 @@ paasche_index(p1, p0, q1)
 
 # The underlying mean functions are also available, as usually
 # only price relatives and weights are known
-s0 <- p0 * q0; s1 <- p1 * q1
+s0 <- p0 * q0
+s1 <- p1 * q1
 
 arithmetic_mean(p1 / p0, s0)
 #> [1] 1.4
@@ -81,35 +85,35 @@ harmonic_mean(p1 / p0, s1)
 laspeyres_index(p2, p0, q0)
 #> [1] 1.05
 
-arithmetic_mean(p1 / p0, s0) * 
+arithmetic_mean(p1 / p0, s0) *
   arithmetic_mean(p2 / p1, update_weights(p1 / p0, s0))
 #> [1] 1.05
 
 # The mean representation of a Paasche index makes it easy to
-# calculate quote contributions
+# calculate percent-change contributions
 harmonic_contributions(p1 / p0, s1)
 #> [1]  0.02857143  0.71428571  0.04642857 -0.02500000  0.06666667 -0.01904762
 
-# The ideas are the same for more exotic indexes, 
+# The ideas are the same for more exotic indexes,
 # like the Lloyd-Moulton index
 
 # Let's start by making some functions for the Lloyd-Moulton index
 # when the elasticity of substitution is -1 (an output index)
-lm <- lm_index(-1)
+lloyd_moulton <- lm_index(-1)
 quadratic_mean <- generalized_mean(2)
 quadratic_update <- factor_weights(2)
 quadratic_contributions <- contributions(2)
 
 # This index can be calculated as a mean of price relatives
-lm(p1, p0, q0) 
+lloyd_moulton(p1, p0, q0)
 #> [1] 1.592692
 quadratic_mean(p1 / p0, s0)
 #> [1] 1.592692
 
 # Chained over time
-lm(p2, p0, q0)
+lloyd_moulton(p2, p0, q0)
 #> [1] 1.136515
-quadratic_mean(p1 / p0, s0) * 
+quadratic_mean(p1 / p0, s0) *
   quadratic_mean(p2 / p1, quadratic_update(p1 / p0, s0))
 #> [1] 1.136515
 

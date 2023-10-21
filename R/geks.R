@@ -81,12 +81,12 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' index-number formula, returning a list for each window with a named-numeric
 #' vector of index values.
 #'
-#' `tornqvist_geks()`, `fisher_geks()`, and `walsh_geks` each return a list
+#' `tornqvist_geks()`, `fisher_geks()`, and `walsh_geks()` each return a list
 #' with a named numeric vector giving the value of the respective
 #' period-over-period GEKS index for each window.
 #'
 #' @note
-#' Like [`back_period()`][back_period], if multiple prices
+#' Like [back_period()], if multiple prices
 #' correspond to a period-product pair, then the back price at a point in time
 #' is always the first price for that product in the previous period. Unlike a
 #' bilateral index, however, duplicated period-product pairs can have more
@@ -131,6 +131,10 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #'
 #' fg <- geks(balanced(fisher_index))
 #' fg(price, quantity, period, product, na.rm = TRUE)
+#' 
+#' # Make a Jevons GEKS index
+#' jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
+#' jevons_geks(price, quantity, period, product)
 #'
 #' @family price-indexes
 #' @export

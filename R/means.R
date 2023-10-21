@@ -33,23 +33,23 @@
 #' 2. Some authors let `w` be non-negative and sum to 1 (e.g., Sydsaeter
 #' et al., 2005, p. 47). If `w` has zeros, then the corresponding element
 #' of `x` has no impact on the mean whenever `x` is strictly
-#' positive. Unlike [`weighted.mean()`], however,
+#' positive. Unlike [weighted.mean()], however,
 #' zeros in `w` are not strong zeros, so infinite values in `x` will
 #' propagate even if the corresponding elements of `w` are zero.
 #'
 #' The weights are scaled to sum to 1 to satisfy the definition of a
 #' generalized mean. There are certain price indexes where the weights should
-#' not be scaled (e.g., the Vartia-I index); use [`sum()`] for
+#' not be scaled (e.g., the Vartia-I index); use [sum()] for
 #' these cases.
 #'
 #' The underlying calculation returned by `generalized_mean()` is mostly
-#' identical to [`weighted.mean()`], with one
+#' identical to [weighted.mean()], with one
 #' important exception: missing values in the weights are not treated
 #' differently than missing values in `x`. Setting `na.rm = TRUE`
 #' drops missing values in both `x` and `w`, not just `x`. This
 #' ensures that certain useful identities are satisfied with missing values in
 #' `x`. In most cases `arithmetic_mean()` is a drop-in replacement
-#' for [`weighted.mean()`].
+#' for [weighted.mean()].
 #'
 #' @param r A finite number giving the order of the generalized mean.
 #' @param x A strictly positive numeric vector.
@@ -278,7 +278,7 @@ harmonic_mean <- generalized_mean(-1)
 #' By definition, the generalized logarithmic mean / extended mean of `a`
 #' and `b` is `a` when `a == b`. The `tol` argument is used
 #' to test equality by checking if `abs(a - b) <= tol`. The default value
-#' is the same as [`all.equal()`]. Setting `tol = 0`
+#' is the same as [all.equal()]. Setting `tol = 0`
 #' tests for exact equality, but can give misleading results when `a` and
 #' `b` are computed values. In some cases it's useful to multiply
 #' `tol` by a scale factor, such as `max(abs(a), abs(b))`. This often

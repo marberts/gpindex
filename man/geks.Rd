@@ -79,7 +79,7 @@ This calculates a period-over-period GEKS index with the desired
 index-number formula, returning a list for each window with a named-numeric
 vector of index values.
 
-\code{tornqvist_geks()}, \code{fisher_geks()}, and \code{walsh_geks} each return a list
+\code{tornqvist_geks()}, \code{fisher_geks()}, and \code{walsh_geks()} each return a list
 with a named numeric vector giving the value of the respective
 period-over-period GEKS index for each window.
 }
@@ -117,6 +117,10 @@ fisher_geks(price, quantity, period, product, na.rm = TRUE)
 
 fg <- geks(balanced(fisher_index))
 fg(price, quantity, period, product, na.rm = TRUE)
+
+# Make a Jevons GEKS index
+jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
+jevons_geks(price, quantity, period, product)
 
 }
 \references{

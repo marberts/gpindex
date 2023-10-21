@@ -505,6 +505,14 @@ Warning in back_period(period) :
        2        3 
 1.403078 1.346954 
 
+>
+> # Make a Jevons GEKS index
+> jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
+> jevons_geks(price, quantity, period, product)
+[[1]]
+       2        3 
+1.581139 1.341641 
+
 > 
 > 
 > 
