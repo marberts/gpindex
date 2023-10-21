@@ -14,7 +14,7 @@ chapter 10 of the CPI manual (2020)."><!-- mathjax --><script src="https://cdnjs
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9004</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -157,7 +157,7 @@ index-number formula, returning a list for each window with a named-numeric
 vector of index values.</p>
 
 
-<p><code>tornqvist_geks()</code>, <code>fisher_geks()</code>, and <code>walsh_geks</code> each return a list
+<p><code>tornqvist_geks()</code>, <code>fisher_geks()</code>, and <code>walsh_geks()</code> each return a list
 with a named numeric vector giving the value of the respective
 period-over-period GEKS index for each window.</p>
     </div>
@@ -231,6 +231,14 @@ GEKS index with more options.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.403078 1.346954 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Make a Jevons GEKS index</span></span></span>
+<span class="r-in"><span><span class="va">jevons_geks</span> <span class="op">&lt;-</span> <span class="fu">geks</span><span class="op">(</span>\<span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">...</span>, <span class="va">na.rm</span><span class="op">)</span> <span class="fu"><a href="price_indexes.html">jevons_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">na.rm</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">jevons_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.581139 1.341641 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
