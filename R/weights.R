@@ -13,8 +13,10 @@
 #' `nested_transmute(r1, r2, t, s)` and `nested_transmute2(r1, r2, t, s)` do
 #' the same for nested generalized means, so that
 #'
-#' \preformatted{nested_mean(r1, r2, t)(x, w1, w2) == generalized_mean(s)(x,
-#' v(x, w1, w2))}
+#' \preformatted{
+#' nested_mean(r1, r2, t)(x, w1, w2) ==
+#'   generalized_mean(s)(x, v(x, w1, w2))
+#' }
 #'
 #' This generalizes the result for turning a geometric mean into an arithmetic
 #' mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into
