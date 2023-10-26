@@ -57,15 +57,15 @@ to agree with \code{\link[=cut.Date]{cut()}}.}
 gives the corresponding product identifier for each element in \code{p} and
 \code{q}.}
 
-\item{window}{The length of the rolling window. The default is a window that
-encompasses all periods in \code{period}. Values that are neither integers
-nor length 1 are silently truncated to a length 1 integer.}
+\item{window}{A positive integer giving the length of the rolling window.
+The default is a window that encompasses all periods in \code{period}.
+Non-integers are truncated towards zero.}
 
-\item{n}{A number giving the length of the index series for each window,
-starting from the end of the window. For example, if there are 13 periods in
-\code{window}, setting \code{n = 1} gives the index for period 13. The
-default gives an index for each period in \code{window}. Values that are
-neither integers nor length 1 are silently truncated to a length 1 integer.}
+\item{n}{A positive integer giving the length of the index series for each
+window, starting from the end of the window. For example, if there are 13
+periods in \code{window}, setting \code{n = 1} gives the index for period 13. The
+default gives an index for each period in \code{window}. Non-integers are
+truncated towards zero.}
 
 \item{na.rm}{Passed to \code{f} to control if missing values are removed.}
 }

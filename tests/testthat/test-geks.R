@@ -99,10 +99,10 @@ test_that("geks agrees with IndexNumR", {
       1.28838882562161, 1.34795095779689, 1.40838221049365, 1.46984928172641,
       1.53258374680655, 1.59693277586978, 1.66348762735518, 1.7335492978583)
   )
-  (test <- with(
+  test <- with(
     dat,
     walsh_geks(price, quantity, period, product, 10, 3)
-  ))
+  )
   expect_equal(
     cumprod(
       as.numeric(
@@ -254,9 +254,15 @@ test_that("errors work for geks", {
     with(dat, tornqvist_geks(price, quantity, period, product, n = 13))
   )
   expect_error(
+    with(dat, tornqvist_geks(price, quantity, period, product, n = 1:2))
+  )
+  expect_error(
     with(dat, tornqvist_geks(price, quantity, period, product, window = 1))
   )
   expect_error(
     with(dat, tornqvist_geks(price, quantity, period, product, window = 14))
+  )
+  expect_error(
+    with(dat, tornqvist_geks(price, quantity, period, product, window = 1:2))
   )
 })

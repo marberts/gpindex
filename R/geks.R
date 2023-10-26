@@ -61,14 +61,14 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' @param product A factor, or something that can be coerced into one, that
 #' gives the corresponding product identifier for each element in `p` and
 #' `q`.
-#' @param window The length of the rolling window. The default is a window that
-#' encompasses all periods in `period`. Values that are neither integers
-#' nor length 1 are silently truncated to a length 1 integer.
-#' @param n A number giving the length of the index series for each window,
-#' starting from the end of the window. For example, if there are 13 periods in
-#' `window`, setting `n = 1` gives the index for period 13. The
-#' default gives an index for each period in `window`. Values that are
-#' neither integers nor length 1 are silently truncated to a length 1 integer.
+#' @param window A positive integer giving the length of the rolling window.
+#' The default is a window that encompasses all periods in `period`.
+#' Non-integers are truncated towards zero.
+#' @param n A positive integer giving the length of the index series for each
+#' window, starting from the end of the window. For example, if there are 13
+#' periods in `window`, setting `n = 1` gives the index for period 13. The
+#' default gives an index for each period in `window`. Non-integers are
+#' truncated towards zero.
 #' @param na.rm Passed to `f` to control if missing values are removed.
 #'
 #' @returns
@@ -154,9 +154,9 @@ geks <- function(f) {
       return(list())
     }
 
-    window <- as.integer(window[1L])
-    if (window < 2L) {
-      stop("'window' must be greater than or equal to 2")
+    window <- as.integer(window)
+    if (length(window) > 1L || window < 2L) {
+      stop("'window' must be a integer greater than or equal to 2")
     }
     if (window > nper) {
       stop(
@@ -165,9 +165,9 @@ geks <- function(f) {
       )
     }
 
-    n <- as.integer(n[1L])
-    if (n < 1L) {
-      stop("'n' must be greater than or equal to 1")
+    n <- as.integer(n)
+    if (length(n) > 1L || n < 1L) {
+      stop("'n' must be an integer greater than or equal to 1")
     }
     if (n > window - 1L) {
       stop("'n' must be less than or equal to 'window' minus 1")
