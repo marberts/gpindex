@@ -14,7 +14,7 @@ chapter 10 of the CPI manual (2020)."><!-- mathjax --><script src="https://cdnjs
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,17 +123,17 @@ gives the corresponding product identifier for each element in <code>p</code> an
 
 
 <dt>window</dt>
-<dd><p>The length of the rolling window. The default is a window that
-encompasses all periods in <code>period</code>. Values that are neither integers
-nor length 1 are silently truncated to a length 1 integer.</p></dd>
+<dd><p>A positive integer giving the length of the rolling window.
+The default is a window that encompasses all periods in <code>period</code>.
+Non-integers are truncated towards zero.</p></dd>
 
 
 <dt>n</dt>
-<dd><p>A number giving the length of the index series for each window,
-starting from the end of the window. For example, if there are 13 periods in
-<code>window</code>, setting <code>n = 1</code> gives the index for period 13. The
-default gives an index for each period in <code>window</code>. Values that are
-neither integers nor length 1 are silently truncated to a length 1 integer.</p></dd>
+<dd><p>A positive integer giving the length of the index series for each
+window, starting from the end of the window. For example, if there are 13
+periods in <code>window</code>, setting <code>n = 1</code> gives the index for period 13. The
+default gives an index for each period in <code>window</code>. Non-integers are
+truncated towards zero.</p></dd>
 
 
 <dt>na.rm</dt>
