@@ -10,12 +10,6 @@
     <loc>https://marberts.github.io/gpindex/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/articles/gpindex.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/articles/index.html</loc>
-  </url>
-  <url>
     <loc>https://marberts.github.io/gpindex/authors.html</loc>
   </url>
   <url>
@@ -25,60 +19,45 @@
     <loc>https://marberts.github.io/gpindex/news/index.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/back_period.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/reference/balanced.html</loc>
-  </url>
-  <url>
     <loc>https://marberts.github.io/gpindex/reference/contributions.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/reference/extended_mean.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/reference/factor_weights.html</loc>
   </url>
   <url>
     <loc>https://marberts.github.io/gpindex/reference/geks.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/generalized_mean.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/generalized-mean.html</loc>
   </url>
   <url>
     <loc>https://marberts.github.io/gpindex/reference/gpindex-package.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/grouped.html</loc>
-  </url>
-  <url>
     <loc>https://marberts.github.io/gpindex/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/index_weights.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/lehmer-mean.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/lehmer_mean.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/logarithmic-means.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/nested_mean.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/nested-mean.html</loc>
+  </url>
+  <url>
+    <loc>https://marberts.github.io/gpindex/reference/offset-prices.html</loc>
+  </url>
+  <url>
+    <loc>https://marberts.github.io/gpindex/reference/operators.html</loc>
   </url>
   <url>
     <loc>https://marberts.github.io/gpindex/reference/outliers.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/price_data.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/pq6.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/price_indexes.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/price-indexes.html</loc>
   </url>
   <url>
-    <loc>https://marberts.github.io/gpindex/reference/quantity_index.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/reference/scale_weights.html</loc>
-  </url>
-  <url>
-    <loc>https://marberts.github.io/gpindex/reference/transmute_weights.html</loc>
+    <loc>https://marberts.github.io/gpindex/reference/transform-weights.html</loc>
   </url>
 </urlset>
