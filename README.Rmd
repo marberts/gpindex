@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![gpindex status badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
 [![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
+[![DOI](https://zenodo.org/badge/261861375.svg)](https://zenodo.org/doi/10.5281/zenodo.10097742)
 
 A small package for calculating lots of different price indexes, and by extension quantity indexes. Provides tools to build and work with any type of bilateral generalized-mean index (of which most price indexes are), along with a few important indexes that don't belong to the generalized-mean family (e.g., superlative quadratic-mean indexes, GEKS). Implements and extends many of the methods in Balk (2008), von der Lippe (2001), and the CPI manual (2020) for bilateral price indexes.
 
@@ -100,7 +101,7 @@ quadratic_contributions(p1 / p0, s0)
 
 ## Prior work
 
-There are a number of R packages on the CRAN that implement the standard index-number formulas (e.g., **IndexNumber**, ***productivity***, ***IndexNumR***, ***micEconIndex***, ***PriceIndices***). While there is support for a large number of index-number formulas out-of-the box in this package, the focus is on the tools to easily make and work with any type of generalized-mean price index. Consequently, compared to existing packages, this package is suitable for building custom price/quantity indexes, calculating indexes with sample data, decomposing indexes, and learning about or researching different types of index-number formulas.
+There are a number of R packages on the CRAN that implement the standard index-number formulas (e.g., **IndexNumber**, **productivity**, **IndexNumR**, **micEconIndex**, **PriceIndices**). While there is support for a large number of index-number formulas out-of-the box in this package, the focus is on the tools to easily make and work with any type of generalized-mean price index. Consequently, compared to existing packages, this package is suitable for building custom price/quantity indexes, calculating indexes with sample data, decomposing indexes, and learning about or researching different types of index-number formulas.
 
 ## References
 

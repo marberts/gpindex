@@ -32,8 +32,8 @@ fisher_contributions2(x, w1 = NULL, w2 = NULL)
 
 \item{x}{A strictly positive numeric vector.}
 
-\item{w}{A strictly positive numeric vector of weights, the same length as
-\code{x}. The default is to equally weight each element of \code{x}.}
+\item{w, w1, w2}{A strictly positive numeric vector of weights, the same length
+as \code{x}. The default is to equally weight each element of \code{x}.}
 
 \item{r1}{A finite number giving the order of the outer generalized mean.}
 
@@ -42,9 +42,6 @@ means.}
 
 \item{t}{A pair of strictly positive weights for the inner generalized
 means. The default is equal weights.}
-
-\item{w1, w2}{A strictly positive numeric vector of weights, the same length
-as \code{x}. The default is to equally weight each element of \code{x}.}
 }
 \value{
 \code{contributions()} returns a function:

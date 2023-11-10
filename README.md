@@ -11,6 +11,7 @@ status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.or
 badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
 [![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
+[![DOI](https://zenodo.org/badge/261861375.svg)](https://zenodo.org/doi/10.5281/zenodo.10097742)
 
 A small package for calculating lots of different price indexes, and by
 extension quantity indexes. Provides tools to build and work with any
@@ -125,8 +126,8 @@ quadratic_contributions(p1 / p0, s0)
 ## Prior work
 
 There are a number of R packages on the CRAN that implement the standard
-index-number formulas (e.g., **IndexNumber**, ***productivity***,
-***IndexNumR***, ***micEconIndex***, ***PriceIndices***). While there is
+index-number formulas (e.g., **IndexNumber**, **productivity**,
+**IndexNumR**, **micEconIndex**, **PriceIndices**). While there is
 support for a large number of index-number formulas out-of-the box in
 this package, the focus is on the tools to easily make and work with any
 type of generalized-mean price index. Consequently, compared to existing
