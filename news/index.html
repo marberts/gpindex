@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9007</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,9 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
+  <a class="nav-link" href="../articles/gpindex.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item">
@@ -45,48 +48,55 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.0" id="version-060">Version 0.6.0<a class="anchor" aria-label="anchor" href="#version-060"></a></h2>
+<ul><li><p>The use of <code>...</code> in <code><a href="../reference/grouped.html">grouped()</a></code> and <code><a href="../reference/balanced.html">balanced()</a></code> is deprecated, and will be removed in a future version. The same behavior can be had by using an anonymous function.</p></li>
+<li><p>Added the <code><a href="../reference/geks.html">walsh_geks()</a></code> function.</p></li>
+<li><p>Updated documentation.</p></li>
+<li><p>Added a vignette.</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="version-050">Version 0.5.0<a class="anchor" aria-label="anchor" href="#version-050"></a></h2><p class="text-muted">CRAN release: 2023-08-08</p>
 <ul><li><p><code>back_price()</code> and <code>base_price()</code> have been removed.</p></li>
 <li><p>Functions for transforming weights only keep the attributes of the weights (if any), as documented.</p></li>
-<li><p><code><a href="../reference/operators.html">grouped()</a></code> no longer mangles names.</p></li>
+<li><p><code><a href="../reference/grouped.html">grouped()</a></code> no longer mangles names.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3" id="version-043">Version 0.4.3<a class="anchor" aria-label="anchor" href="#version-043"></a></h2><p class="text-muted">CRAN release: 2022-05-01</p>
-<ul><li><p><code>back_price()</code> and <code>base_price()</code> are deprecated in favor of the more general <code><a href="../reference/offset-prices.html">back_period()</a></code> and <code><a href="../reference/offset-prices.html">base_period()</a></code> functions. They will be removed in a future version.</p></li>
+<ul><li><p><code>back_price()</code> and <code>base_price()</code> are deprecated in favor of the more general <code><a href="../reference/back_period.html">back_period()</a></code> and <code><a href="../reference/back_period.html">base_period()</a></code> functions. They will be removed in a future version.</p></li>
 <li><p>The algorithm for making GEKS indexes is now much faster with a rolling window.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.2" id="version-042">Version 0.4.2<a class="anchor" aria-label="anchor" href="#version-042"></a></h2><p class="text-muted">CRAN release: 2022-01-26</p>
 <ul><li><p>The functions and overall structure of the package should be fairly stable from now on.</p></li>
-<li><p>Added <code><a href="../reference/transform-weights.html">nested_transmute()</a></code> and <code><a href="../reference/transform-weights.html">nested_transmute2()</a></code> for transmuting the weights for nested generalized means. To be consistent with argument names, the first two arguments for <code><a href="../reference/nested-mean.html">nested_mean()</a></code> and <code>nested_contributions*()</code> are now <code>r1</code> and <code>r2</code>.</p></li>
+<li><p>Added <code><a href="../reference/transmute_weights.html">nested_transmute()</a></code> and <code><a href="../reference/transmute_weights.html">nested_transmute2()</a></code> for transmuting the weights for nested generalized means. To be consistent with argument names, the first two arguments for <code><a href="../reference/nested_mean.html">nested_mean()</a></code> and <code>nested_contributions*()</code> are now <code>r1</code> and <code>r2</code>.</p></li>
 <li><p>Added the geometric Theil and Rao indexes.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.9" id="version-039">Version 0.3.9<a class="anchor" aria-label="anchor" href="#version-039"></a></h2><p class="text-muted">CRAN release: 2021-11-26</p>
-<ul><li><p>Added <code><a href="../reference/offset-prices.html">back_period()</a></code> and <code><a href="../reference/offset-prices.html">base_period()</a></code>, which are more general than <code>back_price()</code> and <code>base_price()</code>.</p></li>
-<li><p>Added <code><a href="../reference/price-indexes.html">lehr_index()</a></code>.</p></li>
+<ul><li><p>Added <code><a href="../reference/back_period.html">back_period()</a></code> and <code><a href="../reference/back_period.html">base_period()</a></code>, which are more general than <code>back_price()</code> and <code>base_price()</code>.</p></li>
+<li><p>Added <code><a href="../reference/price_indexes.html">lehr_index()</a></code>.</p></li>
 <li><p>Fixed a rare warning about <code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code> making NaNs in <code>generalized_logmean(-1)</code> when some inputs were close but not equal, despite no NaNs showing in the result.</p></li>
-<li><p>The <code><a href="../reference/price-indexes.html">lm_index()</a></code> and <code>*_agmean_index()</code> functions are now function factories.</p></li>
+<li><p>The <code><a href="../reference/price_indexes.html">lm_index()</a></code> and <code>*_agmean_index()</code> functions are now function factories.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.6" id="version-036">Version 0.3.6<a class="anchor" aria-label="anchor" href="#version-036"></a></h2><p class="text-muted">CRAN release: 2021-10-02</p>
-<ul><li><p>Added the <code><a href="../reference/operators.html">balanced()</a></code> operator to make it easier to remove NAs with price index functions.</p></li>
-<li><p>Added the <code><a href="../reference/geks.html">geks()</a></code> function for using price-index function (e.g., <code><a href="../reference/price-indexes.html">fisher_index()</a></code>) to makes a GEKS index.</p></li>
+<ul><li><p>Added the <code><a href="../reference/balanced.html">balanced()</a></code> operator to make it easier to remove NAs with price index functions.</p></li>
+<li><p>Added the <code><a href="../reference/geks.html">geks()</a></code> function for using price-index function (e.g., <code><a href="../reference/price_indexes.html">fisher_index()</a></code>) to makes a GEKS index.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.4" id="version-034">Version 0.3.4<a class="anchor" aria-label="anchor" href="#version-034"></a></h2><p class="text-muted">CRAN release: 2021-08-04</p>
 <ul><li><p>Added French translations.</p></li>
-<li><p>Made a number of optimizations to make the results of <code><a href="../reference/generalized-mean.html">generalized_mean()</a></code>, <code><a href="../reference/logarithmic-means.html">extended_mean()</a></code>, <code><a href="../reference/lehmer-mean.html">lehmer_mean()</a></code>, <code><a href="../reference/transform-weights.html">transmute_weights()</a></code>, and <code><a href="../reference/transform-weights.html">factor_weights()</a></code> faster in common cases.</p></li>
-<li><p>Added the <code><a href="../reference/operators.html">grouped()</a></code> operator to make all functions work with grouped data.</p></li>
+<li><p>Made a number of optimizations to make the results of <code><a href="../reference/generalized_mean.html">generalized_mean()</a></code>, <code><a href="../reference/extended_mean.html">extended_mean()</a></code>, <code><a href="../reference/lehmer_mean.html">lehmer_mean()</a></code>, <code><a href="../reference/transmute_weights.html">transmute_weights()</a></code>, and <code><a href="../reference/factor_weights.html">factor_weights()</a></code> faster in common cases.</p></li>
+<li><p>Added the <code><a href="../reference/grouped.html">grouped()</a></code> operator to make all functions work with grouped data.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.1" id="version-031">Version 0.3.1<a class="anchor" aria-label="anchor" href="#version-031"></a></h2><p class="text-muted">CRAN release: 2021-07-07</p>
-<ul><li><p>Most function names have changed to be less awkward; e.g., <code>mean_generalized()</code> is now <code><a href="../reference/generalized-mean.html">generalized_mean()</a></code>, and <code>contributions_geometric()</code> is now <code><a href="../reference/contributions.html">geometric_contributions()</a></code>. This is unfortunately not backwards compatible, but needed to be done.</p></li>
-<li><p>Added the <code><a href="../reference/nested-mean.html">nested_mean()</a></code> function to calculate nested generalized means for, e.g., the Fisher index.</p></li>
+<ul><li><p>Most function names have changed to be less awkward; e.g., <code>mean_generalized()</code> is now <code><a href="../reference/generalized_mean.html">generalized_mean()</a></code>, and <code>contributions_geometric()</code> is now <code><a href="../reference/contributions.html">geometric_contributions()</a></code>. This is unfortunately not backwards compatible, but needed to be done.</p></li>
+<li><p>Added the <code><a href="../reference/nested_mean.html">nested_mean()</a></code> function to calculate nested generalized means for, e.g., the Fisher index.</p></li>
 <li><p>The interface for <code><a href="../reference/contributions.html">nested_contributions()</a></code> is now much simpler, and the function is focused on making contributions for Fisher indexes. Added the <code><a href="../reference/contributions.html">nested_contributions2()</a></code> function that implements a different algorithm.</p></li>
-<li><p>Added the <code><a href="../reference/price-indexes.html">arithmetic_agmean_index()</a></code> and <code><a href="../reference/price-indexes.html">geometric_agmean_index()</a></code> functions to calculate the AG mean index.</p></li>
+<li><p>Added the <code><a href="../reference/price_indexes.html">arithmetic_agmean_index()</a></code> and <code><a href="../reference/price_indexes.html">geometric_agmean_index()</a></code> functions to calculate the AG mean index.</p></li>
 <li><p>Added some functions for standard outlier-detection methods for price relatives.</p></li>
-<li><p>Dropped the <code>scale</code> argument for <code><a href="../reference/generalized-mean.html">generalized_mean()</a></code>, as it really wasn’t needed and had the potential to make more problems than it solved.</p></li>
+<li><p>Dropped the <code>scale</code> argument for <code><a href="../reference/generalized_mean.html">generalized_mean()</a></code>, as it really wasn’t needed and had the potential to make more problems than it solved.</p></li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
