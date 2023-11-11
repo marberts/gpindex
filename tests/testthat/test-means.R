@@ -295,6 +295,14 @@ test_that("grouping and balacing work", {
     balanced(fisher_mean)(
       c(1, NA, 3, 4), c(NA, 1, 1, 2), c(1, 2, NA, 4), na.rm = TRUE
     ), 4)
+  expect_equal(
+    balanced(fisher_mean)(x, xna, na.rm = TRUE),
+    sum(balanced(fisher_contributions)(x, xna, na.rm = TRUE)) + 1
+  )
+  expect_equal(
+    balanced(fisher_mean)(x, xna, na.rm = TRUE),
+    sum(balanced(fisher_contributions2)(x, xna, na.rm = TRUE)) + 1
+  )
 })
 
 test_that("error happen when expected", {

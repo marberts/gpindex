@@ -23,11 +23,19 @@ der Lippe (2001), and the CPI manual (2020) for bilateral price indexes.
 
 ## Installation
 
+Get the stable release from CRAN.
+
 ``` r
 install.packages("gpindex")
 ```
 
-The development version can be installed from GitHub.
+The development version can be installed from R-Universe
+
+``` r
+install.packages("gpindex", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+or directly from GitHub.
 
 ``` r
 pak::pak("marberts/gpindex")

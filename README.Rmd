@@ -25,11 +25,19 @@ A small package for calculating lots of different price indexes, and by extensio
 
 ## Installation
 
+Get the stable release from CRAN.
+
 ```{r, eval = FALSE}
 install.packages("gpindex")
 ```
 
-The development version can be installed from GitHub.
+The development version can be installed from R-Universe
+
+```{r, eval = FALSE}
+install.packages("gpindex", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+or directly from GitHub.
 
 ```{r, eval = FALSE}
 pak::pak("marberts/gpindex")
