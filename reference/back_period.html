@@ -14,7 +14,7 @@ information is stored in a table."><!-- mathjax --><script src="https://cdnjs.cl
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9008</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,9 +60,9 @@ information is stored in a table.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">back_period</span><span class="op">(</span><span class="va">period</span>, product <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">back_period</span><span class="op">(</span><span class="va">period</span>, product <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span><span class="op">)</span>, match_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">base_period</span><span class="op">(</span><span class="va">period</span>, product <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">base_period</span><span class="op">(</span><span class="va">period</span>, product <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">period</span><span class="op">)</span><span class="op">)</span>, match_first <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -79,24 +79,29 @@ follows the levels of <code>period</code> to agree with
 gives the product identifier for each transaction. The default is to assume
 that all transactions are for the same product.</p></dd>
 
+
+<dt>match_first</dt>
+<dd><p>Should products in the first period match with
+themselves (the default)?</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p><code>back_period()</code> and <code>base_period()</code> return a numeric
-vector of indices for the back/base periods. With <code>back_period()</code>, for
-all periods after the first, the resulting vector gives the location of the
-corresponding product in the previous period. The locations are unchanged
-for the first time period. With <code>base_period()</code>, the resulting vector
-gives the location of the corresponding product in the first period.</p>
+<p>Both functions return a numeric vector of indices for the back/base periods.
+With <code>back_period()</code>, for all periods after the first, the resulting vector
+gives the location of the corresponding product in the previous period.
+With <code>base_period()</code>, the resulting vector gives the location of the
+corresponding product in the first period. The locations are unchanged for
+he first time period if <code>match_first = TRUE</code>, <code>NA</code> otherwise.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>By definition, there must be at most one transaction for each product
-in each time period to determine a back period. If multiple transactions
-correspond to a period-product pair, then the back period at a point in time
-is always the first position for that product in the previous period.</p>
+in each time period to determine a back/base period. If multiple transactions
+correspond to a period-product pair, then the back/base period at a point in
+time is always the first position for that product in the previous period.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
