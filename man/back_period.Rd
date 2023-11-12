@@ -5,9 +5,9 @@
 \alias{base_period}
 \title{Offset a vector prices or quantities}
 \usage{
-back_period(period, product = gl(1, length(period)))
+back_period(period, product = gl(1, length(period)), match_first = TRUE)
 
-base_period(period, product = gl(1, length(period)))
+base_period(period, product = gl(1, length(period)), match_first = TRUE)
 }
 \arguments{
 \item{period}{A factor, or something that can be coerced into one, that
@@ -18,14 +18,17 @@ follows the levels of \code{period} to agree with
 \item{product}{A factor, or something that can be coerced into one, that
 gives the product identifier for each transaction. The default is to assume
 that all transactions are for the same product.}
+
+\item{match_first}{Should products in the first period match with
+themselves (the default)?}
 }
 \value{
-\code{back_period()} and \code{base_period()} return a numeric
-vector of indices for the back/base periods. With \code{back_period()}, for
-all periods after the first, the resulting vector gives the location of the
-corresponding product in the previous period. The locations are unchanged
-for the first time period. With \code{base_period()}, the resulting vector
-gives the location of the corresponding product in the first period.
+Both functions return a numeric vector of indices for the back/base periods.
+With \code{back_period()}, for all periods after the first, the resulting vector
+gives the location of the corresponding product in the previous period.
+With \code{base_period()}, the resulting vector gives the location of the
+corresponding product in the first period. The locations are unchanged for
+he first time period if \code{match_first = TRUE}, \code{NA} otherwise.
 }
 \description{
 For each product, compute either the position of the previous period (back
@@ -34,9 +37,9 @@ information is stored in a table.
 }
 \note{
 By definition, there must be at most one transaction for each product
-in each time period to determine a back period. If multiple transactions
-correspond to a period-product pair, then the back period at a point in time
-is always the first position for that product in the previous period.
+in each time period to determine a back/base period. If multiple transactions
+correspond to a period-product pair, then the back/base period at a point in
+time is always the first position for that product in the previous period.
 }
 \examples{
 df <- data.frame(

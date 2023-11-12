@@ -3,7 +3,7 @@
 offset_period <- function(f) {
   f <- match.fun(f)
 
-  function(period, product = gl(1, length(period))) {
+  function(period, product = gl(1, length(period)), match_first = TRUE) {
     if (length(period) != length(product)) {
       stop("'period' and 'product' must be the same length")
     }
@@ -19,6 +19,9 @@ offset_period <- function(f) {
       warning("there are duplicated period-product pairs")
     }
     m <- .mapply(match, list(product, f(product)), list(incomparables = NA))
+    if (!match_first) {
+      m[[1L]][] <- NA
+    }
     res <- split(seq_along(period), period)
     unsplit(.mapply(`[`, list(f(res), m), list()), period)
   }
@@ -37,16 +40,22 @@ offset_period <- function(f) {
 #' @param product A factor, or something that can be coerced into one, that
 #' gives the product identifier for each transaction. The default is to assume
 #' that all transactions are for the same product.
-#' @return `back_period()` and `base_period()` return a numeric
-#' vector of indices for the back/base periods. With `back_period()`, for
-#' all periods after the first, the resulting vector gives the location of the
-#' corresponding product in the previous period. The locations are unchanged
-#' for the first time period. With `base_period()`, the resulting vector
-#' gives the location of the corresponding product in the first period.
-#' @note By definition, there must be at most one transaction for each product
-#' in each time period to determine a back period. If multiple transactions
-#' correspond to a period-product pair, then the back period at a point in time
-#' is always the first position for that product in the previous period.
+#' @param match_first Should products in the first period match with
+#' themselves (the default)?
+#' 
+#' @returns
+#' Both functions return a numeric vector of indices for the back/base periods.
+#' With `back_period()`, for all periods after the first, the resulting vector
+#' gives the location of the corresponding product in the previous period.
+#' With `base_period()`, the resulting vector gives the location of the
+#' corresponding product in the first period. The locations are unchanged for 
+#' he first time period if `match_first = TRUE`, `NA` otherwise.
+#' 
+#' @note
+#' By definition, there must be at most one transaction for each product
+#' in each time period to determine a back/base period. If multiple transactions
+#' correspond to a period-product pair, then the back/base period at a point in
+#' time is always the first position for that product in the previous period.
 #'
 #' @seealso
 #' [outliers] for common methods to detect outliers for price relatives.

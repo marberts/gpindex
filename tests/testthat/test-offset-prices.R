@@ -47,7 +47,14 @@ test_that("offsetting periods works", {
                    c(NA, NA, 3L, 4L, 5L, 5L, 4L, 3L, NA, NA))
 })
 
-test_that("ambiguous products trigger a wanring", {
+test_that("not matching the first period works", {
+  expect_identical(back_period(period, id, FALSE),
+                   c(rep(NA, 5), 5:1))
+  expect_identical(base_period(period, id, FALSE),
+                   c(rep(NA, 5), 5:1))
+})
+
+test_that("ambiguous products trigger a warning", {
   expect_warning(base_period(c(1, 1, 2, 3)))
 })
 
