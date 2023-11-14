@@ -16,7 +16,7 @@ of nested generalized means (e.g., Fisher index)."><!-- mathjax --><script src="
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9009</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,8 +118,7 @@ vector of weights <code>v(x, w)</code> such that</p>
 
 <p><code>nested_transmute(r1, r2, t, s)</code> and <code>nested_transmute2(r1, r2, t, s)</code> do
 the same for nested generalized means, so that</p>
-<div class="sourceCode"><pre><code><span></span>
-<span><span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="va">r1</span>, <span class="va">r2</span>, <span class="va">t</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span> <span class="op">==</span></span>
+<div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="va">r1</span>, <span class="va">r2</span>, <span class="va">t</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span> <span class="op">==</span></span>
 <span>  <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fu">v</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
 <p>This generalizes the result for turning a geometric mean into an arithmetic
