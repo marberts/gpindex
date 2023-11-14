@@ -8,7 +8,7 @@
 \alias{fixed_cutoff}
 \alias{tukey_algorithm}
 \alias{hb_transform}
-\title{Outlier methods for price relatives}
+\title{Outlier detection for price relatives}
 \usage{
 quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 

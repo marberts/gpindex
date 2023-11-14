@@ -49,7 +49,7 @@ offset_period <- function(f) {
 #' gives the location of the corresponding product in the previous period.
 #' With `base_period()`, the resulting vector gives the location of the
 #' corresponding product in the first period. The locations are unchanged for 
-#' he first time period if `match_first = TRUE`, `NA` otherwise.
+#' the first time period if `match_first = TRUE`, `NA` otherwise.
 #' 
 #' @note
 #' By definition, there must be at most one transaction for each product

@@ -28,7 +28,7 @@ With \code{back_period()}, for all periods after the first, the resulting vector
 gives the location of the corresponding product in the previous period.
 With \code{base_period()}, the resulting vector gives the location of the
 corresponding product in the first period. The locations are unchanged for
-he first time period if \code{match_first = TRUE}, \code{NA} otherwise.
+the first time period if \code{match_first = TRUE}, \code{NA} otherwise.
 }
 \description{
 For each product, compute either the position of the previous period (back

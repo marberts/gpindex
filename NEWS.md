@@ -11,7 +11,7 @@ control whether products in the first period match to themselves or return `NA`.
 
 - Updated documentation.
 
-- Added a vignette.
+- Added a brief vignette.
 
 ## Version 0.5.0
 

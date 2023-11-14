@@ -1031,7 +1031,7 @@ Warning in back_period(period) :
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: outliers
-> ### Title: Outlier methods for price relatives
+> ### Title: Outlier detection for price relatives
 > ### Aliases: outliers quartile_method resistant_fences robust_z
 > ###   fixed_cutoff tukey_algorithm hb_transform
 > 

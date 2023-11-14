@@ -1,4 +1,4 @@
-#' Outlier methods for price relatives
+#' Outlier detection for price relatives
 #'
 #' Standard cutoff-based methods for detecting outliers with price relatives.
 #'
@@ -89,13 +89,15 @@
 #' @export
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  cl <- as.numeric(cl)
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
   )
   x <- x - q[2L]
-  u <- cu * pmax(q[3L] - q[2L], abs(a * q[2L]))
-  l <- -cl * pmax(q[2L] - q[1L], abs(a * q[2L]))
+  u <- cu * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
+  l <- -cl * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
   x > u | x < l
 }
 
@@ -104,11 +106,13 @@ quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 #' @export
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  cl <- as.numeric(cl)
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
   )
-  iqr <- pmax(q[3L] - q[1L], abs(a * q[2L]))
+  iqr <- pmax.int(q[3L] - q[1L], abs(a * q[2L]))
   u <- q[3L] + cu * iqr
   l <- q[1L] - cl * iqr
   x > u | x < l
@@ -119,6 +123,8 @@ resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 #' @export
 robust_z <- function(x, cu = 2.5, cl = cu) {
   x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  cl <- as.numeric(cl)
   med <- stats::median(x, na.rm = TRUE)
   s <- stats::mad(x, na.rm = TRUE)
   x <- x - med
@@ -132,6 +138,8 @@ robust_z <- function(x, cu = 2.5, cl = cu) {
 #' @export
 fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
   x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  cl <- as.numeric(cl)
   x > cu | x < cl
 }
 
@@ -140,6 +148,8 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
 #' @export
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  cl <- as.numeric(cl)
   q <- stats::quantile(
     x, c(0.05, 0.95),
     names = FALSE, na.rm = TRUE, type = type
