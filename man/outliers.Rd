@@ -26,13 +26,14 @@ hb_transform(x)
 \item{x}{A strictly positive numeric vector of price relatives. These can be
 made with, e.g., \code{\link[=back_period]{back_period()}}.}
 
-\item{cu, cl}{A numeric vector giving the upper and lower cutoffs for each
-element of \code{x}. The usual recycling rules apply.}
+\item{cu, cl}{A numeric vector, or something that can be coerced into one,
+giving the upper and lower cutoffs for each element of \code{x}. Recycled to the
+same length as \code{x}.}
 
-\item{a}{A numeric vector between 0 and 1 giving the scale factor for the
-median to establish the minimum dispersion between quartiles for each
-element of \code{x}. The default does not set a minimum dispersion. The
-usual recycling rules apply.}
+\item{a}{A numeric vector, or something that can be coerced into one,
+between 0 and 1 giving the scale factor for the median to establish the
+minimum dispersion between quartiles for each element of \code{x}. The default
+does not set a minimum dispersion. Recycled to the same length as \code{x}.}
 
 \item{type}{See \code{\link[=quantile]{quantile()}}.}
 }

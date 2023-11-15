@@ -36,12 +36,13 @@
 #'
 #' @param x A strictly positive numeric vector of price relatives. These can be
 #' made with, e.g., [back_period()].
-#' @param cu,cl A numeric vector giving the upper and lower cutoffs for each
-#' element of `x`. The usual recycling rules apply.
-#' @param a A numeric vector between 0 and 1 giving the scale factor for the
-#' median to establish the minimum dispersion between quartiles for each
-#' element of `x`. The default does not set a minimum dispersion. The
-#' usual recycling rules apply.
+#' @param cu,cl A numeric vector, or something that can be coerced into one,
+#' giving the upper and lower cutoffs for each element of `x`. Recycled to the
+#' same length as `x`.
+#' @param a A numeric vector, or something that can be coerced into one,
+#' between 0 and 1 giving the scale factor for the median to establish the
+#' minimum dispersion between quartiles for each element of `x`. The default
+#' does not set a minimum dispersion. Recycled to the same length as `x`.
 #' @param type See [quantile()].
 #'
 #' @returns
@@ -90,7 +91,13 @@
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
+  # it's faster to not recycle cu, cl, or a when they're length 1
+  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
+  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  a <- as.numeric(a)
+  if (length(a) != 1L) a <- rep_len(a, length(x))
+  
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
@@ -107,7 +114,12 @@ quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
+  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
+  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  a <- as.numeric(a)
+  if (length(a) != 1L) a <- rep_len(a, length(x))
+  
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
@@ -124,7 +136,10 @@ resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 robust_z <- function(x, cu = 2.5, cl = cu) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
+  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
+  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  
   med <- stats::median(x, na.rm = TRUE)
   s <- stats::mad(x, na.rm = TRUE)
   x <- x - med
@@ -139,7 +154,9 @@ robust_z <- function(x, cu = 2.5, cl = cu) {
 fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
+  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
+  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
   x > cu | x < cl
 }
 
@@ -149,7 +166,10 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
+  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
+  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  
   q <- stats::quantile(
     x, c(0.05, 0.95),
     names = FALSE, na.rm = TRUE, type = type

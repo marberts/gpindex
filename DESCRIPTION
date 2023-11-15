@@ -16,7 +16,7 @@ Description: Tools to build and work with bilateral generalized-mean
     Balk (2008, ISBN:978-1-107-40496-0),
     von der Lippe (2001, ISBN:3-8246-0638-0), and the
     CPI manual (2020, ISBN:978-1-51354-298-0).
-Depends: R (>= 3.5)
+Depends: R (>= 4.0)
 Imports: stats
 Suggests: 
     knitr,

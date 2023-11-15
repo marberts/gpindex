@@ -1,5 +1,7 @@
 ## Version 0.6.0
 
+- Bumped minimum version of R to at least 4.0.
+
 - The use of `...` in `grouped()` and `balanced()` is deprecated, and will be
 removed in a future version. The same behavior can be had by using an
 anonymous function.

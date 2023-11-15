@@ -34,3 +34,25 @@ test_that("hb transform works", {
   expect_equal(hb_transform(x),
                ifelse(x < median(x), 1 - median(x) / x, x / median(x) - 1))
 })
+
+test_that("recycling works", {
+  expect_identical(fixed_cutoff(x, cl = rep(1 / 2.5, 11)), fixed_cutoff(x))
+  expect_identical(fixed_cutoff(x, cu = rep(2.5, 11)), fixed_cutoff(x))
+  expect_identical(fixed_cutoff(x, numeric(0)), rep(NA, 10))
+  
+  expect_identical(robust_z(x, cl = rep(2.5, 11)), robust_z(x))
+  expect_identical(robust_z(x, cu = rep(2.5, 11)), robust_z(x))
+  
+  expect_identical(quartile_method(x, cl = rep(2.5, 11)), quartile_method(x))
+  expect_identical(quartile_method(x, cu = rep(2.5, 11)), quartile_method(x))
+  expect_identical(quartile_method(x, a = rep(0, 11)), quartile_method(x))
+  
+  expect_identical(resistant_fences(x, cl = rep(2.5, 11)), resistant_fences(x))
+  expect_identical(resistant_fences(x, cu = rep(2.5, 11)), resistant_fences(x))
+  expect_identical(resistant_fences(x, a = rep(0, 11)), resistant_fences(x))
+  
+  expect_identical(tukey_algorithm(x, cl = rep(2.5, 11)), tukey_algorithm(x))
+  expect_identical(tukey_algorithm(x, cu = rep(2.5, 11)), tukey_algorithm(x))
+  expect_identical(tukey_algorithm(x, integer(0)),
+                   replace(rep(NA, 10), c(6, 10), TRUE))
+})
