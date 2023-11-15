@@ -12,9 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-<a href="https://marberts.github.io/gpindex/"><img src="man/figures/logo.png" align="right" height="139" alt="gpindex website" /></a>
-
-# Generalized Price and Quantity Indexes
+# Generalized Price and Quantity Indexes <a href="https://marberts.github.io/gpindex/"><img src="man/figures/logo.png" align="right" height="139" alt="gpindex website" /></a>
 
 <!-- Badges -->
 [![CRAN status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
