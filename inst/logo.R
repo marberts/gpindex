@@ -1,12 +1,21 @@
 library(ggplot2)
 library(hexSticker)
 
-sticker(ggplot() + theme_void(),
+gg <- ggplot(data.frame(x = 1:4, y = c(1, 3, 2, 4))) +
+  geom_line(
+    aes(x, y),
+    arrow = arrow(angle = 20, ends = "last", type = "closed",
+                  length = unit(0.1, "inch")),
+    linewidth = 1) +
+  theme_void()
+
+sticker(gg,
         package = "gpindex",
         filename = "man/figures/logo.png",
-        p_y = 1.2,
+        s_x = 1,
+        s_width = 1,
         p_size = 18,
         p_family = "mono",
-        p_color = "#97b3b3",
+        p_color = "#a89ff9",
         h_fill = "#f0f99f",
-        h_color = "#97b3b3")
+        h_color = "#a89ff9")
