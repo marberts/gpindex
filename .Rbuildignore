@@ -9,5 +9,4 @@
 ^docs$
 ^pkgdown$
 ^inst/logo\.R$
-^man/figures$
 ^CRAN-SUBMISSION$
