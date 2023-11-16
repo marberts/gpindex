@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.6.0.9001
+Version: 0.6.0.9002
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"),
     email = "stevemartin041@gmail.com",

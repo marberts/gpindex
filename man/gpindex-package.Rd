@@ -2,9 +2,8 @@
 % Please edit documentation in R/gpindex-package.R
 \docType{package}
 \name{gpindex-package}
-\alias{gpindex-package}
-\alias{_PACKAGE}
 \alias{gpindex}
+\alias{gpindex-package}
 \title{gpindex: Generalized Price and Quantity Indexes}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
