@@ -16,6 +16,6 @@ sticker(gg,
         s_width = 1,
         p_size = 18,
         p_family = "mono",
-        p_color = "#a89ff9",
-        h_fill = "#f0f99f",
-        h_color = "#a89ff9")
+        p_color = "#6355e0",
+        h_fill = "#d2e055",
+        h_color = "#6355e0")
