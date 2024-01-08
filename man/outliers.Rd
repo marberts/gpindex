@@ -76,7 +76,10 @@ has a long right tail, the natural logarithm can be used to transform price
 relative before identifying outliers (sometimes under the assumption that
 price relatives are distributed log-normal). The Hidiroglou-Berthelot
 transformation is another approach, described in the CPI manual (par.
-5.124).
+5.124). (Sometimes the transformed price relatives are multiplied by
+\eqn{\max(p_1, p_0)^u}{max(p1, p0)^u}, for some
+\eqn{0 \le u \le 1}{0 <= u <= 1}, so that products with a larger price
+get flagged as outliers (par. 5.128).)
 }
 \examples{
 set.seed(1234)
@@ -114,4 +117,7 @@ Rais, S. (2008). Outlier detection for the Consumer Price Index.
 
 \code{\link[=back_period]{back_period()}}/\code{\link[=base_period]{base_period()}} for a simple utility function to turn prices
 in a table into price relatives.
+
+The \code{HBmethod()} function in the \pkg{univOutl} package for the
+Hidiroglou-Berthelot method for identifying outliers.
 }
