@@ -1,3 +1,7 @@
+## Version 0.6.1
+
+- Updated maintainer email.
+
 ## Version 0.6.0
 
 - Bumped minimum version of R to at least 4.0.

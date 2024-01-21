@@ -3,15 +3,16 @@
 
 # Generalized Price and Quantity Indexes <a href="https://marberts.github.io/gpindex/"><img src="man/figures/logo.png" align="right" height="139" alt="gpindex website" /></a>
 
-<!-- Badges -->
+<!-- badges: start -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
 [![gpindex status
 badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
-[![codecov](https://codecov.io/gh/marberts/gpindex/branch/master/graph/badge.svg?token=lHDHsGHsLd)](https://app.codecov.io/gh/marberts/gpindex)
+[![codecov](https://codecov.io/gh/marberts/gpindex/graph/badge.svg?token=TL7V9QO0BH)](https://codecov.io/gh/marberts/gpindex)
 [![DOI](https://zenodo.org/badge/261861375.svg)](https://zenodo.org/doi/10.5281/zenodo.10097742)
+<!-- badges: end -->
 
 Tools to build and work with bilateral generalized-mean price indexes
 (and by extension quantity indexes), and indexes composed of

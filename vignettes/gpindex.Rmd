@@ -72,6 +72,13 @@ ag_mean(p1 / p0, s0, s0)
 
 On top of these basic mathematical tools are functions for making standard price indexes when both prices and quantities are known. Weights for a large variety of indexes can be calculated with `index_weights()`, which can be plugged into the relevant generalized mean to calculate most common price indexes, and many uncommon ones. The `price_index` functions provide a simple wrapper, with the `quantity_index()` function turning each of these into its analogous quantity index.
 
+```{r}
+# Laspeyres index, again
+arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
+
+laspeyres_index(p1, p0, q0)
+```
+
 ## Decomposing indexes
 
 Two important functions for decomposing generalized means are given by `transmute_weights()` and `factor_weights()`. These functions augment the weights in a generalized mean, and can be used to calculate percent-change contributions (with, e.g., `contributions()`) and price-update weights for generalized-mean indexes.
