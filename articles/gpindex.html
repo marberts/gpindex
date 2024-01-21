@@ -187,6 +187,13 @@ generalized mean to calculate most common price indexes, and many
 uncommon ones. The <code>price_index</code> functions provide a simple
 wrapper, with the <code><a href="../reference/quantity_index.html">quantity_index()</a></code> function turning each of
 these into its analogous quantity index.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Laspeyres index, again</span></span>
+<span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="../reference/index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.4</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/price_indexes.html">laspeyres_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1.4</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="decomposing-indexes">Decomposing indexes<a class="anchor" aria-label="anchor" href="#decomposing-indexes"></a>
@@ -197,7 +204,7 @@ These functions augment the weights in a generalized mean, and can be
 used to calculate percent-change contributions (with, e.g.,
 <code><a href="../reference/contributions.html">contributions()</a></code>) and price-update weights for
 generalized-mean indexes.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">quadratic_decomposition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu">quadratic_decomposition</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span><span class="op">)</span></span>
@@ -218,7 +225,7 @@ generalized-mean indexes.</p>
 <span><span class="co">#&gt; [1] 1.136515</span></span></code></pre></div>
 <p>Percent-change contributions can similarly be calculated for indexes
 that nest generalized means.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ag_decomposition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transmute_weights.html">nested_transmute</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ag_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s0</span><span class="op">)</span></span>
