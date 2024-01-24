@@ -16,7 +16,7 @@ index)."><meta property="og:image" content="https://marberts.github.io/gpindex/l
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -336,6 +336,15 @@ indexes into the contributions of individual commodities.
 <span class="r-in"><span><span class="va">superlative_contributions</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu">nested_contributions</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">-</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Can be used to decompose the implict Walsh index</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">superlative_contributions</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.01797225  0.18686566  0.05817035 -0.03351992  0.18283997 -0.01079435</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Works for other types of indexes, like the harmonic</span></span></span>
 <span class="r-in"><span><span class="co"># Laspeyres Paasche index</span></span></span>

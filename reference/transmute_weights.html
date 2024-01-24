@@ -16,7 +16,7 @@ of nested generalized means (e.g., Fisher index)."><meta property="og:image" con
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9006</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -189,6 +189,15 @@ contributions.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Transmuting the weights for an arithmetic mean into those</span></span></span>
+<span class="r-in"><span><span class="co"># for a harmonic mean is the same as using weights w * x</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Works for nested means, too</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">w1</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span></span></span>
@@ -220,6 +229,19 @@ contributions.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.04366643"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#---- Monotonicity ----</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Transmuted weights increase when x is small and decrease</span></span></span>
+<span class="r-in"><span><span class="co"># when x is large if r &lt; s</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE FALSE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The opposite happens when r &gt; s</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE  TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Percent-change contributions ----</span></span></span>
 <span class="r-in"><span></span></span>
