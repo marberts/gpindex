@@ -229,6 +229,14 @@ superlative_contributions <- function(r) {
   nested_contributions(0, c(r / 2, -r / 2))
 }
 
+# Can be used to decompose the implict Walsh index
+
+superlative_contributions(1)(
+  p1 / p0,
+  index_weights("Laspeyres")(p0, q0),
+  index_weights("Paasche")(p1, q1)
+)
+
 # Works for other types of indexes, like the harmonic
 # Laspeyres Paasche index
 

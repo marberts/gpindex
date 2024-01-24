@@ -93,7 +93,6 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' subtle implications for a multilateral index.
 #'
 #' @seealso
-#'
 #' `GEKSIndex()` in the \pkg{indexNumR} package for an implementation of the
 #' GEKS index with more options.
 #'

@@ -100,7 +100,7 @@ contraharmonic_mean(2:3) > logmean(2, 3)
 # is proportional to the variance of x
 
 weighted_var <- function(x, w) {
-  arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
+  arithmetic_mean((x - arithmetic_mean(x, w))^2, w)
 }
 
 arithmetic_mean(x, w) + weighted_var(x, w) / arithmetic_mean(x, w)

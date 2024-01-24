@@ -93,6 +93,14 @@
 #'   scale_weights(transmute_weights(-1, 1)(x, w)),
 #'   scale_weights(w / x)
 #' )
+#' 
+#' # Transmuting the weights for an arithmetic mean into those
+#' # for a harmonic mean is the same as using weights w * x
+#'
+#' all.equal(
+#'   scale_weights(transmute_weights(1, -1)(x, w)),
+#'   scale_weights(w * x)
+#' )
 #'
 #' # Works for nested means, too
 #'
@@ -120,6 +128,17 @@
 #'     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
 #'   )
 #' )
+#' 
+#' #---- Monotonicity ----
+#' 
+#' # Transmuted weights increase when x is small and decrease
+#' # when x is large if r < s
+#' 
+#' scale_weights(transmute_weights(0, 1)(x, w)) > scale_weights(w)
+#' 
+#' # The opposite happens when r > s
+#' 
+#' scale_weights(transmute_weights(1, 0)(x, w)) > scale_weights(w)
 #'
 #' #---- Percent-change contributions ----
 #'

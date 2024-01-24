@@ -1,5 +1,5 @@
 
-R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+R version 4.3.2 (2023-10-31) -- "Eye Holes"
 Copyright (C) 2023 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -256,6 +256,15 @@ Warning in back_period(period) :
 +   nested_contributions(0, c(r / 2, -r / 2))
 + }
 > 
+> # Can be used to decompose the implict Walsh index
+> 
+> superlative_contributions(1)(
++   p1 / p0,
++   index_weights("Laspeyres")(p0, q0),
++   index_weights("Paasche")(p1, q1)
++ )
+[1]  0.01797225  0.18686566  0.05817035 -0.03351992  0.18283997 -0.01079435
+> 
 > # Works for other types of indexes, like the harmonic
 > # Laspeyres Paasche index
 > 
@@ -505,7 +514,7 @@ Warning in back_period(period) :
        2        3 
 1.403078 1.346954 
 
->
+> 
 > # Make a Jevons GEKS index
 > jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
 > jevons_geks(price, quantity, period, product)
@@ -885,7 +894,7 @@ Warning in back_period(period) :
 > # is proportional to the variance of x
 > 
 > weighted_var <- function(x, w) {
-+   arithmetic_mean(x^2, w) - arithmetic_mean(x, w)^2
++   arithmetic_mean((x - arithmetic_mean(x, w))^2, w)
 + }
 > 
 > arithmetic_mean(x, w) + weighted_var(x, w) / arithmetic_mean(x, w)
@@ -1417,6 +1426,15 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 + )
 [1] TRUE
 > 
+> # Transmuting the weights for an arithmetic mean into those
+> # for a harmonic mean is the same as using weights w * x
+> 
+> all.equal(
++   scale_weights(transmute_weights(1, -1)(x, w)),
++   scale_weights(w * x)
++ )
+[1] TRUE
+> 
 > # Works for nested means, too
 > 
 > w1 <- 3:1
@@ -1449,6 +1467,19 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 + )
 [1] "Mean relative difference: 0.04366643"
 > 
+> #---- Monotonicity ----
+> 
+> # Transmuted weights increase when x is small and decrease
+> # when x is large if r < s
+> 
+> scale_weights(transmute_weights(0, 1)(x, w)) > scale_weights(w)
+[1]  TRUE FALSE FALSE
+> 
+> # The opposite happens when r > s
+> 
+> scale_weights(transmute_weights(1, 0)(x, w)) > scale_weights(w)
+[1] FALSE  TRUE  TRUE
+> 
 > #---- Percent-change contributions ----
 > 
 > # Transmuted weights can be used to calculate percent-change
@@ -1480,7 +1511,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.485 0.031 1.32 0 0 
+Time elapsed:  0.335 0.025 0.361 0 0 
 > grDevices::dev.off()
 null device 
           1 
