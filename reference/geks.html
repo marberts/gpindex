@@ -14,7 +14,7 @@ chapter 10 of the CPI manual (2020)."><meta property="og:image" content="https:/
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,28 +191,55 @@ GEKS index with more options.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">price</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span></span>
-<span class="r-in"><span><span class="va">quantity</span> <span class="op">&lt;-</span> <span class="fl">6</span><span class="op">:</span><span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="va">period</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">product</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">price</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">quantity</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">:</span><span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="va">period</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">product</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, each <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">tornqvist_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu">tornqvist_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.413257 1.835676 2.284565 2.789856 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Calculate the index over a rolling window</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">tg</span> <span class="op">&lt;-</span> <span class="fu">tornqvist_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span>, window <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.530869 1.376227 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">tornqvist_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span>, window <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.520408 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.391443 1.294442 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.366822 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        3        4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.292486 1.238393 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.238417 1.205921 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Missing data</span></span></span>
+<span class="r-in"><span><span class="co"># Use a movement splice to combine the indexes in each window</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.391443 1.801142 2.230521 2.689833 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ... or use a mean splice</span></span></span>
+<span class="r-in"><span><span class="va">mean_splice</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">init</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">offset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">init</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">x</span>, \<span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="va">offset</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">init</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">init</span></span></span>
+<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="va">res</span><span class="op">[</span><span class="va">i</span> <span class="op">+</span> <span class="va">offset</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span> <span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="va">offset</span> <span class="op">-</span> <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="va">res</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">mean_splice</span><span class="op">(</span><span class="va">tg</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>first element used of 'length.out' argument</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of items to replace is not a multiple of replacement length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.391443 0.000000 0.000000 0.000000</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#---- Missing data ----</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">quantity</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
 <span class="r-in"><span></span></span>
@@ -220,8 +247,8 @@ GEKS index with more options.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">fisher_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.455853 1.370478 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.438137 1.234230 1.234212 1.216746 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove records with any missing data</span></span></span>
@@ -229,16 +256,17 @@ GEKS index with more options.</p>
 <span class="r-in"><span><span class="va">fg</span> <span class="op">&lt;-</span> <span class="fu">geks</span><span class="op">(</span><span class="fu"><a href="balanced.html">balanced</a></span><span class="op">(</span><span class="va">fisher_index</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">fg</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.403078 1.346954 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.501481 1.148250 1.219688 1.199513 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Make a Jevons GEKS index</span></span></span>
+<span class="r-in"><span><span class="co">#---- Make a Jevons GEKS index ----</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">jevons_geks</span> <span class="op">&lt;-</span> <span class="fu">geks</span><span class="op">(</span>\<span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">...</span>, <span class="va">na.rm</span><span class="op">)</span> <span class="fu"><a href="price_indexes.html">jevons_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">na.rm</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">jevons_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.581139 1.341641 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.527525 1.309307 1.224745 1.178511 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

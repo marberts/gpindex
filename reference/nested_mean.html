@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9006</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9008</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,19 +154,9 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span><span class="co"># A function to make the superlative quadratic mean price index by</span></span></span>
 <span class="r-in"><span><span class="co"># Diewert (1976) as a product of generalized means</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">quadratic_mean_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">w0</span>, <span class="va">w1</span>, <span class="va">r</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w0</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="op">-</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">quadratic_mean_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="fu">nested_mean</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">-</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">quadratic_mean_index</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span>, <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.912366</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Same as the nested generalized mean (with the order halved)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">quadratic_mean_index2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="fu">nested_mean</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span>, <span class="op">-</span><span class="va">r</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">quadratic_mean_index2</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">quadratic_mean_index</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.912366</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The arithmetic AG mean index by Lent and Dorfman (2009)</span></span></span>
@@ -186,7 +176,7 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">walsh</span> <span class="op">&lt;-</span> <span class="fu">quadratic_mean_index2</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">walsh</span> <span class="op">&lt;-</span> <span class="fu">quadratic_mean_index</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span><span class="op">)</span> <span class="op">/</span> <span class="fu">walsh</span><span class="op">(</span><span class="va">q1</span> <span class="op">/</span> <span class="va">q0</span>, <span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span>, <span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.401718</span>
@@ -199,6 +189,12 @@ indexes based on nested generalized means, like the Fisher index.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">walsh</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span>, <span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.401534</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># That requires using the average value share as weights</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">walsh_weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">walsh</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">walsh_weights</span>, <span class="va">walsh_weights</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.401718</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Missing values ----</span></span></span>
 <span class="r-in"><span></span></span>
