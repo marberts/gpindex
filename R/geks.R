@@ -109,16 +109,36 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' *Journal of Econometrics*, 161(1): 24--35.
 #'
 #' @examples
-#' price <- 1:6
-#' quantity <- 6:1
-#' period <- rep(1:3, 2)
-#' product <- rep(letters[1:2], each = 3)
+#' price <- 1:10
+#' quantity <- 10:1
+#' period <- rep(1:5, 2)
+#' product <- rep(letters[1:2], each = 5)
 #'
-#' tornqvist_geks(price, quantity, period, product)
+#' cumprod(tornqvist_geks(price, quantity, period, product)[[1]])
 #'
-#' tornqvist_geks(price, quantity, period, product, window = 2)
+#' # Calculate the index over a rolling window
+#' (tg <- tornqvist_geks(price, quantity, period, product, window = 3))
+#' 
+#' # Use a movement splice to combine the indexes in each window
+#' cumprod(c(tg[[1]], sapply(tg[-1], \(x) x[length(x)])))
+#' 
+#' # ... or use a mean splice
+#' mean_splice <- function(x, init) {
+#'   offset <- length(init)
+#'   x <- lapply(x, \(z) rev(cumprod(rev(z))))
+#'   res <- numeric(offset + length(x))
+#'   res[seq_len(init)] <- init
+#'   for (i in seq_along(x)) {
+#'     res[i + offset] <- geometric_mean(
+#'       x[[i]] * res[seq(to = i + offset - 1, length.out = length(x[[i]]))]
+#'     )
+#'   }
+#'   res
+#' }
+#' 
+#' mean_splice(tg[-1], cumprod(tg[[1]]))
 #'
-#' # Missing data
+#' #---- Missing data ----
 #'
 #' quantity[2] <- NA
 #'
@@ -131,7 +151,8 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' fg <- geks(balanced(fisher_index))
 #' fg(price, quantity, period, product, na.rm = TRUE)
 #' 
-#' # Make a Jevons GEKS index
+#' #---- Make a Jevons GEKS index ----
+#' 
 #' jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
 #' jevons_geks(price, quantity, period, product)
 #'

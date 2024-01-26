@@ -676,18 +676,9 @@ contraharmonic_mean <- lehmer_mean(2)
 #' # A function to make the superlative quadratic mean price index by
 #' # Diewert (1976) as a product of generalized means
 #'
-#' quadratic_mean_index <- function(x, w0, w1, r) {
-#'   x <- sqrt(x)
-#'   generalized_mean(r)(x, w0) * generalized_mean(-r)(x, w1)
-#' }
+#' quadratic_mean_index <- function(r) nested_mean(0, c(r / 2, -r / 2))
 #'
-#' quadratic_mean_index(x, w1, w2, 2)
-#'
-#' # Same as the nested generalized mean (with the order halved)
-#'
-#' quadratic_mean_index2 <- function(r) nested_mean(0, c(r / 2, -r / 2))
-#'
-#' quadratic_mean_index2(2)(x, w1, w2)
+#' quadratic_mean_index(2)(x, w1, w2)
 #'
 #' # The arithmetic AG mean index by Lent and Dorfman (2009)
 #'
@@ -705,7 +696,7 @@ contraharmonic_mean <- lehmer_mean(2)
 #' q1 <- quantity6[[2]]
 #' q0 <- quantity6[[1]]
 #'
-#' walsh <- quadratic_mean_index2(1)
+#' walsh <- quadratic_mean_index(1)
 #'
 #' sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
 #'
@@ -715,6 +706,11 @@ contraharmonic_mean <- lehmer_mean(2)
 #' # quadratic mean price index of order 1
 #'
 #' walsh(p1 / p0, p0 * q0, p1 * q1)
+#' 
+#' # That requires using the average value share as weights
+#' 
+#' walsh_weights <- sqrt(scale_weights(p0 * q0) * scale_weights(p1 * q1))
+#' walsh(p1 / p0, walsh_weights, walsh_weights)
 #'
 #' #---- Missing values ----
 #'
