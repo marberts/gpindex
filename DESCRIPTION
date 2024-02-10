@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.6.0.9008
+Version: 0.6.0.9009
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"),
     email = "marberts@protonmail.com",
@@ -11,7 +11,7 @@ Description: Tools to build and work with bilateral generalized-mean
     generalized-mean indexes (e.g., superlative quadratic-mean indexes, GEKS).
     Covers the core mathematical machinery for making bilateral price indexes,
     computing price relatives, detecting outliers, and decomposing indexes,
-    with wrapper for all common (and many uncommon) index-number
+    with wrappers for all common (and many uncommon) index-number
     formulas. Implements and extends many of the methods in
     Balk (2008, ISBN:978-1-107-40496-0),
     von der Lippe (2001, ISBN:3-8246-0638-0), and the
@@ -33,4 +33,4 @@ Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price_indexes.R'
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1

@@ -19,7 +19,7 @@ Tools to build and work with bilateral generalized-mean price indexes
 generalized-mean indexes (e.g., superlative quadratic-mean indexes,
 GEKS). Covers the core mathematical machinery for making bilateral price
 indexes, computing price relatives, detecting outliers, and decomposing
-indexes, with wrapper for all common (and many uncommon) index-number
+indexes, with wrappers for all common (and many uncommon) index-number
 formulas. Implements and extends many of the methods in Balk (2008), von
 der Lippe (2001), and the CPI manual (2020).
 

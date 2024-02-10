@@ -2,6 +2,9 @@
 
 - Updated maintainer email.
 
+- Added a parameter to generalize `geks()` by controlling how indexes are
+averaged over the rolling window.
+
 ## Version 0.6.0
 
 - Bumped minimum version of R to at least 4.0.

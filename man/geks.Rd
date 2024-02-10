@@ -7,7 +7,7 @@
 \alias{walsh_geks}
 \title{GEKS index}
 \usage{
-geks(f)
+geks(f, r = 0)
 
 tornqvist_geks(
   p,
@@ -40,9 +40,13 @@ walsh_geks(
 )
 }
 \arguments{
-\item{f}{A \link[=price_indexes]{price index function} that uses information on both
-base and current-period prices and quantities, and satisfies the
+\item{f}{A \link[=price_indexes]{price index function} that uses information on
+both base and current-period prices and quantities, and satisfies the
 time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.}
+
+\item{r}{A finite number giving the order of the generalized mean used to
+average price indexes over the rolling window. The default uses a
+geometric mean.}
 
 \item{p}{A numeric vector of prices, the same length as \code{q}.}
 
@@ -84,9 +88,9 @@ with a named numeric vector giving the value of the respective
 period-over-period GEKS index for each window.
 }
 \description{
-Calculate an inter-temporal GEKS price index over a rolling window, as
-described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in
-chapter 10 of the CPI manual (2020).
+Calculate a generalized inter-temporal GEKS price index over a rolling
+window, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011),
+and in chapter 10 of the CPI manual (2020).
 }
 \note{
 Like \code{\link[=back_period]{back_period()}}, if multiple prices

@@ -45,13 +45,16 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 
 #' GEKS index
 #'
-#' Calculate an inter-temporal GEKS price index over a rolling window, as
-#' described in chapter 7 of Balk (2008), by Ivancic et al. (2011), and in
-#' chapter 10 of the CPI manual (2020).
+#' Calculate a generalized inter-temporal GEKS price index over a rolling
+#' window, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011),
+#' and in chapter 10 of the CPI manual (2020).
 #'
-#' @param f A [price index function][price_indexes] that uses information on both
-#' base and current-period prices and quantities, and satisfies the
+#' @param f A [price index function][price_indexes] that uses information on
+#' both base and current-period prices and quantities, and satisfies the
 #' time-reversal test. Usually a Törnqvist, Fisher, or Walsh index.
+#' @param r A finite number giving the order of the generalized mean used to
+#' average price indexes over the rolling window. The default uses a
+#' geometric mean.
 #' @param p A numeric vector of prices, the same length as `q`.
 #' @param q A numeric vector of quantities, the same length as `p`.
 #' @param period A factor, or something that can be coerced into one, that
@@ -158,9 +161,9 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #'
 #' @family price-indexes
 #' @export
-geks <- function(f) {
+geks <- function(f, r = 0) {
   f <- match.fun(f)
-
+  gen_mean <- generalized_mean(r)
   function(p, q, period, product,
            window = nlevels(period), n = window - 1L, na.rm = FALSE) {
     if (different_lengths(p, q, period, product)) {
@@ -211,7 +214,7 @@ geks <- function(f) {
     for (i in seq_along(res)) {
       index <- apply(
         mat[rows + i, cols + i, drop = FALSE], 2L,
-        geometric_mean,
+        gen_mean,
         na.rm = na.rm
       )
       res[[i]] <- index[-1L] / index[-length(index)]
