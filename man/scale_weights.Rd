@@ -23,8 +23,8 @@ scale_weights(1:5)
 \seealso{
 \code{\link[=grouped]{grouped()}} to make this function applicable to grouped data.
 
-Other weights: 
+Other weights functions: 
 \code{\link{factor_weights}()},
 \code{\link{transmute_weights}()}
 }
-\concept{weights}
+\concept{weights functions}

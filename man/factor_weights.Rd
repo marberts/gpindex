@@ -79,8 +79,8 @@ International Monetary Fund.
 
 \code{\link[=grouped]{grouped()}} to make these functions operate on grouped data.
 
-Other weights: 
+Other weights functions: 
 \code{\link{scale_weights}()},
 \code{\link{transmute_weights}()}
 }
-\concept{weights}
+\concept{weights functions}

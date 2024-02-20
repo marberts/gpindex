@@ -183,8 +183,8 @@ contributions.
 
 \code{\link[=grouped]{grouped()}} to make these functions operate on grouped data.
 
-Other weights: 
+Other weights functions: 
 \code{\link{factor_weights}()},
 \code{\link{scale_weights}()}
 }
-\concept{weights}
+\concept{weights functions}

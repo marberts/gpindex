@@ -160,7 +160,7 @@
 #' qs <- transmute_weights(-1, 1)(p1 / p0) / p0
 #' all.equal(harmonic_mean(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
 #'
-#' @family weights
+#' @family weights functions
 #' @export
 transmute_weights <- function(r, s) {
   r <- as.numeric(r)
@@ -336,7 +336,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #' arithmetic_mean(x * y, w) >
 #'   arithmetic_mean(x, w) * arithmetic_mean(y, w)
 #'
-#' @family weights
+#' @family weights functions
 #' @export
 factor_weights <- function(r) {
   r <- as.numeric(r)
@@ -385,7 +385,7 @@ update_weights <- factor_weights(1)
 #' @examples
 #' scale_weights(1:5)
 #'
-#' @family weights
+#' @family weights functions
 #' @export
 scale_weights <- function(x) {
   x / sum(x, na.rm = TRUE)
