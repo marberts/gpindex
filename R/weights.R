@@ -173,6 +173,9 @@ transmute_weights <- function(r, s) {
       if (is.null(w)) {
         w <- rep.int(1, length(x))
       }
+      if (length(x) != length(w)) {
+        stop("'x' and 'w' must be the same length")
+      }
       w[is.na(x)] <- NA_real_
       w
     } else {
@@ -345,6 +348,9 @@ factor_weights <- function(r) {
   }
 
   function(x, w = NULL) {
+    if (!is.null(w) && length(x) != length(w)) {
+      stop("'x' and 'w' must be the same length")
+    }
     if (r == 0) {
       if (is.null(w)) {
         w <- rep.int(1, length(x))

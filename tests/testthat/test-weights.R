@@ -17,6 +17,9 @@ test_that("weights transmute correctly", {
     grouped(transmute_weights(1, 2))(x, w, group = f),
     unsplit(Map(transmute_weights(1, 2), split(x, f), split(w, f)), f)
   )
+  
+  expect_error(transmute_weights(1, 1)(1:5, 1:4))
+  expect_error(transmute_weights(1, 2)(1:5, 1:4))
 })
 
 test_that("contributions work correctly", {
@@ -39,6 +42,9 @@ test_that("weights factor correctly", {
   expect_equal(factor_weights(0)(x, w), w)
   expect_equal(update_weights(xna, w), xna * w)
   expect_equal(grouped(update_weights)(x, w, group = f), x * w)
+  
+  expect_error(factor_weights(2)(1:5, 1:4))
+  expect_error(factor_weights(0)(1:5, 1:4))
 })
 
 test_that("weights scale correctly", {

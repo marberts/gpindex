@@ -166,13 +166,15 @@ geks <- function(f, r = 0) {
   gen_mean <- generalized_mean(r)
   function(p, q, period, product,
            window = nlevels(period), n = window - 1L, na.rm = FALSE) {
+    period <- as.factor(period)
+    product <- as.factor(product)
+    attributes(product) <- NULL # faster to match on numeric codes
+    
     if (different_lengths(p, q, period, product)) {
       stop("'p', 'q', 'period', and 'product' must be the same length")
     }
 
-    period <- as.factor(period)
     nper <- nlevels(period)
-
     if (nper == 0L) {
       return(list())
     }
@@ -198,8 +200,7 @@ geks <- function(f, r = 0) {
 
     p <- split(p, period)
     q <- split(q, period)
-    product <- as.factor(product)
-    attributes(product) <- NULL # faster to match on numeric codes
+
     product <- split(product, period)
     if (duplicate_products(product)) {
       warning("there are duplicated period-product pairs")

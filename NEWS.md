@@ -5,6 +5,9 @@
 - Added a parameter to generalize `geks()` by controlling how indexes are
 averaged over the rolling window.
 
+- Fixed a bug where `transmute_weights()` and `factor_weights()` could return
+a result with a different length than `w`.
+
 ## Version 0.6.0
 
 - Bumped minimum version of R to at least 4.0.

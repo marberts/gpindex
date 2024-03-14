@@ -4,16 +4,18 @@ offset_period <- function(f) {
   f <- match.fun(f)
 
   function(period, product = gl(1, length(period)), match_first = TRUE) {
+    period <- as.factor(period)
+    product <- as.factor(product)
+    attributes(product) <- NULL # matching is faster on factor codes
+    
     if (length(period) != length(product)) {
       stop("'period' and 'product' must be the same length")
     }
-    period <- as.factor(period)
     # factors with no levels throws an error below
     if (nlevels(period) == 0L) {
       return(rep.int(NA_integer_, length(period)))
     }
-    product <- as.factor(product)
-    attributes(product) <- NULL # matching is faster on factor codes
+
     product <- split(product, period)
     if (duplicate_products(product)) {
       warning("there are duplicated period-product pairs")
