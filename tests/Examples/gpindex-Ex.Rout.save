@@ -507,7 +507,7 @@ Warning in back_period(period) :
 +   offset <- length(init)
 +   x <- lapply(x, \(z) rev(cumprod(rev(z))))
 +   res <- numeric(offset + length(x))
-+   res[seq_len(init)] <- init
++   res[seq_along(init)] <- init
 +   for (i in seq_along(x)) {
 +     res[i + offset] <- geometric_mean(
 +       x[[i]] * res[seq(to = i + offset - 1, length.out = length(x[[i]]))]
@@ -517,10 +517,7 @@ Warning in back_period(period) :
 + }
 > 
 > mean_splice(tg[-1], cumprod(tg[[1]]))
-Warning in seq_len(init) : first element used of 'length.out' argument
-Warning in res[seq_len(init)] <- init :
-  number of items to replace is not a multiple of replacement length
-[1] 1.391443 0.000000 0.000000 0.000000
+[1] 1.391443 1.801142 2.228836 2.688842
 > 
 > #---- Missing data ----
 > 

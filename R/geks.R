@@ -130,7 +130,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #'   offset <- length(init)
 #'   x <- lapply(x, \(z) rev(cumprod(rev(z))))
 #'   res <- numeric(offset + length(x))
-#'   res[seq_len(init)] <- init
+#'   res[seq_along(init)] <- init
 #'   for (i in seq_along(x)) {
 #'     res[i + offset] <- geometric_mean(
 #'       x[[i]] * res[seq(to = i + offset - 1, length.out = length(x[[i]]))]
