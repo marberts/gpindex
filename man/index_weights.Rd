@@ -180,6 +180,7 @@ quantity index.
 
 Other price-indexes: 
 \code{\link{geks}()},
-\code{\link{price_indexes}}
+\code{\link{price_indexes}},
+\code{\link{splice_index}()}
 }
 \concept{price-indexes}

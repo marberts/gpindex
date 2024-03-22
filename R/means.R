@@ -214,6 +214,8 @@ generalized_mean <- function(r) {
       }
       if (r == 0) {
         exp(sum(log(x)) / length(x))
+      } else if (r == 1) {
+        sum(x) / length(x)
       } else {
         (sum(x^r) / length(x))^(1 / r)
       }
@@ -228,6 +230,8 @@ generalized_mean <- function(r) {
       }
       if (r == 0) {
         exp(sum(log(x) * w) / sum(w))
+      } else if (r == 1) {
+        sum(x * w) / sum(w)
       } else {
         (sum(x^r * w) / sum(w))^(1 / r)
       }
@@ -419,6 +423,12 @@ harmonic_mean <- generalized_mean(-1)
 #' 1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 #'
 #' @family means
+rdiff <- function(a, b, r, const = TRUE) {
+  if (r == 0) return(log(a / b))
+  res <- if (r == 1) a - b else a^r - b^r
+  if (const) res / r else res
+}
+
 #' @export
 extended_mean <- function(r, s) {
   r <- as.numeric(r)
@@ -431,16 +441,16 @@ extended_mean <- function(r, s) {
   }
 
   function(a, b, tol = .Machine$double.eps^0.5) {
-    if (r == 0 && s == 0) {
-      res <- sqrt(a * b)
-    } else if (r == 0) {
-      res <- ((a^s - b^s) / log(a / b) / s)^(1 / s)
-    } else if (s == 0) {
-      res <- ((a^r - b^r) / log(a / b) / r)^(1 / r)
-    } else if (r == s) {
-      res <- exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
+    if (r == s) {
+      if (r == 0) {
+        res <- sqrt(a * b)
+      } else {
+        res <- exp(
+          (a^r * log(a) - b^r * log(b)) / rdiff(a, b, r, FALSE) - 1 / r
+        )
+      }
     } else {
-      res <- ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
+      res <- (rdiff(a, b, s) / rdiff(a, b, r))^(1 / (s - r))
     }
     # set output to a when a == b
     i <- which(abs(a - b) <= tol)

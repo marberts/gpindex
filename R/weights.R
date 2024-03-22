@@ -1,3 +1,22 @@
+#' Simplified extended mean for transmuting weights
+#' @noRd
+extended_mean_ <- function(r, s) {
+  r <- as.numeric(r)
+  s <- as.numeric(s)
+  if (not_finite_scalar(r)) {
+    stop("'r' must be a finite length 1 numeric")
+  }
+  if (not_finite_scalar(s)) {
+    stop("'s' must be a finite length 1 numeric")
+  }
+  
+  function(x, m, tol = .Machine$double.eps^0.5) {
+    res <- rdiff(x, m, r, FALSE) / rdiff(x, m, s, FALSE)
+    res[abs(x - m) <= tol] <- m^(r - s)
+    res
+  }
+}
+
 #' Transmute weights
 #'
 #' Transmute weights to turn a generalized mean of order \eqn{r} into a
@@ -166,28 +185,28 @@ transmute_weights <- function(r, s) {
   r <- as.numeric(r)
   s <- as.numeric(s)
   gen_mean <- generalized_mean(r)
-  ext_mean <- extended_mean(r, s)
+  ext_mean <- extended_mean_(r, s)
 
   function(x, w = NULL) {
     if (r == s) {
       if (is.null(w)) {
-        w <- rep.int(1, length(x))
+        return(rep.int(1 / length(x), length(x)))
       }
       if (length(x) != length(w)) {
         stop("'x' and 'w' must be the same length")
       }
       w[is.na(x)] <- NA_real_
-      w
+      scale_weights(w)
     } else {
       m <- gen_mean(x, w, na.rm = TRUE)
       if (is.null(w)) {
-        v <- ext_mean(x, m)^(r - s)
+        v <- ext_mean(x, m)
         attributes(v) <- NULL
       } else {
-        v <- w * ext_mean(x, m)^(r - s)
+        v <- w * ext_mean(x, m)
         attributes(v) <- attributes(w)
       }
-      v
+      scale_weights(v)
     }
   }
 }
@@ -213,12 +232,12 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
 
   function(x, w1 = NULL, w2 = NULL) {
     if (is.na(t[1L]) && !is.na(t[2L])) {
-      w <- scale_weights(r_weights2(x, w2))
+      w <- r_weights2(x, w2)
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
-      w <- scale_weights(r_weights1(x, w1))
+      w <- r_weights1(x, w1)
     } else {
-      v1 <- scale_weights(r_weights1(x, w1))
-      v2 <- scale_weights(r_weights2(x, w2))
+      v1 <- r_weights1(x, w1)
+      v2 <- r_weights2(x, w2)
       # the calculation is wrong if NAs in w1 or w2 propagate
       if (anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
@@ -257,12 +276,12 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
     if (is.na(v[1L]) && !is.na(v[2L])) {
-      scale_weights(s_weights2(x, w2))
+      s_weights2(x, w2)
     } else if (!is.na(v[1L]) && is.na(v[2L])) {
-      scale_weights(s_weights1(x, w1))
+      s_weights1(x, w1)
     } else {
-      u1 <- scale_weights(s_weights1(x, w1))
-      u2 <- scale_weights(s_weights2(x, w2))
+      u1 <- s_weights1(x, w1)
+      u2 <- s_weights2(x, w2)
       # the calculation is wrong if NAs in w1 or w2 propagate
       if (anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0

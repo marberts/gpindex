@@ -372,6 +372,7 @@ multiple groups of products over many time periods.
 
 Other price-indexes: 
 \code{\link{geks}()},
-\code{\link{index_weights}()}
+\code{\link{index_weights}()},
+\code{\link{splice_index}()}
 }
 \concept{price-indexes}

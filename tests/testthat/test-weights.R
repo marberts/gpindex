@@ -5,13 +5,16 @@ w <- runif(15, 0, 2)
 f <- factor(sample(letters[1:3], 15, TRUE))
 
 test_that("weights transmute correctly", {
-  expect_equal(transmute_weights(2, 2)(x), rep(1, length(x)))
-  expect_equal(transmute_weights(0, 0)(xna, w), replace(w, 2, NA))
-  expect_equal(transmute_weights(2, 1)(c(1, NA)), c(1, NA))
-  expect_equal(scale_weights(transmute_weights(-1, 1)(x, w)),
-               scale_weights(w / x))
+  expect_equal(transmute_weights(2, 2)(x), rep(1 / 15, length(x)))
   expect_equal(
-    transmute_weights(7, -3)(x, transmute_weights(-3, 7)(x, w)), w
+    transmute_weights(0, 0)(xna, w),
+    scale_weights(replace(w, 2, NA))
+  )
+  expect_equal(transmute_weights(2, 1)(c(1, NA)), c(1, NA))
+  expect_equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
+  expect_equal(
+    transmute_weights(7, -3)(x, transmute_weights(-3, 7)(x, w)),
+    scale_weights(w)
   )
   expect_equal(
     grouped(transmute_weights(1, 2))(x, w, group = f),

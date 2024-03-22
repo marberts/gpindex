@@ -120,26 +120,16 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' cumprod(tornqvist_geks(price, quantity, period, product)[[1]])
 #'
 #' # Calculate the index over a rolling window
+#' 
 #' (tg <- tornqvist_geks(price, quantity, period, product, window = 3))
 #' 
 #' # Use a movement splice to combine the indexes in each window
-#' cumprod(c(tg[[1]], sapply(tg[-1], \(x) x[length(x)])))
+#' 
+#' splice_index(tg, 2)
 #' 
 #' # ... or use a mean splice
-#' mean_splice <- function(x, init) {
-#'   offset <- length(init)
-#'   x <- lapply(x, \(z) rev(cumprod(rev(z))))
-#'   res <- numeric(offset + length(x))
-#'   res[seq_along(init)] <- init
-#'   for (i in seq_along(x)) {
-#'     res[i + offset] <- geometric_mean(
-#'       x[[i]] * res[seq(to = i + offset - 1, length.out = length(x[[i]]))]
-#'     )
-#'   }
-#'   res
-#' }
 #' 
-#' mean_splice(tg[-1], cumprod(tg[[1]]))
+#' splice_index(tg)
 #'
 #' #---- Missing data ----
 #'
