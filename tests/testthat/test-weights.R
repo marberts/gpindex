@@ -6,6 +6,7 @@ f <- factor(sample(letters[1:3], 15, TRUE))
 
 test_that("weights transmute correctly", {
   expect_equal(transmute_weights(2, 2)(x), rep(1 / 15, length(x)))
+  expect_equal(transmute_weights(2, 2)(c(1:3, NA)), c(1, 1, 1, NA) / 3)
   expect_equal(
     transmute_weights(0, 0)(xna, w),
     scale_weights(replace(w, 2, NA))

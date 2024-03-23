@@ -200,7 +200,7 @@ transmute_weights <- function(r, s) {
   function(x, w = NULL) {
     if (r == s) {
       if (is.null(w)) {
-        return(rep.int(1 / length(x), length(x)))
+        w <- rep.int(1, length(x))
       }
       if (length(x) != length(w)) {
         stop("'x' and 'w' must be the same length")
