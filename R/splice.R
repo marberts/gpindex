@@ -4,8 +4,8 @@
 #' index series. Splicing on multiple points combines the results with a
 #' geometric mean.
 #' 
-#' @param x A list of numeric vectors giving the period-over-period indexes for
-#' each window.
+#' @param x A list of equal-length numeric vectors giving the period-over-period
+#' indexes for each window.
 #' @param periods A vector (usually numeric) used to subscript each element of 
 #' `x` and give the splice points for each window. The default splices on each
 #' point in the window.
@@ -21,12 +21,15 @@
 #' x <- list(c(1.1, 0.9, 1.2), c(0.8, 1.3, 1.4), c(1.3, 1.3, 0.8))
 #' 
 #' # Mean splice
+#' 
 #' splice_index(x)
 #' 
 #' # Movement splice
+#' 
 #' splice_index(x, 3)
 #' 
 #' # Window splice
+#' 
 #' splice_index(x, 1)
 #' 
 #' @family price-indexes

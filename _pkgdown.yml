@@ -20,6 +20,7 @@ reference:
   - price_indexes
   - index_weights
   - geks
+  - splice_index
 
 - title: Percent-change contributions
   contents:

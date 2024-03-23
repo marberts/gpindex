@@ -1,6 +1,6 @@
 
-R version 4.3.2 (2023-10-31) -- "Eye Holes"
-Copyright (C) 2023 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -483,6 +483,7 @@ Warning in back_period(period) :
 1.413257 1.835676 2.284565 2.789856 
 > 
 > # Calculate the index over a rolling window
+> 
 > (tg <- tornqvist_geks(price, quantity, period, product, window = 3))
 [[1]]
        2        3 
@@ -498,25 +499,13 @@ Warning in back_period(period) :
 
 > 
 > # Use a movement splice to combine the indexes in each window
-> cumprod(c(tg[[1]], sapply(tg[-1], \(x) x[length(x)])))
-       2        3        4        5 
-1.391443 1.801142 2.230521 2.689833 
+> 
+> splice_index(tg, 2)
+[1] 1.391443 1.801142 2.230521 2.689833
 > 
 > # ... or use a mean splice
-> mean_splice <- function(x, init) {
-+   offset <- length(init)
-+   x <- lapply(x, \(z) rev(cumprod(rev(z))))
-+   res <- numeric(offset + length(x))
-+   res[seq_along(init)] <- init
-+   for (i in seq_along(x)) {
-+     res[i + offset] <- geometric_mean(
-+       x[[i]] * res[seq(to = i + offset - 1, length.out = length(x[[i]]))]
-+     )
-+   }
-+   res
-+ }
 > 
-> mean_splice(tg[-1], cumprod(tg[[1]]))
+> splice_index(tg)
 [1] 1.391443 1.801142 2.228836 2.688842
 > 
 > #---- Missing data ----
@@ -1412,6 +1401,39 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > 
 > cleanEx()
+> nameEx("splice_index")
+> ### * splice_index
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: splice_index
+> ### Title: Splice an index series
+> ### Aliases: splice_index
+> 
+> ### ** Examples
+> 
+> # Make an index series over a rolling window
+> x <- list(c(1.1, 0.9, 1.2), c(0.8, 1.3, 1.4), c(1.3, 1.3, 0.8))
+> 
+> # Mean splice
+> 
+> splice_index(x)
+[1] 1.100000 0.990000 1.188000 1.686819 1.306793
+> 
+> # Movement splice
+> 
+> splice_index(x, 3)
+[1] 1.10000 0.99000 1.18800 1.66320 1.33056
+> 
+> # Window splice
+> 
+> splice_index(x, 1)
+[1] 1.10000 0.99000 1.18800 1.60160 1.33848
+> 
+> 
+> 
+> 
+> cleanEx()
 > nameEx("transmute_weights")
 > ### * transmute_weights
 > 
@@ -1487,7 +1509,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 +     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
 +   )
 + )
-[1] "Mean relative difference: 0.04366643"
+[1] "Mean relative difference: 17.81836"
 > 
 > #---- Monotonicity ----
 > 
@@ -1533,7 +1555,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.35 0.044 0.445 0 0 
+Time elapsed:  0.095 0.023 0.118 0 0 
 > grDevices::dev.off()
 null device 
           1 

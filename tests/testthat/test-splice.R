@@ -24,6 +24,24 @@ test_that("result length is correct", {
   )
 })
 
+test_that("splicing is invariant", {
+  # Movement
+  expect_equal(splice_index(x, 3), splice_index(x[-1], 3, x[[1]]))
+  expect_equal(splice_index(x, 3), splice_index(x[-(1:2)], 3, c(1, 2, 3, 5)))
+  # Window
+  expect_equal(splice_index(x, 1), splice_index(x[-1], 1, x[[1]]))
+  expect_equal(splice_index(x, 1), splice_index(x[-(1:2)], 1, c(1, 2, 3, 10)))
+  # Mean
+  expect_equal(splice_index(x), splice_index(x[-1], initial = x[[1]]))
+  expect_equal(
+    splice_index(x),
+    splice_index(
+      x[-(1:2)],
+      initial = c(1, 2, 3, geometric_mean(c(10, 40 / 6, 5)))
+    )
+  )
+})
+
 test_that("NAs return NA", {
   expect_equal(splice_index(x, c(1, NA, 4)), c(1, 2, 6, NA, NA))
   x[[2]][2] <- NA

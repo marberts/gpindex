@@ -1,5 +1,15 @@
 #' Simplified extended mean for transmuting weights
 #' @noRd
+rdiff <- function(a, b, r) {
+  if (r == 0) {
+    log(a / b)
+  } else if (r == 1) {
+    a - b
+  } else {
+    a^r - b^r
+  }
+}
+
 extended_mean_ <- function(r, s) {
   r <- as.numeric(r)
   s <- as.numeric(s)
@@ -11,7 +21,7 @@ extended_mean_ <- function(r, s) {
   }
   
   function(x, m, tol = .Machine$double.eps^0.5) {
-    res <- rdiff(x, m, r, FALSE) / rdiff(x, m, s, FALSE)
+    res <- rdiff(x, m, r) / rdiff(x, m, s)
     res[abs(x - m) <= tol] <- m^(r - s)
     res
   }

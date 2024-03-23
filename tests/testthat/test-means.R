@@ -57,6 +57,11 @@ test_that("generalized means satifies key properties", {
 test_that("generalized means work with transmuted weights", {
   expect_equal(generalized_mean(-4.4)(x),
                generalized_mean(0)(x, transmute_weights(-4.4, 0)(x)))
+  
+  y <- c(x, geometric_mean(x))
+  expect_equal(generalized_mean(0)(y),
+               generalized_mean(2)(y, transmute_weights(0, 2)(y)))
+  
   expect_equal(generalized_mean(3.8)(x, w),
                generalized_mean(-1)(x, transmute_weights(3.8, -1)(x, w)))
   expect_equal(
