@@ -14,7 +14,7 @@ and in chapter 10 of the CPI manual (2020)."><meta property="og:image" content="
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9012</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9013</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -192,7 +192,8 @@ aggregation and the construction of price indexes.
 GEKS index with more options.</p>
 <p>Other price-indexes: 
 <code><a href="index_weights.html">index_weights</a>()</code>,
-<code><a href="price_indexes.html">price_indexes</a></code></p></div>
+<code><a href="price_indexes.html">price_indexes</a></code>,
+<code><a href="splice_index.html">splice_index</a>()</code></p></div>
     </div>
 
     <div class="section level2">
@@ -207,6 +208,7 @@ GEKS index with more options.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.413257 1.835676 2.284565 2.789856 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate the index over a rolling window</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">tg</span> <span class="op">&lt;-</span> <span class="fu">tornqvist_geks</span><span class="op">(</span><span class="va">price</span>, <span class="va">quantity</span>, <span class="va">period</span>, <span class="va">product</span>, window <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        2        3 </span>
@@ -222,25 +224,13 @@ GEKS index with more options.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use a movement splice to combine the indexes in each window</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        2        3        4        5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.391443 1.801142 2.230521 2.689833 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="splice_index.html">splice_index</a></span><span class="op">(</span><span class="va">tg</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.391443 1.801142 2.230521 2.689833</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ... or use a mean splice</span></span></span>
-<span class="r-in"><span><span class="va">mean_splice</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">init</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">offset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">init</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">x</span>, \<span class="op">(</span><span class="va">z</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">z</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="va">offset</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">init</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">init</span></span></span>
-<span class="r-in"><span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">res</span><span class="op">[</span><span class="va">i</span> <span class="op">+</span> <span class="va">offset</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">*</span> <span class="va">res</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span>to <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="va">offset</span> <span class="op">-</span> <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">mean_splice</span><span class="op">(</span><span class="va">tg</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumprod</a></span><span class="op">(</span><span class="va">tg</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="splice_index.html">splice_index</a></span><span class="op">(</span><span class="va">tg</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.391443 1.801142 2.228836 2.688842</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---- Missing data ----</span></span></span>
