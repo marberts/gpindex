@@ -4,7 +4,7 @@
 \alias{splice_index}
 \title{Splice an index series}
 \usage{
-splice_index(x, periods = NULL, initial = NULL)
+splice_index(x, periods = NULL, initial = NULL, published = FALSE)
 }
 \arguments{
 \item{x}{A list of equal-length numeric vectors giving the period-over-period
@@ -17,6 +17,9 @@ point in the window.}
 \item{initial}{A numeric vector giving an initial period-over-period index
 series onto which the elements of \code{x} are spliced. The default uses the
 first element of \code{x}.}
+
+\item{published}{Should the splice be done against the published series? The
+default splices using the recalculated index series.}
 }
 \value{
 A numeric vector giving the spliced (fixed-base) index series.
@@ -43,10 +46,19 @@ splice_index(x, 3)
 splice_index(x, 1)
 
 }
+\references{
+Chessa, A. G. (2019).
+\emph{A Comparison of Index Extension Methods for Multilateral Methods.} Paper
+presented at the 16th Meeting of the Ottawa Group on Price Indices,
+8-10 May 2019, Rio de Janeiro, Brazil.
+
+Krsinich, F. (2016). The FEWS index: Fixed effects with a window splice.
+\emph{Journal of Official Statistics}, 32(2), 375-404.
+}
 \seealso{
-Other price-indexes: 
+Other price index functions: 
 \code{\link{geks}()},
 \code{\link{index_weights}()},
 \code{\link{price_indexes}}
 }
-\concept{price-indexes}
+\concept{price index functions}

@@ -149,7 +149,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
 #' jevons_geks(price, quantity, period, product)
 #'
-#' @family price-indexes
+#' @family price index functions
 #' @export
 geks <- function(f, r = 0) {
   f <- match.fun(f)

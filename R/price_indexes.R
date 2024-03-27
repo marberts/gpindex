@@ -228,7 +228,7 @@ pythagorean_index <- function(r) {
 #'
 #' all.equal(index_weights("Young")(pb, qb), pb * qb)
 #'
-#' @family price-indexes
+#' @family price index functions
 #' @export
 index_weights <- function(
     type = c(
@@ -599,7 +599,7 @@ index_weights <- function(
 #' all.equal(arithmetic_index("Drobisch")(p1a, p0a, q1a, q0a), Ia)
 #' all.equal(arithmetic_index("Drobisch")(p1b, p0b, q1b, q0b), Ib)
 #'
-#' @family price-indexes
+#' @family price index functions
 #' @export
 arithmetic_index <- pythagorean_index(1)
 

@@ -370,9 +370,9 @@ than two time periods.
 The \pkg{piar} package has more functionality working with price indexes for
 multiple groups of products over many time periods.
 
-Other price-indexes: 
+Other price index functions: 
 \code{\link{geks}()},
 \code{\link{index_weights}()},
 \code{\link{splice_index}()}
 }
-\concept{price-indexes}
+\concept{price index functions}

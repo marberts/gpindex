@@ -154,9 +154,9 @@ aggregation and the construction of price indexes.
 \code{GEKSIndex()} in the \pkg{indexNumR} package for an implementation of the
 GEKS index with more options.
 
-Other price-indexes: 
+Other price index functions: 
 \code{\link{index_weights}()},
 \code{\link{price_indexes}},
 \code{\link{splice_index}()}
 }
-\concept{price-indexes}
+\concept{price index functions}

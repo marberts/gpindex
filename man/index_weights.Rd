@@ -178,9 +178,9 @@ all.equal(index_weights("Young")(pb, qb), pb * qb)
 \code{\link[=quantity_index]{quantity_index()}} to remap the arguments in these functions for a
 quantity index.
 
-Other price-indexes: 
+Other price index functions: 
 \code{\link{geks}()},
 \code{\link{price_indexes}},
 \code{\link{splice_index}()}
 }
-\concept{price-indexes}
+\concept{price index functions}
