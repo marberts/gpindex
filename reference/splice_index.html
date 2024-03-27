@@ -14,7 +14,7 @@ geometric mean."><meta property="og:image" content="https://marberts.github.io/g
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9015</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9016</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,9 +71,8 @@ indexes for each window.</p></dd>
 
 
 <dt>periods</dt>
-<dd><p>A vector (usually numeric) used to subscript each element of
-<code>x</code> and give the splice points for each window. The default splices on each
-point in the window.</p></dd>
+<dd><p>An integer vector giving the splice points for each window.
+The default splices on each point in the window.</p></dd>
 
 
 <dt>initial</dt>
@@ -129,6 +128,12 @@ presented at the 16th Meeting of the Ottawa Group on Price Indices,
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.10000 0.99000 1.18800 1.60160 1.18976</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Splicing on the published series preserves the within-window</span></span></span>
+<span class="r-in"><span><span class="co"># movement of the index series</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span>, published <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.10000 0.99000 1.18800 1.60160 1.33848</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
