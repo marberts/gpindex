@@ -6,9 +6,8 @@
 #' 
 #' @param x A list of equal-length numeric vectors giving the period-over-period
 #' indexes for each window.
-#' @param periods A vector (usually numeric) used to subscript each element of 
-#' `x` and give the splice points for each window. The default splices on each
-#' point in the window.
+#' @param periods An integer vector giving the splice points for each window.
+#' The default splices on each point in the window.
 #' @param initial A numeric vector giving an initial period-over-period index
 #' series onto which the elements of `x` are spliced. The default uses the
 #' first element of `x`.
@@ -43,6 +42,11 @@
 #' 
 #' splice_index(x, 1)
 #' 
+#' # Splicing on the published series preserves the within-window
+#' # movement of the index series
+#' 
+#' splice_index(x, 1, published = TRUE)
+#' 
 #' @family price index functions
 #' @export
 splice_index <- function(x, periods = NULL, initial = NULL, published = FALSE) {
@@ -68,6 +72,8 @@ splice_index <- function(x, periods = NULL, initial = NULL, published = FALSE) {
   
   if (is.null(periods)) {
     periods <- seq_len(n)
+  } else {
+    periods <- as.integer(periods)
   }
   
   y <- lapply(x, \(z) rev(cumprod(rev(z)))[periods])

@@ -35,6 +35,21 @@ test_that("result length is correct", {
   )
 })
 
+test_that("period subscripting works", {
+  expect_equal(
+    splice_index(x[-1], rep(3, 10), c(1, 1, 1, 1, 2, 3)),
+    c(1, 1, 1, 1, 2, 6, 30, 210)
+  )
+  expect_equal(
+    splice_index(x[-1], 4, c(1, 1, 1, 1, 2, 3)),
+    c(1, 1, 1, 1, 2, 6, NA, NA)
+  )
+  expect_equal(
+    splice_index(x[-1], -(2:3), c(1, 1, 1, 1, 2, 3), published = TRUE),
+    c(1, 1, 1, 1, 2, 6, 60, 420)
+  )
+})
+
 test_that("splicing is invariant", {
   # Movement
   expect_equal(splice_index(x, 3), splice_index(x[-1], 3, x[[1]]))

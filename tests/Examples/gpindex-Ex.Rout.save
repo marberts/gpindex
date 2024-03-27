@@ -506,7 +506,7 @@ Warning in back_period(period) :
 > # ... or use a mean splice
 > 
 > splice_index(tg)
-[1] 1.391443 1.801142 2.228836 2.688842
+[1] 1.391443 1.801142 2.228836 2.687826
 > 
 > #---- Missing data ----
 > 
@@ -1418,7 +1418,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Mean splice
 > 
 > splice_index(x)
-[1] 1.100000 0.990000 1.188000 1.686819 1.306793
+[1] 1.100000 0.990000 1.188000 1.686819 1.284405
 > 
 > # Movement splice
 > 
@@ -1428,6 +1428,12 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Window splice
 > 
 > splice_index(x, 1)
+[1] 1.10000 0.99000 1.18800 1.60160 1.18976
+> 
+> # Splicing on the published series preserves the within-window
+> # movement of the index series
+> 
+> splice_index(x, 1, published = TRUE)
 [1] 1.10000 0.99000 1.18800 1.60160 1.33848
 > 
 > 
@@ -1555,7 +1561,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.095 0.023 0.118 0 0 
+Time elapsed:  0.105 0.012 0.117 0 0 
 > grDevices::dev.off()
 null device 
           1 

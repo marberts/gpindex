@@ -10,9 +10,8 @@ splice_index(x, periods = NULL, initial = NULL, published = FALSE)
 \item{x}{A list of equal-length numeric vectors giving the period-over-period
 indexes for each window.}
 
-\item{periods}{A vector (usually numeric) used to subscript each element of
-\code{x} and give the splice points for each window. The default splices on each
-point in the window.}
+\item{periods}{An integer vector giving the splice points for each window.
+The default splices on each point in the window.}
 
 \item{initial}{A numeric vector giving an initial period-over-period index
 series onto which the elements of \code{x} are spliced. The default uses the
@@ -44,6 +43,11 @@ splice_index(x, 3)
 # Window splice
 
 splice_index(x, 1)
+
+# Splicing on the published series preserves the within-window
+# movement of the index series
+
+splice_index(x, 1, published = TRUE)
 
 }
 \references{
