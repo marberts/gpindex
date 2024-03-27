@@ -14,7 +14,7 @@ geometric mean."><meta property="og:image" content="https://marberts.github.io/g
     
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9014</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9015</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@ geometric mean.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span>, periods <span class="op">=</span> <span class="cn">NULL</span>, initial <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span>, periods <span class="op">=</span> <span class="cn">NULL</span>, initial <span class="op">=</span> <span class="cn">NULL</span>, published <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,6 +81,11 @@ point in the window.</p></dd>
 series onto which the elements of <code>x</code> are spliced. The default uses the
 first element of <code>x</code>.</p></dd>
 
+
+<dt>published</dt>
+<dd><p>Should the splice be done against the published series? The
+default splices using the recalculated index series.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -89,8 +94,17 @@ first element of <code>x</code>.</p></dd>
 <p>A numeric vector giving the spliced (fixed-base) index series.</p>
     </div>
     <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Chessa, A. G. (2019).
+<em>A Comparison of Index Extension Methods for Multilateral Methods.</em> Paper
+presented at the 16th Meeting of the Ottawa Group on Price Indices,
+8-10 May 2019, Rio de Janeiro, Brazil.</p>
+<p>Krsinich, F. (2016). The FEWS index: Fixed effects with a window splice.
+<em>Journal of Official Statistics</em>, 32(2), 375-404.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other price-indexes: 
+    <div class="dont-index"><p>Other price index functions: 
 <code><a href="geks.html">geks</a>()</code>,
 <code><a href="index_weights.html">index_weights</a>()</code>,
 <code><a href="price_indexes.html">price_indexes</a></code></p></div>
@@ -104,7 +118,7 @@ first element of <code>x</code>.</p></dd>
 <span class="r-in"><span><span class="co"># Mean splice</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.100000 0.990000 1.188000 1.686819 1.306793</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.100000 0.990000 1.188000 1.686819 1.284405</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Movement splice</span></span></span>
 <span class="r-in"><span></span></span>
@@ -114,7 +128,7 @@ first element of <code>x</code>.</p></dd>
 <span class="r-in"><span><span class="co"># Window splice</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">splice_index</span><span class="op">(</span><span class="va">x</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.10000 0.99000 1.18800 1.60160 1.33848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.10000 0.99000 1.18800 1.60160 1.18976</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
