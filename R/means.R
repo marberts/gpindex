@@ -215,6 +215,7 @@ generalized_mean <- function(r) {
       if (r == 0) {
         exp(sum(log(x)) / length(x))
       } else if (r == 1) {
+        # The arithmetic case is important enough for the optimization.
         sum(x) / length(x)
       } else {
         (sum(x^r) / length(x))^(1 / r)
@@ -446,7 +447,7 @@ extended_mean <- function(r, s) {
     } else {
       res <- ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
     }
-    # set output to a when a == b
+    # Set output to a when a == b.
     i <- which(abs(a - b) <= tol)
     res[i] <- a[(i - 1L) %% length(a) + 1L]
     res

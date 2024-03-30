@@ -118,18 +118,12 @@ extended_mean_ <- function(r, s) {
 #' # Transmuting the weights for a harmonic mean into those
 #' # for an arithmetic mean is the same as using weights w / x
 #'
-#' all.equal(
-#'   scale_weights(transmute_weights(-1, 1)(x, w)),
-#'   scale_weights(w / x)
-#' )
+#' all.equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
 #' 
 #' # Transmuting the weights for an arithmetic mean into those
 #' # for a harmonic mean is the same as using weights w * x
 #'
-#' all.equal(
-#'   scale_weights(transmute_weights(1, -1)(x, w)),
-#'   scale_weights(w * x)
-#' )
+#' all.equal(transmute_weights(1, -1)(x, w), scale_weights(w * x))
 #'
 #' # Works for nested means, too
 #'
@@ -163,18 +157,18 @@ extended_mean_ <- function(r, s) {
 #' # Transmuted weights increase when x is small and decrease
 #' # when x is large if r < s
 #' 
-#' scale_weights(transmute_weights(0, 1)(x, w)) > scale_weights(w)
+#' transmute_weights(0, 1)(x, w) > scale_weights(w)
 #' 
 #' # The opposite happens when r > s
 #' 
-#' scale_weights(transmute_weights(1, 0)(x, w)) > scale_weights(w)
+#' transmute_weights(1, 0)(x, w) > scale_weights(w)
 #'
 #' #---- Percent-change contributions ----
 #'
 #' # Transmuted weights can be used to calculate percent-change
 #' # contributions for, e.g., a geometric price index
 #'
-#' scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+#' transmute_weights(0, 1)(x) * (x - 1)
 #' geometric_contributions(x) # the more convenient way
 #'
 #' #---- Basket representation of a price index ----
@@ -248,7 +242,7 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
     } else {
       v1 <- r_weights1(x, w1)
       v2 <- r_weights2(x, w2)
-      # the calculation is wrong if NAs in w1 or w2 propagate
+      # The calculation is wrong if NAs in w1 or w2 propagate.
       if (anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
       }
@@ -292,7 +286,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     } else {
       u1 <- s_weights1(x, w1)
       u2 <- s_weights2(x, w2)
-      # the calculation is wrong if NAs in w1 or w2 propagate
+      # The calculation is wrong if NAs in w1 or w2 propagate.
       if (anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0
       }

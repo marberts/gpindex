@@ -1,20 +1,20 @@
 #' Make the GEKS matrix
 #' @noRd
 geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
-  # making base prices/quantities is the slowest part of the calculation;
+  # Making base prices/quantities is the slowest part of the calculation;
   # the algorithm calculates the lower-triangular part of the GEKS matrix
   # to avoid making relatives with different bases, then uses the
-  # time-reversal property of the 'index' function
+  # time-reversal property of the 'index' function.
   rows <- seq_len(nper)
   lt <- lapply(rows, function(i) {
     if (i < max(window - n, 2L)) {
-      # only the last n + 1 rows are needed for each window,
-      # so pad the top rows left of the diagonal with NA
+      # Only the last n + 1 rows are needed for each window,
+      # so pad the top rows left of the diagonal with NA.
       ans <- rep_len(NA_real_, i - 1L)
     } else {
-      # matching is only done for the lower-triangular part of the matrix
-      # match products for window - 1 periods left of the diagonal
-      # to minimize the number of back prices to find
+      # Matching is only done for the lower-triangular part of the matrix.
+      # Match products for window - 1 periods left of the diagonal
+      # to minimize the number of back prices to find.
       js <- seq.int(to = i - 1L, length.out = min(window, i) - 1L)
       m <- .mapply(
         match,
@@ -29,7 +29,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
         list(na.rm = na.rm)
       )
     }
-    # add the diagonal at the end and pad with NAs
+    # Add the diagonal at the end and pad with NAs.
     ans <- c(unlist(ans, use.names = FALSE), 1)
     front_pad <- rep_len(NA_real_, max(i - window, 0L))
     back_pad <- rep_len(NA_real_, nper - length(ans) - length(front_pad))
@@ -37,7 +37,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
   })
   res <- do.call(rbind, lt)
   rownames(res) <- colnames(res) <- names(p) # time periods
-  # exploit time reversal
+  # Exploit time reversal.
   ut <- upper.tri(res)
   res[ut] <- 1 / t(res)[ut]
   res
@@ -198,10 +198,10 @@ geks <- function(f, r = 0) {
 
     mat <- geks_matrix(f, p, q, product, n, nper, window, na.rm)
     rows <- seq_len(window) - 1L
-    # only the last n + 1 indexes in each window need to be kept
+    # Only the last n + 1 indexes in each window need to be kept.
     cols <- seq.int(window - n, window) - 1L
     res <- vector("list", nper - window + 1L)
-    # move down the diagonal to make the geks index
+    # Move down the diagonal to make the geks index.
     for (i in seq_along(res)) {
       index <- apply(
         mat[rows + i, cols + i, drop = FALSE], 2L,

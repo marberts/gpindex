@@ -142,7 +142,7 @@ Warning in back_period(period) :
 > # into weights for an arithmetic mean, then finding the contributions
 > # to the percent change
 > 
-> scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+> transmute_weights(0, 1)(x) * (x - 1)
 [1] 0.5505103 0.8989795
 > 
 > # Not the only way to calculate contributions
@@ -1470,19 +1470,13 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Transmuting the weights for a harmonic mean into those
 > # for an arithmetic mean is the same as using weights w / x
 > 
-> all.equal(
-+   scale_weights(transmute_weights(-1, 1)(x, w)),
-+   scale_weights(w / x)
-+ )
+> all.equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
 [1] TRUE
 > 
 > # Transmuting the weights for an arithmetic mean into those
 > # for a harmonic mean is the same as using weights w * x
 > 
-> all.equal(
-+   scale_weights(transmute_weights(1, -1)(x, w)),
-+   scale_weights(w * x)
-+ )
+> all.equal(transmute_weights(1, -1)(x, w), scale_weights(w * x))
 [1] TRUE
 > 
 > # Works for nested means, too
@@ -1522,12 +1516,12 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Transmuted weights increase when x is small and decrease
 > # when x is large if r < s
 > 
-> scale_weights(transmute_weights(0, 1)(x, w)) > scale_weights(w)
+> transmute_weights(0, 1)(x, w) > scale_weights(w)
 [1]  TRUE FALSE FALSE
 > 
 > # The opposite happens when r > s
 > 
-> scale_weights(transmute_weights(1, 0)(x, w)) > scale_weights(w)
+> transmute_weights(1, 0)(x, w) > scale_weights(w)
 [1] FALSE  TRUE  TRUE
 > 
 > #---- Percent-change contributions ----
@@ -1535,7 +1529,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > # Transmuted weights can be used to calculate percent-change
 > # contributions for, e.g., a geometric price index
 > 
-> scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+> transmute_weights(0, 1)(x) * (x - 1)
 [1] 0.0000000 0.3122793 0.5048413
 > geometric_contributions(x) # the more convenient way
 [1] 0.0000000 0.3122793 0.5048413
@@ -1561,7 +1555,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  0.105 0.012 0.117 0 0 
+Time elapsed:  0.106 0.012 0.117 0 0 
 > grDevices::dev.off()
 null device 
           1 

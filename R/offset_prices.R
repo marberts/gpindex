@@ -11,7 +11,7 @@ offset_period <- function(f) {
     if (length(period) != length(product)) {
       stop("'period' and 'product' must be the same length")
     }
-    # factors with no levels throws an error below
+    # Factors with no levels throw an error below.
     if (nlevels(period) == 0L) {
       return(rep.int(NA_integer_, length(period)))
     }

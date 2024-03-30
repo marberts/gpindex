@@ -84,18 +84,12 @@ harmonic_mean(x, transmute_weights(0, -1)(x))
 # Transmuting the weights for a harmonic mean into those
 # for an arithmetic mean is the same as using weights w / x
 
-all.equal(
-  scale_weights(transmute_weights(-1, 1)(x, w)),
-  scale_weights(w / x)
-)
+all.equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
 
 # Transmuting the weights for an arithmetic mean into those
 # for a harmonic mean is the same as using weights w * x
 
-all.equal(
-  scale_weights(transmute_weights(1, -1)(x, w)),
-  scale_weights(w * x)
-)
+all.equal(transmute_weights(1, -1)(x, w), scale_weights(w * x))
 
 # Works for nested means, too
 
@@ -129,18 +123,18 @@ all.equal(
 # Transmuted weights increase when x is small and decrease
 # when x is large if r < s
 
-scale_weights(transmute_weights(0, 1)(x, w)) > scale_weights(w)
+transmute_weights(0, 1)(x, w) > scale_weights(w)
 
 # The opposite happens when r > s
 
-scale_weights(transmute_weights(1, 0)(x, w)) > scale_weights(w)
+transmute_weights(1, 0)(x, w) > scale_weights(w)
 
 #---- Percent-change contributions ----
 
 # Transmuted weights can be used to calculate percent-change
 # contributions for, e.g., a geometric price index
 
-scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+transmute_weights(0, 1)(x) * (x - 1)
 geometric_contributions(x) # the more convenient way
 
 #---- Basket representation of a price index ----

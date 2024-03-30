@@ -97,7 +97,7 @@
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  # it's faster to not recycle cu, cl, or a when they're length 1
+  # It's faster to not recycle cu, cl, or a when they're length 1.
   if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
   if (length(cl) != 1L) cl <- rep_len(cl, length(x))
@@ -185,7 +185,7 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   if (length(ts) == 0L) {
     return(tail)
   }
-  # in some versions m is the median
+  # In some versions m is the median.
   m <- mean(ts, na.rm = TRUE)
   x <- x - m
   u <- cu * (mean(ts[ts >= m], na.rm = TRUE) - m)

@@ -129,7 +129,7 @@ all.equal(geometric_mean(x) - 1, sum(geometric_contributions(x)))
 # into weights for an arithmetic mean, then finding the contributions
 # to the percent change
 
-scale_weights(transmute_weights(0, 1)(x)) * (x - 1)
+transmute_weights(0, 1)(x) * (x - 1)
 
 # Not the only way to calculate contributions
 

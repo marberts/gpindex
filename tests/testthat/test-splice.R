@@ -90,3 +90,10 @@ test_that("errors work", {
   expect_error(splice_index(list(1:3, 1:2)))
   expect_error(splice_index(list(1:3, 1:3), initial = 1:2))
 })
+
+test_that("splicing is the same as chaining", {
+  x <- as.list(1:5)
+  expect_equal(splice_index(x), cumprod(1:5))
+  expect_equal(splice_index(x, initial = 1:3), cumprod(c(1:3, 1:5)))
+  expect_equal(splice_index(x, published = TRUE), cumprod(1:5))
+})
