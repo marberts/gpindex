@@ -13,11 +13,11 @@
 \usage{
 contributions(r)
 
-arithmetic_contributions(x, w = NULL)
+arithmetic_contributions(x, w = NULL, m = NULL)
 
-geometric_contributions(x, w = NULL)
+geometric_contributions(x, w = NULL, m = NULL)
 
-harmonic_contributions(x, w = NULL)
+harmonic_contributions(x, w = NULL, m = NULL)
 
 nested_contributions(r1, r2, t = c(1, 1))
 
@@ -35,6 +35,9 @@ fisher_contributions2(x, w1 = NULL, w2 = NULL)
 \item{w, w1, w2}{A strictly positive numeric vector of weights, the same length
 as \code{x}. The default is to equally weight each element of \code{x}.}
 
+\item{m}{The value of the generalized mean of \code{x} with weights \code{w}. The
+default computes this when the function is called.}
+
 \item{r1}{A finite number giving the order of the outer generalized mean.}
 
 \item{r2}{A pair of finite numbers giving the order of the inner generalized
@@ -46,7 +49,7 @@ means. The default is equal weights.}
 \value{
 \code{contributions()} returns a function:
 
-\preformatted{function(x, w = NULL){...}}
+\preformatted{function(x, w = NULL, m = NULL){...}}
 
 This computes the additive contribution for each element of \code{x} in an
 index based on the generalized mean of order \code{r} with weights \code{w}.

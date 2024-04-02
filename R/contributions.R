@@ -44,11 +44,13 @@
 #' @inheritParams nested_mean
 #' @param w,w1,w2 A strictly positive numeric vector of weights, the same length
 #' as `x`. The default is to equally weight each element of `x`.
+#' @param m The value of the generalized mean of `x` with weights `w`. The
+#' default computes this when the function is called.
 #'
 #' @returns
 #' `contributions()` returns a function:
 #'
-#' \preformatted{function(x, w = NULL){...}}
+#' \preformatted{function(x, w = NULL, m = NULL){...}}
 #'
 #' This computes the additive contribution for each element of `x` in an
 #' index based on the generalized mean of order `r` with weights `w`.
@@ -247,8 +249,8 @@
 contributions <- function(r) {
   arithmetic_weights <- transmute_weights(r, 1)
 
-  function(x, w = NULL) {
-    (x - 1) * arithmetic_weights(x, w)
+  function(x, w = NULL, m = NULL) {
+    (x - 1) * arithmetic_weights(x, w, m)
   }
 }
 

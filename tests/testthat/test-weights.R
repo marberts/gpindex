@@ -13,6 +13,7 @@ test_that("weights transmute correctly", {
   )
   expect_equal(transmute_weights(2, 1)(c(1, NA)), c(1, NA))
   expect_equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
+  expect_equal(transmute_weights(1, -1)(x, w), scale_weights(w * x))
   expect_equal(
     transmute_weights(7, -3)(x, transmute_weights(-3, 7)(x, w)),
     scale_weights(w)
@@ -38,6 +39,8 @@ test_that("contributions work correctly", {
     as.numeric(tapply(grouped(geometric_contributions)(x, group = f), f, sum)),
     as.numeric(tapply(x, f, geometric_mean) - 1)
   )
+  expect_equal(harmonic_contributions(1:4, m = NA), rep(NA_real_, 4))
+  expect_error(geometric_contributions(1:4, m = 1:2))
 })
 
 test_that("weights factor correctly", {
