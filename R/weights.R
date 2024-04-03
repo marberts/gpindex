@@ -38,10 +38,6 @@ extended_mean_ <- function(r, s) {
 #' vector of weights `v(x, w)` such that
 #'
 #' \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
-#' 
-#' The value of the generalized mean can be supplied to help speed up
-#' transmuting the weights if known; otherwise, it is calculated when the
-#' functions is called.
 #'
 #' `nested_transmute(r1, r2, t, s)` and `nested_transmute2(r1, r2, t, s)` do
 #' the same for nested generalized means, so that
@@ -71,7 +67,7 @@ extended_mean_ <- function(r, s) {
 #' @returns
 #' `transmute_weights()` returns a function:
 #'
-#' \preformatted{function(x, w = NULL, m = NULL){...}}
+#' \preformatted{function(x, w = NULL){...}}
 #'
 #' `nested_transmute()` and `nested_transmute2()` similarly return a
 #' function:
@@ -86,7 +82,7 @@ extended_mean_ <- function(r, s) {
 #' `transmute_weights()`.
 #'
 #' [contributions()] for calculating additive percent-change
-#' contributions (the main use of transmuting weights).
+#' contributions.
 #'
 #' [grouped()] to make these functions operate on grouped data.
 #'
@@ -195,24 +191,18 @@ transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   ext_mean <- extended_mean_(r, s)
 
-  function(x, w = NULL, m = NULL) {
+  function(x, w = NULL) {
     if (r == s) {
       if (is.null(w)) {
         w <- rep.int(1, length(x))
-      } else if (length(x) != length(w)) {
+      }
+      if (length(x) != length(w)) {
         stop("'x' and 'w' must be the same length")
       }
       w[is.na(x)] <- NA_real_
       scale_weights(w)
     } else {
-      if (is.null(m)) {
-        m <- gen_mean(x, w, na.rm = TRUE)
-      } else {
-        m <- as.numeric(m)
-        if (length(m) != 1L) {
-          stop("'m' must be a length 1 numeric")
-        }
-      }
+      m <- gen_mean(x, w, na.rm = TRUE)
       if (is.null(w)) {
         v <- ext_mean(x, m)
         attributes(v) <- NULL
@@ -290,12 +280,12 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
     v <- s_weights(m, t)
     if (is.na(v[1L]) && !is.na(v[2L])) {
-      s_weights2(x, w2, m[2L])
+      s_weights2(x, w2)
     } else if (!is.na(v[1L]) && is.na(v[2L])) {
-      s_weights1(x, w1, m[1L])
+      s_weights1(x, w1)
     } else {
-      u1 <- s_weights1(x, w1, m[1L])
-      u2 <- s_weights2(x, w2, m[2L])
+      u1 <- s_weights1(x, w1)
+      u2 <- s_weights2(x, w2)
       # The calculation is wrong if NAs in w1 or w2 propagate.
       if (anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0

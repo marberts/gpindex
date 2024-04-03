@@ -27,7 +27,7 @@ means. The default is equal weights.}
 \value{
 \code{transmute_weights()} returns a function:
 
-\preformatted{function(x, w = NULL, m = NULL){...}}
+\preformatted{function(x, w = NULL){...}}
 
 \code{nested_transmute()} and \code{nested_transmute2()} similarly return a
 function:
@@ -45,10 +45,6 @@ The function \code{transmute_weights(r, s)} returns a function to compute a
 vector of weights \code{v(x, w)} such that
 
 \preformatted{generalized_mean(r)(x, w) == generalized_mean(s)(x, v(x, w))}
-
-The value of the generalized mean can be supplied to help speed up
-transmuting the weights if known; otherwise, it is calculated when the
-functions is called.
 
 \code{nested_transmute(r1, r2, t, s)} and \code{nested_transmute2(r1, r2, t, s)} do
 the same for nested generalized means, so that
@@ -177,7 +173,7 @@ nested mean.
 \code{transmute_weights()}.
 
 \code{\link[=contributions]{contributions()}} for calculating additive percent-change
-contributions (the main use of transmuting weights).
+contributions.
 
 \code{\link[=grouped]{grouped()}} to make these functions operate on grouped data.
 
