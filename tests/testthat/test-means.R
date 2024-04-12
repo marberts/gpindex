@@ -42,7 +42,7 @@ test_that("generalized means agree with base implementation", {
                weighted.mean(xna^(3.25), w, na.rm = TRUE)^(1 / 3.25))
 })
 
-test_that("generalized means satifies key properties", {
+test_that("generalized mean satifies key properties", {
   # Reversal
   expect_equal(generalized_mean(-3)(x),
                1 / generalized_mean(3)(1 / x))

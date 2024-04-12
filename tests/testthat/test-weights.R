@@ -13,6 +13,7 @@ test_that("weights transmute correctly", {
   )
   expect_equal(transmute_weights(2, 1)(c(1, NA)), c(1, NA))
   expect_equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
+  expect_equal(transmute_weights(1, -1)(xna, w), scale_weights(w * xna))
   expect_equal(
     transmute_weights(7, -3)(x, transmute_weights(-3, 7)(x, w)),
     scale_weights(w)

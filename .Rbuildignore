@@ -10,3 +10,4 @@
 ^pkgdown$
 ^inst/logo\.R$
 ^CRAN-SUBMISSION$
+^revdep$
