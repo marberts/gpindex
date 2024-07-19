@@ -89,8 +89,7 @@ period-over-period GEKS index for each window.
 }
 \description{
 Calculate a generalized inter-temporal GEKS price index over a rolling
-window, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011),
-and in chapter 10 of the CPI manual (2020).
+window.
 }
 \note{
 Like \code{\link[=back_period]{back_period()}}, if multiple prices
@@ -142,8 +141,8 @@ jevons_geks(price, quantity, period, product)
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}.
 Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-\emph{Consumer Price Index Manual: Theory and Practice}.
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Concepts and Methods}.
 International Monetary Fund.
 
 Ivancic, L., Diewert, W. E., and Fox, K. J. (2011). Scanner data, time

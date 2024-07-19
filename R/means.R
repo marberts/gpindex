@@ -108,8 +108,8 @@
 #' Hardy, G., Littlewood, J. E., and Polya, G. (1952). *Inequalities* (2nd
 #' edition). Cambridge University Press.
 #'
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-#' *Consumer Price Index Manual: Theory and Practice*.
+#' IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+#' *Consumer Price Index Manual: Concepts and Methods*.
 #' International Monetary Fund.
 #'
 #' Lord, N. (2002). Does Smaller Spread Always Mean Larger Product?
@@ -653,7 +653,7 @@ contraharmonic_mean <- lehmer_mean(2)
 #' rather than removing all missing values prior to any calculations. This
 #' means that a different number of data points could be used to calculate the
 #' inner means. Use the [balanced()] operator to balance
-#' missing values across `w1` and w2 prior to any calculations.
+#' missing values across `w1` and `w2` prior to any calculations.
 #'
 #' @seealso
 #' [nested_contributions()] for percent-change contributions for
@@ -663,7 +663,7 @@ contraharmonic_mean <- lehmer_mean(2)
 #' Diewert, W. E. (1976). Exact and superlative index numbers.
 #' *Journal of Econometrics*, 4(2): 114--145.
 #'
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004).
+#' ILO, IMF, OECD, UNECE, and World Bank. (2004).
 #' *Producer Price Index Manual: Theory and Practice*. International Monetary
 #' Fund.
 #'

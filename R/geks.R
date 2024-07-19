@@ -46,8 +46,7 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' GEKS index
 #'
 #' Calculate a generalized inter-temporal GEKS price index over a rolling
-#' window, as described in chapter 7 of Balk (2008), by Ivancic et al. (2011),
-#' and in chapter 10 of the CPI manual (2020).
+#' window.
 #'
 #' @param f A [price index function][price_indexes] that uses information on
 #' both base and current-period prices and quantities, and satisfies the
@@ -103,8 +102,8 @@ geks_matrix <- function(index, p, q, product, n, nper, window, na.rm) {
 #' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
 #' Cambridge University Press.
 #'
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-#' *Consumer Price Index Manual: Theory and Practice*.
+#' IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+#' *Consumer Price Index Manual: Concepts and Methods*.
 #' International Monetary Fund.
 #'
 #' Ivancic, L., Diewert, W. E., and Fox, K. J. (2011). Scanner data, time

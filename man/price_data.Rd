@@ -14,8 +14,9 @@ to a product and each column corresponding to a time period.
 Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}.
 Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). \emph{Producer Price
-Index Manual: Theory and Practice}. International Monetary Fund.
+ILO, IMF, OECD, UNECE, and World Bank. (2004).
+\emph{Producer Price Index Manual: Theory and Practice}.
+International Monetary Fund.
 }
 \description{
 Prices and quantities for six products over five periods.

@@ -70,7 +70,7 @@ arithmetic_mean(x * y, w) >
 
 }
 \references{
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004).
+ILO, IMF, OECD, UNECE, and World Bank. (2004).
 \emph{Producer Price Index Manual: Theory and Practice}.
 International Monetary Fund.
 }

@@ -50,7 +50,7 @@ remove missing values when calculating each of the inner means individually,
 rather than removing all missing values prior to any calculations. This
 means that a different number of data points could be used to calculate the
 inner means. Use the \code{\link[=balanced]{balanced()}} operator to balance
-missing values across \code{w1} and w2 prior to any calculations.
+missing values across \code{w1} and \code{w2} prior to any calculations.
 }
 \examples{
 x <- 1:3
@@ -122,7 +122,7 @@ balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
 Diewert, W. E. (1976). Exact and superlative index numbers.
 \emph{Journal of Econometrics}, 4(2): 114--145.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004).
+ILO, IMF, OECD, UNECE, and World Bank. (2004).
 \emph{Producer Price Index Manual: Theory and Practice}. International Monetary
 Fund.
 

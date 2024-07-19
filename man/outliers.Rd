@@ -105,8 +105,8 @@ grouped(quartile_method)(x, group = f)
 Hutton, H. (2008). Dynamic outlier detection in price index surveys.
 \emph{Proceedings of the Survey Methods Section: Statistical Society of Canada Annual Meeting}.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-\emph{Consumer Price Index Manual: Theory and Practice}.
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Concepts and Methods}.
 International Monetary Fund.
 
 Rais, S. (2008). Outlier detection for the Consumer Price Index.

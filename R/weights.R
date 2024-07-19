@@ -337,7 +337,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #' [grouped()] to make these functions operate on grouped data.
 #'
 #' @references
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004).
+#' ILO, IMF, OECD, UNECE, and World Bank. (2004).
 #' *Producer Price Index Manual: Theory and Practice*.
 #' International Monetary Fund.
 #'

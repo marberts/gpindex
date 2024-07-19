@@ -312,7 +312,7 @@ index_weights <- function(
 #' - Laspeyres
 #' - Palgrave
 #' - Unnamed index (arithmetic mean of Laspeyres and Palgrave)
-#' - Drobisch (arithmetic mean of Laspeyres and Paasche)
+#' - Drobisch (or Sidgwick, arithmetic mean of Laspeyres and Paasche)
 #' - Walsh-I (arithmetic Walsh)
 #' - Marshall-Edgeworth
 #' - Geary-Khamis
@@ -320,7 +320,7 @@ index_weights <- function(
 #' - Young
 #' - **Geometric indexes**
 #' - Jevons
-#' - Geometric Laspeyres
+#' - Geometric Laspeyres (or Jöhr)
 #' - Geometric Paasche
 #' - Geometric Young
 #' - Törnqvist (or Törnqvist-Theil)
@@ -421,13 +421,11 @@ index_weights <- function(
 #' Fisher, I. (1922). *The Making of Index Numbers*. Houghton Mifflin
 #' Company.
 #'
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-#' *Consumer Price Index Manual: Theory and Practice*.
+#' IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+#' *Consumer Price Index Manual: Concepts and Methods*.
 #' International Monetary Fund.
 #'
-#' von der Lippe, P. (2001).
-#' *Chain Indices: A Study in Price Index Theory*, Spectrum of Federal
-#' Statistics vol. 16. Federal Statistical Office, Wiesbaden.
+#' von der Lippe, P. (2007). *Index Theory and Price Statistics*. Peter Lang.
 #'
 #' von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
 #' Formulas, Notes on some unexplored index formulas, their interpretations and
@@ -471,11 +469,11 @@ index_weights <- function(
 #' )
 #'
 #' # This strategy can be used to make more exotic indexes, like the
-#' # quadratic-mean index (von der Lippe, 2001, p. 71)
+#' # quadratic-mean index (von der Lippe, 2007, p. 61)
 #'
 #' generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 #'
-#' # Or the exponential mean index (p. 64)
+#' # Or the exponential mean index (p. 62)
 #'
 #' log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 #'

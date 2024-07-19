@@ -1193,12 +1193,12 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 [1] TRUE
 > 
 > # This strategy can be used to make more exotic indexes, like the
-> # quadratic-mean index (von der Lippe, 2001, p. 71)
+> # quadratic-mean index (von der Lippe, 2007, p. 61)
 > 
 > generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 [1] 1.020762
 > 
-> # Or the exponential mean index (p. 64)
+> # Or the exponential mean index (p. 62)
 > 
 > log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 [1] 1.013369

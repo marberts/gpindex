@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tools to build and work with bilateral generalized-mean price indexes (and by extension quantity indexes), and indexes composed of generalized-mean indexes (e.g., superlative quadratic-mean indexes, GEKS). Covers the core mathematical machinery for making bilateral price indexes, computing price relatives, detecting outliers, and decomposing indexes, with wrappers for all common (and many uncommon) index-number formulas. Implements and extends many of the methods in Balk (2008, ISBN:978-1-107-40496-0), von der Lippe (2001, ISBN:3-8246-0638-0), and the CPI manual (2020, ISBN:978-1-51354-298-0).
+Tools to build and work with bilateral generalized-mean price indexes (and by extension quantity indexes), and indexes composed of generalized-mean indexes (e.g., superlative quadratic-mean indexes, GEKS). Covers the core mathematical machinery for making bilateral price indexes, computing price relatives, detecting outliers, and decomposing indexes, with wrappers for all common (and many uncommon) index-number formulas. Implements and extends many of the methods in Balk (2008, \doi{10.1017/CBO9780511720758}), von der Lippe (2007, \doi{10.3726/978-3-653-01120-3}), and the CPI manual (2020, \doi{10.5089/9781484354841.069}).
 }
 \seealso{
 Useful links:

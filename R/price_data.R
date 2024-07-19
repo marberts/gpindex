@@ -17,8 +17,9 @@
 #' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
 #' Cambridge University Press.
 #'
-#' ILO, IMF, OECD, Eurostat, UN, and World Bank. (2004). *Producer Price
-#' Index Manual: Theory and Practice*. International Monetary Fund.
+#' ILO, IMF, OECD, UNECE, and World Bank. (2004).
+#' *Producer Price Index Manual: Theory and Practice*.
+#' International Monetary Fund.
 #'
 #' @examples
 #' # Recreate tables 3.4, 3.6, and 3.12 from Balk (2008)

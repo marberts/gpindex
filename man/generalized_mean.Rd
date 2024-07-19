@@ -199,8 +199,8 @@ Company.
 Hardy, G., Littlewood, J. E., and Polya, G. (1952). \emph{Inequalities} (2nd
 edition). Cambridge University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-\emph{Consumer Price Index Manual: Theory and Practice}.
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Concepts and Methods}.
 International Monetary Fund.
 
 Lord, N. (2002). Does Smaller Spread Always Mean Larger Product?

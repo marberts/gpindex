@@ -107,7 +107,7 @@ these functions produce functions to calculate the following indexes.
 \item Laspeyres
 \item Palgrave
 \item Unnamed index (arithmetic mean of Laspeyres and Palgrave)
-\item Drobisch (arithmetic mean of Laspeyres and Paasche)
+\item Drobisch (or Sidgwick, arithmetic mean of Laspeyres and Paasche)
 \item Walsh-I (arithmetic Walsh)
 \item Marshall-Edgeworth
 \item Geary-Khamis
@@ -115,7 +115,7 @@ these functions produce functions to calculate the following indexes.
 \item Young
 \item \strong{Geometric indexes}
 \item Jevons
-\item Geometric Laspeyres
+\item Geometric Laspeyres (or Jöhr)
 \item Geometric Paasche
 \item Geometric Young
 \item Törnqvist (or Törnqvist-Theil)
@@ -204,11 +204,11 @@ all.equal(
 )
 
 # This strategy can be used to make more exotic indexes, like the
-# quadratic-mean index (von der Lippe, 2001, p. 71)
+# quadratic-mean index (von der Lippe, 2007, p. 61)
 
 generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 
-# Or the exponential mean index (p. 64)
+# Or the exponential mean index (p. 62)
 
 log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
 
@@ -340,13 +340,11 @@ Cambridge University Press.
 Fisher, I. (1922). \emph{The Making of Index Numbers}. Houghton Mifflin
 Company.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020).
-\emph{Consumer Price Index Manual: Theory and Practice}.
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Concepts and Methods}.
 International Monetary Fund.
 
-von der Lippe, P. (2001).
-\emph{Chain Indices: A Study in Price Index Theory}, Spectrum of Federal
-Statistics vol. 16. Federal Statistical Office, Wiesbaden.
+von der Lippe, P. (2007). \emph{Index Theory and Price Statistics}. Peter Lang.
 
 von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
 Formulas, Notes on some unexplored index formulas, their interpretations and

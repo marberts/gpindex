@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/gpindex)](https://cran.r-project.org/package=gpindex)
 [![gpindex status
-badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev)
+badge](https://marberts.r-universe.dev/badges/gpindex)](https://marberts.r-universe.dev/gpindex)
 [![Conda
 Version](https://img.shields.io/conda/vn/conda-forge/r-gpindex.svg)](https://anaconda.org/conda-forge/r-gpindex)
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
@@ -23,7 +23,7 @@ GEKS). Covers the core mathematical machinery for making bilateral price
 indexes, computing price relatives, detecting outliers, and decomposing
 indexes, with wrappers for all common (and many uncommon) index-number
 formulas. Implements and extends many of the methods in Balk (2008), von
-der Lippe (2001), and the CPI manual (2020).
+der Lippe (2007), and the CPI manual (2020).
 
 ## Installation
 
@@ -152,9 +152,8 @@ learning about or researching different types of index-number formulas.
 Balk, B. M. (2008). *Price and Quantity Index Numbers*. Cambridge
 University Press.
 
-ILO, IMF, OECD, Eurostat, UN, and World Bank. (2020). *Consumer Price
-Index Manual: Theory and Practice*. International Monetary Fund.
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020). *Consumer Price
+Index Manual: Concepts and Methods*. International Monetary Fund.
 
-von der Lippe, P. (2001). *Chain Indices: A Study in Price Index
-Theory*, Spectrum of Federal Statistics vol. 16. Federal Statistical
-Office, Wiesbaden.
+von der Lippe, P. (2007). *Index Theory and Price Statistics*. Peter
+Lang.
