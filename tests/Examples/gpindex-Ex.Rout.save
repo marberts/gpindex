@@ -501,12 +501,14 @@ Warning in back_period(period) :
 > # Use a movement splice to combine the indexes in each window
 > 
 > splice_index(tg, 2)
-[1] 1.391443 1.801142 2.230521 2.689833
+       2        3        4        5
+1.391443 1.801142 2.230521 2.689833
 > 
 > # ... or use a mean splice
 > 
 > splice_index(tg)
-[1] 1.391443 1.801142 2.228836 2.687826
+       2        3        4        5
+1.391443 1.801142 2.228836 2.687826
 > 
 > #---- Missing data ----
 > 

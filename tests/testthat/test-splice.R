@@ -97,3 +97,8 @@ test_that("splicing is the same as chaining", {
   expect_equal(splice_index(x, initial = 1:3), cumprod(c(1:3, 1:5)))
   expect_equal(splice_index(x, published = TRUE), cumprod(1:5))
 })
+
+test_that("splicing keeps names", {
+  x <- list(1:3, c(a = 1, b = 2, c = 3), z = c(1:2, c = 3))
+  expect_identical(names(splice_index(x)), c("", "", "", "c", "z.c"))
+})

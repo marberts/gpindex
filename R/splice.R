@@ -77,8 +77,8 @@ splice_index <- function(x, periods = NULL, initial = NULL, published = FALSE) {
   }
   
   y <- lapply(x, \(z) rev(cumprod(rev(z)))[periods])
-  res <- numeric(offset + length(x))
-  res[seq_along(initial)] <- initial
+  # Use recursive = TRUE to keep names.
+  res <- c(initial, lapply(x, \(x) x[length(x)]), recursive = TRUE)
   
   iw <- seq.int(to = offset - 1L, length.out = n)[periods]
   if (published) {

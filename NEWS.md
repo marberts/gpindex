@@ -1,3 +1,7 @@
+## Version 0.6.2
+
+- `splice_index()` now keeps names.
+
 ## Version 0.6.1
 
 - Updated maintainer email.
