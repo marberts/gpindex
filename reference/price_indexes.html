@@ -9,7 +9,7 @@ quantities at two points in time."><meta property="og:image" content="https://ma
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,6 +153,7 @@ these functions produce functions to calculate the following indexes.</p><ul><li
 <li><p>Geary-Khamis</p></li>
 <li><p>Lowe</p></li>
 <li><p>Young</p></li>
+<li><p>Hybrid-CSWD</p></li>
 <li><p><strong>Geometric indexes</strong></p></li>
 <li><p>Jevons</p></li>
 <li><p>Geometric Laspeyres (or Jöhr)</p></li>
@@ -182,9 +183,10 @@ functions.</p>
 <p>In addition to these indexes, there are also functions for calculating a
 variety of indexes not based on generalized means. The Fisher index is the
 geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic
-Laspeyres Paasche index is the harmonic analog of the Fisher index (8054 on
-Fisher's list). The Carruthers-Sellwood-Ward-Dalen and
-Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher
+Laspeyres Paasche (or Harmonic Paasche Laspeyres) index is the harmonic
+analog of the Fisher index (8054 on Fisher's list). The
+Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk
+indexes are sample analogs of the Fisher
 index; the Balk-Walsh index is the sample analog of the Walsh index. The AG
 mean index is the arithmetic or geometric mean of the geometric and
 arithmetic Laspeyres indexes, weighted by the elasticity of substitution.
@@ -273,9 +275,7 @@ multiple groups of products over many time periods.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"HybridLaspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>

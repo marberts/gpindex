@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,8 @@
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Carli"</span>, <span class="st">"Jevons"</span>, <span class="st">"Coggeshall"</span>, <span class="st">"Dutot"</span>, <span class="st">"Laspeyres"</span>, <span class="st">"HybridLaspeyres"</span>,</span>
 <span>    <span class="st">"LloydMoulton"</span>, <span class="st">"Palgrave"</span>, <span class="st">"Paasche"</span>, <span class="st">"HybridPaasche"</span>, <span class="st">"Drobisch"</span>, <span class="st">"Unnamed"</span>,</span>
 <span>    <span class="st">"Tornqvist"</span>, <span class="st">"Walsh1"</span>, <span class="st">"Walsh2"</span>, <span class="st">"MarshallEdgeworth"</span>, <span class="st">"GearyKhamis"</span>, <span class="st">"Vartia1"</span>,</span>
-<span>    <span class="st">"MontgomeryVartia"</span>, <span class="st">"Vartia2"</span>, <span class="st">"SatoVartia"</span>, <span class="st">"Theil"</span>, <span class="st">"Rao"</span>, <span class="st">"Lowe"</span>, <span class="st">"Young"</span><span class="op">)</span></span>
+<span>    <span class="st">"MontgomeryVartia"</span>, <span class="st">"Vartia2"</span>, <span class="st">"SatoVartia"</span>, <span class="st">"Theil"</span>, <span class="st">"Rao"</span>, <span class="st">"Lowe"</span>, <span class="st">"Young"</span>,</span>
+<span>    <span class="st">"HybridCSWD"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -83,15 +84,28 @@ can be calculated.</p><ul><li><p>Carli / Jevons / Coggeshall</p></li>
 <li><p>Rao</p></li>
 <li><p>Lowe</p></li>
 <li><p>Young</p></li>
+<li><p>Hybrid-CSWD</p></li>
 </ul><p>The weights need not sum to 1, as this normalization isn't always
 appropriate (i.e., for the Vartia-I weights).</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Naming for the indexes and weights generally follows the CPI manual (2020),
-Balk (2008), and Selvanathan and Rao (1994). In several cases two or more
-names correspond to the same weights (e.g., Paasche and Palgrave, or
-Sato-Vartia and Vartia-II). The calculations are given in the examples.</p>
+Balk (2008), von der Lippe (2007), and Selvanathan and Rao (1994). In several
+cases two or more names correspond to the same weights (e.g., Paasche and
+Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the
+examples.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Balk, B. M. (2008). <em>Price and Quantity Index Numbers</em>.
+Cambridge University Press.</p>
+<p>IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+<em>Consumer Price Index Manual: Concepts and Methods</em>.
+International Monetary Fund.</p>
+<p>von der Lippe, P. (2007). <em>Index Theory and Price Statistics</em>. Peter Lang.</p>
+<p>Selvanathan, E. A. and Rao, D. S. P. (1994).
+<em>Index Numbers: A Stochastic Approach</em>. MacMillan.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -236,6 +250,11 @@ quantity index.</p>
 <span class="r-in"><span><span class="co"># Young</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">index_weights</span><span class="op">(</span><span class="st">"Young"</span><span class="op">)</span><span class="op">(</span><span class="va">pb</span>, <span class="va">qb</span><span class="op">)</span>, <span class="va">pb</span> <span class="op">*</span> <span class="va">qb</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Hybrid CSWD (to approximate a CSWD index)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">index_weights</span><span class="op">(</span><span class="st">"HybridCSWD"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">p0</span> <span class="op">/</span> <span class="va">p1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
