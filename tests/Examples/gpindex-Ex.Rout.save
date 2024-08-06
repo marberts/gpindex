@@ -851,7 +851,12 @@ Warning in back_period(period) :
 > 
 > all.equal(index_weights("Young")(pb, qb), pb * qb)
 [1] TRUE
-> 
+>
+> # Hybrid CSWD (to approximate a CSWD index)
+>
+> all.equal(index_weights("HybridCSWD")(p1, p0), sqrt(p0 / p1))
+[1] TRUE
+>
 > 
 > 
 > 
@@ -1188,9 +1193,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > 
 > all.equal(
 +   scale_weights(index_weights("HybridLaspeyres")(p1, q0)),
-+   scale_weights(
-+     transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
-+   )
++   transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 + )
 [1] TRUE
 > 

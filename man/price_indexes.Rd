@@ -113,6 +113,7 @@ these functions produce functions to calculate the following indexes.
 \item Geary-Khamis
 \item Lowe
 \item Young
+\item Hybrid-CSWD
 \item \strong{Geometric indexes}
 \item Jevons
 \item Geometric Laspeyres (or Jöhr)
@@ -146,9 +147,10 @@ functions.
 In addition to these indexes, there are also functions for calculating a
 variety of indexes not based on generalized means. The Fisher index is the
 geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic
-Laspeyres Paasche index is the harmonic analog of the Fisher index (8054 on
-Fisher's list). The Carruthers-Sellwood-Ward-Dalen and
-Carruthers-Sellwood-Ward-Dalen-Balk indexes are sample analogs of the Fisher
+Laspeyres Paasche (or Harmonic Paasche Laspeyres) index is the harmonic
+analog of the Fisher index (8054 on Fisher's list). The
+Carruthers-Sellwood-Ward-Dalen and Carruthers-Sellwood-Ward-Dalen-Balk
+indexes are sample analogs of the Fisher
 index; the Balk-Walsh index is the sample analog of the Walsh index. The AG
 mean index is the arithmetic or geometric mean of the geometric and
 arithmetic Laspeyres indexes, weighted by the elasticity of substitution.
@@ -198,9 +200,7 @@ harmonic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
 
 all.equal(
   scale_weights(index_weights("HybridLaspeyres")(p1, q0)),
-  scale_weights(
-    transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
-  )
+  transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
 )
 
 # This strategy can be used to make more exotic indexes, like the

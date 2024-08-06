@@ -36,6 +36,8 @@ test_that("arithmetic indexes work", {
                sum(p1 * qb) / sum(p0 * qb))
   expect_equal(arithmetic_index("Young")(p1, p0, pb, qb),
                weighted.mean(p1 / p0, pb * qb / sum(pb * qb)))
+  expect_equal(arithmetic_index("HybridCSWD")(p1, p0),
+               sum(sqrt(p1 / p0)) / sum(sqrt(p0 / p1)))
 })
 
 test_that("geometric indexes work", {

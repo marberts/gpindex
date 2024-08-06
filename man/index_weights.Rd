@@ -8,7 +8,8 @@ index_weights(
   type = c("Carli", "Jevons", "Coggeshall", "Dutot", "Laspeyres", "HybridLaspeyres",
     "LloydMoulton", "Palgrave", "Paasche", "HybridPaasche", "Drobisch", "Unnamed",
     "Tornqvist", "Walsh1", "Walsh2", "MarshallEdgeworth", "GearyKhamis", "Vartia1",
-    "MontgomeryVartia", "Vartia2", "SatoVartia", "Theil", "Rao", "Lowe", "Young")
+    "MontgomeryVartia", "Vartia2", "SatoVartia", "Theil", "Rao", "Lowe", "Young",
+    "HybridCSWD")
 )
 }
 \arguments{
@@ -45,6 +46,7 @@ can be calculated.
 \item Rao
 \item Lowe
 \item Young
+\item Hybrid-CSWD
 }
 
 The weights need not sum to 1, as this normalization isn't always
@@ -52,9 +54,10 @@ appropriate (i.e., for the Vartia-I weights).
 }
 \note{
 Naming for the indexes and weights generally follows the CPI manual (2020),
-Balk (2008), and Selvanathan and Rao (1994). In several cases two or more
-names correspond to the same weights (e.g., Paasche and Palgrave, or
-Sato-Vartia and Vartia-II). The calculations are given in the examples.
+Balk (2008), von der Lippe (2007), and Selvanathan and Rao (1994). In several
+cases two or more names correspond to the same weights (e.g., Paasche and
+Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the
+examples.
 }
 \examples{
 p0 <- price6[[2]]
@@ -171,6 +174,23 @@ all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
 
 all.equal(index_weights("Young")(pb, qb), pb * qb)
 
+# Hybrid CSWD (to approximate a CSWD index)
+
+all.equal(index_weights("HybridCSWD")(p1, p0), sqrt(p0 / p1))
+
+}
+\references{
+Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}.
+Cambridge University Press.
+
+IMF, ILO, Eurostat, UNECE, OECD, and World Bank. (2020).
+\emph{Consumer Price Index Manual: Concepts and Methods}.
+International Monetary Fund.
+
+von der Lippe, P. (2007). \emph{Index Theory and Price Statistics}. Peter Lang.
+
+Selvanathan, E. A. and Rao, D. S. P. (1994).
+\emph{Index Numbers: A Stochastic Approach}. MacMillan.
 }
 \seealso{
 \code{\link[=update_weights]{update_weights()}} for price-updating weights.
