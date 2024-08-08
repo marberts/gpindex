@@ -1,0 +1,115 @@
+---
+title: "Decomposing price indexes"
+format: html
+editor: visual
+bibliography: ref.bib
+bibliographystyle: apalike
+---
+
+It is often useful to be able to decompose a price index into an additive or multiplicative form to evaluate how each input to the index affects its value. Following @balk2008, a price index is said to admit an additive decomposition if there exist weights that allow it to be represented as an arithmetic mean of price relatives, and is said to admit a multiplicative decomposition if there are weights that allow it to be represented as a geometric mean. Switching prices for quantities gives the analogous statements for a quantity index, and nothing is lost by focusing on price indexes.
+
+There are a number of well-known decompositions for the most common types of bilateral price indexes. @balk2008[equation 4.13] gives an additive decomposition for any index based on the geometric mean by transmuting the weights in the geometric mean with the logarithmic mean. This is the same decomposition derived by @reinsdorf2002[equation 20] for the Törnqvist index. A similar approach yields a multiplicative decomposition for any index based on the arithmetic mean, again using the logarithmic mean [@balk2008, equation 4.8]. Combining these results gives additive and multiplicative decompositions for the Fisher index [@reinsdorf2002, section 6]. The van IJzeren additive decomposition for the Fisher index [@balk2008, equation 4.18] is an alternative that does not use the logarithmic mean. Each of these decompositions results in weights that are positive and sum to one, as required to represent an index as an arithmetic or geometric mean.[^1]
+
+The purpose of this note is to show that the additive and multiplicative decompositions for geometric, arithmetic, and Fisher indexes that use the logarithmic mean can be consolidated and made more general by switching out the logarithmic mean for the more general extended mean. The main result is a function that transmutes the weights in a generalized mean of a given order so that it can be represented as a generalized mean of any other order. This covers additive and multiplicative decompositions for indexes that do not belong to the arithmetic or geometric families, like harmonic indexes or the Lloyd-Moulton index, and allows both additive and multiplicative decompositions to be covered by a single equation, rather than treating them as different cases. Expressing a generalized index as a generalized mean of any other order also allows for the decomposition of indexes that are nested generalized means, like the family of superlative quadratic mean indexes that includes the Fisher index, the AG mean index by @lent2009, or GEKS indexes [@webster2019]. 
+
+[^1]: There are decompositions with "weights" that do not sum to one, such as those for the Fisher index by @reinsdorf2002[section 2] and @hallerbach2005, and for other superlative indexes by @diewert2002. @balk2008[equation 4.28] gives the original multiplicative decomposition of the Fisher index, due to Vartia, for which the weights also do not sum to one. Some of these will be revisited in @sec-simulation.
+
+## Decomposing generalized-mean indexes
+
+A natural extension to the decompositions for indexes based on the arithmetic and geometric means is to derive weights that transform an index based on a generalized mean of order $\rho$ into one based on a generalized mean of order $\varsigma$. To fix notation, let $\mathbf{r} = (r_{1}, r_{2}, \ldots, r_{n}) \in \mathbb{R}^{n}_{++}$ be a vector of price relatives for $n$ products and let $\mathbf{w} = (w_{1}, w_{2}, \ldots, w_{n}) \in \Delta^{n - 1}$ be the corresponding weights, where $\Delta^{n - 1} = \{\mathbf{w} \in \mathbb{R}_{+}^{n} | \sum_{i = 1}^{n} w_{i} = 1\}$ is the unit simplex. The goal is to find a vector-valued function
+$$
+\mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) = (v_{1}(\mathbf{r}, \mathbf{w}; \rho, \varsigma), v_{2}(\mathbf{r}, \mathbf{w}; \rho, \varsigma),\ldots, v_{n}(\mathbf{r}, \mathbf{w}; \rho, \varsigma))
+$$ 
+mapping into $\Delta^{n - 1}$ such that
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) \equiv \mathfrak{M}_{\varsigma}(\mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma)),
+$$ 
+where $\mathfrak{M}_{\rho}$ is the generalized mean
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) = 
+\begin{cases}
+\left(\sum_{i = 1}^{n} w_{i} r_i^{\rho}\right)^{1 / \rho} & \text{if } \rho \neq 0 \\
+\prod_{i = 1}^{n} r_{i}^{w_{i}} & \text{if } \rho = 0.
+\end{cases}
+$$
+
+Setting $\varsigma = 1$ then yields an additive decomposition for any index based on a generalized mean of order $\rho$, such that
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) = \sum_{i=1}^{n} r_{i} \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma),
+$$
+and setting $\varsigma = 0$ yields a multiplicative decomposition, such that
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) = \prod_{i=1}^{n} r_{i}^{ \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma)}.
+$$
+The results by @balk2008 and @reinsdorf2002 show how to derive $\mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma)$ when $\rho = 1$ and $\varsigma = 0$ (multiplicative decomposition of an arithmetic index) and $\rho = 0$ and $\varsigma = 1$ (additive decomposition of a geometric index), using the logarithmic mean. Generalizing these results follows from replacing the logarithmic mean with the more general extended mean [@bullen2003, page 393], defined for any $a,b > 0$ as
+$$
+\mathfrak{E}_{\rho\varsigma}(a, b) =
+\begin{cases}
+\left(\frac{\varsigma(a^\rho - b^\rho)}{\rho(a^\varsigma - b^\varsigma)}\right)^{1 / (\rho - \varsigma)} & \rho \neq \varsigma, \rho \neq 0, \varsigma \neq 0, a \neq b \\
+\left(\frac{a^\rho - b^\rho}{\rho\log(a / b)}\right)^{1 / \rho} & \rho \neq 0, \varsigma = 0, a \neq b \\
+\left(\frac{a^\varsigma - b^\varsigma}{\varsigma\log(a / b)}\right)^{1 / \varsigma} & \rho = 0, \varsigma \neq 0, a \neq b \\
+\frac{1}{\exp(1 / \rho)} \left(\frac{a^{a^\rho}}{b^{b^\rho}}\right)^{1 / (a^\rho - b^\rho)} & \rho = \varsigma  \neq 0, a \neq b \\
+\sqrt{ab} & \rho = \varsigma = 0, a \neq b \\
+a & a = b.
+\end{cases}
+$$
+The extended mean reduces to the logarithmic mean when either $\rho = 0$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = 0$. But using the extended mean in place of the logarithmic mean allows for decompositions of indexes based on other types of means, like harmonic indexes ($\varsigma = -1$) and the Lloyd-Moulton index ($\varsigma = 1- \sigma$, where $\sigma$ is an elasticity of substitution).
+
+The key to transforming the weights in a generalized mean of order $\rho$ into the weights for a generalized mean of order $\varsigma$ comes from noting that the extended mean is always positive and satisfies the identity
+$$
+\sum_{i=1}^{n} w_{i} \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \varepsilon(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \equiv 0,
+$$ {#eq-identity}
+where
+$$
+\varepsilon(\mathbf{r}, \mathbf{w}; \rho, \varsigma) = 
+\begin{cases}
+r_i^\varsigma - \mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w})^\varsigma & \text{if } \varsigma \neq 0, \\
+\log(r_i) - \log(\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w})) & \text{if } \varsigma = 0.
+\end{cases}
+$$
+That is, @eq-identity uses the extended mean to keep the weighted deviation from the mean constant for each price relative when changing the order of the mean from $\rho$ to $\varsigma$, without changing the value of the mean. Rearranging @eq-identity then gives that
+$$
+v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) =  w_{i} \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \Bigg/ \sum_{j=1}^{n} w_{j} \mathfrak{E}_{\rho\varsigma}(r_j, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} 
+$$ {#eq-res1}
+is a suitable function to find weights that turn an index based on a generalized mean of order $\rho$ into one based on a generalized mean of order $\varsigma$.
+
+Although the function given by @eq-res1 is necessarily not unique if $n\geq3$, it takes on existing decompositions as special cases.^[Take, for example, $\mathbf{r} = (0.5,1,1.5)$ and $\mathbf{w} = (1/6,1/3,1/2)$. The weighted harmonic mean of $\mathbf{r}$ is 1, which can be computed as an arithmetic mean with weights $(1/3,1/3,1/3)$ or $(1/4,1/2,1/4)$. Hence there are multiple additive decompositions for the harmonic mean.] Setting $\rho = 0$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = 0$, gives the special cases in @balk2008 and @reinsdorf2002 for decomposing indexes based on arithmetic and geometric means (because the extended mean reduces to the logarithmic mean). Similarly, setting $\rho = -1$ and $\varsigma = 1$ reduces @eq-res1 to
+$$
+v_{i}(\mathbf{r}, \mathbf{w}; -1, 1) = \frac{w_{i} / r_{i}}{\sum_{i=1}^{n}w_{i} / r_{i}} ;
+$$
+if $\mathbf{w}$ is a vector of current-period expenditure shares then these are the hybrid weights that allow a Paasche index to be calculated as an arithmetic mean of price relatives. Similarly, setting $\rho = 1$ and $\varsigma = -1$ reduces @eq-res1 to
+$$
+v_{i}(\mathbf{r}, \mathbf{w}; 1, -1) = \frac{w_{i} r_{i}}{\sum_{i=1}^{n}w_{i} r_{i}}.
+$$
+If $\mathbf{w}$ is a vector of base-period expenditure shares then these are the hybrid weights that allow a Laspeyres index to be calculated as a harmonic mean of price relatives.^[To see this, note that $\mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \equiv \left(\mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}) r_{i}\right)^\rho$ when $\rho = -1$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = -1$, and plug this into @eq-res1.]
+
+Before concluding this section, it is worth noting that the extended mean has two properties that make it useful for decomposing price indexes. First, the order of $\rho$ and $\varsigma$ do not matter: $\mathfrak{E}_{\rho\varsigma}(a, b) = \mathfrak{E}_{\varsigma\rho}(a, b)$. This means the function in @eq-res1 has a nice invariance property such that transmuting the weights to turn a generalized mean of order $\rho$ into a generalized mean of order $\varsigma$, and then transmuting these weights again to turn a generalized mean of order $\varsigma$ into a generalized mean of order $\rho$ returns the original weights. That is,
+$$
+\mathbf{v}(\mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma); \varsigma, \rho) \equiv \mathbf{w}.
+$$
+As will be seen in the next section, not all decompositions have this property.
+
+Second, the extended mean is a strictly increasing function  in both arguments [@bullen2003, theorem 16]. This means that the function in @eq-res1 has a monotonicity property where the weights increase (decrease) for large (small) price relatives if and only if $\rho > \varsigma$. That is, if $\rho > \varsigma$, then there is a value $\bar{r} \in (\min(\mathbf{r}), \max(\mathbf{r}))$ such that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma)\geq w_{i}$ for all $i$ such that $r_{i} \geq \bar{r}$ and $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) < w_{i}$ for all $i$ such that $r_{i} < \bar{r}$, with these equalities reversed if $\rho < \varsigma$.^[To see this, note that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \geq w_{i}$ if and only if
+$$
+\mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \geq \sum_{j=1}^{n} w_{j} \mathfrak{E}_{\rho\varsigma}(r_j, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma}. 
+$$
+Since the extended mean is strictly increasing in its first argument, and if $\rho > \varsigma$, then there is some $\bar{r}\in (\min(\mathbf{r}), \max(\mathbf{r}))$ such that this inequality is satisfied whenever $r\geq\bar{r}$. If $\rho < \varsigma$ then this inequality is satisfied whenever $r\leq\bar{r}$.]
+
+## Decomposing superlative indexes
+
+The additive and multiplicative decompositions for the Fisher index by @reinsdorf2002[section 6] can be generalized in the same way as the decompositions for the arithmetic and geometric indexes by noting that the Fisher index is simply a nested generalized mean of indexes based on the generalized mean. For a pair of generalized means $(\mathfrak{M}_{\rho_1}(\mathbf{r}, \mathbf{w}_1), \mathfrak{M}_{\rho_2}(\mathbf{r}, \mathbf{w}_2))$ mapping into $R_2^{++}$ with weights $(\omega_1, \omega_2) \in \Delta^1$, an index based on nested generalized means is written as 
+$$
+\mathfrak{M}_{\rho}\left((\mathfrak{M}_{\rho_1}(\mathbf{r}, \mathbf{w}_1), \mathfrak{M}_{\rho_2}(\mathbf{r}, \mathbf{w}_2)), (\omega_1, \omega_2)\right).
+$$ {#eq-superlative}
+
+The general family of superlative quadratic mean indexes of order $\tau$ comes from setting $\rho = 0$, $\rho_1 = \tau / 2$, and $\rho_2 = -\tau / 2$ when $\omega_1 = \omega_2 = 1 / 2$, $\mathbf{w}_1$ are base-period expenditure/revenue shares, and $\mathbf{w}_2$ are current-period expenditure/revenue shares. In particular, setting $\tau = 2$ gives the Fisher index and setting $\tau = 1$ gives the implicit Walsh index. But @eq-superlative covers other types of indexes as well; for example, setting each element of $\mathbf{w}_1$ and $\mathbf{w}_2$ to $1 / n$ when $\tau = 2$ gives the Carruthers-Sellwood-Ward-Dal\'en index that serves as an estimator for the Fisher index, whereas $\tau = 1$ gives the Balk-Walsh index. Setting $\rho = -1$ gives the harmonic analogue of the Fisher index, which is not a superlative quadratic mean indexes of order $\tau$. Finally, setting $\rho = \rho_{1} = \rho_{2}$ and $\mathbf{w}_{1} = \mathbf{w}_{2}$ gives an index based on a generalized mean of order $\rho$, so that the decomposition of an index based on the generalized mean is a special case of the decomposition for @eq-superlative.
+
+An index of form @eq-superlative can be decomposed into an index based on the generalized mean of order $\rho$ using the weights in @eq-res1, as it can be written as the generalized mean
+$$
+\mathfrak{M}_{\rho}(\mathbf{r}, \omega_1 \mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \rho) + \omega_2\mathbf{v}(\mathbf{r}, \mathbf{w}_2, \rho_2, \rho)).
+$$
+The transformation in @eq-res1 then applies as before, just replacing $\mathbf{w}$ with the more complicated weights $\omega_1 \mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \rho) + \omega_2\mathbf{v}(\mathbf{r}, \mathbf{w}_2, \rho_2, \rho)$.
+
+## Numerical examples {#sec-simulation}
+
+## References
