@@ -2,6 +2,8 @@
 
 - `splice_index()` now keeps names.
 
+- Fixed a bug with `transmute_weights()` where the weights could be negative.
+
 ## Version 0.6.1
 
 - Updated maintainer email.

@@ -6,7 +6,7 @@ rdiff <- function(a, b, r) {
   } else if (r == 1) {
     a - b
   } else {
-    a^r - b^r
+    (a^r - b^r) / r
   }
 }
 
