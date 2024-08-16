@@ -27,13 +27,16 @@ pythagorean_index <- function(r) {
       Dutot = ,
       Jevons = ,
       Coggeshall = function(p1, p0, na.rm = FALSE) {
+        check_pqs(p1, p0)
         gen_mean(p1 / p0, weights(p0), na.rm)
       },
       Laspeyres = function(p1, p0, q0, na.rm = FALSE) {
+        check_pqs(p1, p0, q0)
         gen_mean(p1 / p0, weights(p0, q0), na.rm)
       },
       Paasche = ,
       Palgrave = function(p1, p0, q1, na.rm = FALSE) {
+        check_pqs(p1, p0, q1)
         gen_mean(p1 / p0, weights(p1, q1), na.rm)
       },
       Drobisch = ,
@@ -44,24 +47,30 @@ pythagorean_index <- function(r) {
       Tornqvist = ,
       Theil = ,
       Rao = function(p1, p0, q1, q0, na.rm = FALSE) {
+        check_pqs(p1, p0, q1, q0)
         gen_mean(p1 / p0, weights(p1, p0, q1, q0), na.rm)
       },
       Vartia1 = ,
       MontgomeryVartia = function(p1, p0, q1, q0, na.rm = FALSE) {
+        check_pqs(p1, p0, q1, q0)
         exp(sum(log(p1 / p0) * weights(p1, p0, q1, q0), na.rm = na.rm))
       },
       Walsh1 = ,
       MarshallEdgeworth = ,
       GearyKhamis = function(p1, p0, q1, q0, na.rm = FALSE) {
+        check_pqs(p1, p0, q1, q0)
         gen_mean(p1 / p0, weights(p0, q1, q0), na.rm)
       },
       Lowe = function(p1, p0, qb, na.rm = FALSE) {
+        check_pqs(p1, p0, qb)
         gen_mean(p1 / p0, weights(p0, qb), na.rm)
       },
       Young = function(p1, p0, pb, qb, na.rm = FALSE) {
+        check_pqs(p1, p0, pb, qb)
         gen_mean(p1 / p0, weights(pb, qb), na.rm)
       },
       HybridCSWD = function(p1, p0, na.rm = FALSE) {
+        check_pqs(p1, p0)
         gen_mean(p1 / p0, weights(p1, p0), na.rm)
       }
     )
@@ -271,52 +280,91 @@ index_weights <- function(
       p0
     },
     Dutot = function(p0) p0,
-    Young = function(pb, qb) pb * qb,
-    Lowe = function(p0, qb) p0 * qb,
+    Young = function(pb, qb) {
+      check_pqs(pb, qb)
+      pb * qb
+    },
+    Lowe = function(p0, qb) {
+      check_pqs(p0, qb)
+      p0 * qb
+    },
     LloydMoulton = ,
-    Laspeyres = function(p0, q0) p0 * q0,
-    HybridLaspeyres = function(p1, q0) p1 * q0,
+    Laspeyres = function(p0, q0) {
+      check_pqs(p0, q0)
+      p0 * q0
+    },
+    HybridLaspeyres = function(p1, q0) {
+      check_pqs(p1, q0)
+      p1 * q0
+    },
     Palgrave = ,
-    Paasche = function(p1, q1) p1 * q1,
-    HybridPaasche = function(p0, q1) p0 * q1,
+    Paasche = function(p1, q1) {
+      check_pqs(p1, q1)
+      p1 * q1
+    },
+    HybridPaasche = function(p0, q1) {
+      check_pqs(p0, q1)
+      p0 * q1
+    },
     Drobisch = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       v0 <- scale_weights(p0 * q0)
       v01 <- scale_weights(p0 * q1)
       (v0 + v01) / 2
     },
     Unnamed = ,
     Tornqvist = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       v0 <- scale_weights(p0 * q0)
       v1 <- scale_weights(p1 * q1)
       (v0 + v1) / 2
     },
-    Walsh1 = function(p0, q1, q0) p0 * sqrt(q0 * q1),
-    Walsh2 = function(p1, p0, q1, q0) sqrt(p0 * q0 * p1 * q1),
-    MarshallEdgeworth = function(p0, q1, q0) p0 * (q0 + q1),
-    GearyKhamis = function(p0, q1, q0) p0 / (1 / q0 + 1 / q1),
+    Walsh1 = function(p0, q1, q0) {
+      check_pqs(p0, q1, q0)
+      p0 * sqrt(q0 * q1)
+    },
+    Walsh2 = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
+      sqrt(p0 * q0 * p1 * q1)
+    },
+    MarshallEdgeworth = function(p0, q1, q0) {
+      check_pqs(p0, q1, q0)
+      p0 * (q0 + q1)
+    },
+    GearyKhamis = function(p0, q1, q0) {
+      check_pqs(p0, q1, q0)
+      p0 / (1 / q0 + 1 / q1)
+    },
     Vartia1 = ,
     MontgomeryVartia = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       v0 <- p0 * q0
       v1 <- p1 * q1
       logmean(v0, v1) / logmean(sum(v0, na.rm = TRUE), sum(v1, na.rm = TRUE))
     },
     Vartia2 = ,
     SatoVartia = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       v0 <- scale_weights(p0 * q0)
       v1 <- scale_weights(p1 * q1)
       logmean(v0, v1)
     },
     Theil = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       w0 <- scale_weights(p0 * q0)
       w1 <- scale_weights(p1 * q1)
       ((w0 + w1) / 2 * w0 * w1)^(1 / 3)
     },
     Rao = function(p1, p0, q1, q0) {
+      check_pqs(p1, p0, q1, q0)
       w0 <- scale_weights(p0 * q0)
       w1 <- scale_weights(p1 * q1)
       w0 * w1 / (w0 + w1)
     },
-    HybridCSWD = function(p1, p0) sqrt(p0 / p1)
+    HybridCSWD = function(p1, p0) {
+      check_pqs(p1, p0)
+      sqrt(p0 / p1)
+    }
   )
 }
 
@@ -665,6 +713,7 @@ nested_index <- function(r, s) {
   nest_mean <- nested_mean(r, s)
 
   function(p1, p0, q1, q0, na.rm = FALSE) {
+    check_pqs(p1, p0, q1, q0)
     nest_mean(p1 / p0, p0 * q0, p1 * q1, na.rm)
   }
 }
@@ -686,6 +735,7 @@ lm_index <- function(elasticity) {
   gen_mean <- generalized_mean(1 - elasticity)
 
   function(p1, p0, q0, na.rm = FALSE) {
+    check_pqs(p1, p0, q0)
     gen_mean(p1 / p0, p0 * q0, na.rm)
   }
 }
@@ -694,6 +744,7 @@ lm_index <- function(elasticity) {
 #' @rdname price_indexes
 #' @export
 cswd_index <- function(p1, p0, na.rm = FALSE) {
+  check_pqs(p1, p0)
   fisher_mean(p1 / p0, na.rm = na.rm)
 }
 
@@ -701,6 +752,7 @@ cswd_index <- function(p1, p0, na.rm = FALSE) {
 #' @rdname price_indexes
 #' @export
 cswdb_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
+  check_pqs(p1, p0, q1, q0)
   sqrt(arithmetic_mean(p1 / p0, na.rm = na.rm) /
     arithmetic_mean(q1 / q0, na.rm = na.rm) *
     arithmetic_mean(p1 * q1 / (p0 * q0), na.rm = na.rm))
@@ -710,6 +762,7 @@ cswdb_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
 #' @rdname price_indexes
 #' @export
 bw_index <- function(p1, p0, na.rm = FALSE) {
+  check_pqs(p1, p0)
   rel <- sqrt(p1 / p0)
   arithmetic_mean(rel, na.rm = na.rm) * harmonic_mean(rel, na.rm = na.rm)
 }
@@ -728,6 +781,7 @@ stuvel_index <- function(a, b) {
   }
 
   function(p1, p0, q1, q0, na.rm = FALSE) {
+    check_pqs(p1, p0, q1, q0)
     v0 <- p0 * q0
     v1 <- p1 * q1
     pl <- arithmetic_mean(p1 / p0, v0, na.rm)
@@ -745,6 +799,7 @@ agmean_index <- function(r) {
   function(elasticity) {
     nest_mean <- nested_mean(r, c(0, 1), c(elasticity, 1 - elasticity))
     function(p1, p0, q0, na.rm = FALSE) {
+      check_pqs(p1, p0, q0)
       v0 <- p0 * q0
       nest_mean(p1 / p0, v0, v0, na.rm)
     }
@@ -765,6 +820,7 @@ geometric_agmean_index <- agmean_index(0)
 #' @rdname price_indexes
 #' @export
 lehr_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
+  check_pqs(p1, p0, q1, q0)
   v1 <- p1 * q1
   v0 <- p0 * q0
   v <- (v1 + v0) / (q1 + q0)

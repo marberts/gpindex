@@ -445,7 +445,7 @@ extended_mean <- function(r, s) {
     } else if (r == s) {
       res <- exp((a^r * log(a) - b^r * log(b)) / (a^r - b^r) - 1 / r)
     } else {
-      res <- ((a^s - b^s) / (a^r - b^r) * r / s)^(1 / (s - r))
+      res <- ((a^s - b^s) / (a^r - b^r) * (r / s))^(1 / (s - r))
     }
     # Set output to a when a == b.
     i <- which(abs(a - b) <= tol)
@@ -606,6 +606,9 @@ lehmer_mean <- function(r) {
   function(x, w = NULL, na.rm = FALSE) {
     v <- x^(r - 1)
     if (!is.null(w)) {
+      if (length(x) != length(w)) {
+        stop("'x' and 'w' must be the same length")
+      }
       v <- v * w
     }
     arithmetic_mean(x, v, na.rm = na.rm)

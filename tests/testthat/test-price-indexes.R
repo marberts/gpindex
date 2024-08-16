@@ -137,3 +137,8 @@ test_that("quantity indexes work", {
 test_that("vartia1 weights are less than 1", {
   expect_true(sum(index_weights("Vartia1")(p1, p0, q0, q1)) < 1)
 })
+
+test_that("arguments with different lengths give an error", {
+  expect_error(jevons_index(1:4, 1:5))
+  expect_error(index_weights("Vartia1")(1, 2, 3, 1:4))
+})

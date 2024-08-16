@@ -1514,7 +1514,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 +     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
 +   )
 + )
-[1] "Mean relative difference: 17.81836"
+[1] "Mean relative difference: 0.0015427"
 > 
 > #---- Monotonicity ----
 > 
