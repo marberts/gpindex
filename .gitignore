@@ -4,5 +4,4 @@
 *.Rproj
 inst/doc
 docs
-pkgdown
 revdep
