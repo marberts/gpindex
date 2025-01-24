@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generalized Price and Quantity Indexes">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Generalized Price and Quantity Indexes">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -128,14 +128,11 @@ base-period value-share weights in a generalized mean of order 1
 <span><span class="co"># Laspeyres index</span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.4</span></span></code></pre></div>
-<p>Changing the order of the generalized mean to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>σ</mi></mrow><annotation encoding="application/x-tex">1 - \sigma</annotation></semantics></math>,
-where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math>
-is an elasticity of substitution, gives a Lloyd-Moulton index, whereas
-changing the weights to current-period value-shares gives a Palgrave
-index. This is the essence of the atomistic approach in chapter 2 of
-Selvanathan and Rao (1994).</p>
+<p>Changing the order of the generalized mean to <span class="math inline">\(1 - \sigma\)</span>, where <span class="math inline">\(\sigma\)</span> is an elasticity of substitution,
+gives a Lloyd-Moulton index, whereas changing the weights to
+current-period value-shares gives a Palgrave index. This is the essence
+of the atomistic approach in chapter 2 of Selvanathan and Rao
+(1994).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lloyd-Moulton index (elasticity of substitution -1)</span></span>
 <span><span class="va">quadratic_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
