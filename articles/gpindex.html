@@ -119,15 +119,15 @@ base-period value-share weights in a generalized mean of order 1
 <span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">s0</span> <span class="op">&lt;-</span> <span class="va">p0</span> <span class="op">*</span> <span class="va">q0</span></span>
 <span><span class="va">s1</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">*</span> <span class="va">q1</span></span>
 <span></span>
 <span><span class="co"># Laspeyres index</span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.4</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.42</span></span></code></pre></div>
 <p>Changing the order of the generalized mean to <span class="math inline">\(1 - \sigma\)</span>, where <span class="math inline">\(\sigma\)</span> is an elasticity of substitution,
 gives a Lloyd-Moulton index, whereas changing the weights to
 current-period value-shares gives a Palgrave index. This is the essence
@@ -137,11 +137,11 @@ of the atomistic approach in chapter 2 of Selvanathan and Rao
 <code class="sourceCode R"><span><span class="co"># Lloyd-Moulton index (elasticity of substitution -1)</span></span>
 <span><span class="va">quadratic_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu">quadratic_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.592692</span></span>
+<span><span class="co">#&gt; [1] 1.531339</span></span>
 <span></span>
 <span><span class="co"># Palgrave index</span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2.268331</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.609645</span></span></code></pre></div>
 <p>Generalized-mean indexes can also be nested together to get indexes
 like the Fisher, Drobisch, or AG mean index. The
 <code><a href="../reference/nested_mean.html">nested_mean()</a></code> function is a simple wrapper for
@@ -149,17 +149,17 @@ like the Fisher, Drobisch, or AG mean index. The
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fisher index</span></span>
 <span><span class="fu"><a href="../reference/nested_mean.html">fisher_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.592692</span></span>
+<span><span class="co">#&gt; [1] 1.40105</span></span>
 <span></span>
 <span><span class="co"># Drobisch index</span></span>
 <span><span class="va">drobisch_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">drobisch_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.834166</span></span>
+<span><span class="co">#&gt; [1] 1.514823</span></span>
 <span></span>
 <span><span class="co"># Geometric AG mean index (elasticity of substitution 0.25)</span></span>
 <span><span class="va">ag_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">ag_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.358687</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.396936</span></span></code></pre></div>
 <p>On top of these basic mathematical tools are functions for making
 standard price indexes when both prices and quantities are known.
 Weights for a large variety of indexes can be calculated with
@@ -171,10 +171,10 @@ these into its analogous quantity index.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Laspeyres index, again</span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="../reference/index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.4</span></span>
+<span><span class="co">#&gt; [1] 1.42</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/price_indexes.html">laspeyres_index</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.4</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.42</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="decomposing-indexes">Decomposing indexes<a class="anchor" aria-label="anchor" href="#decomposing-indexes"></a>
@@ -189,34 +189,35 @@ generalized-mean indexes.</p>
 <code class="sourceCode R"><span><span class="va">quadratic_decomposition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu">quadratic_decomposition</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.592692</span></span>
+<span><span class="co">#&gt; [1] 1.531339</span></span>
 <span><span class="fu">quadratic_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.592692</span></span>
+<span><span class="co">#&gt; [1] 1.531339</span></span>
 <span></span>
 <span><span class="va">quadratic_contributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contributions.html">contributions</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu">quadratic_contributions</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  0.03110568  0.51154526  0.04832926 -0.03830484  0.06666667 -0.02665039</span></span>
+<span><span class="co">#&gt; [1]  0.018509151  0.307070035  0.057560430 -0.022681289  0.178780215</span></span>
+<span><span class="co">#&gt; [6] -0.007899259</span></span>
 <span></span>
 <span><span class="va">quadratic_update</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/factor_weights.html">factor_weights</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">quadratic_mean</span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.136515</span></span>
+<span><span class="co">#&gt; [1] 1.411914</span></span>
 <span><span class="fu">quadratic_mean</span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="fu">quadratic_update</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span></span>
 <span>  <span class="fu">quadratic_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.136515</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1.411914</span></span></code></pre></div>
 <p>Percent-change contributions can similarly be calculated for indexes
 that nest generalized means.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ag_decomposition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transmute_weights.html">nested_transmute</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">ag_mean</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.358687</span></span>
+<span><span class="co">#&gt; [1] 1.396936</span></span>
 <span><span class="fu"><a href="../reference/generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span><span class="op">/</span> <span class="va">p0</span>, <span class="fu">ag_decomposition</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1.358687</span></span>
+<span><span class="co">#&gt; [1] 1.396936</span></span>
 <span></span>
 <span><span class="va">ag_contributions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contributions.html">nested_contributions</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.75</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">ag_contributions</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">s0</span>, <span class="va">s0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  0.03333243  0.29947183  0.04948725 -0.05377928  0.06536724 -0.03519241</span></span></code></pre></div>
+<span><span class="co">#&gt; [1]  0.02021474  0.18159654  0.06002349 -0.03261592  0.17838867 -0.01067166</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

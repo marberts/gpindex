@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   gpindex: gpindex.html
-last_built: 2025-01-24T04:29Z
+last_built: 2025-01-26T02:55Z
 urls:
   reference: https://marberts.github.io/gpindex/reference
   article: https://marberts.github.io/gpindex/articles
