@@ -34,8 +34,8 @@ quantity6
 p0 <- price6[[1]]
 p1 <- price6[[2]]
 p2 <- price6[[3]]
-q0 <- price6[[1]]
-q1 <- price6[[2]]
+q0 <- quantity6[[1]]
+q1 <- quantity6[[2]]
 
 s0 <- p0 * q0
 s1 <- p1 * q1
