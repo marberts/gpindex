@@ -1,3 +1,7 @@
+## Version 0.6.3
+
+- Bumped minimum version of R to >= 4.1.
+
 ## Version 0.6.2
 
 - `splice_index()` now keeps names.
