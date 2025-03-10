@@ -62,7 +62,7 @@ extended_mean_ <- function(r, s) {
 #'
 #' @inheritParams nested_mean
 #' @param r,s A finite number giving the order of the generalized mean. See
-#' details.
+#'   details.
 #'
 #' @returns
 #' `transmute_weights()` returns a function:

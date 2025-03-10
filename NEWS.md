@@ -2,6 +2,8 @@
 
 - Bumped minimum version of R to >= 4.1.
 
+- `geks()` is now faster and uses less memeory to makes the GEKS index.
+
 ## Version 0.6.2
 
 - `splice_index()` now keeps names.

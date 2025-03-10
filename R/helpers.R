@@ -31,3 +31,14 @@ check_pqs <- function(...) {
     stop(gettextf("%s must be the same length", toString(sQuote(vars, "'"))))
   }
 }
+
+#' Make a list of balanced product indexes over time
+#' @noRd
+balance_products <- function(product, period) {
+  ux <- unique(product)
+  product <- split(product, period)
+  if (duplicate_products(product)) {
+    warning("there are duplicated period-product pairs")
+  }
+  lapply(product, \(x) match(ux, x, incomparables = NA))
+}

@@ -54,9 +54,9 @@
 #' @param r A finite number giving the order of the generalized mean.
 #' @param x A strictly positive numeric vector.
 #' @param w A strictly positive numeric vector of weights, the same length as
-#' `x`. The default is to equally weight each element of `x`.
+#'   `x`. The default is to equally weight each element of `x`.
 #' @param na.rm Should missing values in `x` and `w` be removed? By
-#' default missing values in `x` or `w` return a missing value.
+#'   default missing values in `x` or `w` return a missing value.
 #'
 #' @returns
 #' `generalized_mean()` returns a function:

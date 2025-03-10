@@ -5,14 +5,14 @@
 #' geometric mean.
 #' 
 #' @param x A list of equal-length numeric vectors giving the period-over-period
-#' indexes for each window.
+#'   indexes for each window.
 #' @param periods An integer vector giving the splice points for each window.
-#' The default splices on each point in the window.
+#'   The default splices on each point in the window.
 #' @param initial A numeric vector giving an initial period-over-period index
-#' series onto which the elements of `x` are spliced. The default uses the
-#' first element of `x`.
+#'   series onto which the elements of `x` are spliced. The default uses the
+#'   first element of `x`.
 #' @param published Should the splice be done against the published series? The
-#' default splices using the recalculated index series.
+#'   default splices using the recalculated index series.
 #' 
 #' @returns
 #' A numeric vector giving the spliced (fixed-base) index series.

@@ -145,7 +145,7 @@ instead come from the \code{harmonic_index()} and \code{geometric_index()}
 functions.
 
 In addition to these indexes, there are also functions for calculating a
-variety of indexes not based on generalized means. The Fisher index is the
+variety of indexes based on nested generalized means. The Fisher index is the
 geometric mean of the arithmetic Laspeyres and Paasche indexes; the Harmonic
 Laspeyres Paasche (or Harmonic Paasche Laspeyres) index is the harmonic
 analog of the Fisher index (8054 on Fisher's list). The

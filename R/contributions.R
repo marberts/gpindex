@@ -43,7 +43,7 @@
 #' @inheritParams generalized_mean
 #' @inheritParams nested_mean
 #' @param w,w1,w2 A strictly positive numeric vector of weights, the same length
-#' as `x`. The default is to equally weight each element of `x`.
+#'   as `x`. The default is to equally weight each element of `x`.
 #'
 #' @returns
 #' `contributions()` returns a function:
