@@ -2,7 +2,10 @@
 
 - Bumped minimum version of R to >= 4.1.
 
-- `geks()` is now faster and uses less memeory to makes the GEKS index.
+- `geks()` is now faster and uses less memory to makes the GEKS index.
+
+- Time periods with entirely missing data no longer return an index value
+with `geks()`, fixing #8.
 
 ## Version 0.6.2
 

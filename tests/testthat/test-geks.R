@@ -27,6 +27,26 @@ test_that("geks works in corner cases", {
   )
   expect_equal(tornqvist_geks(1:2, 1:2, letters[1:2], c(1, 1)),
                list(c(b = 2)))
+  expect_equal(tornqvist_geks(c(NA, 1), c(1, NA), letters[1:2], c(1, 1)),
+               list(c(b = NaN)))
+})
+
+test_that("geks doesn't create index values with missing periods", {
+  df <- data.frame(
+    p = 1:6,
+    q = 6:1,
+    period = factor(rep(2:3, each = 3), levels = 1:4),
+    product = 1:3
+  )
+  wi <- arithmetic_index("Walsh")(4:6, 1:3, 3:1, 6:4)
+  expect_equal(
+    walsh_geks(df$p, df$q, df$period, df$product, na.rm = TRUE),
+    list(c("2" = NaN, "3" = wi, "4" = NaN))
+  )
+  expect_equal(
+    walsh_geks(df$p, df$q, df$period, df$product, na.rm = TRUE, window = 3),
+    list(c("2" = NaN, "3" = wi), c("3" = wi, "4" = NaN))
+  )
 })
 
 test_that("geks agrees with IndexNumR", {

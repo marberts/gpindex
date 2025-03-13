@@ -50,7 +50,7 @@
 #' subtle implications for a multilateral index.
 #'
 #' @seealso
-#' `GEKSIndex()` in the \pkg{indexNumR} package for an implementation of the
+#' `GEKSIndex()` in the \pkg{IndexNumR} package for an implementation of the
 #' GEKS index with more options.
 #'
 #' @references
@@ -123,8 +123,7 @@ geks <- function(f, r = 0) {
       stop("'p', 'q', 'period', and 'product' must be the same length")
     }
 
-    nper <- nlevels(period)
-    if (nper == 0L) {
+    if (nlevels(period) == 0L) {
       return(list())
     }
 
@@ -132,7 +131,7 @@ geks <- function(f, r = 0) {
     if (length(window) > 1L || window < 2L) {
       stop("'window' must be a integer greater than or equal to 2")
     }
-    if (window > nper) {
+    if (window > nlevels(period)) {
       stop(
         "'window' must be less than or equal to the number of levels in",
         " 'period'"
@@ -147,15 +146,11 @@ geks <- function(f, r = 0) {
       stop("'n' must be less than or equal to 'window' minus 1")
     }
     
-    product <- balance_products(product, period)
-    p <- Map(`[`, split(p, period), product)
-    q <- Map(`[`, split(q, period), product)
-    
-    mat <- geks_matrix(f, p, q, n, nper, window, na.rm)
+    mat <- geks_matrix(f, p, q, period, product, window, n, na.rm)
     rows <- seq_len(window) - 1L
     # Only the last n + 1 indexes in each window need to be kept.
     cols <- seq.int(window - n, window) - 1L
-    res <- vector("list", nper - window + 1L)
+    res <- vector("list", nlevels(period) - window + 1L)
     # Move down the diagonal to make the geks index.
     for (i in seq_along(res)) {
       index <- apply(
@@ -172,26 +167,31 @@ geks <- function(f, r = 0) {
 
 #' Make the GEKS matrix
 #' @noRd
-geks_matrix <- function(index, p, q, n, nper, window, na.rm) {
-  rows <- seq_len(nper)
+geks_matrix <- function(index, p, q, period, product, window, n, na.rm) {
+  product <- balance_products(product, period)
+  p <- Map(`[`, split(p, period), product)
+  q <- Map(`[`, split(q, period), product)
+  
+  rows <- seq_len(nlevels(period))
   lt <- lapply(rows, function(i) {
-    if (i < max(window - n, 2L)) {
+    if (i < window - n) {
       # Only the last n + 1 rows are needed for each window,
       # so pad the top rows left of the diagonal with NA.
-      ans <- rep_len(NA_real_, i - 1L)
+      ans <- rep_len(NA_real_, i)
     } else {
       # The index is made for only the lower-triangular part of the matrix.
-      js <- seq.int(to = i - 1L, length.out = min(window, i) - 1L)
+      # The diagonal is explicitly calculated to fix #8.
+      js <- seq.int(to = i, length.out = min(window, i))
       ans <- .mapply(
         index,
         list(p1 = p[js], p0 = p[i], q1 = q[js], q0 = q[i]),
         list(na.rm = na.rm)
       )
     }
-    # Add the diagonal at the end and pad with NAs.
-    ans <- c(unlist(ans, use.names = FALSE), 1)
+    ans <- unlist(ans, use.names = FALSE)
+    # Pad with NAs.
     front_pad <- rep_len(NA_real_, max(i - window, 0L))
-    back_pad <- rep_len(NA_real_, nper - length(ans) - length(front_pad))
+    back_pad <- rep_len(NA_real_, length(rows) - length(ans) - length(front_pad))
     c(front_pad, ans, back_pad)
   })
   res <- do.call(rbind, lt)
