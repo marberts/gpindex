@@ -27,12 +27,22 @@
 #'   default gives an index for each period in `window`. Non-integers are
 #'   truncated towards zero.
 #' @param na.rm Passed to `f` to control if missing values are removed.
+#' @param match_method Either 'all' to match all products against each other 
+#'   (the default) or back-price' to match only back prices. The later can be
+#'   faster when there is lots of product imbalanced, but should be used with
+#'   a balanced index-number formula `f`.
 #'
 #' @returns
 #' `geks()` returns a function:
 #'
-#' \preformatted{function(p, q, period, product, window = nlevels(period), n =
-#'          window - 1, na.rm = FALSE){...}}
+#' \preformatted{function(p,
+#'          q,
+#'          period,
+#'          product,
+#'          window = nlevels(period),
+#'          n = window - 1,
+#'          na.rm = FALSE,
+#'          match_method = c("all", "back-price")){...}}
 #'
 #' This calculates a period-over-period GEKS index with the desired
 #' index-number formula, returning a list for each window with a named-numeric
@@ -114,7 +124,8 @@ geks <- function(f, r = 0) {
            product,
            window = nlevels(period),
            n = window - 1L,
-           na.rm = FALSE) {
+           na.rm = FALSE,
+           match_method = c("all", "back-price")) {
     period <- as.factor(period)
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on numeric codes
@@ -122,6 +133,8 @@ geks <- function(f, r = 0) {
     if (different_lengths(p, q, period, product)) {
       stop("'p', 'q', 'period', and 'product' must be the same length")
     }
+    
+    match_method <- match.arg(match_method)
 
     if (nlevels(period) == 0L) {
       return(list())
@@ -146,7 +159,7 @@ geks <- function(f, r = 0) {
       stop("'n' must be less than or equal to 'window' minus 1")
     }
     
-    mat <- geks_matrix(f, p, q, period, product, window, n, na.rm)
+    mat <- geks_matrix(f, p, q, period, product, window, n, na.rm, match_method)
     rows <- seq_len(window) - 1L
     # Only the last n + 1 indexes in each window need to be kept.
     cols <- seq.int(window - n, window) - 1L
@@ -167,33 +180,59 @@ geks <- function(f, r = 0) {
 
 #' Make the GEKS matrix
 #' @noRd
-geks_matrix <- function(index, p, q, period, product, window, n, na.rm) {
-  product <- balance_products(product, period)
-  p <- Map(`[`, split(p, period), product)
-  q <- Map(`[`, split(q, period), product)
+geks_matrix <- function(index, p, q, period, product, window, n, na.rm, method) {
+  p <- split(p, period)
+  q <- split(q, period)
   
-  rows <- seq_len(nlevels(period))
-  lt <- lapply(rows, function(i) {
-    if (i < window - n) {
+  if (method == "all") {
+    product <- balance_products(product, period)
+    p <- Map(`[`, p, product)
+    q <- Map(`[`, q, product)
+  } else {
+    product <- split(product, period)
+  }
+  
+  lt <- vector("list", nlevels(period))
+  for (i in seq_along(lt)) {
+    if (i < max(window - n, 2L)) {
       # Only the last n + 1 rows are needed for each window,
       # so pad the top rows left of the diagonal with NA.
-      ans <- rep_len(NA_real_, i)
+      ans <- rep_len(NA_real_, i - 1L)
     } else {
-      # The index is made for only the lower-triangular part of the matrix.
-      # The diagonal is explicitly calculated to fix #8.
-      js <- seq.int(to = i, length.out = min(window, i))
-      ans <- .mapply(
-        index,
-        list(p1 = p[js], p0 = p[i], q1 = q[js], q0 = q[i]),
-        list(na.rm = na.rm)
-      )
+      # Matching is only done for the lower-triangular part of the matrix.
+      # Match products for window - 1 periods left of the diagonal
+      # to minimize the number of back prices to find.
+      js <- seq.int(to = i - 1L, length.out = min(window, i) - 1L)
+      if (method == "all") {
+        ans <- .mapply(
+          index,
+          list(p1 = p[js], p0 = p[i], q1 = q[js], q0 = q[i]),
+          list(na.rm = na.rm)
+        )
+      } else {
+        m <- .mapply(
+          match,
+          list(product[js], product[i]),
+          list(incomparables = NA)
+        )
+        bp <- .mapply(`[`, list(p[i], m), list())
+        bq <- .mapply(`[`, list(q[i], m), list())
+        ans <- .mapply(
+          index,
+          list(p1 = p[js], p0 = bp, q1 = q[js], q0 = bq),
+          list(na.rm = na.rm)
+        )
+      }
     }
-    ans <- unlist(ans, use.names = FALSE)
-    # Pad with NAs.
+    # Add the diagonal at the end (fixing #8) and pad with NAs.
+    ans <- c(
+      unlist(ans, use.names = FALSE),
+      index(p[[i]], p[[i]], q[[i]], q[[i]], na.rm = TRUE)
+    )
     front_pad <- rep_len(NA_real_, max(i - window, 0L))
-    back_pad <- rep_len(NA_real_, length(rows) - length(ans) - length(front_pad))
-    c(front_pad, ans, back_pad)
-  })
+    back_pad <- rep_len(NA_real_, length(lt) - length(ans) - length(front_pad))
+    lt[[i]] <- c(front_pad, ans, back_pad)
+  }
   res <- do.call(rbind, lt)
   rownames(res) <- colnames(res) <- names(p) # time periods
   # Exploit time reversal.

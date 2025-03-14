@@ -49,6 +49,22 @@ test_that("geks doesn't create index values with missing periods", {
   )
 })
 
+test_that("no balance", {
+  df <- data.frame(
+    p = 1:5,
+    q = 5:1,
+    period = c(2, 2, 2, 1, 1),
+    product = c(1, 2, 3, 1, 2)
+  )
+  ti <- geometric_index("Tornqvist")(1:3, c(4, 5, NA), 5:3, c(2, 1, NA), na.rm = TRUE)
+  tg <- tornqvist_geks(df$p, df$q, df$period, df$product, na.rm = TRUE)[[1]]
+  expect_equal(ti, unname(tg))
+  
+  ti <- balanced(geometric_index("Tornqvist"))(1:3, c(4, 5, NA), 5:3, c(2, 1, NA), na.rm = TRUE)
+  tg <- tornqvist_geks(df$p, df$q, df$period, df$product, na.rm = TRUE, match_method = "back-price")[[1]]
+  expect_equal(ti, unname(tg))
+})
+
 test_that("geks agrees with IndexNumR", {
   expect_equal(
     cumprod(
@@ -111,7 +127,7 @@ test_that("geks agrees with IndexNumR", {
     cumprod(
       as.numeric(
         unlist(
-          with(dat, walsh_geks(price, quantity, period, product))
+          with(dat, walsh_geks(price, quantity, period, product, match_method = "back-price"))
         )
       )
     ),
@@ -121,7 +137,7 @@ test_that("geks agrees with IndexNumR", {
   )
   test <- with(
     dat,
-    walsh_geks(price, quantity, period, product, 10, 3)
+    walsh_geks(price, quantity, period, product, 10, 3, match_method = "back-price")
   )
   expect_equal(
     cumprod(
@@ -167,7 +183,7 @@ test_that("geks agrees with IndexNumR", {
       with(
         dat2,
         geks(balanced(fisher_index))(
-          price, quantity, period, product, na.rm = TRUE, n = 1
+          price, quantity, period, product, na.rm = TRUE, n = 1, match_method = "back-price"
         )
       )
     ),
