@@ -1,4 +1,4 @@
-## Version 0.6.3
+## gpindex (development version)
 
 - Bumped minimum version of R to >= 4.1.
 
@@ -7,7 +7,7 @@
 - Time periods with entirely missing data no longer return an index value
 with `geks()`, fixing #8.
 
-## Version 0.6.2
+## gpindex 0.6.2
 
 - `splice_index()` now keeps names.
 
@@ -15,7 +15,7 @@ with `geks()`, fixing #8.
 
 - Price-index functions have better argument checking.
 
-## Version 0.6.1
+## gpindex 0.6.1
 
 - Updated maintainer email.
 
@@ -30,7 +30,7 @@ a rolling window (this was previously sketched in an example).
 
 - `transmute_weights()` is now faster.
 
-## Version 0.6.0
+## gpindex 0.6.0
 
 - Bumped minimum version of R to at least 4.0.
 
@@ -47,7 +47,7 @@ control whether products in the first period match to themselves or return `NA`.
 
 - Added a brief vignette.
 
-## Version 0.5.0
+## gpindex 0.5.0
 
 - `back_price()` and `base_price()` have been removed.
 
@@ -56,7 +56,7 @@ control whether products in the first period match to themselves or return `NA`.
 
 - `grouped()` no longer mangles names.
 
-## Version 0.4.3
+## gpindex 0.4.3
 
 - `back_price()` and `base_price()` are deprecated in favor of the more
 general `back_period()` and `base_period()` functions. They will be removed in
@@ -64,7 +64,7 @@ a future version.
 
 - The algorithm for making GEKS indexes is now much faster with a rolling window.
 
-## Version 0.4.2
+## gpindex 0.4.2
 
 - The functions and overall structure of the package should be fairly stable
 from now on.
@@ -76,7 +76,7 @@ now `r1` and `r2`.
 
 - Added the geometric Theil and Rao indexes.
 
-## Version 0.3.9
+## gpindex 0.3.9
 
 - Added `back_period()` and `base_period()`, which are more general
 than `back_price()` and `base_price()`.
@@ -89,7 +89,7 @@ no `NaN`s showing in the result.
 
 - The `lm_index()` and `*_agmean_index()` functions are now function factories.
 
-## Version 0.3.6
+## gpindex 0.3.6
 
 - Added the `balanced()` operator to make it easier to remove NAs with price
 index functions.
@@ -97,7 +97,7 @@ index functions.
 - Added the `geks()` function for using price-index function
 (e.g., `fisher_index()`) to makes a GEKS index.
 
-## Version 0.3.4
+## gpindex 0.3.4
 
 - Added French translations.
 
@@ -107,7 +107,7 @@ of `generalized_mean()`, `extended_mean()`, `lehmer_mean()`,
 
 - Added the `grouped()` operator to make all functions work with grouped data.
 
-## Version 0.3.1
+## gpindex 0.3.1
 
 - Most function names have changed to be less awkward;
 e.g., `mean_generalized()` is now `generalized_mean()`,
