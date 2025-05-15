@@ -27,6 +27,42 @@ test_that("geks works in corner cases", {
   )
   expect_equal(tornqvist_geks(1:2, 1:2, letters[1:2], c(1, 1)),
                list(c(b = 2)))
+  expect_equal(tornqvist_geks(c(NA, 1), c(1, NA), letters[1:2], c(1, 1)),
+               list(c(b = NaN)))
+})
+
+test_that("geks doesn't create index values with missing periods", {
+  df <- data.frame(
+    p = 1:6,
+    q = 6:1,
+    period = factor(rep(2:3, each = 3), levels = 1:4),
+    product = 1:3
+  )
+  wi <- arithmetic_index("Walsh")(4:6, 1:3, 3:1, 6:4)
+  expect_equal(
+    walsh_geks(df$p, df$q, df$period, df$product, na.rm = TRUE),
+    list(c("2" = NaN, "3" = wi, "4" = NaN))
+  )
+  expect_equal(
+    walsh_geks(df$p, df$q, df$period, df$product, na.rm = TRUE, window = 3),
+    list(c("2" = NaN, "3" = wi), c("3" = wi, "4" = NaN))
+  )
+})
+
+test_that("no balance", {
+  df <- data.frame(
+    p = 1:5,
+    q = 5:1,
+    period = c(2, 2, 2, 1, 1),
+    product = c(1, 2, 3, 1, 2)
+  )
+  ti <- geometric_index("Tornqvist")(1:3, c(4, 5, NA), 5:3, c(2, 1, NA), na.rm = TRUE)
+  tg <- tornqvist_geks(df$p, df$q, df$period, df$product, na.rm = TRUE)[[1]]
+  expect_equal(ti, unname(tg))
+  
+  ti <- balanced(geometric_index("Tornqvist"))(1:3, c(4, 5, NA), 5:3, c(2, 1, NA), na.rm = TRUE)
+  tg <- tornqvist_geks(df$p, df$q, df$period, df$product, na.rm = TRUE, match_method = "back-price")[[1]]
+  expect_equal(ti, unname(tg))
 })
 
 test_that("geks agrees with IndexNumR", {
@@ -91,7 +127,7 @@ test_that("geks agrees with IndexNumR", {
     cumprod(
       as.numeric(
         unlist(
-          with(dat, walsh_geks(price, quantity, period, product))
+          with(dat, walsh_geks(price, quantity, period, product, match_method = "back-price"))
         )
       )
     ),
@@ -101,7 +137,7 @@ test_that("geks agrees with IndexNumR", {
   )
   test <- with(
     dat,
-    walsh_geks(price, quantity, period, product, 10, 3)
+    walsh_geks(price, quantity, period, product, 10, 3, match_method = "back-price")
   )
   expect_equal(
     cumprod(
@@ -147,7 +183,7 @@ test_that("geks agrees with IndexNumR", {
       with(
         dat2,
         geks(balanced(fisher_index))(
-          price, quantity, period, product, na.rm = TRUE, n = 1
+          price, quantity, period, product, na.rm = TRUE, n = 1, match_method = "back-price"
         )
       )
     ),

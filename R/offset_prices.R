@@ -36,14 +36,14 @@ offset_period <- function(f) {
 #' information is stored in a table.
 #'
 #' @param period A factor, or something that can be coerced into one, that
-#' gives the time period for each transaction. The ordering of time periods
-#' follows the levels of `period` to agree with
-#' [`cut()`][cut.Date].
+#'   gives the time period for each transaction. The ordering of time periods
+#'   follows the levels of `period` to agree with
+#'   [`cut()`][cut.Date].
 #' @param product A factor, or something that can be coerced into one, that
-#' gives the product identifier for each transaction. The default is to assume
-#' that all transactions are for the same product.
+#'    gives the product identifier for each transaction. The default is to assume
+#'   that all transactions are for the same product.
 #' @param match_first Should products in the first period match with
-#' themselves (the default)?
+#'   themselves (the default)?
 #' 
 #' @returns
 #' Both functions return a numeric vector of indices for the back/base periods.

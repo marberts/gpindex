@@ -3,6 +3,7 @@ url: https://marberts.github.io/gpindex
 template:
   bootstrap: 5
   bootswatches: united
+  math-rendering: mathjax
   
 reference:
 - title: Mathematical functions

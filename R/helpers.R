@@ -22,3 +22,23 @@ different_lengths <- function(...) {
 duplicate_products <- function(x) {
   any(vapply(x, anyDuplicated, numeric(1L), incomparables = NA) > 0)
 }
+
+#' Check price and quantity arguments
+#' @noRd
+check_pqs <- function(...) {
+  vars <- as.character(match.call()[-1L])
+  if (different_lengths(...)) {
+    stop(gettextf("%s must be the same length", toString(sQuote(vars, "'"))))
+  }
+}
+
+#' Make a list of balanced product indexes over time
+#' @noRd
+balance_products <- function(product, period) {
+  ux <- unique(product)
+  product <- split(product, period)
+  if (duplicate_products(product)) {
+    warning("there are duplicated period-product pairs")
+  }
+  lapply(product, \(x) match(ux, x, incomparables = NA))
+}

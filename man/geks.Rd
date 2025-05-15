@@ -16,7 +16,8 @@ tornqvist_geks(
   product,
   window = nlevels(period),
   n = window - 1L,
-  na.rm = FALSE
+  na.rm = FALSE,
+  match_method = c("all", "back-price")
 )
 
 fisher_geks(
@@ -26,7 +27,8 @@ fisher_geks(
   product,
   window = nlevels(period),
   n = window - 1L,
-  na.rm = FALSE
+  na.rm = FALSE,
+  match_method = c("all", "back-price")
 )
 
 walsh_geks(
@@ -36,7 +38,8 @@ walsh_geks(
   product,
   window = nlevels(period),
   n = window - 1L,
-  na.rm = FALSE
+  na.rm = FALSE,
+  match_method = c("all", "back-price")
 )
 }
 \arguments{
@@ -72,12 +75,23 @@ default gives an index for each period in \code{window}. Non-integers are
 truncated towards zero.}
 
 \item{na.rm}{Passed to \code{f} to control if missing values are removed.}
+
+\item{match_method}{Either 'all' to match all products against each other
+(the default) or back-price' to match only back prices. The later can be
+faster when there is lots of product imbalanced, but should be used with
+a balanced index-number formula \code{f}.}
 }
 \value{
 \code{geks()} returns a function:
 
-\preformatted{function(p, q, period, product, window = nlevels(period), n =
-         window - 1, na.rm = FALSE){...}}
+\preformatted{function(p,
+         q,
+         period,
+         product,
+         window = nlevels(period),
+         n = window - 1,
+         na.rm = FALSE,
+         match_method = c("all", "back-price")){...}}
 
 This calculates a period-over-period GEKS index with the desired
 index-number formula, returning a list for each window with a named-numeric
@@ -150,7 +164,7 @@ aggregation and the construction of price indexes.
 \emph{Journal of Econometrics}, 161(1): 24--35.
 }
 \seealso{
-\code{GEKSIndex()} in the \pkg{indexNumR} package for an implementation of the
+\code{GEKSIndex()} in the \pkg{IndexNumR} package for an implementation of the
 GEKS index with more options.
 
 Other price index functions: 
