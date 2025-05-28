@@ -20,6 +20,7 @@ Depends: R (>= 4.1)
 Imports: stats
 Suggests: 
     knitr,
+    quarto,
     rmarkdown,
     testthat (>= 3.0.0)
 License: MIT + file LICENSE
