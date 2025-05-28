@@ -7,7 +7,7 @@ offset_period <- function(f) {
     period <- as.factor(period)
     product <- as.factor(product)
     attributes(product) <- NULL # matching is faster on factor codes
-    
+
     if (length(period) != length(product)) {
       stop("'period' and 'product' must be the same length")
     }
@@ -44,15 +44,15 @@ offset_period <- function(f) {
 #'   that all transactions are for the same product.
 #' @param match_first Should products in the first period match with
 #'   themselves (the default)?
-#' 
+#'
 #' @returns
 #' Both functions return a numeric vector of indices for the back/base periods.
 #' With `back_period()`, for all periods after the first, the resulting vector
 #' gives the location of the corresponding product in the previous period.
 #' With `base_period()`, the resulting vector gives the location of the
-#' corresponding product in the first period. The locations are unchanged for 
+#' corresponding product in the first period. The locations are unchanged for
 #' the first time period if `match_first = TRUE`, `NA` otherwise.
-#' 
+#'
 #' @note
 #' By definition, there must be at most one transaction for each product
 #' in each time period to determine a back/base period. If multiple transactions
