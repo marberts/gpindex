@@ -1,7 +1,10 @@
 ---
 title: "Decomposing price indexes"
+format: 
+  html:
+    html-math-method: mathjax
 vignette: >
-  %\VignetteIndexEntry{quarto vignettes}
+  %\VignetteIndexEntry{Decomposing price indexes}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 knitr:
@@ -73,9 +76,9 @@ a & a = b.
 $$ The extended mean reduces to the logarithmic mean when either $\rho = 0$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = 0$. But using the extended mean in place of the logarithmic mean allows for decompositions of indexes based on other types of means, like harmonic indexes ($\rho = -1$) and the Lloyd-Moulton index ($\rho = 1 - \sigma$, where $\sigma$ is an elasticity of substitution).
 
 The key to transforming the weights in a generalized mean of order $\rho$ into the weights for a generalized mean of order $\varsigma$ comes from noting that the extended mean is always strictly positive and satisfies the identity $$
-\sum_{i=1}^{n} w_{i} \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \varepsilon(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \equiv 0,
+\sum_{i=1}^{n} w_{i} \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \varepsilon_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \equiv 0,
 $$ {#eq-identity} where $$
-\varepsilon(\mathbf{r}, \mathbf{w}; \rho, \varsigma) = 
+\varepsilon_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) = 
 \begin{cases}
 r_i^\varsigma - \mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w})^\varsigma & \text{if } \varsigma \neq 0, \\
 \log(r_i) - \log(\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w})) & \text{if } \varsigma = 0.
@@ -84,13 +87,11 @@ $$ @eq-identity uses the extended mean to keep the weighted deviation from the m
 v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) =  w_{i} \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \Bigg/ \sum_{j=1}^{n} w_{j} \mathfrak{E}_{\rho\varsigma}(r_j, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} 
 $$ {#eq-res1} is a suitable function to find weights that turn an index based on a generalized mean of order $\rho$ into one based on a generalized mean of order $\varsigma$.
 
-The function given by @eq-res1 takes on all existing decompositions that I know of as special cases. Setting $\rho = 0$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = 0$, gives the special cases by @balk2008 and @reinsdorf2002 for decomposing indexes based on arithmetic and geometric means (because the extended mean reduces to the logarithmic mean). Similarly, setting $\rho = -1$ and $\varsigma = 1$ reduces @eq-res1 to $$
+The function given by @eq-res1 takes on all existing decompositions that I know of as special cases. Setting $\rho = 0$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = 0$, gives the special cases by @balk2008 and @reinsdorf2002 for decomposing indexes based on arithmetic and geometric means (because the extended mean reduces to the logarithmic mean). Similarly, because $\mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \equiv \left(\mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}) r_{i}\right)^\rho$ when $\rho = -1$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = -1$, setting $\rho = -1$ and $\varsigma = 1$ reduces @eq-res1 to $$
 v_{i}(\mathbf{r}, \mathbf{w}; -1, 1) = \frac{w_{i} / r_{i}}{\sum_{i=1}^{n}w_{i} / r_{i}} ;
-$$ if $\mathbf{w}$ is a vector of current-period expenditure/revenue shares then these are the hybrid weights that allow a Paasche index to be calculated as an arithmetic mean of price relatives. Similarly, setting $\rho = 1$ and $\varsigma = -1$ reduces @eq-res1 to $$
+$$ if $\mathbf{w}$ is a vector of current-period expenditure/revenue shares then these are the hybrid weights that allow a Paasche index to be calculated as an arithmetic mean of price relatives. Setting $\rho = 1$ and $\varsigma = -1$ reduces @eq-res1 to $$
 v_{i}(\mathbf{r}, \mathbf{w}; 1, -1) = \frac{w_{i} r_{i}}{\sum_{i=1}^{n}w_{i} r_{i}}.
-$$ If $\mathbf{w}$ is a vector of base-period expenditure/revenue shares then these are the hybrid weights that allow a Laspeyres index to be calculated as a harmonic mean of price relatives.[^2] As should be expected, the weights are unchanged if $\rho = \varsigma$ or each element of $\mathbf{r}$ takes on the same value.
-
-[^2]: To see this, note that $\mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \equiv \left(\mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}) r_{i}\right)^\rho$ when $\rho = -1$ and $\varsigma = 1$, or $\rho = 1$ and $\varsigma = -1$, and plug this into @eq-res1.
+$$ If $\mathbf{w}$ is a vector of base-period expenditure/revenue shares then these are the hybrid weights that allow a Laspeyres index to be calculated as a harmonic mean of price relatives. As should be expected, the weights are unchanged if $\rho = \varsigma$ or each element of $\mathbf{r}$ takes on the same value.
 
 ### Transitivity, monotonicity, and uniqueness
 
@@ -98,17 +99,11 @@ The extended mean has two properties that make it useful for decomposing price i
 \mathbf{v}(\mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \tau); \tau, \varsigma) \equiv \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, \varsigma).
 $$ As will be seen later, not all decompositions have this property.
 
-Second, the extended mean is a strictly increasing function in both arguments [@bullen2003, theorem 16]. This means that the function in @eq-res1 has a monotonicity property where the transmuted weights increase (decrease) for large (small) price relatives if and only if $\rho > \varsigma$. That is, assuming $\mathbf{r}$ is ordered from smallest to largest (and does not contain all the same value), if $\rho > \varsigma$ then there is a pair of integer $k,l$, with $k\leq l$, such that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) > w_{i}$ for $i\geq l$ and $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) < w_{i}$ for $i\leq k$, with these equalities reversed if $\rho < \varsigma$.[^3] Again, not all decompositions satisfy this property.
+Second, the extended mean is a strictly increasing function in both arguments [@bullen2003, page 395]. This means that the function in @eq-res1 has a monotonicity property where the transmuted weights increase (decrease) for large (small) price relatives if and only if $\rho > \varsigma$. That is, assuming $\mathbf{r}$ is ordered from smallest to largest (and does not contain all the same value), if $\rho > \varsigma$ then there is a pair of integer $k,l$, with $k\leq l$, such that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) > w_{i}$ for $i\geq l$ and $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) < w_{i}$ for $i\leq k$, with these equalities reversed if $\rho < \varsigma$. Again, not all decompositions satisfy this property.
 
-[^3]: To see this, note that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \geq w_{i}$ if and only if $$
-    \mathfrak{E}_{\rho\varsigma}(r_i, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma} \geq \sum_{j=1}^{n} w_{j} \mathfrak{E}_{\rho\varsigma}(r_j, \mathfrak{M}_{\rho} (\mathbf{r}, \mathbf{w}))^{\rho - \varsigma}. 
-    $$ Since the extended mean is strictly increasing in its first argument, the right-hand side is an increasing function if $\rho > \varsigma$. This inequality is not satisfied for $i=1$ and is strictly satisfied for $i=n$, so $k$ can then be set to the largest value such that this inequality is not satisfied, and $l$ can be set to the smallest value such that it is strictly satisfied. If $\rho < \varsigma$ then the right-hand side is a decreasing function, so the inequality is not satisfied for $i=n$ and is strictly satisfied for $i=1$. As before, $k$ can be set to the largest value such that the inequality is strictly satisfied, and $l$ can be set to the smallest value such that it is not satisfied.
+The decomposition given by @eq-res1 is unique when $n = 2$ and $r_{1} \neq r_{2}$, and is the only such function that always returns $\mathbf{w}$ when $r_{1} = r_{2}$. But @eq-res1 is necessarily not unique when $n\geq3$, and there are infinitely many ways to decompose an index based on the generalized mean.[^2] Nonetheless, the limited case of uniqueness will be useful in @sec-superlative.
 
-The decomposition given by @eq-res1 is unique when $n = 2$ and $r_{1} \neq r_{2}$, and is the only such function that always returns $\mathbf{w}$ when $r_{1} = r_{2}$.[^4] But @eq-res1 is necessarily not unique when $n\geq3$, and there are infinitely many ways to decompose an index based on the generalized mean.[^5] Nonetheless, the limited case of uniqueness will be useful in @sec-superlative.
-
-[^4]: When $n=2$, any other function $u$ that decomposes the generalized mean must satisfy $(v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) - u_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma))(r_{1}^\varsigma - r_{2}^\varsigma) \equiv 0$ for $i=1,2$, or $(v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) - u_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma))(\log(r_{1}) - \log(r_{2})) \equiv 0$ when $\varsigma = 0$, so that $v_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \equiv u_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma)$ whenever $r_{1} \neq r_{2}$.
-
-[^5]: Take, for example, $\mathbf{r} = (0.5,1,1.5)$ and $\mathbf{w} = (1/6,1/3,1/2)$. The weighted harmonic mean of $\mathbf{r}$ is 1, which can be computed as an arithmetic mean with weights $(1/3,1/3,1/3)$ or $(1/4,1/2,1/4)$. Hence there are multiple additive decompositions for the harmonic mean.
+[^2]: Take, for example, (1/2, 1, 3/2) with weights (1/6, 1/3, 1/2). The weighted harmonic mean of is 1, which can be computed as an arithmetic mean with weights (1/3, 1/3, 1/3) or (1/4, 1/2, 1/4). Hence there are multiple additive decompositions for the harmonic mean.
 
 ### Numerical example
 
@@ -128,9 +123,9 @@ s1 <- scale_weights(p1 * q1)
 s2 <- scale_weights(p2 * q2)
 
 quadratic_mean <- generalized_mean(2)
-quadratic_weights <- transmute_weights(2, 1)
+quadratic_decomposition <- transmute_weights(2, 1)
 
-v <- quadratic_weights(rel, s1)
+v <- quadratic_decomposition(rel, s1)
 
 all.equal(
   quadratic_mean(rel, s1),
@@ -157,8 +152,8 @@ all.equal(
 
 ### Decomposing superlative indexes {#sec-superlative}
 
-The additive and multiplicative decompositions for the Fisher index by @reinsdorf2002 [section 6] can be generalized in the same way as the decompositions for the arithmetic and geometric indexes by noting that the Fisher index is simply a nested generalized mean of indexes based on the generalized mean. For a pair of generalized means $\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2})=\left(\mathfrak{M}_{\rho_1}(\mathbf{r}, \mathbf{w}_1), \mathfrak{M}_{\rho_2}(\mathbf{r}, \mathbf{w}_2)\right)$ mapping into $R_2^{++}$ with weights $\mathbf{\omega}=(\omega_1, \omega_2) \in \Delta^1$, an index based on nested generalized means is written as $$
-\mathfrak{M}_{\rho}\left(\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}\right).
+The additive and multiplicative decompositions for the Fisher index by @reinsdorf2002[section 6] can be generalized in the same way as the decompositions for the arithmetic and geometric indexes by noting that the Fisher index is simply a nested generalized mean of indexes based on the generalized mean. For a pair of generalized means $\mathfrak{N}_{\rho_{1}\rho_{2}}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2})=\left(\mathfrak{M}_{\rho_1}(\mathbf{r}, \mathbf{w}_1), \mathfrak{M}_{\rho_2}(\mathbf{r}, \mathbf{w}_2)\right)$ mapping into $R_2^{++}$ with weights $\mathbf{\omega}=(\omega_1, \omega_2) \in \Delta^1$, an index based on nested generalized means is written as $$
+\mathfrak{M}_{\rho}\left(\mathfrak{N}_{\rho_{1}\rho_{2}}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}\right).
 $$ {#eq-superlative}
 
 The general family of superlative quadratic mean indexes of order $\tau$ comes from setting $\rho = 0$, $\rho_1 = \tau / 2$, and $\rho_2 = -\tau / 2$ when $\omega_1 = \omega_2 = 1 / 2$, $\mathbf{w}_1$ are base-period expenditure/revenue shares, and $\mathbf{w}_2$ are current-period expenditure/revenue shares. In particular, setting $\tau = 2$ gives the Fisher index and setting $\tau = 1$ gives the implicit Walsh index. But @eq-superlative covers other types of indexes as well; for example, setting each element of $\mathbf{w}_1$ and $\mathbf{w}_2$ to $1 / n$ when $\tau = 2$ gives the Carruthers-Sellwood-Ward-Dalén index that serves as an estimator for the Fisher index, whereas $\tau = 1$ gives the Balk-Walsh index. Setting $\rho = -1$ gives the harmonic analogue of the Fisher index, which is not a superlative quadratic mean indexes of order $\tau$. Finally, setting $\rho = \rho_{1} = \rho_{2}$ and $\mathbf{w}_{1} = \mathbf{w}_{2}$ gives an index based on a generalized mean of order $\rho$, so that the decomposition of an index based on the generalized mean is a special case of the decomposition for @eq-superlative.
@@ -178,13 +173,13 @@ all.equal(fisher_mean(rel, s1, s2), arithmetic_mean(rel, v1))
 
 all.equal(
   v1,
-  quadratic_weights(rel, nested_transmute(0, c(1, -1), 2)(rel, s1, s2))
+  quadratic_decomposition(rel, nested_transmute(0, c(1, -1), 2)(rel, s1, s2))
 )
 ```
 
 An alternative approach to decompose @eq-superlative is to generalize the (additive) van IJzeren decomposition for the Fisher index, which can be written as $$
-v_{1}(\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \varsigma) + v_{2}(\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}, \mathbf{w}_2; \rho_2, \varsigma).  
-$$ {#eq-res3} Note that for a Fisher index, if $\varsigma=1$ then $\mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \varsigma)$ is a vector of base-period expenditure/revenue shares, $\mathbf{v}(\mathbf{r}, \mathbf{w}_2; \rho_2, \varsigma)$ is a vector of hybrid Paasche weights, and $\mathbf{v}(\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma)$ are the unique weights that decompose the geometric mean of the Laspeyres and Paasche indexes, which equals the van IJzeren decomposition. The idea here is to transmute the weights for both the inner and outer generalized means so that they are means of order $\varsigma$, then take the product of these weights. @eq-res2 and @eq-res3 generally give different decompositions, as the latter is not transitive, but reduce to @eq-res1 when $\rho = \rho_{1} = \rho_{2}$ and $\mathbf{w}_{1} = \mathbf{w}_{2}$. The `nested_transmute2()` function implements this method.
+v_{1}(\mathfrak{N}_{\rho_{1}\rho_{2}}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \varsigma) + v_{2}(\mathfrak{N}_{\rho_{1}\rho_{2}}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}, \mathbf{w}_2; \rho_2, \varsigma).  
+$$ {#eq-res3} Note that for a Fisher index, if $\varsigma=1$ then $\mathbf{v}(\mathbf{r}, \mathbf{w}_1; \rho_1, \varsigma)$ is a vector of base-period expenditure/revenue shares, $\mathbf{v}(\mathbf{r}, \mathbf{w}_2; \rho_2, \varsigma)$ is a vector of hybrid Paasche weights, and $\mathbf{v}(\mathfrak{N}_{\rho_{1}\rho_{2}}(\mathbf{r}, \mathbf{w}_{1}, \mathbf{w}_{2}), \mathbf{\omega}; \rho, \varsigma)$ are the unique weights that decompose the geometric mean of the Laspeyres and Paasche indexes, which equals the van IJzeren decomposition. The idea here is to transmute the weights for both the inner and outer generalized means so that they are means of order $\varsigma$, then take the product of these weights. @eq-res2 and @eq-res3 generally give different decompositions, as the latter is not transitive, but reduce to @eq-res1 when $\rho = \rho_{1} = \rho_{2}$ and $\mathbf{w}_{1} = \mathbf{w}_{2}$. The `nested_transmute2()` function implements this method.
 
 ```{r}
 v2 <- nested_transmute2(0, c(1, -1), 1)(rel, s1, s2)
@@ -193,7 +188,7 @@ all.equal(fisher_mean(rel, s1, s2), arithmetic_mean(rel, v2))
 
 all.equal(
   v2,
-  quadratic_weights(rel, nested_transmute2(0, c(1, -1), 2)(rel, s1, s2))
+  quadratic_decomposition(rel, nested_transmute2(0, c(1, -1), 2)(rel, s1, s2))
 )
 ```
 
@@ -205,10 +200,10 @@ summary(v1 - v2)
 
 ### Decomposing aggregated indexes
 
-The decomposition in @eq-res3 can be extended to get a decomposition for an index constructed using the usual two-step procedure to make a price index. If price relatives are partitioned into $n$ groups, and an index is made from $n$ sub-indexes $\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{n}) = \left(\mathfrak{M}_{\rho_1}(\mathbf{r_{1}}, \mathbf{w}_1), \ldots, \mathfrak{M}_{\rho_n}(\mathbf{r_{n}}, \mathbf{w}_n)\right)$ with weights $\mathbf{\omega}=(\omega_{1},\ldots,\omega_{n})$ as a generalized mean of order $\rho$, then
+The decomposition in @eq-res3 can be extended to get a decomposition for an index constructed using the usual two-step procedure to make a price index. If price relatives are partitioned into $k$ groups, and an index is made from $k$ sub-indexes $\mathfrak{N}_{\rho_{1}\ldots\rho_{k}}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{k}) = \left(\mathfrak{M}_{\rho_1}(\mathbf{r}_{1}, \mathbf{w}_{1}), \ldots, \mathfrak{M}_{\rho_k}(\mathbf{r}_{k}, \mathbf{w}_{k})\right)$ with weights $\mathbf{\omega}=(\omega_{1},\ldots,\omega_{k})$ as a generalized mean of order $\rho$, then
 
 $$
-v_{i}(\mathfrak{N}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{n}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}_{i}, \mathbf{w}_i; \rho_1, \varsigma)
+v_{i}(\mathfrak{N}_{\rho_{1}\ldots\rho_{k}}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{k}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}_{i}, \mathbf{w}_i; \rho_1, \varsigma)
 $$
 
 decomposes how the components of the $i$-th sub-index contribute towards the total index. Concatenating each of these vectors of weights along with the vector of price relatives represents the nested mean over the partitioning of price relatives as a generalized mean of order $\varsigma$.
@@ -224,12 +219,12 @@ index_b <- geometric_mean(rel_by_group$b)
 
 quadratic_mean(c(index_a, index_b), sapply(s1_by_group, sum))
 
-decomp_a <- quadratic_weights(rel_by_group$a, s1_by_group$a)
+decomp_a <- quadratic_decomposition(rel_by_group$a, s1_by_group$a)
 decomp_b <- transmute_weights(0, 1)(rel_by_group$b)
 
 v <- Map(
   `*`,
-  quadratic_weights(c(index_a, index_b), sapply(s1_by_group, sum)),
+  quadratic_decomposition(c(index_a, index_b), sapply(s1_by_group, sum)),
   list(decomp_a, decomp_b)
 ) |>
   unlist()
@@ -251,7 +246,7 @@ $$
 V/ \mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) \equiv \mathfrak{M}_{\varsigma}(V / \mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, -\varsigma)). 
 $$ {#eq-res4}
 
-Setting $\varsigma=1$ then gives an additive decomposition for how each price relative acts to deflate the change in total value over time, while setting $\varsigma=0$ gives a multiplicative decomposition.
+Setting $\varsigma=1$ then gives an additive decomposition for how each price relative acts to deflate the change in total value over time, while setting $\varsigma=0$ gives a multiplicative decomposition. The same holds true when deflating with an index based on nested means, using either @eq-res2 or @eq-res3.
 
 ```{r}
 V <- sum(p2 * q2) / sum(p1 * q1)

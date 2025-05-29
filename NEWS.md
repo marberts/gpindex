@@ -7,6 +7,8 @@
 - Time periods with entirely missing data no longer return an index value
 with `geks()`, fixing #8.
 
+- Added a new vignette to better explain decomposing an index.
+
 ## gpindex 0.6.2
 
 - `splice_index()` now keeps names.

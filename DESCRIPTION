@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.6.2.9003
+Version: 0.6.2.9004
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"),
     email = "marberts@protonmail.com",
@@ -32,6 +32,6 @@ Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price_indexes.R'
     'geks.R' 'splice.R' 'operators.R' 'offset_prices.R' 'outliers.R'
     'price_data.R' 'gpindex-package.R'
 Config/testthat/edition: 3
-VignetteBuilder: knitr
+VignetteBuilder: quarto
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
