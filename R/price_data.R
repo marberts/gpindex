@@ -22,7 +22,7 @@
 #' International Monetary Fund.
 #'
 #' @examples
-#' # Recreate tables 3.4, 3.6, and 3.12 from Balk (2008)
+#' # Recreate tables 3.4, 3.6, and 3.12 from Balk (2008).
 #'
 #' index_formulas <- function(p1, p0, q1, q0) {
 #'   c(

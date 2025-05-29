@@ -13,27 +13,14 @@
 #'
 #' \preformatted{generalized_mean(r)(x, w) - 1 == sum(v(x, w))}
 #'
-#' This generalizes the approach for calculating percent-change contributions
-#' in section 4.2 of Balk (2008) using the method by Martin (2021). The
-#' `arithmetic_contributions()`, `geometric_contributions()` and
+#' The `arithmetic_contributions()`, `geometric_contributions()` and
 #' `harmonic_contributions()` functions cover the most important cases
 #' (i.e., \code{r = 1}, \code{r = 0}, and \code{r = -1}).
 #'
 #' The `nested_contributions()` and `nested_contributions2()`
 #' functions are the analog of `contributions()` for an index based on a
-#' nested generalized mean with two levels, like a Fisher index. They return a
-#' function that calculates the contribution of each element of `x` when a
-#' generalized mean of order `r1` aggregates two generalized-mean indexes
-#' of `x` with orders `r2`, and weights `w1` and `w2`.
-#'
-#' Unlike the case of a generalized-mean index, there are several ways to make
-#' contributions for an index based on nested generalized means.
-#' `nested_contributions()` uses a generalization of the algorithm in
-#' section 6 of Reinsdorf et al. (2002) by Martin (2021).
-#' `nested_contributions2()` generalizes the van IJzeren decomposition for
-#' the Fisher index (Balk, 2008, section 4.2.2) by constructing a weighted
-#' average of the contributions for both of the inner means with the approach
-#' by Martin (2021). In most cases the results are broadly similar.
+#' nested generalized mean with two levels, like a Fisher index. They are
+#' wrappers around `nested_transmute()` and `nested_transmute2()`, respectively.
 #'
 #' The `fisher_contributions()` and `fisher_contributions2()`
 #' functions correspond to `nested_contributions(0, c(1, -1))()` and
@@ -50,18 +37,10 @@
 #'
 #' \preformatted{function(x, w = NULL){...}}
 #'
-#' This computes the additive contribution for each element of `x` in an
-#' index based on the generalized mean of order `r` with weights `w`.
-#'
 #' `nested_contributions()` and `nested_contributions2()` return a
 #' function:
 #'
 #' \preformatted{function(x, w1 = NULL, w2 = NULL){...}}
-#'
-#' This computes the additive contribution for each element of `x` when a
-#' generalized mean of order `r1` aggregates a generalized-mean index of
-#' order `r2[1]` with weights `w1` and a generalized-mean index of
-#' order `r2[2]` with weights `w2`.
 #'
 #' `arithmetic_contributions()`, `geometric_contributions()`, and
 #' `harmonic_contributions()` each return a numeric vector, the same
@@ -210,9 +189,9 @@
 #' superlative_contributions <- function(r) {
 #'   nested_contributions(0, c(r / 2, -r / 2))
 #' }
-#' 
+#'
 #' # Can be used to decompose the implict Walsh index
-#' 
+#'
 #' superlative_contributions(1)(
 #'   p1 / p0,
 #'   index_weights("Laspeyres")(p0, q0),
