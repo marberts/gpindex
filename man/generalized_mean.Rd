@@ -31,9 +31,6 @@ default missing values in \code{x} or \code{w} return a missing value.}
 
 \preformatted{function(x, w = NULL, na.rm = FALSE){...}}
 
-This computes the generalized mean of order \code{r} of \code{x} with
-weights \code{w}.
-
 \code{arithmetic_mean()}, \code{geometric_mean()}, and
 \code{harmonic_mean()} each return a numeric value for the generalized means
 of order 1, 0, and -1.
@@ -47,12 +44,7 @@ generalized mean of \code{x} with weights \code{w} and exponent \code{r}
 (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0} and
 \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r}
 otherwise). This is also called the power mean, Hölder mean, or \eqn{l_p}
-mean. See Bullen (2003, p. 175) for a definition, or
-\url{https://en.wikipedia.org/wiki/Generalized_mean}. The generalized mean
-is the solution to the optimal prediction problem: choose \eqn{m}{m} to
-minimize \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m)
-\right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}, \eqn{\sum_{i =
-1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
+mean; see Bullen (2003, p. 175) for details.
 
 The functions \code{arithmetic_mean()}, \code{geometric_mean()}, and
 \code{harmonic_mean()} compute the arithmetic, geometric, and harmonic (or
@@ -111,34 +103,8 @@ calculates an \emph{unweighted} generalized mean.
 x <- 1:3
 w <- c(0.25, 0.25, 0.5)
 
-#---- Common generalized means ----
-
-# Arithmetic mean
-
-arithmetic_mean(x, w) # same as weighted.mean(x, w)
-
-# Geometric mean
-
-geometric_mean(x, w) # same as prod(x^w)
-
-# Harmonic mean
-
-harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)
-
-# Quadratic mean / root mean square
-
-generalized_mean(2)(x, w)
-
-# Cubic mean
-# Notice that this is larger than the other means so far because
-# the generalized mean is increasing in r
-
-generalized_mean(3)(x, w)
-
-#---- Comparing the Pythagorean means ----
-
 # The dispersion between the arithmetic, geometric, and harmonic
-# mean usually increases as the variance of 'x' increases
+# mean usually increases as the variance of 'x' increases.
 
 x <- c(1, 3, 5)
 y <- c(2, 3, 4)
@@ -152,7 +118,7 @@ geometric_mean(x) - harmonic_mean(x)
 geometric_mean(y) - harmonic_mean(y)
 
 # But the dispersion between these means is only bounded by the
-# variance (Bullen, 2003, p. 156)
+# variance (Bullen, 2003, p. 156).
 
 arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
@@ -180,13 +146,6 @@ arithmetic_mean(y) * arithmetic_mean(1 / y) - 1
 
 harmonic_mean(x) * harmonic_mean(1 / x) - 1
 harmonic_mean(y) * harmonic_mean(1 / y) - 1
-
-#---- Missing values ----
-
-w[2] <- NA
-
-arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
-weighted.mean(x, w, na.rm = TRUE) # still returns NA
 
 }
 \references{

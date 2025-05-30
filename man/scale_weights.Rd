@@ -19,6 +19,8 @@ Scale a vector of weights so that they sum to 1.
 \examples{
 scale_weights(1:5)
 
+scale_weights(c(1:5, NA))
+
 }
 \seealso{
 \code{\link[=grouped]{grouped()}} to make this function applicable to grouped data.

@@ -7,12 +7,7 @@
 #' (i.e., \eqn{\prod_{i = 1}^{n} x_{i}^{w_{i}}}{\prod x^w} when \eqn{r = 0} and
 #' \eqn{\left(\sum_{i = 1}^{n} w_{i} x_{i}^{r}\right)^{1 / r}}{(\sum wx^r)^1/r}
 #' otherwise). This is also called the power mean, Hölder mean, or \eqn{l_p}
-#' mean. See Bullen (2003, p. 175) for a definition, or
-#' <https://en.wikipedia.org/wiki/Generalized_mean>. The generalized mean
-#' is the solution to the optimal prediction problem: choose \eqn{m}{m} to
-#' minimize \eqn{\sum_{i = 1}^{n} w_{i} \left[\log(x_{i}) - \log(m)
-#' \right]^2}{\sum w [log(x) - log(m)]^2} when \eqn{r = 0}, \eqn{\sum_{i =
-#' 1}^{n} w_{i} \left[x_{i}^r - m^r \right]^2}{\sum w [x^r - m^r]^2} otherwise.
+#' mean; see Bullen (2003, p. 175) for details.
 #'
 #' The functions `arithmetic_mean()`, `geometric_mean()`, and
 #' `harmonic_mean()` compute the arithmetic, geometric, and harmonic (or
@@ -62,9 +57,6 @@
 #' `generalized_mean()` returns a function:
 #'
 #' \preformatted{function(x, w = NULL, na.rm = FALSE){...}}
-#'
-#' This computes the generalized mean of order `r` of `x` with
-#' weights `w`.
 #'
 #' `arithmetic_mean()`, `geometric_mean()`, and
 #' `harmonic_mean()` each return a numeric value for the generalized means
@@ -122,34 +114,8 @@
 #' x <- 1:3
 #' w <- c(0.25, 0.25, 0.5)
 #'
-#' #---- Common generalized means ----
-#'
-#' # Arithmetic mean
-#'
-#' arithmetic_mean(x, w) # same as weighted.mean(x, w)
-#'
-#' # Geometric mean
-#'
-#' geometric_mean(x, w) # same as prod(x^w)
-#'
-#' # Harmonic mean
-#'
-#' harmonic_mean(x, w) # same as 1 / weighted.mean(1 / x, w)
-#'
-#' # Quadratic mean / root mean square
-#'
-#' generalized_mean(2)(x, w)
-#'
-#' # Cubic mean
-#' # Notice that this is larger than the other means so far because
-#' # the generalized mean is increasing in r
-#'
-#' generalized_mean(3)(x, w)
-#'
-#' #---- Comparing the Pythagorean means ----
-#'
 #' # The dispersion between the arithmetic, geometric, and harmonic
-#' # mean usually increases as the variance of 'x' increases
+#' # mean usually increases as the variance of 'x' increases.
 #'
 #' x <- c(1, 3, 5)
 #' y <- c(2, 3, 4)
@@ -163,7 +129,7 @@
 #' geometric_mean(y) - harmonic_mean(y)
 #'
 #' # But the dispersion between these means is only bounded by the
-#' # variance (Bullen, 2003, p. 156)
+#' # variance (Bullen, 2003, p. 156).
 #'
 #' arithmetic_mean(x) - geometric_mean(x) >= 2 / 3 * var(x) / (2 * max(x))
 #' arithmetic_mean(x) - geometric_mean(x) <= 2 / 3 * var(x) / (2 * min(x))
@@ -191,13 +157,6 @@
 #'
 #' harmonic_mean(x) * harmonic_mean(1 / x) - 1
 #' harmonic_mean(y) * harmonic_mean(1 / y) - 1
-#'
-#' #---- Missing values ----
-#'
-#' w[2] <- NA
-#'
-#' arithmetic_mean(x, w, na.rm = TRUE) # drop the second observation
-#' weighted.mean(x, w, na.rm = TRUE) # still returns NA
 #'
 #' @family means
 #' @export
@@ -266,8 +225,7 @@ harmonic_mean <- generalized_mean(-1)
 #'
 #' The function `generalized_logmean()` returns a function to compute the
 #' component-wise generalized logarithmic mean of `a` and `b` of
-#' order `r`. See Bullen (2003, p. 385) for a definition, or
-#' <https://en.wikipedia.org/wiki/Stolarsky_mean>. The generalized
+#' order `r`. See Bullen (2003, p. 385) for a definition. The generalized
 #' logarithmic mean is a special case of the extended mean, corresponding to
 #' `extended_mean(r, 1)()`, but is more commonly used for price indexes.
 #'
@@ -283,9 +241,7 @@ harmonic_mean <- generalized_mean(-1)
 #' By definition, the generalized logarithmic mean / extended mean of `a`
 #' and `b` is `a` when `a == b`. The `tol` argument is used
 #' to test equality by checking if `abs(a - b) <= tol`. The default value
-#' is the same as [all.equal()]. Setting `tol = 0`
-#' tests for exact equality, but can give misleading results when `a` and
-#' `b` are computed values. In some cases it's useful to multiply
+#' is the same as [all.equal()]. In some cases it's useful to multiply
 #' `tol` by a scale factor, such as `max(abs(a), abs(b))`. This often
 #' doesn't matter when making price indexes, however, as `a` and `b`
 #' are usually around 1.
@@ -301,9 +257,6 @@ harmonic_mean <- generalized_mean(-1)
 #'
 #' \preformatted{function(a, b, tol = .Machine$double.eps^0.5){...}}
 #'
-#' This computes the component-wise generalized logarithmic mean of order
-#' `r`, or the extended mean of orders `r` and `s`, of `a` and `b`.
-#'
 #' `logmean()` returns a numeric vector, the same length as
 #' `max(length(a), length(b))`, giving the component-wise logarithmic mean
 #' of `a` and `b`.
@@ -312,50 +265,36 @@ harmonic_mean <- generalized_mean(-1)
 #' `generalized_logmean()` can be defined on the extended real line,
 #' so that \code{r = -Inf / Inf} returns [pmin()]/[pmax()], to agree with the
 #' definition in, e.g., Bullen (2003). This is not implemented, and `r`
-#' must be finite as in the original formulation by Stolarsky (1975).
+#' must be finite.
 #'
 #' @seealso
 #' [transmute_weights()] uses the extended mean to turn a generalized
 #' mean of order \eqn{r} into a generalized mean of order \eqn{s}.
 #'
 #' @references
-#' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
-#' Cambridge University Press.
-#'
 #' Bullen, P. S. (2003). *Handbook of Means and Their Inequalities*.
 #' Springer Science+Business Media.
-#'
-#' Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean.
-#' *Mathematics Magazine*, 48(2): 87-92.
 #'
 #' @examples
 #' x <- 8:5
 #' y <- 1:4
 #'
-#' #---- Comparing logarithmic means and generalized means ----
-#'
 #' # The arithmetic and geometric means are special cases of the
-#' # generalized logarithmic mean
+#' # generalized logarithmic mean.
 #'
 #' all.equal(generalized_logmean(2)(x, y), (x + y) / 2)
 #' all.equal(generalized_logmean(-1)(x, y), sqrt(x * y))
 #'
-#' # The logarithmic mean lies between the arithmetic and geometric means
-#' # because the generalized logarithmic mean is increasing in r
-#'
-#' all(logmean(x, y) < (x + y) / 2) &
-#'   all(logmean(x, y) > sqrt(x * y))
-#'
 #' # The harmonic mean cannot be expressed as a logarithmic mean, but can
-#' # be expressed as an extended mean
+#' # be expressed as an extended mean.
 #'
 #' all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 #'
-#' # The quadratic mean is also a type of extended mean
+#' # The quadratic mean is also a type of extended mean.
 #'
 #' all.equal(extended_mean(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 #'
-#' # As are heronian and centroidal means
+#' # As are heronian and centroidal means.
 #'
 #' all.equal(
 #'   extended_mean(0.5, 1.5)(x, y),
@@ -365,63 +304,6 @@ harmonic_mean <- generalized_mean(-1)
 #'   extended_mean(2, 3)(x, y),
 #'   2 / 3 * (x^2 + x * y + y^2) / (x + y)
 #' )
-#'
-#' #---- Approximating the logarithmic mean ----
-#'
-#' # The logarithmic mean can be approximated as a convex combination of
-#' # the arithmetic and geometric means that gives more weight to the
-#' # geometric mean
-#'
-#' approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)
-#' approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3)
-#'
-#' approx1 - logmean(x, y) # always a positive approximation error
-#' approx2 - logmean(x, y) # a negative approximation error
-#'
-#' # A better approximation
-#'
-#' correction <- (log(x / y) / pi)^4 / 32
-#' approx1 / (1 + correction) - logmean(x, y)
-#'
-#' #---- Some identities ----
-#'
-#' # A useful identity for turning an additive change into a proportionate
-#' # change
-#'
-#' all.equal(logmean(x, y) * log(x / y), x - y)
-#'
-#' # Works for other orders, too
-#'
-#' r <- 2
-#'
-#' all.equal(
-#'   generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)),
-#'   (x^r - y^r)
-#' )
-#'
-#' # Some other identities
-#'
-#' all.equal(
-#'   generalized_logmean(-2)(1, 2),
-#'   (harmonic_mean(1:2) * geometric_mean(1:2)^2)^(1 / 3)
-#' )
-#'
-#' all.equal(
-#'   generalized_logmean(0.5)(1, 2),
-#'   (arithmetic_mean(1:2) + geometric_mean(1:2)) / 2
-#' )
-#'
-#' all.equal(
-#'   logmean(1, 2),
-#'   geometric_mean(1:2)^2 * logmean(1, 1 / 2)
-#' )
-#'
-#' #---- Integral representations of the logarithmic mean ----
-#'
-#' logmean(2, 3)
-#'
-#' integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
-#' 1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
 #'
 #' @family means
 #' @export
@@ -434,7 +316,7 @@ extended_mean <- function(r, s) {
   if (not_finite_scalar(s)) {
     stop("'s' must be a finite length 1 numeric")
   }
-  
+
   function(a, b, tol = .Machine$double.eps^0.5) {
     if (r == 0 && s == 0) {
       res <- sqrt(a * b)
@@ -474,23 +356,11 @@ logmean <- generalized_logmean(0)
 #' mean of order `r` of `x` with weights `w`, which is
 #' calculated as the arithmetic mean of `x` with weights \eqn{wx^{r-1}}.
 #' This is also called the counter-harmonic mean or generalized anti-harmonic
-#' mean. See Bullen (2003, p. 245) for a definition, or
-#' <https://en.wikipedia.org/wiki/Lehmer_mean>.
+#' mean. See Bullen (2003, p. 245) for details.
 #'
 #' The Lehmer mean of order 2 is sometimes called the contraharmonic (or
 #' anti-harmonic) mean. The function `contraharmonic_mean()` simply calls
-#' `lehmer_mean(2)()`. Like the generalized mean, the contraharmonic mean
-#' is the solution to an optimal prediction problem: choose \eqn{m} to minimize
-#' \eqn{\sum_{i = 1}^{n} w_{i} \left(\frac{x_{i}}{m} - 1 \right)^2}{\sum w (x /
-#' m - 1)^2}. The Lehmer mean of order -1 has a similar interpretation,
-#' replacing \eqn{\frac{x_{i}}{m}}{x / m} with \eqn{\frac{m}{x_{i}}}{m / x},
-#' and together these bound the harmonic and arithmetic means.
-#'
-#' The Lehmer mean is an alternative to the generalized mean that generalizes
-#' the Pythagorean means. The function `lehmer_mean(1)()` is identical to
-#' `arithmetic_mean()`, `lehmer_mean(0)()` is identical to
-#' `harmonic_mean()`, and `lehmer_mean(0.5)()` is identical to
-#' `geometric_mean()` with two values and no weights. See von der Lippe
+#' `lehmer_mean(2)()`. See von der Lippe
 #' (2015) for more details on the use of these means for making price indexes.
 #'
 #' @inheritParams generalized_mean
@@ -500,9 +370,6 @@ logmean <- generalized_logmean(0)
 #' `lehmer_mean()` returns a function:
 #'
 #' \preformatted{function(x, w = NULL, na.rm = FALSE){...}}
-#'
-#' This computes the Lehmer mean of order `r` of `x` with weights
-#' `w`.
 #'
 #' `contraharmonic_mean()` returns a numeric value for the Lehmer mean of
 #' order 2.
@@ -517,9 +384,6 @@ logmean <- generalized_logmean(0)
 #' Bullen, P. S. (2003). *Handbook of Means and Their Inequalities*.
 #' Springer Science+Business Media.
 #'
-#' Lehmer, D. H. (1971). On the Compounding of Certain Means.
-#' *Journal of Mathematical Analysis and Applications*, 36(1): 183-200.
-#'
 #' von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
 #' Formulas, Notes on some unexplored index formulas, their interpretations and
 #' generalizations. Munich Personal RePEc Archive paper no. 64952.
@@ -528,25 +392,23 @@ logmean <- generalized_logmean(0)
 #' x <- 2:3
 #' w <- c(0.25, 0.75)
 #'
-#' #---- The Pythagorean means are special cases of the Lehmer mean ----
+#' # The Pythagorean means are special cases of the Lehmer mean.
 #'
 #' all.equal(lehmer_mean(1)(x, w), arithmetic_mean(x, w))
 #' all.equal(lehmer_mean(0)(x, w), harmonic_mean(x, w))
 #' all.equal(lehmer_mean(0.5)(x), geometric_mean(x))
 #'
-#' #---- Comparing Lehmer means and generalized means ----
-#'
 #' # When r < 1, the generalized mean is larger than the corresponding
-#' # Lehmer mean
+#' # Lehmer mean.
 #'
 #' lehmer_mean(-1)(x, w) < generalized_mean(-1)(x, w)
 #'
-#' # The reverse is true when r > 1
+#' # The reverse is true when r > 1.
 #'
 #' lehmer_mean(3)(x, w) > generalized_mean(3)(x, w)
 #'
 #' # This implies the contraharmonic mean is larger than the quadratic
-#' # mean, and therefore the Pythagorean means
+#' # mean, and therefore the Pythagorean means.
 #'
 #' contraharmonic_mean(x, w) > arithmetic_mean(x, w)
 #' contraharmonic_mean(x, w) > geometric_mean(x, w)
@@ -557,7 +419,7 @@ logmean <- generalized_logmean(0)
 #' contraharmonic_mean(2:3) > logmean(2, 3)
 #'
 #' # The difference between the arithmetic mean and contraharmonic mean
-#' # is proportional to the variance of x
+#' # is proportional to the variance of x.
 #'
 #' weighted_var <- function(x, w) {
 #'   arithmetic_mean((x - arithmetic_mean(x, w))^2, w)
@@ -565,35 +427,6 @@ logmean <- generalized_logmean(0)
 #'
 #' arithmetic_mean(x, w) + weighted_var(x, w) / arithmetic_mean(x, w)
 #' contraharmonic_mean(x, w)
-#'
-#' #---- Changing the order of the mean ----
-#'
-#' # It is easy to modify the weights to turn a Lehmer mean of order r
-#' # into a Lehmer mean of order s because the Lehmer mean can be
-#' # expressed as an arithmetic mean
-#'
-#' r <- 2
-#' s <- -3
-#' lehmer_mean(r)(x, w)
-#' lehmer_mean(s)(x, w * x^(r - 1) / x^(s - 1))
-#'
-#' # The weights can also be modified to turn a Lehmer mean of order r
-#' # into a generalized mean of order s
-#'
-#' lehmer_mean(r)(x, w)
-#' generalized_mean(s)(x, transmute_weights(1, s)(x, w * x^(r - 1)))
-#'
-#' # ... and vice versa
-#'
-#' lehmer_mean(r)(x, transmute_weights(s, 1)(x, w) / x^(r - 1))
-#' generalized_mean(s)(x, w)
-#'
-#' #---- Percent-change contributions ----
-#'
-#' # Percent-change contributions for a price index based on the Lehmer
-#' # mean are easy to calculate
-#'
-#' scale_weights(w * x^(r - 1)) * (x - 1)
 #'
 #' @family means
 #' @export
@@ -663,81 +496,47 @@ contraharmonic_mean <- lehmer_mean(2)
 #' indexes based on nested generalized means, like the Fisher index.
 #'
 #' @references
-#' Diewert, W. E. (1976). Exact and superlative index numbers.
-#' *Journal of Econometrics*, 4(2): 114--145.
-#'
 #' ILO, IMF, OECD, UNECE, and World Bank. (2004).
 #' *Producer Price Index Manual: Theory and Practice*. International Monetary
 #' Fund.
-#'
-#' Lent, J. and Dorfman, A. H. (2009). Using a weighted average of base period
-#' price indexes to approximate a superlative index.
-#' *Journal of Official Statistics*, 25(1):139--149.
 #'
 #' @examples
 #' x <- 1:3
 #' w1 <- 4:6
 #' w2 <- 7:9
 #'
-#' #---- Making superlative indexes ----
-#'
-#' # A function to make the superlative quadratic mean price index by
-#' # Diewert (1976) as a product of generalized means
+#' # A function to make the superlative quadratic mean price index as
+#' # a product of generalized means.
 #'
 #' quadratic_mean_index <- function(r) nested_mean(0, c(r / 2, -r / 2))
 #'
 #' quadratic_mean_index(2)(x, w1, w2)
 #'
-#' # The arithmetic AG mean index by Lent and Dorfman (2009)
-#'
-#' agmean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
-#'
-#' agmean_index(0.25)(x, w1, w1)
-#'
-#' #---- Walsh index ----
+#' fisher_mean(x, w1, w2)
 #'
 #' # The (arithmetic) Walsh index is the implicit price index when using a
-#' # superlative quadratic mean quantity index of order 1
+#' # superlative quadratic mean quantity index of order 1.
 #'
-#' p1 <- price6[[2]]
-#' p0 <- price6[[1]]
-#' q1 <- quantity6[[2]]
-#' q0 <- quantity6[[1]]
+#' p2 <- price6[[2]]
+#' p1 <- price6[[1]]
+#' q2 <- quantity6[[2]]
+#' q1 <- quantity6[[1]]
 #'
 #' walsh <- quadratic_mean_index(1)
 #'
-#' sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
+#' sum(p2 * q2) / sum(p1 * q1) / walsh(q2 / q1, p1 * q1, p2 * q2)
 #'
-#' sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
+#' sum(p2 * sqrt(q2 * q1)) / sum(p1 * sqrt(q2 * q1))
 #'
 #' # Counter to the PPI manual (par. 1.105), it is not a superlative
-#' # quadratic mean price index of order 1
+#' # quadratic mean price index of order 1.
 #'
-#' walsh(p1 / p0, p0 * q0, p1 * q1)
-#' 
-#' # That requires using the average value share as weights
-#' 
-#' walsh_weights <- sqrt(scale_weights(p0 * q0) * scale_weights(p1 * q1))
-#' walsh(p1 / p0, walsh_weights, walsh_weights)
+#' walsh(p2 / p1, p1 * q1, p2 * q2)
 #'
-#' #---- Missing values ----
+#' # That requires using the average value share as weights.
 #'
-#' x[1] <- NA
-#' w1[2] <- NA
-#'
-#' fisher_mean(x, w1, w2, na.rm = TRUE)
-#'
-#' # Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a
-#' # harmonic mean
-#'
-#' geometric_mean(c(
-#'   arithmetic_mean(x, w1, na.rm = TRUE),
-#'   harmonic_mean(x, w2, na.rm = TRUE)
-#' ))
-#'
-#' # Use balanced() to use only obs 3 in both inner means
-#'
-#' balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
+#' walsh_weights <- sqrt(scale_weights(p1 * q1) * scale_weights(p2 * q2))
+#' walsh(p2 / p1, walsh_weights, walsh_weights)
 #'
 #' @family means
 #' @export

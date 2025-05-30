@@ -14,13 +14,13 @@
 #' q1 <- quantity6[[3]]
 #' q0 <- quantity6[[2]]
 #'
-#' # Remap argument names to be quantities rather than prices
+#' # Remap argument names to be quantities rather than prices.
 #'
 #' quantity_index(laspeyres_index)(q1 = q1, q0 = q0, p0 = p0)
 #'
 #' laspeyres_index(p1 = q1, p0 = q0, q0 = p0)
 #'
-#' # Works with the index_weights() functions, too
+#' # Works with the index_weights() functions, too.
 #'
 #' quantity_index(index_weights("Laspeyres"))(q0 = q0, p0 = p0)
 #'
@@ -57,26 +57,11 @@ quantity_index <- function(f) {
 #' group and combining the results. It is similar to [ave()], but more general.
 #'
 #' @examples
-#' p1 <- price6[[3]]
-#' p0 <- price6[[2]]
-#' q1 <- quantity6[[3]]
-#' q0 <- quantity6[[2]]
-#'
-#' # Calculate Tornqvist weights for two groups
-#'
-#' f <- factor(rep(letters[1:2], each = 3))
-#' tornqvist_weights <- grouped(index_weights("Tornqvist"))
-#' tornqvist_weights(p1, p0, q1, q0, group = f)
-#'
-#' # Calculate a mean like ave(), but with weights
+#' # Redistribute weights.
 #'
 #' x <- 1:6
 #' w <- c(1:5, NA)
-#' grouped_mean <- grouped(\(x, w) geometric_mean(x, w, na.rm = TRUE))
-#' grouped_mean(x, w, group = f)
-#'
-#' # Redistribute weights
-#'
+#' f <- factor(rep(letters[1:2], each = 3))
 #' w1 <- c(2, 4)
 #' w2 <- 1:6
 #'
@@ -132,26 +117,16 @@ grouped <- function(f, ...) {
 #' prior to calling `f`.
 #'
 #' @examples
-#' p1 <- price6[[3]]
-#' p0 <- price6[[2]]
-#' q1 <- quantity6[[3]]
-#' q0 <- quantity6[[2]]
+#' p2 <- price6[[3]]
+#' p1 <- price6[[2]]
+#' q2 <- quantity6[[3]]
+#' q1 <- quantity6[[2]]
 #'
-#' # Balance missing values for a Fisher index
+#' # Balance missing values for a Fisher index.
 #'
 #' fisher <- balanced(fisher_index)
-#' fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
-#' fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
-#'
-#' # Operators can be combined, but some care may be needed
-#'
-#' x <- 1:6
-#' w <- c(1:5, NA)
-#'
-#' f <- factor(rep(letters[1:2], each = 3))
-#'
-#' grouped(\(x, w) balanced(fisher_mean)(x, w, na.rm = TRUE))(x, w, group = f)
-#' balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
+#' fisher(p2, p1, q2, replace(q1, 3, NA), na.rm = TRUE)
+#' fisher_index(p2[-3], p1[-3], q2[-3], q1[-3])
 #'
 #' @family operators
 #' @export

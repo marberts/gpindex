@@ -21,26 +21,11 @@ group and combining the results. It is similar to \code{\link[=ave]{ave()}}, but
 Make a function applicable to grouped data.
 }
 \examples{
-p1 <- price6[[3]]
-p0 <- price6[[2]]
-q1 <- quantity6[[3]]
-q0 <- quantity6[[2]]
-
-# Calculate Tornqvist weights for two groups
-
-f <- factor(rep(letters[1:2], each = 3))
-tornqvist_weights <- grouped(index_weights("Tornqvist"))
-tornqvist_weights(p1, p0, q1, q0, group = f)
-
-# Calculate a mean like ave(), but with weights
+# Redistribute weights.
 
 x <- 1:6
 w <- c(1:5, NA)
-grouped_mean <- grouped(\(x, w) geometric_mean(x, w, na.rm = TRUE))
-grouped_mean(x, w, group = f)
-
-# Redistribute weights
-
+f <- factor(rep(letters[1:2], each = 3))
 w1 <- c(2, 4)
 w2 <- 1:6
 

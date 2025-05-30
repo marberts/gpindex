@@ -21,26 +21,16 @@ prior to calling \code{f}.
 Makes a function balance the removal of \code{NA}s across multiple input vectors.
 }
 \examples{
-p1 <- price6[[3]]
-p0 <- price6[[2]]
-q1 <- quantity6[[3]]
-q0 <- quantity6[[2]]
+p2 <- price6[[3]]
+p1 <- price6[[2]]
+q2 <- quantity6[[3]]
+q1 <- quantity6[[2]]
 
-# Balance missing values for a Fisher index
+# Balance missing values for a Fisher index.
 
 fisher <- balanced(fisher_index)
-fisher(p1, p0, q1, replace(q0, 3, NA), na.rm = TRUE)
-fisher_index(p1[-3], p0[-3], q1[-3], q0[-3])
-
-# Operators can be combined, but some care may be needed
-
-x <- 1:6
-w <- c(1:5, NA)
-
-f <- factor(rep(letters[1:2], each = 3))
-
-grouped(\(x, w) balanced(fisher_mean)(x, w, na.rm = TRUE))(x, w, group = f)
-balanced(grouped(fisher_mean))(x, w, group = f, na.rm = TRUE)
+fisher(p2, p1, q2, replace(q1, 3, NA), na.rm = TRUE)
+fisher_index(p2[-3], p1[-3], q2[-3], q1[-3])
 
 }
 \seealso{

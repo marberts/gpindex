@@ -120,32 +120,29 @@ product <- rep(letters[1:2], each = 5)
 
 cumprod(tornqvist_geks(price, quantity, period, product)[[1]])
 
-# Calculate the index over a rolling window
+# Calculate the index over a rolling window.
 
 (tg <- tornqvist_geks(price, quantity, period, product, window = 3))
 
-# Use a movement splice to combine the indexes in each window
+# Use a movement splice to combine the indexes in each window.
 
 splice_index(tg, 2)
 
-# ... or use a mean splice
+# ... or use a mean splice.
 
 splice_index(tg)
 
-#---- Missing data ----
+# Use all non-missing data.
 
 quantity[2] <- NA
-
-# Use all non-missing data
-
 fisher_geks(price, quantity, period, product, na.rm = TRUE)
 
-# Remove records with any missing data
+# Remove records with any missing data.
 
 fg <- geks(balanced(fisher_index))
 fg(price, quantity, period, product, na.rm = TRUE)
 
-#---- Make a Jevons GEKS index ----
+# Make a Jevons GEKS index.
 
 jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
 jevons_geks(price, quantity, period, product)

@@ -27,7 +27,7 @@
 #'   default gives an index for each period in `window`. Non-integers are
 #'   truncated towards zero.
 #' @param na.rm Passed to `f` to control if missing values are removed.
-#' @param match_method Either 'all' to match all products against each other 
+#' @param match_method Either 'all' to match all products against each other
 #'   (the default) or back-price' to match only back prices. The later can be
 #'   faster when there is lots of product imbalanced, but should be used with
 #'   a balanced index-number formula `f`.
@@ -83,33 +83,30 @@
 #'
 #' cumprod(tornqvist_geks(price, quantity, period, product)[[1]])
 #'
-#' # Calculate the index over a rolling window
-#' 
+#' # Calculate the index over a rolling window.
+#'
 #' (tg <- tornqvist_geks(price, quantity, period, product, window = 3))
-#' 
-#' # Use a movement splice to combine the indexes in each window
-#' 
+#'
+#' # Use a movement splice to combine the indexes in each window.
+#'
 #' splice_index(tg, 2)
-#' 
-#' # ... or use a mean splice
-#' 
+#'
+#' # ... or use a mean splice.
+#'
 #' splice_index(tg)
 #'
-#' #---- Missing data ----
+#' # Use all non-missing data.
 #'
 #' quantity[2] <- NA
-#'
-#' # Use all non-missing data
-#'
 #' fisher_geks(price, quantity, period, product, na.rm = TRUE)
 #'
-#' # Remove records with any missing data
+#' # Remove records with any missing data.
 #'
 #' fg <- geks(balanced(fisher_index))
 #' fg(price, quantity, period, product, na.rm = TRUE)
-#' 
-#' #---- Make a Jevons GEKS index ----
-#' 
+#'
+#' # Make a Jevons GEKS index.
+#'
 #' jevons_geks <- geks(\(p1, p0, ..., na.rm) jevons_index(p1, p0, na.rm))
 #' jevons_geks(price, quantity, period, product)
 #'
@@ -129,11 +126,11 @@ geks <- function(f, r = 0) {
     period <- as.factor(period)
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on numeric codes
-    
+
     if (different_lengths(p, q, period, product)) {
       stop("'p', 'q', 'period', and 'product' must be the same length")
     }
-    
+
     match_method <- match.arg(match_method)
 
     if (nlevels(period) == 0L) {
@@ -158,7 +155,7 @@ geks <- function(f, r = 0) {
     if (n > window - 1L) {
       stop("'n' must be less than or equal to 'window' minus 1")
     }
-    
+
     mat <- geks_matrix(f, p, q, period, product, window, n, na.rm, match_method)
     rows <- seq_len(window) - 1L
     # Only the last n + 1 indexes in each window need to be kept.
@@ -183,7 +180,7 @@ geks <- function(f, r = 0) {
 geks_matrix <- function(index, p, q, period, product, window, n, na.rm, method) {
   p <- split(p, period)
   q <- split(q, period)
-  
+
   if (method == "all") {
     product <- balance_products(product, period)
     p <- Map(`[`, p, product)
@@ -191,7 +188,7 @@ geks_matrix <- function(index, p, q, period, product, window, n, na.rm, method) 
   } else {
     product <- split(product, period)
   }
-  
+
   lt <- vector("list", nlevels(period))
   for (i in seq_along(lt)) {
     if (i < max(window - n, 2L)) {

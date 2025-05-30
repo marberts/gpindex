@@ -19,7 +19,7 @@ extended_mean_ <- function(r, s) {
   if (not_finite_scalar(s)) {
     stop("'s' must be a finite length 1 numeric")
   }
-  
+
   function(x, m, tol = .Machine$double.eps^0.5) {
     res <- rdiff(x, m, r) / rdiff(x, m, s)
     res[abs(x - m) <= tol] <- m^(r - s)
@@ -45,19 +45,9 @@ extended_mean_ <- function(r, s) {
 #' \preformatted{nested_mean(r1, r2, t)(x, w1, w2) ==
 #'   generalized_mean(s)(x, v(x, w1, w2))}
 #'
-#' This generalizes the result for turning a geometric mean into an arithmetic
-#' mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into
-#' an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these
-#' are usually the most important cases. See Martin (2021) for details.
-#' `nested_transmute2()` takes a slightly different approach than
-#' `nested_transmute()`, generalizing the van IJzeren arithmetic
-#' decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
-#' approach by Martin (2021), although in most cases the results are broadly
-#' similar.
-#'
 #' Transmuting weights returns a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
-#' Unless all values are \code{NA}, however, the result for will still satisfy
+#' Unless all values are \code{NA}, however, the result will still satisfy
 #' the above identities when \code{na.rm = TRUE}.
 #'
 #' @inheritParams nested_mean
@@ -87,45 +77,20 @@ extended_mean_ <- function(r, s) {
 #' [grouped()] to make these functions operate on grouped data.
 #'
 #' @references
-#' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
-#' Cambridge University Press.
-#'
-#' Martin, S. (2021). A note on general decompositions for price indexes.
-#' *Prices Analytical Series*, Statistics Canada catalogue no. 62F0014M.
-#' Statistics Canada, Ottawa.
-#'
-#' Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive
-#' decompositions for Fisher, Törnqvist and geometric mean indexes.
-#' *Journal of Economic and Social Measurement*, 28(1-2):51--61.
-#'
-#' Sydsaeter, K., Strom, A., and Berck, P. (2005). *Economists'
-#' Mathematical Manual* (4th edition). Springer.
+#' See `vignette("decomposing-indexes")` for more details.
 #'
 #' @examples
 #' x <- 1:3
-#' y <- 4:6
 #' w <- 3:1
 #'
-#' #---- Transforming generalized means ----
-#'
 #' # Calculate the geometric mean as an arithmetic mean and
-#' # harmonic mean by transmuting the weights
+#' # harmonic mean by transmuting the weights.
 #'
 #' geometric_mean(x)
 #' arithmetic_mean(x, transmute_weights(0, 1)(x))
 #' harmonic_mean(x, transmute_weights(0, -1)(x))
 #'
-#' # Transmuting the weights for a harmonic mean into those
-#' # for an arithmetic mean is the same as using weights w / x
-#'
-#' all.equal(transmute_weights(-1, 1)(x, w), scale_weights(w / x))
-#' 
-#' # Transmuting the weights for an arithmetic mean into those
-#' # for a harmonic mean is the same as using weights w * x
-#'
-#' all.equal(transmute_weights(1, -1)(x, w), scale_weights(w * x))
-#'
-#' # Works for nested means, too
+#' # Works for nested means, too.
 #'
 #' w1 <- 3:1
 #' w2 <- 1:3
@@ -134,55 +99,6 @@ extended_mean_ <- function(r, s) {
 #'
 #' arithmetic_mean(x, nested_transmute(0, c(1, -1), 1)(x, w1, w2))
 #' arithmetic_mean(x, nested_transmute2(0, c(1, -1), 1)(x, w1, w2))
-#'
-#' # Note that nested_transmute() has an invariance property
-#' # not shared by nested_transmute2()
-#'
-#' all.equal(
-#'   nested_transmute(0, c(1, -1), 1)(x, w1, w2),
-#'   transmute_weights(2, 1)(
-#'     x, nested_transmute(0, c(1, -1), 2)(x, w1, w2)
-#'   )
-#' )
-#'
-#' all.equal(
-#'   nested_transmute2(0, c(1, -1), 1)(x, w1, w2),
-#'   transmute_weights(2, 1)(
-#'     x, nested_transmute2(0, c(1, -1), 2)(x, w1, w2)
-#'   )
-#' )
-#' 
-#' #---- Monotonicity ----
-#' 
-#' # Transmuted weights increase when x is small and decrease
-#' # when x is large if r < s
-#' 
-#' transmute_weights(0, 1)(x, w) > scale_weights(w)
-#' 
-#' # The opposite happens when r > s
-#' 
-#' transmute_weights(1, 0)(x, w) > scale_weights(w)
-#'
-#' #---- Percent-change contributions ----
-#'
-#' # Transmuted weights can be used to calculate percent-change
-#' # contributions for, e.g., a geometric price index
-#'
-#' transmute_weights(0, 1)(x) * (x - 1)
-#' geometric_contributions(x) # the more convenient way
-#'
-#' #---- Basket representation of a price index ----
-#'
-#' # Any generalized-mean index can be represented as a basket-style
-#' # index by transmuting the weights, which is how some authors
-#' # define a price index (e.g., Sydsaeter et al., 2005, p. 174)
-#'
-#' p1 <- 2:6
-#' p0 <- 1:5
-#'
-#' qs <- transmute_weights(-1, 1)(p1 / p0) / p0
-#' all.equal(harmonic_mean(p1 / p0), sum(p1 * qs) / sum(p0 * qs))
-#'
 #' @family weights functions
 #' @export
 transmute_weights <- function(r, s) {
@@ -319,7 +235,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #'
 #' Factoring weights return a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
-#' Unless all values are \code{NA}, however, the result for will still satisfy
+#' Unless all values are \code{NA}, however, the result will still satisfy
 #' the above identity when \code{na.rm = TRUE}.
 #'
 #' @inheritParams generalized_mean
@@ -346,18 +262,18 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #' y <- 4:6
 #' w <- 3:1
 
-#' # Factor the harmonic mean by chaining the calculation
+#' # Factor the harmonic mean by chaining the calculation.
 #'
 #' harmonic_mean(x * y, w)
 #' harmonic_mean(x, w) * harmonic_mean(y, factor_weights(-1)(x, w))
 #'
-#' # The common case of an arithmetic mean
+#' # The common case of an arithmetic mean.
 #'
 #' arithmetic_mean(x * y, w)
 #' arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
 #'
 #' # In cases where x and y have the same order, Chebyshev's
-#' # inequality implies that the chained calculation is too small
+#' # inequality implies that the chained calculation is too small.
 #'
 #' arithmetic_mean(x * y, w) >
 #'   arithmetic_mean(x, w) * arithmetic_mean(y, w)
@@ -413,6 +329,8 @@ update_weights <- factor_weights(1)
 #'
 #' @examples
 #' scale_weights(1:5)
+#'
+#' scale_weights(c(1:5, NA))
 #'
 #' @family weights functions
 #' @export

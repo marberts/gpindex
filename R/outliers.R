@@ -58,7 +58,7 @@
 #'
 #' [back_period()]/[base_period()] for a simple utility function to turn prices
 #' in a table into price relatives.
-#' 
+#'
 #' The `HBmethod()` function in the \pkg{univOutl} package for the
 #' Hidiroglou-Berthelot method for identifying outliers.
 #'
@@ -87,7 +87,7 @@
 #' log(x)
 #' hb_transform(x)
 #'
-#' # Works the same for grouped data
+#' # Works the same for grouped data.
 #'
 #' f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
 #' grouped(quartile_method)(x, group = f)
@@ -103,7 +103,7 @@ quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   if (length(cl) != 1L) cl <- rep_len(cl, length(x))
   a <- as.numeric(a)
   if (length(a) != 1L) a <- rep_len(a, length(x))
-  
+
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
@@ -125,7 +125,7 @@ resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   if (length(cl) != 1L) cl <- rep_len(cl, length(x))
   a <- as.numeric(a)
   if (length(a) != 1L) a <- rep_len(a, length(x))
-  
+
   q <- stats::quantile(
     x, c(0.25, 0.5, 0.75),
     names = FALSE, na.rm = TRUE, type = type
@@ -145,7 +145,7 @@ robust_z <- function(x, cu = 2.5, cl = cu) {
   if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
   if (length(cl) != 1L) cl <- rep_len(cl, length(x))
-  
+
   med <- stats::median(x, na.rm = TRUE)
   s <- stats::mad(x, na.rm = TRUE)
   x <- x - med
@@ -175,7 +175,7 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   if (length(cu) != 1L) cu <- rep_len(cu, length(x))
   cl <- as.numeric(cl)
   if (length(cl) != 1L) cl <- rep_len(cl, length(x))
-  
+
   q <- stats::quantile(
     x, c(0.05, 0.95),
     names = FALSE, na.rm = TRUE, type = type
