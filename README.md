@@ -14,7 +14,6 @@ Version](https://img.shields.io/conda/vn/conda-forge/r-gpindex.svg)](https://ana
 [![R-CMD-check](https://github.com/marberts/gpindex/workflows/R-CMD-check/badge.svg)](https://github.com/marberts/gpindex/actions)
 [![codecov](https://codecov.io/gh/marberts/gpindex/graph/badge.svg?token=TL7V9QO0BH)](https://app.codecov.io/gh/marberts/gpindex)
 [![DOI](https://zenodo.org/badge/261861375.svg)](https://zenodo.org/doi/10.5281/zenodo.10097742)
-[![R-CMD-check](https://github.com/marberts/gpindex/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/marberts/gpindex/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 Tools to build and work with bilateral generalized-mean price indexes
