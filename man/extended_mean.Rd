@@ -26,9 +26,6 @@ function:
 
 \preformatted{function(a, b, tol = .Machine$double.eps^0.5){...}}
 
-This computes the component-wise generalized logarithmic mean of order
-\code{r}, or the extended mean of orders \code{r} and \code{s}, of \code{a} and \code{b}.
-
 \code{logmean()} returns a numeric vector, the same length as
 \code{max(length(a), length(b))}, giving the component-wise logarithmic mean
 of \code{a} and \code{b}.
@@ -44,8 +41,7 @@ the difference mean, Stolarsky mean, or extended mean-value mean.
 
 The function \code{generalized_logmean()} returns a function to compute the
 component-wise generalized logarithmic mean of \code{a} and \code{b} of
-order \code{r}. See Bullen (2003, p. 385) for a definition, or
-\url{https://en.wikipedia.org/wiki/Stolarsky_mean}. The generalized
+order \code{r}. See Bullen (2003, p. 385) for a definition. The generalized
 logarithmic mean is a special case of the extended mean, corresponding to
 \code{extended_mean(r, 1)()}, but is more commonly used for price indexes.
 
@@ -61,9 +57,7 @@ apply when \code{a} and \code{b} are not the same length.
 By definition, the generalized logarithmic mean / extended mean of \code{a}
 and \code{b} is \code{a} when \code{a == b}. The \code{tol} argument is used
 to test equality by checking if \code{abs(a - b) <= tol}. The default value
-is the same as \code{\link[=all.equal]{all.equal()}}. Setting \code{tol = 0}
-tests for exact equality, but can give misleading results when \code{a} and
-\code{b} are computed values. In some cases it's useful to multiply
+is the same as \code{\link[=all.equal]{all.equal()}}. In some cases it's useful to multiply
 \code{tol} by a scale factor, such as \code{max(abs(a), abs(b))}. This often
 doesn't matter when making price indexes, however, as \code{a} and \code{b}
 are usually around 1.
@@ -72,36 +66,28 @@ are usually around 1.
 \code{generalized_logmean()} can be defined on the extended real line,
 so that \code{r = -Inf / Inf} returns \code{\link[=pmin]{pmin()}}/\code{\link[=pmax]{pmax()}}, to agree with the
 definition in, e.g., Bullen (2003). This is not implemented, and \code{r}
-must be finite as in the original formulation by Stolarsky (1975).
+must be finite.
 }
 \examples{
 x <- 8:5
 y <- 1:4
 
-#---- Comparing logarithmic means and generalized means ----
-
 # The arithmetic and geometric means are special cases of the
-# generalized logarithmic mean
+# generalized logarithmic mean.
 
 all.equal(generalized_logmean(2)(x, y), (x + y) / 2)
 all.equal(generalized_logmean(-1)(x, y), sqrt(x * y))
 
-# The logarithmic mean lies between the arithmetic and geometric means
-# because the generalized logarithmic mean is increasing in r
-
-all(logmean(x, y) < (x + y) / 2) &
-  all(logmean(x, y) > sqrt(x * y))
-
 # The harmonic mean cannot be expressed as a logarithmic mean, but can
-# be expressed as an extended mean
+# be expressed as an extended mean.
 
 all.equal(extended_mean(-2, -1)(x, y), 2 / (1 / x + 1 / y))
 
-# The quadratic mean is also a type of extended mean
+# The quadratic mean is also a type of extended mean.
 
 all.equal(extended_mean(2, 4)(x, y), sqrt(x^2 / 2 + y^2 / 2))
 
-# As are heronian and centroidal means
+# As are heronian and centroidal means.
 
 all.equal(
   extended_mean(0.5, 1.5)(x, y),
@@ -112,73 +98,10 @@ all.equal(
   2 / 3 * (x^2 + x * y + y^2) / (x + y)
 )
 
-#---- Approximating the logarithmic mean ----
-
-# The logarithmic mean can be approximated as a convex combination of
-# the arithmetic and geometric means that gives more weight to the
-# geometric mean
-
-approx1 <- 1 / 3 * (x + y) / 2 + 2 / 3 * sqrt(x * y)
-approx2 <- ((x + y) / 2)^(1 / 3) * (sqrt(x * y))^(2 / 3)
-
-approx1 - logmean(x, y) # always a positive approximation error
-approx2 - logmean(x, y) # a negative approximation error
-
-# A better approximation
-
-correction <- (log(x / y) / pi)^4 / 32
-approx1 / (1 + correction) - logmean(x, y)
-
-#---- Some identities ----
-
-# A useful identity for turning an additive change into a proportionate
-# change
-
-all.equal(logmean(x, y) * log(x / y), x - y)
-
-# Works for other orders, too
-
-r <- 2
-
-all.equal(
-  generalized_logmean(r)(x, y)^(r - 1) * (r * (x - y)),
-  (x^r - y^r)
-)
-
-# Some other identities
-
-all.equal(
-  generalized_logmean(-2)(1, 2),
-  (harmonic_mean(1:2) * geometric_mean(1:2)^2)^(1 / 3)
-)
-
-all.equal(
-  generalized_logmean(0.5)(1, 2),
-  (arithmetic_mean(1:2) + geometric_mean(1:2)) / 2
-)
-
-all.equal(
-  logmean(1, 2),
-  geometric_mean(1:2)^2 * logmean(1, 1 / 2)
-)
-
-#---- Integral representations of the logarithmic mean ----
-
-logmean(2, 3)
-
-integrate(function(t) 2^(1 - t) * 3^t, 0, 1)$value
-1 / integrate(function(t) 1 / (2 * (1 - t) + 3 * t), 0, 1)$value
-
 }
 \references{
-Balk, B. M. (2008). \emph{Price and Quantity Index Numbers}.
-Cambridge University Press.
-
 Bullen, P. S. (2003). \emph{Handbook of Means and Their Inequalities}.
 Springer Science+Business Media.
-
-Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean.
-\emph{Mathematics Magazine}, 48(2): 87-92.
 }
 \seealso{
 \code{\link[=transmute_weights]{transmute_weights()}} uses the extended mean to turn a generalized

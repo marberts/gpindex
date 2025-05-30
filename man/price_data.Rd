@@ -26,7 +26,7 @@ Adapted from tables 3.1 and 3.2 in Balk (2008), which were adapted
 from tables 19.1 and 19.2 in the PPI manual.
 }
 \examples{
-# Recreate tables 3.4, 3.6, and 3.12 from Balk (2008)
+# Recreate tables 3.4, 3.6, and 3.12 from Balk (2008).
 
 index_formulas <- function(p1, p0, q1, q0) {
   c(

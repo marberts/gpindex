@@ -60,115 +60,113 @@ Palgrave, or Sato-Vartia and Vartia-II). The calculations are given in the
 examples.
 }
 \examples{
-p0 <- price6[[2]]
-p1 <- price6[[3]]
-q0 <- quantity6[[2]]
-q1 <- quantity6[[3]]
+p1 <- price6[[2]]
+p2 <- price6[[3]]
+q1 <- quantity6[[2]]
+q2 <- quantity6[[3]]
 pb <- price6[[1]]
 qb <- quantity6[[1]]
-
-#---- Making the weights for different indexes ----
 
 # Explicit calculation for each of the different weights
 # Carli/Jevons/Coggeshall
 
-all.equal(index_weights("Carli")(p1), rep(1, length(p0)))
+all.equal(index_weights("Carli")(p2), rep(1, length(p1)))
 
 # Dutot
 
-all.equal(index_weights("Dutot")(p0), p0)
+all.equal(index_weights("Dutot")(p1), p1)
 
 # Laspeyres / Lloyd-Moulton
 
-all.equal(index_weights("Laspeyres")(p0, q0), p0 * q0)
+all.equal(index_weights("Laspeyres")(p1, q1), p1 * q1)
 
 # Hybrid Laspeyres
 
-all.equal(index_weights("HybridLaspeyres")(p1, q0), p1 * q0)
+all.equal(index_weights("HybridLaspeyres")(p2, q1), p2 * q1)
 
 # Paasche / Palgrave
 
-all.equal(index_weights("Paasche")(p1, q1), p1 * q1)
+all.equal(index_weights("Paasche")(p2, q2), p2 * q2)
 
 # Hybrid Paasche
 
-all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
+all.equal(index_weights("HybridPaasche")(p1, q2), p1 * q2)
 
 # Tornqvist / Unnamed
 
 all.equal(
-  index_weights("Tornqvist")(p1, p0, q1, q0),
-  0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+  index_weights("Tornqvist")(p2, p1, q2, q1),
+  0.5 * p1 * q1 / sum(p1 * q1) + 0.5 * p2 * q2 / sum(p2 * q2)
 )
 
 # Drobisch
 
 all.equal(
-  index_weights("Drobisch")(p1, p0, q1, q0),
-  0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
+  index_weights("Drobisch")(p2, p1, q2, q1),
+  0.5 * p1 * q1 / sum(p1 * q1) + 0.5 * p1 * q2 / sum(p1 * q2)
 )
 
 # Walsh-I
 
 all.equal(
-  index_weights("Walsh1")(p0, q1, q0),
-  p0 * sqrt(q0 * q1)
+  index_weights("Walsh1")(p1, q2, q1),
+  p1 * sqrt(q1 * q2)
 )
 
 # Marshall-Edgeworth
 
 all.equal(
-  index_weights("MarshallEdgeworth")(p0, q1, q0),
-  p0 * (q0 + q1)
+  index_weights("MarshallEdgeworth")(p1, q2, q1),
+  p1 * (q1 + q2)
 )
 
 # Geary-Khamis
 
 all.equal(
-  index_weights("GearyKhamis")(p0, q1, q0),
-  p0 / (1 / q0 + 1 / q1)
+  index_weights("GearyKhamis")(p1, q2, q1),
+  p1 / (1 / q1 + 1 / q2)
 )
 
 # Montgomery-Vartia / Vartia-I
 
 all.equal(
-  index_weights("MontgomeryVartia")(p1, p0, q1, q0),
-  logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
+  index_weights("MontgomeryVartia")(p2, p1, q2, q1),
+  logmean(p1 * q1, p2 * q2) / logmean(sum(p1 * q1), sum(p2 * q2))
 )
 
 # Sato-Vartia / Vartia-II
 
 all.equal(
-  index_weights("SatoVartia")(p1, p0, q1, q0),
-  logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
+  index_weights("SatoVartia")(p2, p1, q2, q1),
+  logmean(p1 * q1 / sum(p1 * q1), p2 * q2 / sum(p2 * q2))
 )
 
 # Walsh-II
 
 all.equal(
-  index_weights("Walsh2")(p1, p0, q1, q0),
-  sqrt(p0 * q0 * p1 * q1)
+  index_weights("Walsh2")(p2, p1, q2, q1),
+  sqrt(p1 * q1 * p2 * q2)
 )
 
 # Theil
 
-all.equal(index_weights("Theil")(p1, p0, q1, q0), {
-  w0 <- scale_weights(p0 * q0)
-  w1 <- scale_weights(p1 * q1)
+all.equal(index_weights("Theil")(p2, p1, q2, q1), {
+  w0 <- scale_weights(p1 * q1)
+  w1 <- scale_weights(p2 * q2)
   (w0 * w1 * (w0 + w1) / 2)^(1 / 3)
 })
 
 # Rao
 
-all.equal(index_weights("Rao")(p1, p0, q1, q0), {
-  w0 <- scale_weights(p0 * q0)
-  w1 <- scale_weights(p1 * q1)
+all.equal(index_weights("Rao")(p2, p1, q2, q1), {
+  w0 <- scale_weights(p1 * q1)
+  w1 <- scale_weights(p2 * q2)
   w0 * w1 / (w0 + w1)
 })
 
 # Lowe
 
-all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
+all.equal(index_weights("Lowe")(p1, qb), p1 * qb)
 
 # Young
 
@@ -176,7 +174,7 @@ all.equal(index_weights("Young")(pb, qb), pb * qb)
 
 # Hybrid CSWD (to approximate a CSWD index)
 
-all.equal(index_weights("HybridCSWD")(p1, p0), sqrt(p0 / p1))
+all.equal(index_weights("HybridCSWD")(p2, p1), sqrt(p1 / p2))
 
 }
 \references{

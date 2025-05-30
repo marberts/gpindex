@@ -57,78 +57,44 @@ x <- 1:3
 w1 <- 4:6
 w2 <- 7:9
 
-#---- Making superlative indexes ----
-
-# A function to make the superlative quadratic mean price index by
-# Diewert (1976) as a product of generalized means
+# A function to make the superlative quadratic mean price index as
+# a product of generalized means.
 
 quadratic_mean_index <- function(r) nested_mean(0, c(r / 2, -r / 2))
 
 quadratic_mean_index(2)(x, w1, w2)
 
-# The arithmetic AG mean index by Lent and Dorfman (2009)
-
-agmean_index <- function(tau) nested_mean(1, c(0, 1), c(tau, 1 - tau))
-
-agmean_index(0.25)(x, w1, w1)
-
-#---- Walsh index ----
+fisher_mean(x, w1, w2)
 
 # The (arithmetic) Walsh index is the implicit price index when using a
-# superlative quadratic mean quantity index of order 1
+# superlative quadratic mean quantity index of order 1.
 
-p1 <- price6[[2]]
-p0 <- price6[[1]]
-q1 <- quantity6[[2]]
-q0 <- quantity6[[1]]
+p2 <- price6[[2]]
+p1 <- price6[[1]]
+q2 <- quantity6[[2]]
+q1 <- quantity6[[1]]
 
 walsh <- quadratic_mean_index(1)
 
-sum(p1 * q1) / sum(p0 * q0) / walsh(q1 / q0, p0 * q0, p1 * q1)
+sum(p2 * q2) / sum(p1 * q1) / walsh(q2 / q1, p1 * q1, p2 * q2)
 
-sum(p1 * sqrt(q1 * q0)) / sum(p0 * sqrt(q1 * q0))
+sum(p2 * sqrt(q2 * q1)) / sum(p1 * sqrt(q2 * q1))
 
 # Counter to the PPI manual (par. 1.105), it is not a superlative
-# quadratic mean price index of order 1
+# quadratic mean price index of order 1.
 
-walsh(p1 / p0, p0 * q0, p1 * q1)
+walsh(p2 / p1, p1 * q1, p2 * q2)
 
-# That requires using the average value share as weights
+# That requires using the average value share as weights.
 
-walsh_weights <- sqrt(scale_weights(p0 * q0) * scale_weights(p1 * q1))
-walsh(p1 / p0, walsh_weights, walsh_weights)
-
-#---- Missing values ----
-
-x[1] <- NA
-w1[2] <- NA
-
-fisher_mean(x, w1, w2, na.rm = TRUE)
-
-# Same as using obs 2 and 3 in an arithmetic mean, and obs 3 in a
-# harmonic mean
-
-geometric_mean(c(
-  arithmetic_mean(x, w1, na.rm = TRUE),
-  harmonic_mean(x, w2, na.rm = TRUE)
-))
-
-# Use balanced() to use only obs 3 in both inner means
-
-balanced(fisher_mean)(x, w1, w2, na.rm = TRUE)
+walsh_weights <- sqrt(scale_weights(p1 * q1) * scale_weights(p2 * q2))
+walsh(p2 / p1, walsh_weights, walsh_weights)
 
 }
 \references{
-Diewert, W. E. (1976). Exact and superlative index numbers.
-\emph{Journal of Econometrics}, 4(2): 114--145.
-
 ILO, IMF, OECD, UNECE, and World Bank. (2004).
 \emph{Producer Price Index Manual: Theory and Practice}. International Monetary
 Fund.
-
-Lent, J. and Dorfman, A. H. (2009). Using a weighted average of base period
-price indexes to approximate a superlative index.
-\emph{Journal of Official Statistics}, 25(1):139--149.
 }
 \seealso{
 \code{\link[=nested_contributions]{nested_contributions()}} for percent-change contributions for

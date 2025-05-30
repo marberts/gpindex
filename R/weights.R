@@ -47,7 +47,7 @@ extended_mean_ <- function(r, s) {
 #'
 #' Transmuting weights returns a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
-#' Unless all values are \code{NA}, however, the result for will still satisfy
+#' Unless all values are \code{NA}, however, the result will still satisfy
 #' the above identities when \code{na.rm = TRUE}.
 #'
 #' @inheritParams nested_mean
@@ -90,7 +90,7 @@ extended_mean_ <- function(r, s) {
 #' arithmetic_mean(x, transmute_weights(0, 1)(x))
 #' harmonic_mean(x, transmute_weights(0, -1)(x))
 #'
-#' # Works for nested means, too
+#' # Works for nested means, too.
 #'
 #' w1 <- 3:1
 #' w2 <- 1:3
@@ -235,7 +235,7 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
 #'
 #' Factoring weights return a value that is the same length as \code{x},
 #' so any missing values in \code{x} or the weights will return \code{NA}.
-#' Unless all values are \code{NA}, however, the result for will still satisfy
+#' Unless all values are \code{NA}, however, the result will still satisfy
 #' the above identity when \code{na.rm = TRUE}.
 #'
 #' @inheritParams generalized_mean
@@ -329,6 +329,8 @@ update_weights <- factor_weights(1)
 #'
 #' @examples
 #' scale_weights(1:5)
+#'
+#' scale_weights(c(1:5, NA))
 #'
 #' @family weights functions
 #' @export

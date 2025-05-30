@@ -52,62 +52,62 @@ pak::pak("marberts/gpindex")
 library(gpindex)
 
 # Start with some data on prices and quantities for 6 products
-# over 5 periods
+# over 5 periods.
 price6
 quantity6
 
-# We'll only need prices and quantities for a few periods
-p0 <- price6[[1]]
-p1 <- price6[[2]]
-p2 <- price6[[3]]
-q0 <- price6[[1]]
-q1 <- price6[[2]]
+# We'll only need prices and quantities for a few periods.
+p1 <- price6[[1]]
+p2 <- price6[[2]]
+p3 <- price6[[3]]
+q1 <- price6[[1]]
+q2 <- price6[[2]]
 
 # There are functions to calculate all common price indexes,
-# like the Laspeyres and Paasche index
-laspeyres_index(p1, p0, q0)
-paasche_index(p1, p0, q1)
+# like the Laspeyres and Paasche index.
+laspeyres_index(p2, p1, q1)
+paasche_index(p2, p1, q2)
 
 # The underlying mean functions are also available, as usually
-# only price relatives and weights are known
-s0 <- p0 * q0
+# only price relatives and weights are known.
 s1 <- p1 * q1
+s2 <- p2 * q2
 
-arithmetic_mean(p1 / p0, s0)
-harmonic_mean(p1 / p0, s1)
+arithmetic_mean(p2 / p1, s1)
+harmonic_mean(p2 / p1, s2)
 
 # The mean representation of a Laspeyres index makes it easy to
-# chain by price-updating the weights
-laspeyres_index(p2, p0, q0)
+# chain by price-updating the weights.
+laspeyres_index(p3, p1, q1)
 
-arithmetic_mean(p1 / p0, s0) *
-  arithmetic_mean(p2 / p1, update_weights(p1 / p0, s0))
+arithmetic_mean(p2 / p1, s1) *
+  arithmetic_mean(p3 / p2, update_weights(p2 / p1, s1))
 
 # The mean representation of a Paasche index makes it easy to
-# calculate percent-change contributions
-harmonic_contributions(p1 / p0, s1)
+# calculate percent-change contributions.
+harmonic_contributions(p2 / p1, s2)
 
 # The ideas are the same for more exotic indexes,
-# like the Lloyd-Moulton index
+# like the Lloyd-Moulton index.
 
 # Let's start by making some functions for the Lloyd-Moulton index
-# when the elasticity of substitution is -1 (an output index)
+# when the elasticity of substitution is -1 (an output index).
 lloyd_moulton <- lm_index(-1)
 quadratic_mean <- generalized_mean(2)
 quadratic_update <- factor_weights(2)
 quadratic_contributions <- contributions(2)
 
-# This index can be calculated as a mean of price relatives
-lloyd_moulton(p1, p0, q0)
-quadratic_mean(p1 / p0, s0)
+# This index can be calculated as a mean of price relatives.
+lloyd_moulton(p2, p1, q1)
+quadratic_mean(p2 / p1, s1)
 
 # Chained over time
-lloyd_moulton(p2, p0, q0)
-quadratic_mean(p1 / p0, s0) *
-  quadratic_mean(p2 / p1, quadratic_update(p1 / p0, s0))
+lloyd_moulton(p3, p1, q1)
+quadratic_mean(p2 / p1, s1) *
+  quadratic_mean(p3 / p2, quadratic_update(p2 / p1, s1))
 
-# And decomposed to get the contributions of each relative
-quadratic_contributions(p1 / p0, s0)
+# And decomposed to get the contributions of each relative.
+quadratic_contributions(p2 / p1, s1)
 ```
 
 ## Prior work

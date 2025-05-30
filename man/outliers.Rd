@@ -95,7 +95,7 @@ tukey_algorithm(x)
 log(x)
 hb_transform(x)
 
-# Works the same for grouped data
+# Works the same for grouped data.
 
 f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
 grouped(quartile_method)(x, group = f)

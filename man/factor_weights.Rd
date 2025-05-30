@@ -45,25 +45,25 @@ weights; \code{update_weights()} simply calls \code{factor_weights(1)()}.
 
 Factoring weights return a value that is the same length as \code{x},
 so any missing values in \code{x} or the weights will return \code{NA}.
-Unless all values are \code{NA}, however, the result for will still satisfy
+Unless all values are \code{NA}, however, the result will still satisfy
 the above identity when \code{na.rm = TRUE}.
 }
 \examples{
 x <- 1:3
 y <- 4:6
 w <- 3:1
-# Factor the harmonic mean by chaining the calculation
+# Factor the harmonic mean by chaining the calculation.
 
 harmonic_mean(x * y, w)
 harmonic_mean(x, w) * harmonic_mean(y, factor_weights(-1)(x, w))
 
-# The common case of an arithmetic mean
+# The common case of an arithmetic mean.
 
 arithmetic_mean(x * y, w)
 arithmetic_mean(x, w) * arithmetic_mean(y, update_weights(x, w))
 
 # In cases where x and y have the same order, Chebyshev's
-# inequality implies that the chained calculation is too small
+# inequality implies that the chained calculation is too small.
 
 arithmetic_mean(x * y, w) >
   arithmetic_mean(x, w) * arithmetic_mean(y, w)

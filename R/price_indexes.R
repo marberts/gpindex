@@ -126,7 +126,7 @@ pythagorean_index <- function(r) {
 #'
 #' [quantity_index()] to remap the arguments in these functions for a
 #' quantity index.
-#' 
+#'
 #' @references
 #' Balk, B. M. (2008). *Price and Quantity Index Numbers*.
 #' Cambridge University Press.
@@ -141,123 +141,121 @@ pythagorean_index <- function(r) {
 #' *Index Numbers: A Stochastic Approach*. MacMillan.
 #'
 #' @examples
-#' p0 <- price6[[2]]
-#' p1 <- price6[[3]]
-#' q0 <- quantity6[[2]]
-#' q1 <- quantity6[[3]]
+#' p1 <- price6[[2]]
+#' p2 <- price6[[3]]
+#' q1 <- quantity6[[2]]
+#' q2 <- quantity6[[3]]
 #' pb <- price6[[1]]
 #' qb <- quantity6[[1]]
-#'
-#' #---- Making the weights for different indexes ----
 #'
 #' # Explicit calculation for each of the different weights
 #' # Carli/Jevons/Coggeshall
 #'
-#' all.equal(index_weights("Carli")(p1), rep(1, length(p0)))
+#' all.equal(index_weights("Carli")(p2), rep(1, length(p1)))
 #'
 #' # Dutot
 #'
-#' all.equal(index_weights("Dutot")(p0), p0)
+#' all.equal(index_weights("Dutot")(p1), p1)
 #'
 #' # Laspeyres / Lloyd-Moulton
 #'
-#' all.equal(index_weights("Laspeyres")(p0, q0), p0 * q0)
+#' all.equal(index_weights("Laspeyres")(p1, q1), p1 * q1)
 #'
 #' # Hybrid Laspeyres
 #'
-#' all.equal(index_weights("HybridLaspeyres")(p1, q0), p1 * q0)
+#' all.equal(index_weights("HybridLaspeyres")(p2, q1), p2 * q1)
 #'
 #' # Paasche / Palgrave
 #'
-#' all.equal(index_weights("Paasche")(p1, q1), p1 * q1)
+#' all.equal(index_weights("Paasche")(p2, q2), p2 * q2)
 #'
 #' # Hybrid Paasche
 #'
-#' all.equal(index_weights("HybridPaasche")(p0, q1), p0 * q1)
+#' all.equal(index_weights("HybridPaasche")(p1, q2), p1 * q2)
 #'
 #' # Tornqvist / Unnamed
 #'
 #' all.equal(
-#'   index_weights("Tornqvist")(p1, p0, q1, q0),
-#'   0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+#'   index_weights("Tornqvist")(p2, p1, q2, q1),
+#'   0.5 * p1 * q1 / sum(p1 * q1) + 0.5 * p2 * q2 / sum(p2 * q2)
 #' )
 #'
 #' # Drobisch
 #'
 #' all.equal(
-#'   index_weights("Drobisch")(p1, p0, q1, q0),
-#'   0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p0 * q1 / sum(p0 * q1)
+#'   index_weights("Drobisch")(p2, p1, q2, q1),
+#'   0.5 * p1 * q1 / sum(p1 * q1) + 0.5 * p1 * q2 / sum(p1 * q2)
 #' )
 #'
 #' # Walsh-I
 #'
 #' all.equal(
-#'   index_weights("Walsh1")(p0, q1, q0),
-#'   p0 * sqrt(q0 * q1)
+#'   index_weights("Walsh1")(p1, q2, q1),
+#'   p1 * sqrt(q1 * q2)
 #' )
 #'
 #' # Marshall-Edgeworth
 #'
 #' all.equal(
-#'   index_weights("MarshallEdgeworth")(p0, q1, q0),
-#'   p0 * (q0 + q1)
+#'   index_weights("MarshallEdgeworth")(p1, q2, q1),
+#'   p1 * (q1 + q2)
 #' )
 #'
 #' # Geary-Khamis
 #'
 #' all.equal(
-#'   index_weights("GearyKhamis")(p0, q1, q0),
-#'   p0 / (1 / q0 + 1 / q1)
+#'   index_weights("GearyKhamis")(p1, q2, q1),
+#'   p1 / (1 / q1 + 1 / q2)
 #' )
 #'
 #' # Montgomery-Vartia / Vartia-I
 #'
 #' all.equal(
-#'   index_weights("MontgomeryVartia")(p1, p0, q1, q0),
-#'   logmean(p0 * q0, p1 * q1) / logmean(sum(p0 * q0), sum(p1 * q1))
+#'   index_weights("MontgomeryVartia")(p2, p1, q2, q1),
+#'   logmean(p1 * q1, p2 * q2) / logmean(sum(p1 * q1), sum(p2 * q2))
 #' )
 #'
 #' # Sato-Vartia / Vartia-II
 #'
 #' all.equal(
-#'   index_weights("SatoVartia")(p1, p0, q1, q0),
-#'   logmean(p0 * q0 / sum(p0 * q0), p1 * q1 / sum(p1 * q1))
+#'   index_weights("SatoVartia")(p2, p1, q2, q1),
+#'   logmean(p1 * q1 / sum(p1 * q1), p2 * q2 / sum(p2 * q2))
 #' )
 #'
 #' # Walsh-II
 #'
 #' all.equal(
-#'   index_weights("Walsh2")(p1, p0, q1, q0),
-#'   sqrt(p0 * q0 * p1 * q1)
+#'   index_weights("Walsh2")(p2, p1, q2, q1),
+#'   sqrt(p1 * q1 * p2 * q2)
 #' )
 #'
 #' # Theil
 #'
-#' all.equal(index_weights("Theil")(p1, p0, q1, q0), {
-#'   w0 <- scale_weights(p0 * q0)
-#'   w1 <- scale_weights(p1 * q1)
+#' all.equal(index_weights("Theil")(p2, p1, q2, q1), {
+#'   w0 <- scale_weights(p1 * q1)
+#'   w1 <- scale_weights(p2 * q2)
 #'   (w0 * w1 * (w0 + w1) / 2)^(1 / 3)
 #' })
 #'
 #' # Rao
 #'
-#' all.equal(index_weights("Rao")(p1, p0, q1, q0), {
-#'   w0 <- scale_weights(p0 * q0)
-#'   w1 <- scale_weights(p1 * q1)
+#' all.equal(index_weights("Rao")(p2, p1, q2, q1), {
+#'   w0 <- scale_weights(p1 * q1)
+#'   w1 <- scale_weights(p2 * q2)
 #'   w0 * w1 / (w0 + w1)
 #' })
 #'
 #' # Lowe
 #'
-#' all.equal(index_weights("Lowe")(p0, qb), p0 * qb)
+#' all.equal(index_weights("Lowe")(p1, qb), p1 * qb)
 #'
 #' # Young
 #'
 #' all.equal(index_weights("Young")(pb, qb), pb * qb)
-#' 
+#'
 #' # Hybrid CSWD (to approximate a CSWD index)
-#' 
-#' all.equal(index_weights("HybridCSWD")(p1, p0), sqrt(p0 / p1))
+#'
+#' all.equal(index_weights("HybridCSWD")(p2, p1), sqrt(p1 / p2))
 #'
 #' @family price index functions
 #' @export
@@ -500,173 +498,52 @@ index_weights <- function(
 #'
 #' von der Lippe, P. (2007). *Index Theory and Price Statistics*. Peter Lang.
 #'
-#' von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
-#' Formulas, Notes on some unexplored index formulas, their interpretations and
-#' generalizations. Munich Personal RePEc Archive paper no. 64952.
-#'
 #' Selvanathan, E. A. and Rao, D. S. P. (1994).
 #' *Index Numbers: A Stochastic Approach*. MacMillan.
 #'
 #' @examples
-#' p0 <- price6[[2]]
-#' p1 <- price6[[3]]
-#' q0 <- quantity6[[2]]
-#' q1 <- quantity6[[3]]
-#' pb <- price6[[1]]
-#' qb <- quantity6[[1]]
-#'
-#' #---- Calculating price indexes ----
+#' p1 <- price6[[2]]
+#' p2 <- price6[[3]]
+#' q1 <- quantity6[[2]]
+#' q2 <- quantity6[[3]]
 #'
 #' # Most indexes can be calculated by combining the appropriate weights
-#' # with the correct type of mean
+#' # with the correct type of mean.
 #'
-#' geometric_index("Laspeyres")(p1, p0, q0)
-#' geometric_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
+#' laspeyres_index(p2, p1, q1)
+#' arithmetic_mean(p2 / p1, index_weights("Laspeyres")(p1, q1))
 #'
-#' # Arithmetic Laspeyres index
+#' geometric_index("Laspeyres")(p2, p1, q1)
+#' geometric_mean(p2 / p1, index_weights("Laspeyres")(p1, q1))
 #'
-#' laspeyres_index(p1, p0, q0)
-#' arithmetic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
+#' # NAs get special treatment.
 #'
-#' # Harmonic calculation for the arithmetic Laspeyres
+#' p_na <- replace(p1, 6, NA)
 #'
-#' harmonic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
+#' laspeyres_index(p2, p_na, q1, na.rm = TRUE) # drops the last price relative
 #'
-#' # Same as transmuting the weights
+#' sum(p2 * q1, na.rm = TRUE) /
+#'   sum(p_na * q1, na.rm = TRUE) # drops the last period-0 price
 #'
-#' all.equal(
-#'   scale_weights(index_weights("HybridLaspeyres")(p1, q0)),
-#'   transmute_weights(1, -1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
-#' )
+#' # von Bortkiewicz decomposition
 #'
-#' # This strategy can be used to make more exotic indexes, like the
-#' # quadratic-mean index (von der Lippe, 2007, p. 61)
+#' paasche_index(p2, p1, q2) / laspeyres_index(p2, p1, q1) - 1
 #'
-#' generalized_mean(2)(p1 / p0, index_weights("Laspeyres")(p0, q0))
+#' wl <- scale_weights(index_weights("Laspeyres")(p1, q1))
+#' pl <- laspeyres_index(p2, p1, q1)
+#' ql <- quantity_index(laspeyres_index)(q2, q1, p1)
 #'
-#' # Or the exponential mean index (p. 62)
+#' sum(wl * (p2 / p1 / pl - 1) * (q2 / q1 / ql - 1))
 #'
-#' log(arithmetic_mean(exp(p1 / p0), index_weights("Laspeyres")(p0, q0)))
+#' # Similar decomposition for geometric Laspeyres/Paasche.
 #'
-#' # Or the arithmetic hybrid index (von der Lippe, 2015, p. 5)
-#'
-#' arithmetic_mean(p1 / p0, index_weights("HybridLaspeyres")(p1, q0))
-#' contraharmonic_mean(p1 / p0, index_weights("Laspeyres")(p0, q0))
-#'
-#' # Unlike its arithmetic counterpart, the geometric Laspeyres can
-#' # increase when base-period prices increase if some of these prices
-#' # are small
-#'
-#' gl <- geometric_index("Laspeyres")
-#' p0_small <- replace(p0, 1, p0[1] / 5)
-#' p0_dx <- replace(p0_small, 1, p0_small[1] + 0.01)
-#' gl(p1, p0_small, q0) < gl(p1, p0_dx, q0)
-#'
-#' #---- Price updating the weights in a price index ----
-#'
-#' # Chain an index by price updating the weights
-#'
-#' p2 <- price6[[4]]
-#' laspeyres_index(p2, p0, q0)
-#'
-#' I1 <- laspeyres_index(p1, p0, q0)
-#' w_pu <- update_weights(p1 / p0, index_weights("Laspeyres")(p0, q0))
-#' I2 <- arithmetic_mean(p2 / p1, w_pu)
-#' I1 * I2
-#'
-#' # Works for other types of indexes, too
-#'
-#' harmonic_index("Laspeyres")(p2, p0, q0)
-#'
-#' I1 <- harmonic_index("Laspeyres")(p1, p0, q0)
-#' w_pu <- factor_weights(-1)(p1 / p0, index_weights("Laspeyres")(p0, q0))
-#' I2 <- harmonic_mean(p2 / p1, w_pu)
-#' I1 * I2
-#'
-#' #---- Percent-change contributions ----
-#'
-#' # Percent-change contributions for the Tornqvist index
-#'
-#' w <- index_weights("Tornqvist")(p1, p0, q1, q0)
-#' (con <- geometric_contributions(p1 / p0, w))
-#'
-#' all.equal(sum(con), geometric_index("Tornqvist")(p1, p0, q1, q0) - 1)
-#'
-#' #---- Missing values ----
-#'
-#' # NAs get special treatment
-#'
-#' p_na <- replace(p0, 6, NA)
-#'
-#' # Drops the last price relative
-#'
-#' laspeyres_index(p1, p_na, q0, na.rm = TRUE)
-#'
-#' # Only drops the last period-0 price
-#'
-#' sum(p1 * q0, na.rm = TRUE) / sum(p_na * q0, na.rm = TRUE)
-#'
-#' #---- von Bortkiewicz decomposition ----
-#'
-#' paasche_index(p1, p0, q1) / laspeyres_index(p1, p0, q0) - 1
-#'
-#' wl <- scale_weights(index_weights("Laspeyres")(p0, q0))
-#' pl <- laspeyres_index(p1, p0, q0)
-#' ql <- quantity_index(laspeyres_index)(q1, q0, p0)
-#'
-#' sum(wl * (p1 / p0 / pl - 1) * (q1 / q0 / ql - 1))
-#'
-#' # Similar decomposition for geometric Laspeyres/Paasche
-#'
-#' wp <- scale_weights(index_weights("Paasche")(p1, q1))
-#' gl <- geometric_index("Laspeyres")(p1, p0, q0)
-#' gp <- geometric_index("Paasche")(p1, p0, q1)
+#' wp <- scale_weights(index_weights("Paasche")(p2, q2))
+#' gl <- geometric_index("Laspeyres")(p2, p1, q1)
+#' gp <- geometric_index("Paasche")(p2, p1, q2)
 #'
 #' log(gp / gl)
 #'
-#' sum(scale_weights(wl) * (wp / wl - 1) * log(p1 / p0 / gl))
-#'
-#' #---- Consistency in aggregation ----
-#'
-#' p0a <- p0[1:3]
-#' p0b <- p0[4:6]
-#' p1a <- p1[1:3]
-#' p1b <- p1[4:6]
-#' q0a <- q0[1:3]
-#' q0b <- q0[4:6]
-#' q1a <- q1[1:3]
-#' q1b <- q1[4:6]
-#'
-#' # Indexes based on the generalized mean with value share weights are
-#' # consistent in aggregation
-#'
-#' lm_index(0.75)(p1, p0, q0)
-#'
-#' w <- index_weights("LloydMoulton")(p0, q0)
-#' Ia <- generalized_mean(0.25)(p1a / p0a, w[1:3])
-#' Ib <- generalized_mean(0.25)(p1b / p0b, w[4:6])
-#' generalized_mean(0.25)(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
-#'
-#' # Agrees with group-wise indexes
-#'
-#' all.equal(lm_index(0.75)(p1a, p0a, q0a), Ia)
-#' all.equal(lm_index(0.75)(p1b, p0b, q0b), Ib)
-#'
-#' # Care is needed with more complex weights, e.g., Drobisch, as this
-#' # doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean
-#' # index (it's the arithmetic mean of a Laspeyres and Paasche index)
-#'
-#' arithmetic_index("Drobisch")(p1, p0, q1, q0)
-#'
-#' w <- index_weights("Drobisch")(p1, p0, q1, q0)
-#' Ia <- arithmetic_mean(p1a / p0a, w[1:3])
-#' Ib <- arithmetic_mean(p1b / p0b, w[4:6])
-#' arithmetic_mean(c(Ia, Ib), c(sum(w[1:3]), sum(w[4:6])))
-#'
-#' # Does not agree with group-wise indexes
-#'
-#' all.equal(arithmetic_index("Drobisch")(p1a, p0a, q1a, q0a), Ia)
-#' all.equal(arithmetic_index("Drobisch")(p1b, p0b, q1b, q0b), Ib)
+#' sum(scale_weights(wl) * (wp / wl - 1) * log(p2 / p1 / gl))
 #'
 #' @family price index functions
 #' @export

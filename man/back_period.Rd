@@ -50,20 +50,20 @@ df <- data.frame(
 
 with(df, back_period(period, product))
 
-# Make period-over-period price relatives
+# Make period-over-period price relatives.
 
 with(df, price / price[back_period(period, product)])
 
-# Make fixed-base price relatives
+# Make fixed-base price relatives.
 
 with(df, price / price[base_period(period, product)])
 
-# Change the base period with relevel()
+# Change the base period with relevel().
 
 with(df, price / price[base_period(relevel(period, "2"), product)])
 
 # Warning is given if the same product has multiple prices
-# at any point in time
+# at any point in time.
 
 with(df, back_period(period))
 

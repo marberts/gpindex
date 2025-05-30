@@ -29,23 +29,24 @@ index series. Splicing on multiple points combines the results with a
 geometric mean.
 }
 \examples{
-# Make an index series over a rolling window
+# Make an index series over a rolling window.
+
 x <- list(c(1.1, 0.9, 1.2), c(0.8, 1.3, 1.4), c(1.3, 1.3, 0.8))
 
-# Mean splice
+# Mean splice.
 
 splice_index(x)
 
-# Movement splice
+# Movement splice.
 
 splice_index(x, 3)
 
-# Window splice
+# Window splice.
 
 splice_index(x, 1)
 
 # Splicing on the published series preserves the within-window
-# movement of the index series
+# movement of the index series.
 
 splice_index(x, 1, published = TRUE)
 
