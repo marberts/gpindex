@@ -15,7 +15,7 @@ quantities at two points in time."><meta property="og:image" content="https://ma
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -227,9 +227,6 @@ Company.</p>
 <em>Consumer Price Index Manual: Concepts and Methods</em>.
 International Monetary Fund.</p>
 <p>von der Lippe, P. (2007). <em>Index Theory and Price Statistics</em>. Peter Lang.</p>
-<p>von der Lippe, P. (2015). Generalized Statistical Means and New Price Index
-Formulas, Notes on some unexplored index formulas, their interpretations and
-generalizations. Munich Personal RePEc Archive paper no. 64952.</p>
 <p>Selvanathan, E. A. and Rao, D. S. P. (1994).
 <em>Index Numbers: A Stochastic Approach</em>. MacMillan.</p>
     </div>
@@ -252,196 +249,58 @@ multiple groups of products over many time periods.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q0</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">pb</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">qb</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Calculating price indexes ----</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="va">quantity6</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Most indexes can be calculated by combining the appropriate weights</span></span></span>
-<span class="r-in"><span><span class="co"># with the correct type of mean</span></span></span>
+<span class="r-in"><span><span class="co"># with the correct type of mean.</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
+<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8705581</span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8705581</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Arithmetic Laspeyres index</span></span></span>
+<span class="r-in"><span><span class="co"># NAs get special treatment.</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
+<span class="r-in"><span><span class="va">p_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">p1</span>, <span class="fl">6</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Harmonic calculation for the arithmetic Laspeyres</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"HybridLaspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9609929</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Same as transmuting the weights</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"HybridLaspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="transmute_weights.html">transmute_weights</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># This strategy can be used to make more exotic indexes, like the</span></span></span>
-<span class="r-in"><span><span class="co"># quadratic-mean index (von der Lippe, 2007, p. 61)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.020762</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Or the exponential mean index (p. 62)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span><span class="op">)</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.013369</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Or the arithmetic hybrid index (von der Lippe, 2015, p. 5)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"HybridLaspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.084248</span>
-<span class="r-in"><span><span class="fu"><a href="lehmer_mean.html">contraharmonic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.084248</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Unlike its arithmetic counterpart, the geometric Laspeyres can</span></span></span>
-<span class="r-in"><span><span class="co"># increase when base-period prices increase if some of these prices</span></span></span>
-<span class="r-in"><span><span class="co"># are small</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">gl</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p0_small</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">p0</span>, <span class="fl">1</span>, <span class="va">p0</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p0_dx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">p0_small</span>, <span class="fl">1</span>, <span class="va">p0_small</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.01</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0_small</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0_dx</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Price updating the weights in a price index ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Chain an index by price updating the weights</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">price6</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.970922</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">w_pu</span> <span class="op">&lt;-</span> <span class="fu"><a href="factor_weights.html">update_weights</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">I2</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="va">w_pu</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">*</span> <span class="va">I2</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.970922</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Works for other types of indexes, too</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">harmonic_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5112654</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">&lt;-</span> <span class="fu">harmonic_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">w_pu</span> <span class="op">&lt;-</span> <span class="fu"><a href="factor_weights.html">factor_weights</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">I2</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span>, <span class="va">w_pu</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">I1</span> <span class="op">*</span> <span class="va">I2</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5112654</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Percent-change contributions ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Percent-change contributions for the Tornqvist index</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Tornqvist"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="contributions.html">geometric_contributions</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.01158644 -0.13847426  0.02391956 -0.02607786  0.09431814 -0.00896725</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">con</span><span class="op">)</span>, <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Tornqvist"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Missing values ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># NAs get special treatment</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/replace.html" class="external-link">replace</a></span><span class="op">(</span><span class="va">p0</span>, <span class="fl">6</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Drops the last price relative</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p_na</span>, <span class="va">q0</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p_na</span>, <span class="va">q1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># drops the last price relative</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9684288</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Only drops the last period-0 price</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="va">q0</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p_na</span> <span class="op">*</span> <span class="va">q0</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">*</span> <span class="va">q1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p_na</span> <span class="op">*</span> <span class="va">q1</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># drops the last period-0 price</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9948605</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- von Bortkiewicz decomposition ----</span></span></span>
+<span class="r-in"><span><span class="co"># von Bortkiewicz decomposition</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">paasche_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span><span class="op">)</span> <span class="op">/</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="fu">paasche_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q2</span><span class="op">)</span> <span class="op">/</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.04099992</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">wl</span> <span class="op">&lt;-</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ql</span> <span class="op">&lt;-</span> <span class="fu"><a href="quantity_index.html">quantity_index</a></span><span class="op">(</span><span class="va">laspeyres_index</span><span class="op">)</span><span class="op">(</span><span class="va">q1</span>, <span class="va">q0</span>, <span class="va">p0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">wl</span> <span class="op">&lt;-</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu">laspeyres_index</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ql</span> <span class="op">&lt;-</span> <span class="fu"><a href="quantity_index.html">quantity_index</a></span><span class="op">(</span><span class="va">laspeyres_index</span><span class="op">)</span><span class="op">(</span><span class="va">q2</span>, <span class="va">q1</span>, <span class="va">p1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">wl</span> <span class="op">*</span> <span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span> <span class="op">/</span> <span class="va">pl</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">q1</span> <span class="op">/</span> <span class="va">q0</span> <span class="op">/</span> <span class="va">ql</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">wl</span> <span class="op">*</span> <span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span> <span class="op">/</span> <span class="va">pl</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">q2</span> <span class="op">/</span> <span class="va">q1</span> <span class="op">/</span> <span class="va">ql</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.04099992</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Similar decomposition for geometric Laspeyres/Paasche</span></span></span>
+<span class="r-in"><span><span class="co"># Similar decomposition for geometric Laspeyres/Paasche.</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">wp</span> <span class="op">&lt;-</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">gl</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">wp</span> <span class="op">&lt;-</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">q2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gl</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Laspeyres"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu">geometric_index</span><span class="op">(</span><span class="st">"Paasche"</span><span class="op">)</span><span class="op">(</span><span class="va">p2</span>, <span class="va">p1</span>, <span class="va">q2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">gp</span> <span class="op">/</span> <span class="va">gl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1388242</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">wl</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">wp</span> <span class="op">/</span> <span class="va">wl</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span> <span class="op">/</span> <span class="va">gl</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">wl</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">wp</span> <span class="op">/</span> <span class="va">wl</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">p2</span> <span class="op">/</span> <span class="va">p1</span> <span class="op">/</span> <span class="va">gl</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1388242</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Consistency in aggregation ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p0a</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">p0b</span> <span class="op">&lt;-</span> <span class="va">p0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">p1a</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">p1b</span> <span class="op">&lt;-</span> <span class="va">p1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q0a</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q0b</span> <span class="op">&lt;-</span> <span class="va">q0</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q1a</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">q1b</span> <span class="op">&lt;-</span> <span class="va">q1</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Indexes based on the generalized mean with value share weights are</span></span></span>
-<span class="r-in"><span><span class="co"># consistent in aggregation</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">lm_index</span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8962918</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"LloydMoulton"</span><span class="op">)</span><span class="op">(</span><span class="va">p0</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Ia</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span><span class="op">(</span><span class="va">p1a</span> <span class="op">/</span> <span class="va">p0a</span>, <span class="va">w</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Ib</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span><span class="op">(</span><span class="va">p1b</span> <span class="op">/</span> <span class="va">p0b</span>, <span class="va">w</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="fl">0.25</span><span class="op">)</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Ia</span>, <span class="va">Ib</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8962918</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Agrees with group-wise indexes</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">lm_index</span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">(</span><span class="va">p1a</span>, <span class="va">p0a</span>, <span class="va">q0a</span><span class="op">)</span>, <span class="va">Ia</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">lm_index</span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">(</span><span class="va">p1b</span>, <span class="va">p0b</span>, <span class="va">q0b</span><span class="op">)</span>, <span class="va">Ib</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Care is needed with more complex weights, e.g., Drobisch, as this</span></span></span>
-<span class="r-in"><span><span class="co"># doesn't fit Balk's (2008) definition (p. 113) of a generalized-mean</span></span></span>
-<span class="r-in"><span><span class="co"># index (it's the arithmetic mean of a Laspeyres and Paasche index)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">arithmetic_index</span><span class="op">(</span><span class="st">"Drobisch"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9412926</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="index_weights.html">index_weights</a></span><span class="op">(</span><span class="st">"Drobisch"</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Ia</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1a</span> <span class="op">/</span> <span class="va">p0a</span>, <span class="va">w</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Ib</span> <span class="op">&lt;-</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">p1b</span> <span class="op">/</span> <span class="va">p0b</span>, <span class="va">w</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">Ia</span>, <span class="va">Ib</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9412926</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Does not agree with group-wise indexes</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">arithmetic_index</span><span class="op">(</span><span class="st">"Drobisch"</span><span class="op">)</span><span class="op">(</span><span class="va">p1a</span>, <span class="va">p0a</span>, <span class="va">q1a</span>, <span class="va">q0a</span><span class="op">)</span>, <span class="va">Ia</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.000735017"</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">arithmetic_index</span><span class="op">(</span><span class="st">"Drobisch"</span><span class="op">)</span><span class="op">(</span><span class="va">p1b</span>, <span class="va">p0b</span>, <span class="va">q1b</span>, <span class="va">q0b</span><span class="op">)</span>, <span class="va">Ib</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.0004652739"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -17,7 +17,7 @@ generalized-mean index."><meta property="og:image" content="https://marberts.git
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@ price indexes over time.</p>
 weights; <code>update_weights()</code> simply calls <code>factor_weights(1)()</code>.</p>
 <p>Factoring weights return a value that is the same length as <code>x</code>,
 so any missing values in <code>x</code> or the weights will return <code>NA</code>.
-Unless all values are <code>NA</code>, however, the result for will still satisfy
+Unless all values are <code>NA</code>, however, the result will still satisfy
 the above identity when <code>na.rm = TRUE</code>.</p>
     </div>
     <div class="section level2">
@@ -121,14 +121,14 @@ International Monetary Fund.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">4</span><span class="op">:</span><span class="fl">6</span></span></span>
 <span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="co"># Factor the harmonic mean by chaining the calculation</span></span></span>
+<span class="r-in"><span><span class="co"># Factor the harmonic mean by chaining the calculation.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span>, <span class="va">w</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.966851</span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">y</span>, <span class="fu">factor_weights</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.966851</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The common case of an arithmetic mean</span></span></span>
+<span class="r-in"><span><span class="co"># The common case of an arithmetic mean.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span>, <span class="va">w</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.333333</span>
@@ -136,7 +136,7 @@ International Monetary Fund.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.333333</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># In cases where x and y have the same order, Chebyshev's</span></span></span>
-<span class="r-in"><span><span class="co"># inequality implies that the chained calculation is too small</span></span></span>
+<span class="r-in"><span><span class="co"># inequality implies that the chained calculation is too small.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">w</span><span class="op">)</span></span></span>

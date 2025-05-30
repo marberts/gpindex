@@ -19,7 +19,7 @@ of nested generalized means (e.g., Fisher index)."><meta property="og:image" con
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,32 +109,14 @@ the same for nested generalized means, so that</p>
 <div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/nested_mean.html">nested_mean</a></span><span class="op">(</span><span class="va">r1</span>, <span class="va">r2</span>, <span class="va">t</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span> <span class="op">==</span></span>
 <span>  <span class="fu"><a href="../reference/generalized_mean.html">generalized_mean</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="fu">v</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 
-<p>This generalizes the result for turning a geometric mean into an arithmetic
-mean (and vice versa) in section 4.2 of Balk (2008), and a Fisher mean into
-an arithmetic mean in section 6 of Reinsdorf et al. (2002), although these
-are usually the most important cases. See Martin (2021) for details.
-<code>nested_transmute2()</code> takes a slightly different approach than
-<code>nested_transmute()</code>, generalizing the van IJzeren arithmetic
-decomposition for the Fisher index (Balk, 2008, section 4.2.2) using the
-approach by Martin (2021), although in most cases the results are broadly
-similar.</p>
 <p>Transmuting weights returns a value that is the same length as <code>x</code>,
 so any missing values in <code>x</code> or the weights will return <code>NA</code>.
-Unless all values are <code>NA</code>, however, the result for will still satisfy
+Unless all values are <code>NA</code>, however, the result will still satisfy
 the above identities when <code>na.rm = TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Balk, B. M. (2008). <em>Price and Quantity Index Numbers</em>.
-Cambridge University Press.</p>
-<p>Martin, S. (2021). A note on general decompositions for price indexes.
-<em>Prices Analytical Series</em>, Statistics Canada catalogue no. 62F0014M.
-Statistics Canada, Ottawa.</p>
-<p>Reinsdorf, M. B., Diewert, W. E., and Ehemann, C. (2002). Additive
-decompositions for Fisher, Törnqvist and geometric mean indexes.
-<em>Journal of Economic and Social Measurement</em>, 28(1-2):51–61.</p>
-<p>Sydsaeter, K., Strom, A., and Berck, P. (2005). <em>Economists'
-Mathematical Manual</em> (4th edition). Springer.</p>
+    <p>See <code><a href="../articles/decomposing-indexes.html">vignette("decomposing-indexes")</a></code> for more details.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -153,13 +135,10 @@ contributions.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">4</span><span class="op">:</span><span class="fl">6</span></span></span>
 <span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Transforming generalized means ----</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Calculate the geometric mean as an arithmetic mean and</span></span></span>
-<span class="r-in"><span><span class="co"># harmonic mean by transmuting the weights</span></span></span>
+<span class="r-in"><span><span class="co"># harmonic mean by transmuting the weights.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.817121</span>
@@ -168,19 +147,7 @@ contributions.</p>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.817121</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Transmuting the weights for a harmonic mean into those</span></span></span>
-<span class="r-in"><span><span class="co"># for an arithmetic mean is the same as using weights w / x</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">transmute_weights</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span>, <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span> <span class="op">/</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Transmuting the weights for an arithmetic mean into those</span></span></span>
-<span class="r-in"><span><span class="co"># for a harmonic mean is the same as using weights w * x</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span>, <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span> <span class="op">*</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Works for nested means, too</span></span></span>
+<span class="r-in"><span><span class="co"># Works for nested means, too.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">w1</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span></span></span>
 <span class="r-in"><span><span class="va">w2</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span></span>
@@ -192,62 +159,6 @@ contributions.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.825742</span>
 <span class="r-in"><span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">nested_transmute2</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.825742</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Note that nested_transmute() has an invariance property</span></span></span>
-<span class="r-in"><span><span class="co"># not shared by nested_transmute2()</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">nested_transmute</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">x</span>, <span class="fu">nested_transmute</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">nested_transmute2</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">x</span>, <span class="fu">nested_transmute2</span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w1</span>, <span class="va">w2</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Mean relative difference: 0.0015427"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Monotonicity ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Transmuted weights increase when x is small and decrease</span></span></span>
-<span class="r-in"><span><span class="co"># when x is large if r &lt; s</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE FALSE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The opposite happens when r &gt; s</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="scale_weights.html">scale_weights</a></span><span class="op">(</span><span class="va">w</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE  TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Percent-change contributions ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Transmuted weights can be used to calculate percent-change</span></span></span>
-<span class="r-in"><span><span class="co"># contributions for, e.g., a geometric price index</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">transmute_weights</span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0000000 0.3122793 0.5048413</span>
-<span class="r-in"><span><span class="fu"><a href="contributions.html">geometric_contributions</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># the more convenient way</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0000000 0.3122793 0.5048413</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Basket representation of a price index ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Any generalized-mean index can be represented as a basket-style</span></span></span>
-<span class="r-in"><span><span class="co"># index by transmuting the weights, which is how some authors</span></span></span>
-<span class="r-in"><span><span class="co"># define a price index (e.g., Sydsaeter et al., 2005, p. 174)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span></span></span>
-<span class="r-in"><span><span class="va">p0</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">qs</span> <span class="op">&lt;-</span> <span class="fu">transmute_weights</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span><span class="op">)</span> <span class="op">/</span> <span class="va">p0</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">/</span> <span class="va">p0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p1</span> <span class="op">*</span> <span class="va">qs</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">p0</span> <span class="op">*</span> <span class="va">qs</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

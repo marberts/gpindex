@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9004</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9005</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,8 +79,6 @@ mean / extended mean.</p></dd>
 function:</p>
 <div class="sourceCode"><pre><code><span><span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">tol</span> <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="fl">0.5</span><span class="op">)</span><span class="op">{</span><span class="va">...</span><span class="op">}</span></span></code></pre></div>
 
-<p>This computes the component-wise generalized logarithmic mean of order
-<code>r</code>, or the extended mean of orders <code>r</code> and <code>s</code>, of <code>a</code> and <code>b</code>.</p>
 <p><code>logmean()</code> returns a numeric vector, the same length as
 <code>max(length(a), length(b))</code>, giving the component-wise logarithmic mean
 of <code>a</code> and <code>b</code>.</p>
@@ -93,8 +91,7 @@ component-wise extended mean of <code>a</code> and <code>b</code> of orders <cod
 the difference mean, Stolarsky mean, or extended mean-value mean.</p>
 <p>The function <code>generalized_logmean()</code> returns a function to compute the
 component-wise generalized logarithmic mean of <code>a</code> and <code>b</code> of
-order <code>r</code>. See Bullen (2003, p. 385) for a definition, or
-<a href="https://en.wikipedia.org/wiki/Stolarsky_mean" class="external-link">https://en.wikipedia.org/wiki/Stolarsky_mean</a>. The generalized
+order <code>r</code>. See Bullen (2003, p. 385) for a definition. The generalized
 logarithmic mean is a special case of the extended mean, corresponding to
 <code>extended_mean(r, 1)()</code>, but is more commonly used for price indexes.</p>
 <p>The function <code>logmean()</code> returns the ordinary component-wise
@@ -107,9 +104,7 @@ apply when <code>a</code> and <code>b</code> are not the same length.</p>
 <p>By definition, the generalized logarithmic mean / extended mean of <code>a</code>
 and <code>b</code> is <code>a</code> when <code>a == b</code>. The <code>tol</code> argument is used
 to test equality by checking if <code>abs(a - b) &lt;= tol</code>. The default value
-is the same as <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code>. Setting <code>tol = 0</code>
-tests for exact equality, but can give misleading results when <code>a</code> and
-<code>b</code> are computed values. In some cases it's useful to multiply
+is the same as <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code>. In some cases it's useful to multiply
 <code>tol</code> by a scale factor, such as <code>max(abs(a), abs(b))</code>. This often
 doesn't matter when making price indexes, however, as <code>a</code> and <code>b</code>
 are usually around 1.</p>
@@ -119,16 +114,12 @@ are usually around 1.</p>
     <p><code>generalized_logmean()</code> can be defined on the extended real line,
 so that <code>r = -Inf / Inf</code> returns <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin()</a></code>/<code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax()</a></code>, to agree with the
 definition in, e.g., Bullen (2003). This is not implemented, and <code>r</code>
-must be finite as in the original formulation by Stolarsky (1975).</p>
+must be finite.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Balk, B. M. (2008). <em>Price and Quantity Index Numbers</em>.
-Cambridge University Press.</p>
-<p>Bullen, P. S. (2003). <em>Handbook of Means and Their Inequalities</em>.
+    <p>Bullen, P. S. (2003). <em>Handbook of Means and Their Inequalities</em>.
 Springer Science+Business Media.</p>
-<p>Stolarsky, K. B. (1975). Generalizations of the Logarithmic Mean.
-<em>Mathematics Magazine</em>, 48(2): 87-92.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -145,35 +136,26 @@ mean of order \(r\) into a generalized mean of order \(s\).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">8</span><span class="op">:</span><span class="fl">5</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Comparing logarithmic means and generalized means ----</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The arithmetic and geometric means are special cases of the</span></span></span>
-<span class="r-in"><span><span class="co"># generalized logarithmic mean</span></span></span>
+<span class="r-in"><span><span class="co"># generalized logarithmic mean.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">generalized_logmean</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">generalized_logmean</span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The logarithmic mean lies between the arithmetic and geometric means</span></span></span>
-<span class="r-in"><span><span class="co"># because the generalized logarithmic mean is increasing in r</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">&lt;</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span> <span class="op">&amp;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The harmonic mean cannot be expressed as a logarithmic mean, but can</span></span></span>
-<span class="r-in"><span><span class="co"># be expressed as an extended mean</span></span></span>
+<span class="r-in"><span><span class="co"># be expressed as an extended mean.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">extended_mean</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, <span class="fl">2</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The quadratic mean is also a type of extended mean</span></span></span>
+<span class="r-in"><span><span class="co"># The quadratic mean is also a type of extended mean.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">extended_mean</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="va">y</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># As are heronian and centroidal means</span></span></span>
+<span class="r-in"><span><span class="co"># As are heronian and centroidal means.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">extended_mean</span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span>,</span></span>
@@ -185,74 +167,6 @@ mean of order \(r\) into a generalized mean of order \(s\).</p>
 <span class="r-in"><span>  <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">x</span> <span class="op">*</span> <span class="va">y</span> <span class="op">+</span> <span class="va">y</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Approximating the logarithmic mean ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The logarithmic mean can be approximated as a convex combination of</span></span></span>
-<span class="r-in"><span><span class="co"># the arithmetic and geometric means that gives more weight to the</span></span></span>
-<span class="r-in"><span><span class="co"># geometric mean</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">approx1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">approx2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">2</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">approx1</span> <span class="op">-</span> <span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="co"># always a positive approximation error</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.932965e-02 3.260257e-03 3.420021e-04 3.852275e-06</span>
-<span class="r-in"><span><span class="va">approx2</span> <span class="op">-</span> <span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="co"># a negative approximation error</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -6.436118e-02 -1.212079e-02 -1.336412e-03 -1.537117e-05</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># A better approximation</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">correction</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span> <span class="op">/</span> <span class="va">y</span><span class="op">)</span> <span class="op">/</span> <span class="va">pi</span><span class="op">)</span><span class="op">^</span><span class="fl">4</span> <span class="op">/</span> <span class="fl">32</span></span></span>
-<span class="r-in"><span><span class="va">approx1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">correction</span><span class="op">)</span> <span class="op">-</span> <span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -8.576372e-04  1.064231e-04  2.148563e-05  2.877344e-07</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Some identities ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># A useful identity for turning an additive change into a proportionate</span></span></span>
-<span class="r-in"><span><span class="co"># change</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu">logmean</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span> <span class="op">/</span> <span class="va">y</span><span class="op">)</span>, <span class="va">x</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Works for other orders, too</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">generalized_logmean</span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="va">r</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">r</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="va">r</span> <span class="op">-</span> <span class="va">y</span><span class="op">^</span><span class="va">r</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Some other identities</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">generalized_logmean</span><span class="op">(</span><span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="op">(</span><span class="fu"><a href="generalized_mean.html">harmonic_mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">generalized_logmean</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="op">(</span><span class="fu"><a href="generalized_mean.html">arithmetic_mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">logmean</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="generalized_mean.html">geometric_mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="fu">logmean</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---- Integral representations of the logarithmic mean ----</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">logmean</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.466303</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/integrate.html" class="external-link">integrate</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fl">2</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">t</span><span class="op">)</span> <span class="op">*</span> <span class="fl">3</span><span class="op">^</span><span class="va">t</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">value</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.466303</span>
-<span class="r-in"><span><span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/integrate.html" class="external-link">integrate</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">t</span><span class="op">)</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">t</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">$</span><span class="va">value</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.466303</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
