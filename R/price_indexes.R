@@ -430,6 +430,8 @@ index_weights <- function(
 #' The `stuvel_index()` function returns a function to calculate a Stuvel
 #' index of the given parameters. The Lehr index is an alternative to the
 #' Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
+#' The Martini index is a Lowe index where the quantities are the weighted
+#' geometric average of current and base period quantities.
 #'
 #' @inherit index_weights note
 #'
@@ -438,7 +440,7 @@ index_weights <- function(
 #' @inheritParams index_weights
 #' @param elasticity The elasticity of substitution for the Lloyd-Moulton and
 #' AG mean indexes.
-#' @param a,b Parameters for the generalized Stuvel index.
+#' @param a,b Parameters for the generalized Stuvel index or Martini index.
 #' @param p1 Current-period prices.
 #' @param p0 Base-period prices.
 #' @param q1 Current-period quantities.
@@ -703,4 +705,21 @@ lehr_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
   v <- (v1 + v0) / (q1 + q0)
   sum(v1, na.rm = na.rm) / sum(v0, na.rm = na.rm) *
     sum(v * q0, na.rm = na.rm) / sum(v * q1, na.rm = na.rm)
+}
+
+#' Martini index
+#' @rdname price_indexes
+#' @export
+martini_index <- function(a) {
+  if (not_finite_scalar(a)) {
+    stop("'a' must be a finite length 1 numeric")
+  }
+  if (a > 1 || a < 0) {
+    stop("'a' must be between 0 and 1")
+  }
+
+  function(p1, p0, q1, q0, na.rm = FALSE) {
+    check_pqs(p1, p0, q1, q0)
+    arithmetic_mean(p1 / p0, p0 * q0 * (q1 / q0)^a, na.rm = na.rm)
+  }
 }

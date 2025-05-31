@@ -833,7 +833,7 @@ t5   1.6720 1.0712    1.2477             0.9801 1.1850  1.2540  1.2678 0.9770
 > ###   laspeyres_index paasche_index jevons_index lowe_index young_index
 > ###   fisher_index hlp_index lm_index cswd_index cswdb_index bw_index
 > ###   stuvel_index arithmetic_agmean_index geometric_agmean_index
-> ###   lehr_index
+> ###   lehr_index martini_index
 > 
 > ### ** Examples
 > 

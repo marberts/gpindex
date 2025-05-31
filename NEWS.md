@@ -9,6 +9,8 @@ with `geks()`, fixing #8.
 
 - Added a new vignette to better explain decomposing an index.
 
+- Added `martini_index()` to compute the family of Martini indexes.
+
 ## gpindex 0.6.2
 
 - `splice_index()` now keeps names.

@@ -243,8 +243,9 @@ $$
 Using @eq-res1 to find weights to represent $\mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w})$ as a harmonic mean means that
 
 $$
-V/ \mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) \equiv \mathfrak{M}_{\varsigma}(V / \mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, -\varsigma)). 
+V/ \mathfrak{M}_{\rho}(\mathbf{r}, \mathbf{w}) \equiv \mathfrak{M}_{\varsigma}(V / \mathbf{r}, \mathbf{v}(\mathbf{r}, \mathbf{w}; \rho, -\varsigma)), 
 $$ {#eq-res4}
+where $V / \mathbf{r} = \left(V / r_{1}, \ldots, V / r_{n}\right)$.
 
 Setting $\varsigma=1$ then gives an additive decomposition for how each price relative acts to deflate the change in total value over time, while setting $\varsigma=0$ gives a multiplicative decomposition. The same holds true when deflating with an index based on nested means, using either @eq-res2 or @eq-res3.
 
