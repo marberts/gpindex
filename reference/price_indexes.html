@@ -15,7 +15,7 @@ quantities at two points in time."><meta property="og:image" content="https://ma
 
     <a class="navbar-brand me-2" href="../index.html">gpindex</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9005</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,9 @@ quantities at two points in time.</p>
 <span></span>
 <span><span class="fu">geometric_agmean_index</span><span class="op">(</span><span class="va">elasticity</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">lehr_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">lehr_index</span><span class="op">(</span><span class="va">p1</span>, <span class="va">p0</span>, <span class="va">q1</span>, <span class="va">q0</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">martini_index</span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -133,7 +135,7 @@ AG mean indexes.</p></dd>
 
 
 <dt id="arg-a-b">a, b<a class="anchor" aria-label="anchor" href="#arg-a-b"></a></dt>
-<dd><p>Parameters for the generalized Stuvel index.</p></dd>
+<dd><p>Parameters for the generalized Stuvel index or Martini index.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -202,7 +204,9 @@ mean index is the arithmetic or geometric mean of the geometric and
 arithmetic Laspeyres indexes, weighted by the elasticity of substitution.
 The <code>stuvel_index()</code> function returns a function to calculate a Stuvel
 index of the given parameters. The Lehr index is an alternative to the
-Geary-Khamis index, and is the implicit price index for Fisher's index 4153.</p>
+Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
+The Martini index is a Lowe index where the quantities are the weighted
+geometric average of current and base period quantities.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
