@@ -20,6 +20,7 @@
 \alias{arithmetic_agmean_index}
 \alias{geometric_agmean_index}
 \alias{lehr_index}
+\alias{martini_index}
 \title{Price indexes}
 \usage{
 arithmetic_index(type)
@@ -57,6 +58,8 @@ arithmetic_agmean_index(elasticity)
 geometric_agmean_index(elasticity)
 
 lehr_index(p1, p0, q1, q0, na.rm = FALSE)
+
+martini_index(a)
 }
 \arguments{
 \item{type}{The name of the index. See details for the possible types of
@@ -80,7 +83,7 @@ prices or quantities return a missing value.}
 \item{elasticity}{The elasticity of substitution for the Lloyd-Moulton and
 AG mean indexes.}
 
-\item{a, b}{Parameters for the generalized Stuvel index.}
+\item{a, b}{Parameters for the generalized Stuvel index or Martini index.}
 }
 \value{
 \code{arithmetic_index()}, \code{geometric_index()}, \code{harmonic_index()}, and
@@ -157,6 +160,8 @@ arithmetic Laspeyres indexes, weighted by the elasticity of substitution.
 The \code{stuvel_index()} function returns a function to calculate a Stuvel
 index of the given parameters. The Lehr index is an alternative to the
 Geary-Khamis index, and is the implicit price index for Fisher's index 4153.
+The Martini index is a Lowe index where the quantities are the weighted
+geometric average of current and base period quantities.
 }
 \note{
 There are different ways to deal with missing values in a price index,
