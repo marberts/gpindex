@@ -16,7 +16,8 @@
 #' The quartile method and Tukey algorithm are described in paragraphs 5.113 to
 #' 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
 #' The resistant fences method is an alternative to the quartile method, and is
-#' described by Rais (2008) and Hutton (2008). Quantile-based methods often
+#' described by Rais (2008) and Hutton (2008). The Kimber method is yet another
+#' alternative. Quantile-based methods often
 #' identify price relatives as outliers because the distribution is
 #' concentrated around 1; setting `a > 0` puts a floor on the minimum
 #' dispersion between quantiles as a fraction of the median. See the references
@@ -37,15 +38,13 @@
 #' \eqn{0 \le u \le 1}{0 <= u <= 1}, so that products with a larger price
 #' get flagged as outliers (par. 5.128).)
 #'
-#' @param x A strictly positive numeric vector of price relatives. These can be
+#' @param x A numeric vector, usually of price relatives. These can be
 #'   made with, e.g., [back_period()].
-#' @param cu,cl A numeric vector, or something that can be coerced into one,
-#'   giving the upper and lower cutoffs for each element of `x`. Recycled to the
-#'   same length as `x`.
-#' @param a A numeric vector, or something that can be coerced into one,
-#'   between 0 and 1 giving the scale factor for the median to establish the
-#'   minimum dispersion between quartiles for each element of `x`. The default
-#'   does not set a minimum dispersion. Recycled to the same length as `x`.
+#' @param cu,cl A number giving the upper and lower cutoffs for each
+#'   element of `x`.
+#' @param a A number between 0 and 1 giving the scale factor for the
+#'   median to establish the minimum dispersion between quartiles for each
+#'   element of `x`. The default does not set a minimum dispersion.
 #' @param type See [quantile()].
 #'
 #' @returns
@@ -97,16 +96,24 @@
 quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  # It's faster to not recycle cu, cl, or a when they're length 1.
-  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
   cl <- as.numeric(cl)
-  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
   a <- as.numeric(a)
-  if (length(a) != 1L) a <- rep_len(a, length(x))
+  if (a < 0 || a > 1) {
+    stop("'a' must be between 0 and 1")
+  }
 
   q <- stats::quantile(
-    x, c(0.25, 0.5, 0.75),
-    names = FALSE, na.rm = TRUE, type = type
+    x,
+    c(0.25, 0.5, 0.75),
+    names = FALSE,
+    na.rm = TRUE,
+    type = type
   )
   x <- x - q[2L]
   u <- cu * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
@@ -120,19 +127,58 @@ quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
   cl <- as.numeric(cl)
-  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
   a <- as.numeric(a)
-  if (length(a) != 1L) a <- rep_len(a, length(x))
+  if (a < 0 || a > 1) {
+    stop("'a' must be between 0 and 1")
+  }
 
   q <- stats::quantile(
-    x, c(0.25, 0.5, 0.75),
-    names = FALSE, na.rm = TRUE, type = type
+    x,
+    c(0.25, 0.5, 0.75),
+    names = FALSE,
+    na.rm = TRUE,
+    type = type
   )
   iqr <- pmax.int(q[3L] - q[1L], abs(a * q[2L]))
   u <- q[3L] + cu * iqr
   l <- q[1L] - cl * iqr
+  x > u | x < l
+}
+
+#' Kimber method
+#' @rdname outliers
+#' @export
+kimber_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
+  x <- as.numeric(x)
+  cu <- as.numeric(cu)
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
+  cl <- as.numeric(cl)
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
+  a <- as.numeric(a)
+  if (a < 0 || a > 1) {
+    stop("'a' must be between 0 and 1")
+  }
+
+  q <- stats::quantile(
+    x,
+    c(0.25, 0.5, 0.75),
+    names = FALSE,
+    na.rm = TRUE,
+    type = type
+  )
+  u <- q[3L] + cu * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
+  l <- q[1L] - cl * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
   x > u | x < l
 }
 
@@ -142,9 +188,13 @@ resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
 robust_z <- function(x, cu = 2.5, cl = cu) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
   cl <- as.numeric(cl)
-  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
 
   med <- stats::median(x, na.rm = TRUE)
   s <- stats::mad(x, na.rm = TRUE)
@@ -160,9 +210,13 @@ robust_z <- function(x, cu = 2.5, cl = cu) {
 fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
   cl <- as.numeric(cl)
-  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
   x > cu | x < cl
 }
 
@@ -172,13 +226,20 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   x <- as.numeric(x)
   cu <- as.numeric(cu)
-  if (length(cu) != 1L) cu <- rep_len(cu, length(x))
+  if (cu < 0) {
+    stop("'cu' must be greater than 0")
+  }
   cl <- as.numeric(cl)
-  if (length(cl) != 1L) cl <- rep_len(cl, length(x))
+  if (cl < 0) {
+    stop("'cl' must be greater than 0")
+  }
 
   q <- stats::quantile(
-    x, c(0.05, 0.95),
-    names = FALSE, na.rm = TRUE, type = type
+    x,
+    c(0.05, 0.95),
+    names = FALSE,
+    na.rm = TRUE,
+    type = type
   )
   tail <- x < q[1L] | x > q[2L]
   ts <- x[x != 1 & !tail]

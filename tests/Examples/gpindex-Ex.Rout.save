@@ -736,8 +736,8 @@ Warning in back_period(period) :
 > 
 > ### Name: outliers
 > ### Title: Outlier detection for price relatives
-> ### Aliases: outliers quartile_method resistant_fences robust_z
-> ###   fixed_cutoff tukey_algorithm hb_transform
+> ### Aliases: outliers quartile_method resistant_fences kimber_method
+> ###   robust_z fixed_cutoff tukey_algorithm hb_transform
 > 
 > ### ** Examples
 > 

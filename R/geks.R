@@ -28,7 +28,7 @@
 #'   truncated towards zero.
 #' @param na.rm Passed to `f` to control if missing values are removed.
 #' @param match_method Either 'all' to match all products against each other
-#'   (the default) or back-price' to match only back prices. The later can be
+#'   (the default) or 'back-price' to match only back prices. The later can be
 #'   faster when there is lots of product imbalanced, but should be used with
 #'   a balanced index-number formula `f`.
 #'
