@@ -4,6 +4,7 @@
 \alias{outliers}
 \alias{quartile_method}
 \alias{resistant_fences}
+\alias{kimber_method}
 \alias{robust_z}
 \alias{fixed_cutoff}
 \alias{tukey_algorithm}
@@ -14,6 +15,8 @@ quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
 resistant_fences(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
+kimber_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
+
 robust_z(x, cu = 2.5, cl = cu)
 
 fixed_cutoff(x, cu = 2.5, cl = 1/cu)
@@ -23,17 +26,15 @@ tukey_algorithm(x, cu = 2.5, cl = cu, type = 7)
 hb_transform(x)
 }
 \arguments{
-\item{x}{A strictly positive numeric vector of price relatives. These can be
+\item{x}{A numeric vector, usually of price relatives. These can be
 made with, e.g., \code{\link[=back_period]{back_period()}}.}
 
-\item{cu, cl}{A numeric vector, or something that can be coerced into one,
-giving the upper and lower cutoffs for each element of \code{x}. Recycled to the
-same length as \code{x}.}
+\item{cu, cl}{A number giving the upper and lower cutoffs for each
+element of \code{x}.}
 
-\item{a}{A numeric vector, or something that can be coerced into one,
-between 0 and 1 giving the scale factor for the median to establish the
-minimum dispersion between quartiles for each element of \code{x}. The default
-does not set a minimum dispersion. Recycled to the same length as \code{x}.}
+\item{a}{A number between 0 and 1 giving the scale factor for the
+median to establish the minimum dispersion between quartiles for each
+element of \code{x}. The default does not set a minimum dispersion.}
 
 \item{type}{See \code{\link[=quantile]{quantile()}}.}
 }
@@ -60,7 +61,8 @@ The fixed cutoff method is the simplest, and just uses the interval
 The quartile method and Tukey algorithm are described in paragraphs 5.113 to
 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
 The resistant fences method is an alternative to the quartile method, and is
-described by Rais (2008) and Hutton (2008). Quantile-based methods often
+described by Rais (2008) and Hutton (2008). The Kimber method is yet another
+alternative. Quantile-based methods often
 identify price relatives as outliers because the distribution is
 concentrated around 1; setting \code{a > 0} puts a floor on the minimum
 dispersion between quantiles as a fraction of the median. See the references

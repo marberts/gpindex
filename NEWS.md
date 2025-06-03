@@ -11,6 +11,10 @@ with `geks()`, fixing #8.
 
 - Added `martini_index()` to compute the family of Martini indexes.
 
+- Added `kimber_method()` for outliers detection.
+
+- Outlier detection functions are now stricter about their inputs.
+
 ## gpindex 0.6.2
 
 - `splice_index()` now keeps names.
