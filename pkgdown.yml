@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   decomposing-indexes: decomposing-indexes.html
   gpindex: gpindex.html
-last_built: 2025-05-31T03:36Z
+last_built: 2025-06-03T02:50Z
 urls:
   reference: https://marberts.github.io/gpindex/reference
   article: https://marberts.github.io/gpindex/articles
