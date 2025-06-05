@@ -40,8 +40,8 @@ offset_period <- function(f) {
 #'   follows the levels of `period` to agree with
 #'   [`cut()`][cut.Date].
 #' @param product A factor, or something that can be coerced into one, that
-#'    gives the product identifier for each transaction. The default is to assume
-#'   that all transactions are for the same product.
+#'    gives the product identifier for each transaction. The default is to
+#'    assume that all transactions are for the same product.
 #' @param match_first Should products in the first period match with
 #'   themselves (the default)?
 #'

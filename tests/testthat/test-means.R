@@ -32,22 +32,34 @@ test_that("Pythagorean means agree with known values", {
 })
 
 test_that("generalized means agree with base implementation", {
-  expect_equal(generalized_mean(-2.5)(x),
-               mean(x^(-2.5))^(1 / -2.5))
-  expect_equal(generalized_mean(0.6)(xna, na.rm = TRUE),
-               mean(xna^(0.6), na.rm = TRUE)^(1 / 0.6))
-  expect_equal(generalized_mean(-0.1)(x, w),
-               weighted.mean(x^(-0.1), w)^(1 / -0.1))
-  expect_equal(generalized_mean(3.25)(xna, w, na.rm = TRUE),
-               weighted.mean(xna^(3.25), w, na.rm = TRUE)^(1 / 3.25))
+  expect_equal(
+    generalized_mean(-2.5)(x),
+    mean(x^(-2.5))^(1 / -2.5)
+  )
+  expect_equal(
+    generalized_mean(0.6)(xna, na.rm = TRUE),
+    mean(xna^(0.6), na.rm = TRUE)^(1 / 0.6)
+  )
+  expect_equal(
+    generalized_mean(-0.1)(x, w),
+    weighted.mean(x^(-0.1), w)^(1 / -0.1)
+  )
+  expect_equal(
+    generalized_mean(3.25)(xna, w, na.rm = TRUE),
+    weighted.mean(xna^(3.25), w, na.rm = TRUE)^(1 / 3.25)
+  )
 })
 
 test_that("generalized mean satifies key properties", {
   # Reversal
-  expect_equal(generalized_mean(-3)(x),
-               1 / generalized_mean(3)(1 / x))
-  expect_equal(generalized_mean(2.3)(x, w),
-               1 / generalized_mean(-2.3)(1 / x, w))
+  expect_equal(
+    generalized_mean(-3)(x),
+    1 / generalized_mean(3)(1 / x)
+  )
+  expect_equal(
+    generalized_mean(2.3)(x, w),
+    1 / generalized_mean(-2.3)(1 / x, w)
+  )
   # General inequality
   generalized_mean(-2.7)(x, w) < generalized_mean(-2)(x, w)
   generalized_mean(0.6)(x, w) > generalized_mean(-2)(x, w)
@@ -55,15 +67,21 @@ test_that("generalized mean satifies key properties", {
 })
 
 test_that("generalized means work with transmuted weights", {
-  expect_equal(generalized_mean(-4.4)(x),
-               generalized_mean(0)(x, transmute_weights(-4.4, 0)(x)))
-  
+  expect_equal(
+    generalized_mean(-4.4)(x),
+    generalized_mean(0)(x, transmute_weights(-4.4, 0)(x))
+  )
+
   y <- c(x, geometric_mean(x))
-  expect_equal(generalized_mean(0)(y),
-               generalized_mean(2)(y, transmute_weights(0, 2)(y)))
-  
-  expect_equal(generalized_mean(3.8)(x, w),
-               generalized_mean(-1)(x, transmute_weights(3.8, -1)(x, w)))
+  expect_equal(
+    generalized_mean(0)(y),
+    generalized_mean(2)(y, transmute_weights(0, 2)(y))
+  )
+
+  expect_equal(
+    generalized_mean(3.8)(x, w),
+    generalized_mean(-1)(x, transmute_weights(3.8, -1)(x, w))
+  )
   expect_equal(
     generalized_mean(1)(xna, w, na.rm = TRUE),
     generalized_mean(-0.04)(
@@ -109,23 +127,39 @@ test_that("generalized means work with factored weights", {
 
 test_that("Lehmer mean satifies key properties", {
   # Pythagorean means
-  expect_equal(lehmer_mean(1)(x, w),
-               weighted.mean(x, w))
-  expect_equal(lehmer_mean(1)(xna, na.rm = TRUE),
-               weighted.mean(xna, na.rm = TRUE))
-  expect_equal(lehmer_mean(0)(x, w),
-               1 / weighted.mean(1 / x, w))
-  expect_equal(lehmer_mean(0.5)(x[1:2]),
-               sqrt(prod(x[1:2])))
+  expect_equal(
+    lehmer_mean(1)(x, w),
+    weighted.mean(x, w)
+  )
+  expect_equal(
+    lehmer_mean(1)(xna, na.rm = TRUE),
+    weighted.mean(xna, na.rm = TRUE)
+  )
+  expect_equal(
+    lehmer_mean(0)(x, w),
+    1 / weighted.mean(1 / x, w)
+  )
+  expect_equal(
+    lehmer_mean(0.5)(x[1:2]),
+    sqrt(prod(x[1:2]))
+  )
   # Reversal
-  expect_equal(lehmer_mean(5)(x, w),
-               1 / lehmer_mean(-4)(1 / x, w))
-  expect_equal(lehmer_mean(-3)(x),
-               1 / lehmer_mean(4)(1 / x))
-  expect_equal(contraharmonic_mean(xna, w, na.rm = TRUE),
-               1 / lehmer_mean(-1)(1 / xna, w, na.rm = TRUE))
-  expect_equal(contraharmonic_mean(xna, na.rm = TRUE),
-               1 / lehmer_mean(-1)(1 / xna, na.rm = TRUE))
+  expect_equal(
+    lehmer_mean(5)(x, w),
+    1 / lehmer_mean(-4)(1 / x, w)
+  )
+  expect_equal(
+    lehmer_mean(-3)(x),
+    1 / lehmer_mean(4)(1 / x)
+  )
+  expect_equal(
+    contraharmonic_mean(xna, w, na.rm = TRUE),
+    1 / lehmer_mean(-1)(1 / xna, w, na.rm = TRUE)
+  )
+  expect_equal(
+    contraharmonic_mean(xna, na.rm = TRUE),
+    1 / lehmer_mean(-1)(1 / xna, na.rm = TRUE)
+  )
 })
 
 test_that("logmeans agree with known values", {
@@ -147,37 +181,57 @@ test_that("logmeans satisfy key properties", {
   expect_equal(extended_mean(0, 0)(a, b), extended_mean(0, 0)(b, a))
   expect_equal(extended_mean(1, 1)(a, b), extended_mean(1, 1)(b, a))
   # Identities
-  expect_equal(generalized_logmean(-1)(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, geometric_mean))
-  expect_equal(generalized_logmean(2)(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, arithmetic_mean))
-  expect_equal(generalized_logmean(-2)(a, b),
-               apply(
-                 matrix(c(a, b), ncol = 2), 1,
-                 function(x) (harmonic_mean(x) * geometric_mean(x)^2)^(1 / 3)
-                 )
-               )
-  expect_equal(generalized_logmean(0.5)(a, b),
-               apply(
-                 matrix(c(a, b), ncol = 2), 1,
-                 function(x) (arithmetic_mean(x) + geometric_mean(x)) / 2
-                 )
-               )
-  expect_equal(logmean(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, geometric_mean)^2 *
-                 logmean(1 / a, 1 / b))
-  expect_equal(extended_mean(-2, -1)(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, harmonic_mean))
-  expect_equal(extended_mean(-2, 2)(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, geometric_mean))
-  expect_equal(extended_mean(3.5, -3.5)(a, b),
-               apply(matrix(c(a, b), ncol = 2), 1, geometric_mean))
-  expect_equal(extended_mean(2, 2)(a, b),
-               (a^a^2 / b^b^2)^(1 / (a^2 - b^2)) / exp(1)^(1 / 2))
-  expect_equal(extended_mean(1, 1)(a, b),
-               (a^a / b^b)^(1 / (a - b)) / exp(1))
-  expect_equal(extended_mean(-0.5, -0.5)(a, b),
-               (a^a^-0.5 / b^b^-0.5)^(1 / (a^-0.5 - b^-0.5)) / exp(1)^(-2))
+  expect_equal(
+    generalized_logmean(-1)(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, geometric_mean)
+  )
+  expect_equal(
+    generalized_logmean(2)(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, arithmetic_mean)
+  )
+  expect_equal(
+    generalized_logmean(-2)(a, b),
+    apply(
+      matrix(c(a, b), ncol = 2), 1,
+      function(x) (harmonic_mean(x) * geometric_mean(x)^2)^(1 / 3)
+    )
+  )
+  expect_equal(
+    generalized_logmean(0.5)(a, b),
+    apply(
+      matrix(c(a, b), ncol = 2), 1,
+      function(x) (arithmetic_mean(x) + geometric_mean(x)) / 2
+    )
+  )
+  expect_equal(
+    logmean(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, geometric_mean)^2 *
+      logmean(1 / a, 1 / b)
+  )
+  expect_equal(
+    extended_mean(-2, -1)(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, harmonic_mean)
+  )
+  expect_equal(
+    extended_mean(-2, 2)(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, geometric_mean)
+  )
+  expect_equal(
+    extended_mean(3.5, -3.5)(a, b),
+    apply(matrix(c(a, b), ncol = 2), 1, geometric_mean)
+  )
+  expect_equal(
+    extended_mean(2, 2)(a, b),
+    (a^a^2 / b^b^2)^(1 / (a^2 - b^2)) / exp(1)^(1 / 2)
+  )
+  expect_equal(
+    extended_mean(1, 1)(a, b),
+    (a^a / b^b)^(1 / (a - b)) / exp(1)
+  )
+  expect_equal(
+    extended_mean(-0.5, -0.5)(a, b),
+    (a^a^-0.5 / b^b^-0.5)^(1 / (a^-0.5 - b^-0.5)) / exp(1)^(-2)
+  )
 })
 
 test_that("logmeans handles corner cases correctly", {
@@ -185,39 +239,57 @@ test_that("logmeans handles corner cases correctly", {
   expect_equal(logmean(2, sqrt(2)^2), 2)
   expect_equal(generalized_logmean(0.9)(2, sqrt(2)^2), 2)
   expect_equal(generalized_logmean(1.1)(2, sqrt(2)^2), 2)
-  expect_equal(generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi),
-               3 / pi) # no more warning
+  expect_equal(
+    generalized_logmean(-1)(harmonic_mean(3 / pi), 3 / pi),
+    3 / pi
+  ) # no more warning
+  expect_error(logmean(1:3, 1, tol = 1:4))
   # Recycling
-  expect_identical(logmean(2:3, rep(sqrt(2)^2, 4)),
-                   c(2, logmean(3, sqrt(2)^2), 2, logmean(3, sqrt(2)^2)))
+  expect_identical(
+    logmean(2:3, rep(sqrt(2)^2, 4)),
+    c(2, logmean(3, sqrt(2)^2), 2, logmean(3, sqrt(2)^2))
+  )
 })
 
 test_that("nested means work as expected", {
-  expect_equal(fisher_mean(x, wna, w, na.rm = TRUE),
-               geometric_mean(c(arithmetic_mean(x, wna, na.rm = TRUE),
-                                harmonic_mean(x, w))))
-  expect_equal(nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
-               generalized_mean(-3)(
-                 c(generalized_mean(2)(xna, a, na.rm = TRUE),
-                   generalized_mean(0.3)(xna, b, na.rm = TRUE)),
-                 3:4
-                 )
-               )
+  expect_equal(
+    fisher_mean(x, wna, w, na.rm = TRUE),
+    geometric_mean(c(
+      arithmetic_mean(x, wna, na.rm = TRUE),
+      harmonic_mean(x, w)
+    ))
+  )
+  expect_equal(
+    nested_mean(-3, c(2, 0.3), 3:4)(xna, a, b, na.rm = TRUE),
+    generalized_mean(-3)(
+      c(
+        generalized_mean(2)(xna, a, na.rm = TRUE),
+        generalized_mean(0.3)(xna, b, na.rm = TRUE)
+      ),
+      3:4
+    )
+  )
 })
 
 test_that("nested mean reduces to a generalized mean", {
-  expect_equal(nested_mean(2, c(1, 0), c(2, 0))(x, a, b),
-               arithmetic_mean(x, a))
-  expect_equal(nested_mean(-2, c(1, 3), c(NA, 0.1))(x, w, wna, na.rm = TRUE),
-               generalized_mean(3)(x, wna, na.rm = TRUE))
+  expect_equal(
+    nested_mean(2, c(1, 0), c(2, 0))(x, a, b),
+    arithmetic_mean(x, a)
+  )
+  expect_equal(
+    nested_mean(-2, c(1, 3), c(NA, 0.1))(x, w, wna, na.rm = TRUE),
+    generalized_mean(3)(x, wna, na.rm = TRUE)
+  )
   expect_equal(nested_mean(-2, c(1, 3), c(NA, NA))(x), NA_real_)
   expect_equal(nested_mean(2, c(1, 1))(x, a, a), arithmetic_mean(x, a))
   expect_equal(nested_mean(-1, c(-1, -1))(x), harmonic_mean(x))
 })
 
 test_that("nested mean works with transmuted weights", {
-  expect_equal(fisher_mean(x, w),
-               generalized_mean(1)(x, nested_transmute(0, c(1, -1), 1)(x, w)))
+  expect_equal(
+    fisher_mean(x, w),
+    generalized_mean(1)(x, nested_transmute(0, c(1, -1), 1)(x, w))
+  )
   expect_equal(
     fisher_mean(xna, a, na.rm = TRUE),
     generalized_mean(1)(
@@ -287,19 +359,28 @@ test_that("grouping and balacing work", {
   # Grouped means
   f <- letters[c(1, 2, 3, 4, 5, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1)]
   expect_equal(grouped(arithmetic_mean)(x, group = f), ave(x, f))
-  expect_equal(grouped(\(x) arithmetic_mean(x, na.rm = TRUE))(xna, group = f),
-               ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE)))
+  expect_equal(
+    grouped(\(x) arithmetic_mean(x, na.rm = TRUE))(xna, group = f),
+    ave(xna, f, FUN = function(x) mean(x, na.rm = TRUE))
+  )
   # Balanced means
-  expect_equal(arithmetic_mean(xna, w, na.rm = TRUE),
-               balanced(arithmetic_mean)(xna, w, na.rm = TRUE))
-  expect_equal(arithmetic_mean(xna, w),
-               balanced(arithmetic_mean)(xna, w, na.rm = FALSE))
-  expect_equal(arithmetic_mean(x, xna, na.rm = TRUE),
-               balanced(weighted.mean)(x, xna, na.rm = TRUE))
+  expect_equal(
+    arithmetic_mean(xna, w, na.rm = TRUE),
+    balanced(arithmetic_mean)(xna, w, na.rm = TRUE)
+  )
+  expect_equal(
+    arithmetic_mean(xna, w),
+    balanced(arithmetic_mean)(xna, w, na.rm = FALSE)
+  )
+  expect_equal(
+    arithmetic_mean(x, xna, na.rm = TRUE),
+    balanced(weighted.mean)(x, xna, na.rm = TRUE)
+  )
   expect_equal(
     balanced(fisher_mean)(
       c(1, NA, 3, 4), c(NA, 1, 1, 2), c(1, 2, NA, 4), na.rm = TRUE
-    ), 4)
+    ), 4
+  )
   expect_equal(
     balanced(fisher_mean)(x, xna, na.rm = TRUE),
     sum(balanced(fisher_contributions)(x, xna, na.rm = TRUE)) + 1

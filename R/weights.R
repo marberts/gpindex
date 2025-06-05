@@ -20,7 +20,7 @@ extended_mean_ <- function(r, s) {
     stop("'s' must be a finite length 1 numeric")
   }
 
-  function(x, m, tol = .Machine$double.eps^0.5) {
+  function(x, m, tol) {
     res <- rdiff(x, m, r) / rdiff(x, m, s)
     res[abs(x - m) <= tol] <- m^(r - s)
     res
@@ -57,12 +57,12 @@ extended_mean_ <- function(r, s) {
 #' @returns
 #' `transmute_weights()` returns a function:
 #'
-#' \preformatted{function(x, w = NULL){...}}
+#' \preformatted{function(x, w = NULL, tol = .Machine$double.eps^0.5){...}}
 #'
 #' `nested_transmute()` and `nested_transmute2()` similarly return a
 #' function:
 #'
-#' \preformatted{function(x, w1 = NULL, w2 = NULL){...}}
+#' \preformatted{function(x, w1 = NULL, w2 = NULL, tol = .Machine$double.eps^0.5){...}}
 #'
 #' @seealso
 #' [generalized_mean()] for the generalized mean and [nested_mean()] for the
@@ -107,7 +107,7 @@ transmute_weights <- function(r, s) {
   gen_mean <- generalized_mean(r)
   pow_ext_mean <- extended_mean_(r, s)
 
-  function(x, w = NULL) {
+  function(x, w = NULL, tol = .Machine$double.eps^0.5) {
     if (r == s) {
       if (is.null(w)) {
         w <- rep.int(1, length(x))
@@ -118,12 +118,15 @@ transmute_weights <- function(r, s) {
       w[is.na(x)] <- NA_real_
       scale_weights(w)
     } else {
+      if (length(tol) != 1L && length(tol) != length(x)) {
+        stop("'tol' must be either length 1 or the same length as 'x'")
+      }
       m <- gen_mean(x, w, na.rm = TRUE)
       if (is.null(w)) {
-        v <- pow_ext_mean(x, m)
+        v <- pow_ext_mean(x, m, tol)
         attributes(v) <- NULL
       } else {
-        v <- w * pow_ext_mean(x, m)
+        v <- w * pow_ext_mean(x, m, tol)
         attributes(v) <- attributes(w)
       }
       scale_weights(v)
@@ -150,14 +153,14 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
     stop("'t' must be a pair of numeric values")
   }
 
-  function(x, w1 = NULL, w2 = NULL) {
+  function(x, w1 = NULL, w2 = NULL, tol = .Machine$double.eps^0.5) {
     if (is.na(t[1L]) && !is.na(t[2L])) {
-      w <- r_weights2(x, w2)
+      w <- r_weights2(x, w2, tol)
     } else if (!is.na(t[1L]) && is.na(t[2L])) {
-      w <- r_weights1(x, w1)
+      w <- r_weights1(x, w1, tol)
     } else {
-      v1 <- r_weights1(x, w1)
-      v2 <- r_weights2(x, w2)
+      v1 <- r_weights1(x, w1, tol)
+      v2 <- r_weights2(x, w2, tol)
       # The calculation is wrong if NAs in w1 or w2 propagate.
       if (anyNA(w1)) {
         v1[is.na(v1) & !is.na(v2)] <- 0
@@ -167,7 +170,7 @@ nested_transmute <- function(r1, r2, s, t = c(1, 1)) {
       }
       w <- t[1L] * v1 + t[2L] * v2
     }
-    s_weights(x, w)
+    s_weights(x, w, tol)
   }
 }
 
@@ -192,16 +195,16 @@ nested_transmute2 <- function(r1, r2, s, t = c(1, 1)) {
     stop("'t' must be a pair of numeric values")
   }
 
-  function(x, w1 = NULL, w2 = NULL) {
+  function(x, w1 = NULL, w2 = NULL, tol = .Machine$double.eps^0.5) {
     m <- c(mean1(x, w1, na.rm = TRUE), mean2(x, w2, na.rm = TRUE))
-    v <- s_weights(m, t)
+    v <- s_weights(m, t, tol)
     if (is.na(v[1L]) && !is.na(v[2L])) {
-      s_weights2(x, w2)
+      s_weights2(x, w2, tol)
     } else if (!is.na(v[1L]) && is.na(v[2L])) {
-      s_weights1(x, w1)
+      s_weights1(x, w1, tol)
     } else {
-      u1 <- s_weights1(x, w1)
-      u2 <- s_weights2(x, w2)
+      u1 <- s_weights1(x, w1, tol)
+      u2 <- s_weights2(x, w2, tol)
       # The calculation is wrong if NAs in w1 or w2 propagate.
       if (anyNA(w1)) {
         u1[is.na(u1) & !is.na(u2)] <- 0

@@ -318,6 +318,9 @@ extended_mean <- function(r, s) {
   }
 
   function(a, b, tol = .Machine$double.eps^0.5) {
+    if (length(tol) > max(length(a), length(b))) {
+      stop("'tol' cannot be longer than 'a' or 'b'")
+    }
     if (r == 0 && s == 0) {
       res <- sqrt(a * b)
     } else if (r == 0) {

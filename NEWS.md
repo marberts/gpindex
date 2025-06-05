@@ -11,9 +11,12 @@ with `geks()`, fixing #8.
 
 - Added `martini_index()` to compute the family of Martini indexes.
 
-- Added `kimber_method()` for outliers detection.
+- Added `kimber_method()` for outlier detection.
 
 - Outlier detection functions are now stricter about their inputs.
+
+- Functions for transmuting weights now get a `tol` argument to control the
+tolerance in the extended mean.
 
 ## gpindex 0.6.2
 
