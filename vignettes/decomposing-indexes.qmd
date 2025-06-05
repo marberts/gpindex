@@ -203,7 +203,7 @@ summary(v1 - v2)
 The decomposition in @eq-res3 can be extended to get a decomposition for an index constructed using the usual two-step procedure to make a price index. If price relatives are partitioned into $k$ groups, and an index is made from $k$ sub-indexes $\mathfrak{N}_{\rho_{1}\ldots\rho_{k}}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{k}) = \left(\mathfrak{M}_{\rho_1}(\mathbf{r}_{1}, \mathbf{w}_{1}), \ldots, \mathfrak{M}_{\rho_k}(\mathbf{r}_{k}, \mathbf{w}_{k})\right)$ with weights $\mathbf{\omega}=(\omega_{1},\ldots,\omega_{k})$ as a generalized mean of order $\rho$, then
 
 $$
-v_{i}(\mathfrak{N}_{\rho_{1}\ldots\rho_{k}}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{k}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}_{i}, \mathbf{w}_i; \rho_1, \varsigma)
+v_{i}(\mathfrak{N}_{\rho_{1}\ldots\rho_{k}}(\mathbf{r}, \mathbf{w}_{1}, \ldots, \mathbf{w}_{k}), \mathbf{\omega}; \rho, \varsigma) \mathbf{v}(\mathbf{r}_{i}, \mathbf{w}_i; \rho_{i}, \varsigma)
 $$
 
 decomposes how the components of the $i$-th sub-index contribute towards the total index. Concatenating each of these vectors of weights along with the vector of price relatives represents the nested mean over the partitioning of price relatives as a generalized mean of order $\varsigma$.
