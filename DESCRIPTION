@@ -1,6 +1,6 @@
 Package: gpindex
 Title: Generalized Price and Quantity Indexes
-Version: 0.6.2.9007
+Version: 0.6.3
 Authors@R: c(
     person("Steve", "Martin", role = c("aut", "cre", "cph"),
     email = "marberts@protonmail.com",
@@ -21,7 +21,6 @@ Imports: stats
 Suggests: 
     knitr,
     quarto,
-    rmarkdown,
     testthat (>= 3.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
