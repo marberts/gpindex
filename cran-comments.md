@@ -1,6 +1,6 @@
 ## Test environments
 
-- local Ubuntu 20.04 installation, R 4.4.1
+- local Ubuntu 20.04 installation, R 4.5.0
 - win-builder (devel, release, oldrelease)
 - mac-builder (release)
 
