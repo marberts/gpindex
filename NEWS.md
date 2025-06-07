@@ -1,4 +1,4 @@
-## gpindex (development version)
+## gpindex 0.6.3
 
 - Bumped minimum version of R to >= 4.1.
 
