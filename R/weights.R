@@ -62,7 +62,8 @@ extended_mean_ <- function(r, s) {
 #' `nested_transmute()` and `nested_transmute2()` similarly return a
 #' function:
 #'
-#' \preformatted{function(x, w1 = NULL, w2 = NULL, tol = .Machine$double.eps^0.5){...}}
+#' \preformatted{function(x, w1 = NULL, w2 = NULL,
+#'          tol = .Machine$double.eps^0.5){...}}
 #'
 #' @seealso
 #' [generalized_mean()] for the generalized mean and [nested_mean()] for the

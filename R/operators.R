@@ -29,10 +29,14 @@
 quantity_index <- function(f) {
   f <- match.fun(f)
   concord <- c(
-    p1 = "q1", p0 = "q0",
-    q1 = "p1", q0 = "p0",
-    pb = "qb", qb = "pb",
-    p = "q", q = "p"
+    p1 = "q1",
+    p0 = "q0",
+    q1 = "p1",
+    q0 = "p0",
+    pb = "qb",
+    qb = "pb",
+    p = "q",
+    q = "p"
   )
 
   function(...) {

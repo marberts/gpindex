@@ -38,7 +38,8 @@ index_formulas <- function(p1, p0, q1, q0) {
     palgrave = arithmetic_index("Palgrave")(p1, p0, q1),
     fisher = fisher_index(p1, p0, q1, q0),
     tornqvist = geometric_index("Tornqvist")(p1, p0, q1, q0),
-    marshall_edgeworth = arithmetic_index("MarshallEdgeworth")(p1, p0, q1, q0),
+    marshall_edgeworth =
+        arithmetic_index("MarshallEdgeworth")(p1, p0, q1, q0),
     walsh1 = arithmetic_index("Walsh1")(p1, p0, q1, q0),
     vartia2 = geometric_index("Vartia2")(p1, p0, q1, q0),
     vartia1 = geometric_index("Vartia1")(p1, p0, q1, q0),
@@ -46,6 +47,7 @@ index_formulas <- function(p1, p0, q1, q0) {
   )
 }
 
-round(t(mapply(index_formulas, price6, price6[1], quantity6, quantity6[1])), 4)
+res <- t(mapply(index_formulas, price6, price6[1], quantity6, quantity6[1]))
+round(res, 4)
 
 }

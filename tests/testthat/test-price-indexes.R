@@ -29,8 +29,7 @@ test_that("arithmetic indexes work", {
   )
   expect_equal(
     arithmetic_index("Drobisch")(p1, p0, q1, q0),
-    0.5 * sum(p1 * q0) / sum(p0 * q0) +
-      0.5 * sum(p1 * q1) / sum(p0 * q1)
+    0.5 * sum(p1 * q0) / sum(p0 * q0) + 0.5 * sum(p1 * q1) / sum(p0 * q1)
   )
   expect_equal(
     arithmetic_index("Unnamed")(p1, p0, q1, q0),
@@ -85,13 +84,19 @@ test_that("geometric indexes work", {
   )
   expect_equal(
     geometric_index("Tornqvist")(p1, p0, q1, q0),
-    geometric_mean(p1 / p0, 0.5 * p0 * q0 / sum(p0 * q0) +
-      0.5 * p1 * q1 / sum(p1 * q1))
+    geometric_mean(
+      p1 / p0,
+      0.5 * p0 * q0 / sum(p0 * q0) + 0.5 * p1 * q1 / sum(p1 * q1)
+    )
   )
   expect_equal(
     geometric_index("Vartia1")(p1, p0, q1, q0),
-    prod((p1 / p0)^(logmean(p0 * q0, p1 * q1) /
-      logmean(sum(p0 * q0), sum(p1 * q1))))
+    # nolint start: indentation_linter
+    prod(
+      (p1 / p0)^(logmean(p0 * q0, p1 * q1) /
+        logmean(sum(p0 * q0), sum(p1 * q1)))
+    )
+    # nolint end
   )
   geometric_index("Vartia1")(p1, p0, q1, q0) ==
     geometric_index("MontgomeryVartia")(p1, p0, q1, q0)
@@ -157,7 +162,8 @@ test_that("the other indexes work", {
   expect_equal(
     cswdb_index(p1, p0, q1, q0),
     sqrt(
-      arithmetic_mean(p1 / p0) / arithmetic_mean(q1 / q0) *
+      arithmetic_mean(p1 / p0) /
+        arithmetic_mean(q1 / q0) *
         arithmetic_mean(p1 * q1 / (p0 * q0))
     )
   )
@@ -174,7 +180,8 @@ test_that("the other indexes work", {
   )
   expect_equal(
     arithmetic_agmean_index(0.25)(p1, p0, q0),
-    0.25 * geometric_index("Laspeyres")(p1, p0, q0) +
+    0.25 *
+      geometric_index("Laspeyres")(p1, p0, q0) +
       0.75 * laspeyres_index(p1, p0, q0)
   )
   expect_equal(
@@ -183,7 +190,8 @@ test_that("the other indexes work", {
       laspeyres_index(p1, p0, q0)^0.75
   )
   expect_equal(
-    round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4), 1.6154
+    round(lehr_index(c(4, 2), c(2, 1), c(1, 16), c(8, 8)), 4),
+    1.6154
   )
   expect_equal(
     martini_index(0.5)(p1, p0, q1, q0),

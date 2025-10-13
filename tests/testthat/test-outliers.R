@@ -25,7 +25,8 @@ test_that("outlier methods work", {
   expect_equal(tukey_algorithm(integer(0)), logical(0))
   expect_equal(tukey_algorithm(2), FALSE)
   expect_equal(
-    tukey_algorithm(seq(0.1, 2, by = 0.2)), c(TRUE, rep(FALSE, 8), TRUE)
+    tukey_algorithm(seq(0.1, 2, by = 0.2)),
+    c(TRUE, rep(FALSE, 8), TRUE)
   )
   expect_equal(tukey_algorithm(c(NA, 1, 2, 3)), c(NA, TRUE, FALSE, TRUE))
 })

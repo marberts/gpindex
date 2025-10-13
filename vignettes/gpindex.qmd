@@ -104,7 +104,7 @@ Percent-change contributions can similarly be calculated for indexes that nest g
 ag_decomposition <- nested_transmute(0, c(0, 1), 1, c(0.25, 0.75))
 
 ag_mean(p1 / p1, s1, s1)
-arithmetic_mean(p1/ p1, ag_decomposition(p1 / p1, s1, s1))
+arithmetic_mean(p1 / p1, ag_decomposition(p1 / p1, s1, s1))
 
 ag_contributions <- nested_contributions(0, c(0, 1), c(0.25, 0.75))
 ag_contributions(p1 / p1, s1, s1)

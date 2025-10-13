@@ -115,14 +115,16 @@
 geks <- function(f, r = 0) {
   f <- match.fun(f)
   gen_mean <- generalized_mean(r)
-  function(p,
-           q,
-           period,
-           product,
-           window = nlevels(period),
-           n = window - 1L,
-           na.rm = FALSE,
-           match_method = c("all", "back-price")) {
+  function(
+    p,
+    q,
+    period,
+    product,
+    window = nlevels(period),
+    n = window - 1L,
+    na.rm = FALSE,
+    match_method = c("all", "back-price")
+  ) {
     period <- as.factor(period)
     product <- as.factor(product)
     attributes(product) <- NULL # faster to match on numeric codes
@@ -177,7 +179,17 @@ geks <- function(f, r = 0) {
 
 #' Make the GEKS matrix
 #' @noRd
-geks_matrix <- function(index, p, q, period, product, window, n, na.rm, method) {
+geks_matrix <- function(
+  index,
+  p,
+  q,
+  period,
+  product,
+  window,
+  n,
+  na.rm,
+  method
+) {
   p <- split(p, period)
   q <- split(q, period)
 

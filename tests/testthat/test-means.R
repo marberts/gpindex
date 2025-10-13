@@ -85,7 +85,9 @@ test_that("generalized means work with transmuted weights", {
   expect_equal(
     generalized_mean(1)(xna, w, na.rm = TRUE),
     generalized_mean(-0.04)(
-      xna, transmute_weights(1, -0.04)(xna, w), na.rm = TRUE
+      xna,
+      transmute_weights(1, -0.04)(xna, w),
+      na.rm = TRUE
     )
   )
   expect_equal(
@@ -192,14 +194,16 @@ test_that("logmeans satisfy key properties", {
   expect_equal(
     generalized_logmean(-2)(a, b),
     apply(
-      matrix(c(a, b), ncol = 2), 1,
+      matrix(c(a, b), ncol = 2),
+      1,
       function(x) (harmonic_mean(x) * geometric_mean(x)^2)^(1 / 3)
     )
   )
   expect_equal(
     generalized_logmean(0.5)(a, b),
     apply(
-      matrix(c(a, b), ncol = 2), 1,
+      matrix(c(a, b), ncol = 2),
+      1,
       function(x) (arithmetic_mean(x) + geometric_mean(x)) / 2
     )
   )
@@ -293,13 +297,17 @@ test_that("nested mean works with transmuted weights", {
   expect_equal(
     fisher_mean(xna, a, na.rm = TRUE),
     generalized_mean(1)(
-      xna, nested_transmute(0, c(1, -1), 1)(xna, a), na.rm = TRUE
+      xna,
+      nested_transmute(0, c(1, -1), 1)(xna, a),
+      na.rm = TRUE
     )
   )
   expect_equal(
     nested_mean(-5, c(1.1, -1.1), 1:2)(x, xna, w, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, xna, w), na.rm = TRUE
+      x,
+      nested_transmute(-5, c(1.1, -1.1), 0.2, 1:2)(x, xna, w),
+      na.rm = TRUE
     )
   )
 
@@ -310,41 +318,49 @@ test_that("nested mean works with transmuted weights", {
   expect_equal(
     fisher_mean(xna, a, na.rm = TRUE),
     generalized_mean(1)(
-      xna, nested_transmute2(0, c(1, -1), 1)(xna, a), na.rm = TRUE
+      xna,
+      nested_transmute2(0, c(1, -1), 1)(xna, a),
+      na.rm = TRUE
     )
   )
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), 1:2)(x, xna, b, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, xna, b), na.rm = TRUE
+      x,
+      nested_transmute2(-5, c(1.1, -0.1), 0.2, 1:2)(x, xna, b),
+      na.rm = TRUE
     )
   )
 
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), c(NA, 2))(x, b, xna, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
+      x,
+      nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
       na.rm = TRUE
     )
   )
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), c(NA, 2))(x, b, xna, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
+      x,
+      nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, 2))(x, b, xna),
       na.rm = TRUE
     )
   )
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), c(NA, NA))(x, b, xna, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
+      x,
+      nested_transmute(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
       na.rm = TRUE
     )
   )
   expect_equal(
     nested_mean(-5, c(1.1, -0.1), c(NA, NA))(x, b, xna, na.rm = TRUE),
     generalized_mean(0.2)(
-      x, nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
+      x,
+      nested_transmute2(-5, c(1.1, -0.1), 0.2, c(NA, NA))(x, b, xna),
       na.rm = TRUE
     )
   )
@@ -378,8 +394,12 @@ test_that("grouping and balacing work", {
   )
   expect_equal(
     balanced(fisher_mean)(
-      c(1, NA, 3, 4), c(NA, 1, 1, 2), c(1, 2, NA, 4), na.rm = TRUE
-    ), 4
+      c(1, NA, 3, 4),
+      c(NA, 1, 1, 2),
+      c(1, 2, NA, 4),
+      na.rm = TRUE
+    ),
+    4
   )
   expect_equal(
     balanced(fisher_mean)(x, xna, na.rm = TRUE),
