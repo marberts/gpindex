@@ -10,13 +10,23 @@ test_that("key splice methods works", {
   # Mean splice.
   expect_equal(
     splice_index(x),
-    c(1, 2, 6, geometric_mean(c(60, 40, 30)),
-      geometric_mean(rev(cumprod(rev(5:7))) * 3:5 * c(1, 2, 6)))
+    c(
+      1,
+      2,
+      6,
+      geometric_mean(c(60, 40, 30)),
+      geometric_mean(rev(cumprod(rev(5:7))) * 3:5 * c(1, 2, 6))
+    )
   )
   expect_equal(
     splice_index(x, published = TRUE),
-    c(1, 2, 6, geometric_mean(c(60, 40, 30)),
-      geometric_mean(c(420, 252, 7 * geometric_mean(c(60, 40, 30)))))
+    c(
+      1,
+      2,
+      6,
+      geometric_mean(c(60, 40, 30)),
+      geometric_mean(c(420, 252, 7 * geometric_mean(c(60, 40, 30))))
+    )
   )
 })
 

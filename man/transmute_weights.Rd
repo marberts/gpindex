@@ -32,7 +32,8 @@ means. The default is equal weights.}
 \code{nested_transmute()} and \code{nested_transmute2()} similarly return a
 function:
 
-\preformatted{function(x, w1 = NULL, w2 = NULL, tol = .Machine$double.eps^0.5){...}}
+\preformatted{function(x, w1 = NULL, w2 = NULL,
+         tol = .Machine$double.eps^0.5){...}}
 }
 \description{
 Transmute weights to turn a generalized mean of order \eqn{r} into a

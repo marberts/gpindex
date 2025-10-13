@@ -12,3 +12,6 @@
 ^CRAN-SUBMISSION$
 ^revdep$
 ^CITATION\.cff$
+^[.]?air[.]toml$
+^\.vscode$
+^CONTRIBUTING\.md$

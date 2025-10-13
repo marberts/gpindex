@@ -36,7 +36,10 @@ install.packages("gpindex")
 The development version can be installed from R-Universe
 
 ``` r
-install.packages("gpindex", repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org"))
+install.packages(
+  "gpindex",
+  repos = c("https://marberts.r-universe.dev", "https://cloud.r-project.org")
+)
 ```
 
 or directly from GitHub.
@@ -146,6 +149,12 @@ type of generalized-mean price index. Consequently, compared to existing
 packages, this package is suitable for building custom price/quantity
 indexes, calculating indexes with sample data, decomposing indexes, and
 learning about or researching different types of index-number formulas.
+
+## Contributing
+
+All contributions are welcome. Please start by opening an issue on
+GitHub to report any bugs or suggest improvements and new features. See
+the contribution guidelines for this project for more information.
 
 ## References
 

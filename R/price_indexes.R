@@ -1,19 +1,36 @@
 #' Factory to make Pythagorean indexes
 #' @noRd
 pythagorean_index <- function(r) {
-  types <- switch(r + 2,
+  types <- switch(
+    r + 2,
     c("Coggeshall", "Laspeyres", "Paasche", "Young"),
     c(
-      "Jevons", "Laspeyres", "Paasche",
-      "Tornqvist", "Vartia1", "MontgomeryVartia",
-      "Vartia2", "SatoVartia", "Walsh2",
-      "Young", "Theil", "Rao"
+      "Jevons",
+      "Laspeyres",
+      "Paasche",
+      "Tornqvist",
+      "Vartia1",
+      "MontgomeryVartia",
+      "Vartia2",
+      "SatoVartia",
+      "Walsh2",
+      "Young",
+      "Theil",
+      "Rao"
     ),
     c(
-      "Carli", "Dutot", "Laspeyres",
-      "Palgrave", "Drobisch", "Unnamed",
-      "Walsh1", "MarshallEdgeworth", "GearyKhamis",
-      "Lowe", "Young", "HybridCSWD"
+      "Carli",
+      "Dutot",
+      "Laspeyres",
+      "Palgrave",
+      "Drobisch",
+      "Unnamed",
+      "Walsh1",
+      "MarshallEdgeworth",
+      "GearyKhamis",
+      "Lowe",
+      "Young",
+      "HybridCSWD"
     )
   )
   gen_mean <- generalized_mean(r)
@@ -22,7 +39,8 @@ pythagorean_index <- function(r) {
     type <- match.arg(type, types)
     weights <- index_weights(type)
 
-    switch(type,
+    switch(
+      type,
       Carli = ,
       Dutot = ,
       Jevons = ,
@@ -260,17 +278,37 @@ pythagorean_index <- function(r) {
 #' @family price index functions
 #' @export
 index_weights <- function(
-    type = c(
-      "Carli", "Jevons", "Coggeshall", "Dutot",
-      "Laspeyres", "HybridLaspeyres", "LloydMoulton",
-      "Palgrave", "Paasche", "HybridPaasche",
-      "Drobisch", "Unnamed", "Tornqvist",
-      "Walsh1", "Walsh2", "MarshallEdgeworth",
-      "GearyKhamis", "Vartia1", "MontgomeryVartia",
-      "Vartia2", "SatoVartia", "Theil", "Rao",
-      "Lowe", "Young", "HybridCSWD"
-    )) {
-  switch(match.arg(type),
+  type = c(
+    "Carli",
+    "Jevons",
+    "Coggeshall",
+    "Dutot",
+    "Laspeyres",
+    "HybridLaspeyres",
+    "LloydMoulton",
+    "Palgrave",
+    "Paasche",
+    "HybridPaasche",
+    "Drobisch",
+    "Unnamed",
+    "Tornqvist",
+    "Walsh1",
+    "Walsh2",
+    "MarshallEdgeworth",
+    "GearyKhamis",
+    "Vartia1",
+    "MontgomeryVartia",
+    "Vartia2",
+    "SatoVartia",
+    "Theil",
+    "Rao",
+    "Lowe",
+    "Young",
+    "HybridCSWD"
+  )
+) {
+  switch(
+    match.arg(type),
     Carli = ,
     Jevons = ,
     Coggeshall = function(p0) {
@@ -632,9 +670,11 @@ cswd_index <- function(p1, p0, na.rm = FALSE) {
 #' @export
 cswdb_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
   check_pqs(p1, p0, q1, q0)
-  sqrt(arithmetic_mean(p1 / p0, na.rm = na.rm) /
-    arithmetic_mean(q1 / q0, na.rm = na.rm) *
-    arithmetic_mean(p1 * q1 / (p0 * q0), na.rm = na.rm))
+  sqrt(
+    arithmetic_mean(p1 / p0, na.rm = na.rm) /
+      arithmetic_mean(q1 / q0, na.rm = na.rm) *
+      arithmetic_mean(p1 * q1 / (p0 * q0), na.rm = na.rm)
+  )
 }
 
 #' Balk Walsh index
@@ -703,8 +743,10 @@ lehr_index <- function(p1, p0, q1, q0, na.rm = FALSE) {
   v1 <- p1 * q1
   v0 <- p0 * q0
   v <- (v1 + v0) / (q1 + q0)
-  sum(v1, na.rm = na.rm) / sum(v0, na.rm = na.rm) *
-    sum(v * q0, na.rm = na.rm) / sum(v * q1, na.rm = na.rm)
+  sum(v1, na.rm = na.rm) /
+    sum(v0, na.rm = na.rm) *
+    sum(v * q0, na.rm = na.rm) /
+    sum(v * q1, na.rm = na.rm)
 }
 
 #' Martini index
