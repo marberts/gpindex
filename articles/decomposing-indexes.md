@@ -210,8 +210,8 @@ relatives if and only if \\\rho \> \varsigma\\. That is, assuming
 \\\mathbf{r}\\ is ordered from smallest to largest (and does not contain
 all the same value), if \\\rho \> \varsigma\\ then there is a pair of
 integer \\k,l\\, with \\k\leq l\\, such that \\v\_{i}(\mathbf{r},
-\mathbf{w}; \rho, \varsigma)\>= w\_{i}\\ for \\i\geq l\\ and
-\\v\_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \<= w\_{i}\\ for
+\mathbf{w}; \rho, \varsigma) \geq w\_{i}\\ for \\i\geq l\\ and
+\\v\_{i}(\mathbf{r}, \mathbf{w}; \rho, \varsigma) \leq w\_{i}\\ for
 \\i\leq k\\, with these equalities reversed if \\\rho \<
 \varsigma\\.[²](#fn2) Again, not all decompositions satisfy this
 property.
@@ -580,9 +580,9 @@ Price Indexes into the Contributions of Individual Commodities.”
     consider several decompositions for multilateral indexes, although
     again the “weights” do not sum to one.
 
-2.  These are weak inequalities to account for the case that \\w\_{i} =
-    0\\. If the vector if weights is strictly positive then the
-    inequalities are strict.
+2.  These are weak inequalities to account for the case that some
+    weights are 0. If the vector if weights is strictly positive then
+    the inequalities are strict.
 
 3.  Take, for example, (1/2, 1, 3/2) with weights (1/6, 1/3, 1/2). The
     weighted harmonic mean is 1, which can be computed as an arithmetic
