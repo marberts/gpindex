@@ -263,7 +263,7 @@ hb_transform <- function(x) {
   x <- as.numeric(x)
   med <- stats::median(x, na.rm = TRUE)
   res <- 1 - med / x
-  gemed <- x >= med
+  gemed <- which(x >= med)
   res[gemed] <- x[gemed] / med - 1
   res
 }

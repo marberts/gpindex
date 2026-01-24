@@ -44,6 +44,7 @@ test_that("hb transform works", {
     hb_transform(x),
     ifelse(x < median(x), 1 - median(x) / x, x / median(x) - 1)
   )
+  expect_equal(hb_transform(x), hb_transform(c(NA, x)[-1]))
 })
 
 test_that("recycling gives an error", {

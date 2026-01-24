@@ -1,3 +1,7 @@
+## gpindex (development version)
+
+- Fixed a bug where `hb_transform()` would give an error with missing values.
+
 ## gpindex 0.6.3
 
 - Bumped minimum version of R to >= 4.1.
