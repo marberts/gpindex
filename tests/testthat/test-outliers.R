@@ -3,40 +3,64 @@ set.seed(4321)
 x <- c(1, 2, 1, 0.5, 1, 10, 1, 0.5, 0.2, 0.05)
 
 test_that("outlier methods work", {
-  expect_equal(fixed_cutoff(x), x > 2.5 | x < 1 / 2.5)
+  expect_equal(outliers(x, method = "fixed-cutof"), x > 2.5 | x < 1 / 2.5)
   expect_equal(
-    quartile_method(x),
+    outliers(x, method = "quartile"),
     x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
       x < median(x) - (quantile(x, 0.5) - quantile(x, 0.25)) * 2.5
   )
   expect_equal(
-    resistant_fences(x),
+    outliers(x, method = "resistant-fences"),
     x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5 |
       x < quantile(x, 0.25) - (quantile(x, 0.75) - quantile(x, 0.25)) * 2.5
   )
   expect_equal(
-    kimber_method(x),
+    outliers(x, method = "kimber"),
     x > quantile(x, 0.75) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
       x < quantile(x, 0.25) - (quantile(x, 0.5) - quantile(x, 0.25)) * 2.5
   )
-  expect_true(sum(resistant_fences(x)) <= sum(quartile_method(x)))
-  expect_equal(robust_z(x), abs(x - median(x)) / mad(x) > 2.5)
-
-  expect_equal(tukey_algorithm(integer(0)), logical(0))
-  expect_equal(tukey_algorithm(2), FALSE)
+  expect_true(
+    sum(outliers(x, method = "resistant-fences")) <=
+      sum(outliers(x, method = "quartile"))
+  )
   expect_equal(
-    tukey_algorithm(seq(0.1, 2, by = 0.2)),
+    outliers(x, method = "robust-z"),
+    abs(x - median(x)) / mad(x) > 2.5
+  )
+
+  expect_equal(outliers(integer(0), method = "tukey"), logical(0))
+  expect_equal(outliers(2, method = "tukey"), FALSE)
+  expect_equal(
+    outliers(seq(0.1, 2, by = 0.2), method = "tukey"),
     c(TRUE, rep(FALSE, 8), TRUE)
   )
-  expect_equal(tukey_algorithm(c(NA, 1, 2, 3)), c(NA, TRUE, FALSE, TRUE))
+  expect_equal(
+    outliers(c(NA, 1, 2, 3), method = "tukey"),
+    c(NA, TRUE, FALSE, TRUE)
+  )
 })
 
 test_that("outliers work with NAs", {
-  expect_identical(resistant_fences(x), resistant_fences(c(NA, x))[-1])
-  expect_identical(quartile_method(x), quartile_method(c(NA, x))[-1])
-  expect_identical(robust_z(x), robust_z(c(NA, x))[-1])
-  expect_identical(tukey_algorithm(x), tukey_algorithm(c(NA, x))[-1])
-  expect_identical(kimber_method(x), kimber_method(c(NA, x))[-1])
+  expect_identical(
+    outliers(x, method = "resistant-fences"),
+    outliers(c(NA, x), method = "resistant-fences")[-1]
+  )
+  expect_identical(
+    outliers(x, method = "quartile"),
+    outliers(c(NA, x), method = "quartile")[-1]
+  )
+  expect_identical(
+    outliers(x, method = "robust-z"),
+    outliers(c(NA, x), method = "robust-z")[-1]
+  )
+  expect_identical(
+    outliers(x, method = "tukey"),
+    outliers(c(NA, x), method = "tukey")[-1]
+  )
+  expect_identical(
+    outliers(x, method = "kimber"),
+    outliers(c(NA, x), method = "kimber")[-1]
+  )
 })
 
 test_that("hb transform works", {
@@ -48,7 +72,7 @@ test_that("hb transform works", {
 })
 
 test_that("recycling gives an error", {
-  expect_error(quartile_method(x, cl = rep(2.5, 10)))
-  expect_error(quartile_method(x, cu = rep(2.5, 0)))
-  expect_error(quartile_method(x, a = rep(0, 11)))
+  expect_error(outliers(x, cl = rep(2.5, 10)))
+  expect_error(outliers(x, cu = rep(2.5, 0)))
+  expect_error(outliers(x, a = rep(0, 11)))
 })

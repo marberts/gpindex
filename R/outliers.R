@@ -2,11 +2,11 @@
 #'
 #' Standard cutoff-based methods for detecting outliers with price relatives.
 #'
-#' Each of these functions constructs an interval of the form \eqn{[b_l(x) -
+#' This function constructs an interval of the form \eqn{[b_l(x) -
 #' c_l \times l(x), b_u(x) + c_u \times u(x)]}{[bl(x) - cl * l(x), bu(x) + cu *
 #' u(x)]} and assigns a value in `x` as `TRUE` if that value does not
-#' belong to the interval, `FALSE` otherwise. The methods differ in how
-#' they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
+#' belong to the interval, `FALSE` otherwise. The different methods differ in
+#' how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
 #' \eqn{l(x)}, and \eqn{u(x)}. Any missing values in `x` are ignored when
 #' calculating the cutoffs, but will return `NA`.
 #'
@@ -40,8 +40,8 @@
 #'
 #' @param x A numeric vector, usually of price relatives. These can be
 #'   made with, e.g., [back_period()].
-#' @param cu,cl A number giving the upper and lower cutoffs for each
-#'   element of `x`.
+#' @param upper,lower, cu,cl A number giving the upper and lower cutoffs for
+#' each element of `x`.
 #' @param a A number between 0 and 1 giving the scale factor for the
 #'   median to establish the minimum dispersion between quartiles for each
 #'   element of `x`. The default does not set a minimum dispersion.
@@ -93,167 +93,142 @@
 #' f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
 #' grouped(quartile_method)(x, group = f)
 #'
-#' @name outliers
 #' @export
-quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
+outliers <- function(
+  x,
+  upper = 2.5,
+  lower = if (method != "fixed-cutoff") upper else 1 / upper,
+  method = c(
+    "quartile",
+    "resistant-fences",
+    "kimber",
+    "robust-z",
+    "tukey",
+    "fixed-cutoff"
+  ),
+  a = 0,
+  type = 7
+) {
+  method <- match.arg(method)
   x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
+  upper <- as.numeric(upper)
+  if (upper < 0) {
+    stop("'upper' must be greater than 0")
   }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
+  lower <- as.numeric(lower)
+  if (lower < 0) {
+    stop("'lower' must be greater than 0")
   }
   a <- as.numeric(a)
   if (a < 0 || a > 1) {
     stop("'a' must be between 0 and 1")
   }
-
-  q <- stats::quantile(
-    x,
-    c(0.25, 0.5, 0.75),
-    names = FALSE,
-    na.rm = TRUE,
-    type = type
-  )
-  x <- x - q[2L]
-  u <- cu * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
-  l <- -cl * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
+  if (method %in% c("quartile", "resistant-fences", "kimber")) {
+    q <- stats::quantile(
+      x,
+      c(0.25, 0.5, 0.75),
+      names = FALSE,
+      na.rm = TRUE,
+      type = type
+    )
+    if (method == "quartile") {
+      u <- q[2L] + upper * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
+      l <- q[2L] - lower * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
+    } else if (method == "resistant-fences") {
+      iqr <- pmax.int(q[3L] - q[1L], abs(a * q[2L]))
+      u <- q[3L] + upper * iqr
+      l <- q[1L] - lower * iqr
+    } else {
+      u <- q[3L] + upper * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
+      l <- q[1L] - lower * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
+    }
+  } else if (method == "robust-z") {
+    med <- stats::median(x, na.rm = TRUE)
+    s <- stats::mad(x, na.rm = TRUE)
+    u <- med + upper * s
+    l <- med - lower * s
+  } else if (method == "tukey") {
+    q <- stats::quantile(
+      x,
+      c(0.05, 0.95),
+      names = FALSE,
+      na.rm = TRUE,
+      type = type
+    )
+    tail <- x < q[1L] | x > q[2L]
+    ts <- x[x != 1 & !tail]
+    if (length(ts) == 0L) {
+      return(tail)
+    }
+    # In some versions m is the median.
+    m <- mean(ts, na.rm = TRUE)
+    u <- min(m + upper * (mean(ts[ts >= m], na.rm = TRUE) - m), q[2L])
+    l <- max(m - lower * (m - mean(ts[ts <= m], na.rm = TRUE)), q[1L])
+  } else if (method == "fixed-cutoff") {
+    u <- upper
+    l <- lower
+  }
   x > u | x < l
+}
+
+#' Quartile method
+#' @rdname outliers
+#' @export
+quartile_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
+  )
+  outliers(x, cu, cl, method = "quartile", a, type)
 }
 
 #' Resistant fences
 #' @rdname outliers
 #' @export
 resistant_fences <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
-  x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
-  }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
-  }
-  a <- as.numeric(a)
-  if (a < 0 || a > 1) {
-    stop("'a' must be between 0 and 1")
-  }
-
-  q <- stats::quantile(
-    x,
-    c(0.25, 0.5, 0.75),
-    names = FALSE,
-    na.rm = TRUE,
-    type = type
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
   )
-  iqr <- pmax.int(q[3L] - q[1L], abs(a * q[2L]))
-  u <- q[3L] + cu * iqr
-  l <- q[1L] - cl * iqr
-  x > u | x < l
+  outliers(x, cu, cl, method = "resistant-fences", a, type)
 }
 
 #' Kimber method
 #' @rdname outliers
 #' @export
 kimber_method <- function(x, cu = 2.5, cl = cu, a = 0, type = 7) {
-  x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
-  }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
-  }
-  a <- as.numeric(a)
-  if (a < 0 || a > 1) {
-    stop("'a' must be between 0 and 1")
-  }
-
-  q <- stats::quantile(
-    x,
-    c(0.25, 0.5, 0.75),
-    names = FALSE,
-    na.rm = TRUE,
-    type = type
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
   )
-  u <- q[3L] + cu * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
-  l <- q[1L] - cl * pmax.int(q[2L] - q[1L], abs(a * q[2L]))
-  x > u | x < l
+  outliers(x, cu, cl, method = "kimber", a, type)
 }
 
 #' Robust z-score
 #' @rdname outliers
 #' @export
 robust_z <- function(x, cu = 2.5, cl = cu) {
-  x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
-  }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
-  }
-
-  med <- stats::median(x, na.rm = TRUE)
-  s <- stats::mad(x, na.rm = TRUE)
-  x <- x - med
-  u <- cu * s
-  l <- -cl * s
-  x > u | x < l
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
+  )
+  outliers(x, cu, cl, method = "robust-z")
 }
 
 #' Fixed cutoff
 #' @rdname outliers
 #' @export
 fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
-  x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
-  }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
-  }
-  x > cu | x < cl
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
+  )
+  outliers(x, cu, cl, method = "fixed-cutoff")
 }
 
 #' Tukey's algorithm
 #' @rdname outliers
 #' @export
 tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
-  x <- as.numeric(x)
-  cu <- as.numeric(cu)
-  if (cu < 0) {
-    stop("'cu' must be greater than 0")
-  }
-  cl <- as.numeric(cl)
-  if (cl < 0) {
-    stop("'cl' must be greater than 0")
-  }
-
-  q <- stats::quantile(
-    x,
-    c(0.05, 0.95),
-    names = FALSE,
-    na.rm = TRUE,
-    type = type
+  warning(
+    "this function is deprecated and will be removed; use 'outliers()' instead"
   )
-  tail <- x < q[1L] | x > q[2L]
-  ts <- x[x != 1 & !tail]
-  if (length(ts) == 0L) {
-    return(tail)
-  }
-  # In some versions m is the median.
-  m <- mean(ts, na.rm = TRUE)
-  x <- x - m
-  u <- cu * (mean(ts[ts >= m], na.rm = TRUE) - m)
-  l <- -cl * (m - mean(ts[ts <= m], na.rm = TRUE))
-  x > u | x < l | tail
+  outliers(x, cu, cl, method = "tukey", type = type)
 }
 
 #' HB transform
