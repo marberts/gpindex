@@ -2,6 +2,8 @@
 
 - Fixed a bug where `hb_transform()` would give an error with missing values.
 
+- Added a new function `outliers()` to replace existing outlier functions.
+
 ## gpindex 0.6.3
 
 - Bumped minimum version of R to >= 4.1.
