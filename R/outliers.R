@@ -40,12 +40,15 @@
 #'
 #' @param x A numeric vector, usually of price relatives. These can be
 #'   made with, e.g., [back_period()].
-#' @param upper,lower, cu,cl A number giving the upper and lower cutoffs for
-#' each element of `x`.
+#' @param upper,lower,cu,cl A number giving the upper and lower cutoffs for
+#'   each element of `x`.
+#' @param method The outlier detection method, one `"quartile"` (the default),
+#'   `"resistant-fences"`, `"kimber"`, `"robust-z"`, `"tukey"`,
+#'   or `"fixed-cutoff"`.
 #' @param a A number between 0 and 1 giving the scale factor for the
 #'   median to establish the minimum dispersion between quartiles for each
 #'   element of `x`. The default does not set a minimum dispersion.
-#' @param type See [quantile()].
+#' @param quantile_type,type See [quantile()].
 #'
 #' @returns
 #' A logical vector, the same length as `x`, that is `TRUE` if the
@@ -79,11 +82,12 @@
 #'
 #' x <- rlnorm(10)
 #'
-#' fixed_cutoff(x)
-#' robust_z(x)
-#' quartile_method(x)
-#' resistant_fences(x) # always identifies fewer outliers than above
-#' tukey_algorithm(x)
+#' outliers(x, method = "fixed-cutoff")
+#' outliers(x, method = "robust-z")
+#' outliers(x, method = "quartile")
+#' # Always identifies fewer outliers than above.
+#' outliers(x, method = "resistant-fences")
+#' outliers(x, method = "tukey")
 #'
 #' log(x)
 #' hb_transform(x)
@@ -91,7 +95,7 @@
 #' # Works the same for grouped data.
 #'
 #' f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
-#' grouped(quartile_method)(x, group = f)
+#' grouped(outliers)(x, group = f)
 #'
 #' @export
 outliers <- function(
@@ -107,7 +111,7 @@ outliers <- function(
     "fixed-cutoff"
   ),
   a = 0,
-  type = 7
+  quantile_type = 7
 ) {
   method <- match.arg(method)
   x <- as.numeric(x)
@@ -129,7 +133,7 @@ outliers <- function(
       c(0.25, 0.5, 0.75),
       names = FALSE,
       na.rm = TRUE,
-      type = type
+      type = quantile_type
     )
     if (method == "quartile") {
       u <- q[2L] + upper * pmax.int(q[3L] - q[2L], abs(a * q[2L]))
@@ -153,7 +157,7 @@ outliers <- function(
       c(0.05, 0.95),
       names = FALSE,
       na.rm = TRUE,
-      type = type
+      type = quantile_type
     )
     tail <- x < q[1L] | x > q[2L]
     ts <- x[x != 1 & !tail]
@@ -228,7 +232,7 @@ tukey_algorithm <- function(x, cu = 2.5, cl = cu, type = 7) {
   warning(
     "this function is deprecated and will be removed; use 'outliers()' instead"
   )
-  outliers(x, cu, cl, method = "tukey", type = type)
+  outliers(x, cu, cl, method = "tukey", quantile_type = type)
 }
 
 #' HB transform

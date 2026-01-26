@@ -33,4 +33,4 @@ Collate: 'helpers.R' 'means.R' 'weights.R' 'contributions.R' 'price_indexes.R'
 Config/testthat/edition: 3
 VignetteBuilder: quarto
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

@@ -11,6 +11,16 @@
 \alias{hb_transform}
 \title{Outlier detection for price relatives}
 \usage{
+outliers(
+  x,
+  upper = 2.5,
+  lower = if (method != "fixed-cutoff") upper else 1/upper,
+  method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey",
+    "fixed-cutoff"),
+  a = 0,
+  quantile_type = 7
+)
+
 quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
 resistant_fences(x, cu = 2.5, cl = cu, a = 0, type = 7)
@@ -29,14 +39,18 @@ hb_transform(x)
 \item{x}{A numeric vector, usually of price relatives. These can be
 made with, e.g., \code{\link[=back_period]{back_period()}}.}
 
-\item{cu, cl}{A number giving the upper and lower cutoffs for each
-element of \code{x}.}
+\item{upper, lower, cu, cl}{A number giving the upper and lower cutoffs for
+each element of \code{x}.}
+
+\item{method}{The outlier detection method, one \code{"quartile"} (the default),
+\code{"resistant-fences"}, \code{"kimber"}, \code{"robust-z"}, \code{"tukey"},
+or \code{"fixed-cutoff"}.}
 
 \item{a}{A number between 0 and 1 giving the scale factor for the
 median to establish the minimum dispersion between quartiles for each
 element of \code{x}. The default does not set a minimum dispersion.}
 
-\item{type}{See \code{\link[=quantile]{quantile()}}.}
+\item{quantile_type, type}{See \code{\link[=quantile]{quantile()}}.}
 }
 \value{
 A logical vector, the same length as \code{x}, that is \code{TRUE} if the
@@ -47,11 +61,11 @@ corresponding element of \code{x} is identified as an outlier,
 Standard cutoff-based methods for detecting outliers with price relatives.
 }
 \details{
-Each of these functions constructs an interval of the form \eqn{[b_l(x) -
+This function constructs an interval of the form \eqn{[b_l(x) -
 c_l \times l(x), b_u(x) + c_u \times u(x)]}{[bl(x) - cl * l(x), bu(x) + cu *
 u(x)]} and assigns a value in \code{x} as \code{TRUE} if that value does not
-belong to the interval, \code{FALSE} otherwise. The methods differ in how
-they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
+belong to the interval, \code{FALSE} otherwise. The different methods differ in
+how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
 \eqn{l(x)}, and \eqn{u(x)}. Any missing values in \code{x} are ignored when
 calculating the cutoffs, but will return \code{NA}.
 
@@ -88,11 +102,12 @@ set.seed(1234)
 
 x <- rlnorm(10)
 
-fixed_cutoff(x)
-robust_z(x)
-quartile_method(x)
-resistant_fences(x) # always identifies fewer outliers than above
-tukey_algorithm(x)
+outliers(x, method = "fixed-cutoff")
+outliers(x, method = "robust-z")
+outliers(x, method = "quartile")
+# Always identifies fewer outliers than above.
+outliers(x, method = "resistant-fences")
+outliers(x, method = "tukey")
 
 log(x)
 hb_transform(x)
@@ -100,7 +115,7 @@ hb_transform(x)
 # Works the same for grouped data.
 
 f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
-grouped(quartile_method)(x, group = f)
+grouped(outliers)(x, group = f)
 
 }
 \references{

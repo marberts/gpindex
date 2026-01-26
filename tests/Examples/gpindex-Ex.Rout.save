@@ -745,15 +745,16 @@ Warning in back_period(period) :
 > 
 > x <- rlnorm(10)
 > 
-> fixed_cutoff(x)
+> outliers(x, method = "fixed-cutoff")
  [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-> robust_z(x)
+> outliers(x, method = "robust-z")
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-> quartile_method(x)
+> outliers(x, method = "quartile")
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-> resistant_fences(x) # always identifies fewer outliers than above
+> # Always identifies fewer outliers than above.
+> outliers(x, method = "resistant-fences")
  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-> tukey_algorithm(x)
+> outliers(x, method = "tukey")
  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 > 
 > log(x)
@@ -766,7 +767,7 @@ Warning in back_period(period) :
 > # Works the same for grouped data.
 > 
 > f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
-> grouped(quartile_method)(x, group = f)
+> grouped(outliers)(x, group = f)
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > 
 > 
