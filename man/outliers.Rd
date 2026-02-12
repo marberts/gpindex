@@ -17,7 +17,7 @@ outliers(
   lower = if (method != "fixed-cutoff") upper else 1/upper,
   method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey",
     "fixed-cutoff"),
-  a = 0,
+  scale = 0,
   quantile_type = 7
 )
 
@@ -46,7 +46,7 @@ each element of \code{x}.}
 \code{"resistant-fences"}, \code{"kimber"}, \code{"robust-z"}, \code{"tukey"},
 or \code{"fixed-cutoff"}.}
 
-\item{a}{A number between 0 and 1 giving the scale factor for the
+\item{scale, a}{A number between 0 and 1 giving the scale factor for the
 median to establish the minimum dispersion between quartiles for each
 element of \code{x}. The default does not set a minimum dispersion.}
 
