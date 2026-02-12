@@ -119,14 +119,19 @@ set.seed(1234)
 x <- rlnorm(10)
 
 fixed_cutoff(x)
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 robust_z(x)
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 quartile_method(x)
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 resistant_fences(x) # always identifies fewer outliers than above
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 tukey_algorithm(x)
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 
 log(x)
@@ -140,5 +145,7 @@ hb_transform(x)
 
 f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
 grouped(quartile_method)(x, group = f)
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
 #>  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
