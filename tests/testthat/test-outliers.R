@@ -3,7 +3,6 @@ set.seed(4321)
 x <- c(1, 2, 1, 0.5, 1, 10, 1, 0.5, 0.2, 0.05)
 
 test_that("outlier methods work", {
-  expect_equal(outliers(x, method = "fixed-cutof"), x > 2.5 | x < 1 / 2.5)
   expect_equal(
     outliers(x, method = "quartile"),
     x > median(x) + (quantile(x, 0.75) - quantile(x, 0.5)) * 2.5 |
@@ -72,7 +71,7 @@ test_that("hb transform works", {
 })
 
 test_that("recycling gives an error", {
-  expect_error(outliers(x, cl = rep(2.5, 10)))
-  expect_error(outliers(x, cu = rep(2.5, 0)))
-  expect_error(outliers(x, a = rep(0, 11)))
+  expect_error(outliers(x, lower = rep(2.5, 10)))
+  expect_error(outliers(x, upper = rep(2.5, 0)))
+  expect_error(outliers(x, scale = rep(0, 11)))
 })

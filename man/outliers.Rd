@@ -11,6 +11,15 @@
 \alias{hb_transform}
 \title{Outlier detection for price relatives}
 \usage{
+outliers(
+  x,
+  upper = 2.5,
+  lower = upper,
+  method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey"),
+  scale = 0,
+  quantile_type = 7
+)
+
 quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
 resistant_fences(x, cu = 2.5, cl = cu, a = 0, type = 7)
@@ -29,14 +38,17 @@ hb_transform(x)
 \item{x}{A numeric vector, usually of price relatives. These can be
 made with, e.g., \code{\link[=back_period]{back_period()}}.}
 
-\item{cu, cl}{A number giving the upper and lower cutoffs for each
-element of \code{x}.}
+\item{upper, lower, cu, cl}{A number giving the upper and lower cutoffs for
+each element of \code{x}.}
 
-\item{a}{A number between 0 and 1 giving the scale factor for the
+\item{method}{The outlier detection method, one \code{"quartile"} (the default),
+\code{"resistant-fences"}, \code{"kimber"}, \code{"robust-z"}, or \code{"tukey"}.}
+
+\item{scale, a}{A number between 0 and 1 giving the scale factor for the
 median to establish the minimum dispersion between quartiles for each
 element of \code{x}. The default does not set a minimum dispersion.}
 
-\item{type}{See \code{\link[=quantile]{quantile()}}.}
+\item{quantile_type, type}{See \code{\link[=quantile]{quantile()}}.}
 }
 \value{
 A logical vector, the same length as \code{x}, that is \code{TRUE} if the
@@ -47,16 +59,13 @@ corresponding element of \code{x} is identified as an outlier,
 Standard cutoff-based methods for detecting outliers with price relatives.
 }
 \details{
-Each of these functions constructs an interval of the form \eqn{[b_l(x) -
+This function constructs an interval of the form \eqn{[b_l(x) -
 c_l \times l(x), b_u(x) + c_u \times u(x)]}{[bl(x) - cl * l(x), bu(x) + cu *
 u(x)]} and assigns a value in \code{x} as \code{TRUE} if that value does not
-belong to the interval, \code{FALSE} otherwise. The methods differ in how
-they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
+belong to the interval, \code{FALSE} otherwise. The different methods differ in
+how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
 \eqn{l(x)}, and \eqn{u(x)}. Any missing values in \code{x} are ignored when
 calculating the cutoffs, but will return \code{NA}.
-
-The fixed cutoff method is the simplest, and just uses the interval
-\eqn{[c_l, c_u]}{[cl, cu]}.
 
 The quartile method and Tukey algorithm are described in paragraphs 5.113 to
 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
@@ -64,9 +73,15 @@ The resistant fences method is an alternative to the quartile method, and is
 described by Rais (2008) and Hutton (2008). The Kimber method is yet another
 alternative. Quantile-based methods often
 identify price relatives as outliers because the distribution is
-concentrated around 1; setting \code{a > 0} puts a floor on the minimum
+concentrated around 1; setting \code{scale > 0} puts a floor on the minimum
 dispersion between quantiles as a fraction of the median. See the references
-for more details.
+for more details.\tabular{lllll}{
+    \tab \eqn{b_l(x)}{bl(x)} \tab \eqn{b_u(x)}{bu(x)} \tab \eqn{l(x)} \tab \eqn{u(x)} \cr
+   Quartile \tab \eqn{Q_2(x)} \tab \eqn{Q_2(x)} \tab \eqn{Q_2(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_2(x)} \cr
+   Resistant fences \tab \eqn{Q_1(x)} \tab \eqn{Q_3(x)} \tab \eqn{Q_3(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_1(x)} \cr
+   Kimber \tab \eqn{Q_1(x)} \tab \eqn{Q_3(x)} \tab \eqn{Q_2(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_2(x)} \cr
+}
+
 
 The robust Z-score is the usual method to identify relatives in the
 (asymmetric) tails of the distribution, simply replacing the mean with the
@@ -88,11 +103,11 @@ set.seed(1234)
 
 x <- rlnorm(10)
 
-fixed_cutoff(x)
-robust_z(x)
-quartile_method(x)
-resistant_fences(x) # always identifies fewer outliers than above
-tukey_algorithm(x)
+outliers(x, method = "robust-z")
+outliers(x, method = "quartile")
+# Always identifies fewer outliers than above.
+outliers(x, method = "resistant-fences")
+outliers(x, method = "tukey")
 
 log(x)
 hb_transform(x)
@@ -100,7 +115,7 @@ hb_transform(x)
 # Works the same for grouped data.
 
 f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
-grouped(quartile_method)(x, group = f)
+grouped(outliers)(x, group = f)
 
 }
 \references{
