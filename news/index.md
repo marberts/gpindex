@@ -6,6 +6,10 @@
   [`hb_transform()`](https://marberts.github.io/gpindex/reference/outliers.md)
   would give an error with missing values.
 
+- Added a new function
+  [`outliers()`](https://marberts.github.io/gpindex/reference/outliers.md)
+  to replace existing outlier functions, which are now deprecated.
+
 ## gpindex 0.6.3
 
 CRAN release: 2025-06-07

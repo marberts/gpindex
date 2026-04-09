@@ -226,7 +226,8 @@ Lang.
 
 ## Utilities
 
-- [`quartile_method()`](https://marberts.github.io/gpindex/reference/outliers.md)
+- [`outliers()`](https://marberts.github.io/gpindex/reference/outliers.md)
+  [`quartile_method()`](https://marberts.github.io/gpindex/reference/outliers.md)
   [`resistant_fences()`](https://marberts.github.io/gpindex/reference/outliers.md)
   [`kimber_method()`](https://marberts.github.io/gpindex/reference/outliers.md)
   [`robust_z()`](https://marberts.github.io/gpindex/reference/outliers.md)

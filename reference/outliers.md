@@ -6,6 +6,15 @@ relatives.
 ## Usage
 
 ``` r
+outliers(
+  x,
+  upper = 2.5,
+  lower = upper,
+  method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey"),
+  scale = 0,
+  quantile_type = 7
+)
+
 quartile_method(x, cu = 2.5, cl = cu, a = 0, type = 7)
 
 resistant_fences(x, cu = 2.5, cl = cu, a = 0, type = 7)
@@ -29,17 +38,22 @@ hb_transform(x)
   e.g.,
   [`back_period()`](https://marberts.github.io/gpindex/reference/back_period.md).
 
-- cu, cl:
+- upper, lower, cu, cl:
 
   A number giving the upper and lower cutoffs for each element of `x`.
 
-- a:
+- method:
+
+  The outlier detection method, one `"quartile"` (the default),
+  `"resistant-fences"`, `"kimber"`, `"robust-z"`, or `"tukey"`.
+
+- scale, a:
 
   A number between 0 and 1 giving the scale factor for the median to
   establish the minimum dispersion between quartiles for each element of
   `x`. The default does not set a minimum dispersion.
 
-- type:
+- quantile_type, type:
 
   See [`quantile()`](https://rdrr.io/r/stats/quantile.html).
 
@@ -51,15 +65,12 @@ otherwise.
 
 ## Details
 
-Each of these functions constructs an interval of the form \\\[b_l(x) -
-c_l \times l(x), b_u(x) + c_u \times u(x)\]\\ and assigns a value in `x`
-as `TRUE` if that value does not belong to the interval, `FALSE`
-otherwise. The methods differ in how they construct the values
-\\b_l(x)\\, \\b_u(x)\\, \\l(x)\\, and \\u(x)\\. Any missing values in
-`x` are ignored when calculating the cutoffs, but will return `NA`.
-
-The fixed cutoff method is the simplest, and just uses the interval
-\\\[c_l, c_u\]\\.
+This function constructs an interval of the form \\\[b_l(x) - c_l \times
+l(x), b_u(x) + c_u \times u(x)\]\\ and assigns a value in `x` as `TRUE`
+if that value does not belong to the interval, `FALSE` otherwise. The
+different methods differ in how they construct the values \\b_l(x)\\,
+\\b_u(x)\\, \\l(x)\\, and \\u(x)\\. Any missing values in `x` are
+ignored when calculating the cutoffs, but will return `NA`.
 
 The quartile method and Tukey algorithm are described in paragraphs
 5.113 to 5.135 of the CPI manual (2020), as well as by Rais (2008) and
@@ -67,9 +78,16 @@ Hutton (2008). The resistant fences method is an alternative to the
 quartile method, and is described by Rais (2008) and Hutton (2008). The
 Kimber method is yet another alternative. Quantile-based methods often
 identify price relatives as outliers because the distribution is
-concentrated around 1; setting `a > 0` puts a floor on the minimum
+concentrated around 1; setting `scale > 0` puts a floor on the minimum
 dispersion between quantiles as a fraction of the median. See the
 references for more details.
+
+|                  |            |            |                     |                     |
+|------------------|------------|------------|---------------------|---------------------|
+|                  | \\b_l(x)\\ | \\b_u(x)\\ | \\l(x)\\            | \\u(x)\\            |
+| Quartile         | \\Q_2(x)\\ | \\Q_2(x)\\ | \\Q_2(x) - Q_1(x)\\ | \\Q_3(x) - Q_2(x)\\ |
+| Resistant fences | \\Q_1(x)\\ | \\Q_3(x)\\ | \\Q_3(x) - Q_1(x)\\ | \\Q_3(x) - Q_1(x)\\ |
+| Kimber           | \\Q_1(x)\\ | \\Q_3(x)\\ | \\Q_2(x) - Q_1(x)\\ | \\Q_3(x) - Q_2(x)\\ |
 
 The robust Z-score is the usual method to identify relatives in the
 (asymmetric) tails of the distribution, simply replacing the mean with
@@ -118,20 +136,14 @@ set.seed(1234)
 
 x <- rlnorm(10)
 
-fixed_cutoff(x)
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
-#>  [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-robust_z(x)
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+outliers(x, method = "robust-z")
 #>  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-quartile_method(x)
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+outliers(x, method = "quartile")
 #>  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
-resistant_fences(x) # always identifies fewer outliers than above
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+# Always identifies fewer outliers than above.
+outliers(x, method = "resistant-fences")
 #>  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-tukey_algorithm(x)
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+outliers(x, method = "tukey")
 #>  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 
 log(x)
@@ -144,8 +156,6 @@ hb_transform(x)
 # Works the same for grouped data.
 
 f <- c("a", "b", "a", "a", "b", "b", "b", "a", "a", "b")
-grouped(quartile_method)(x, group = f)
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
-#> Warning: this function is deprecated and will be removed; use 'outliers()' instead
+grouped(outliers)(x, group = f)
 #>  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```

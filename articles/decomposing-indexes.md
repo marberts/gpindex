@@ -18,19 +18,18 @@ There are several well-known decompositions for the most common types of
 bilateral price indexes. Balk ([2008](#ref-balk2008), equation 4.13)
 gives an additive decomposition for any index based on the geometric
 mean by transmuting the weights in the geometric mean with the
-logarithmic mean. This is the same decomposition derived by Reinsdorf,
-Diewert, and Ehemann ([2002](#ref-reinsdorf2002), equation 20) for the
-Törnqvist index. A similar approach yields a multiplicative
-decomposition for any index based on the arithmetic mean, again using
-the logarithmic mean ([Balk 2008](#ref-balk2008), equation 4.8).
-Combining these results gives additive and multiplicative decompositions
-for the Fisher index ([Reinsdorf, Diewert, and Ehemann 2002, sec.
-6](#ref-reinsdorf2002)). The van IJzeren additive decomposition for the
-Fisher index ([Balk 2008](#ref-balk2008), equation 4.18) is an
-alternative that does not explicitly use the logarithmic mean. Each of
-these decompositions results in weights that are positive and sum to
-one, as required to represent an index as an arithmetic or geometric
-mean.[¹](#fn1)
+logarithmic mean. This is the same decomposition derived by Reinsdorf et
+al. ([2002](#ref-reinsdorf2002), equation 20) for the Törnqvist index. A
+similar approach yields a multiplicative decomposition for any index
+based on the arithmetic mean, again using the logarithmic mean ([Balk
+2008](#ref-balk2008), equation 4.8). Combining these results gives
+additive and multiplicative decompositions for the Fisher index
+([Reinsdorf et al. 2002, sec. 6](#ref-reinsdorf2002)). The van IJzeren
+additive decomposition for the Fisher index ([Balk 2008](#ref-balk2008),
+equation 4.18) is an alternative that does not explicitly use the
+logarithmic mean. Each of these decompositions results in weights that
+are positive and sum to one, as required to represent an index as an
+arithmetic or geometric mean.[¹](#fn1)
 
 I show how the additive and multiplicative decompositions for geometric,
 arithmetic, and Fisher indexes that use the logarithmic mean can be
@@ -100,7 +99,7 @@ r\_{i}\right), \\
 
 that will be useful in [Section 2.3](#sec-harmonic).
 
-Balk ([2008](#ref-balk2008)) and Reinsdorf, Diewert, and Ehemann
+Balk ([2008](#ref-balk2008)) and Reinsdorf et al.
 ([2002](#ref-reinsdorf2002)) show how to derive \\\mathbf{v}(\mathbf{r},
 \mathbf{w}; \rho, \varsigma)\\ when \\\rho = 1\\ and \\\varsigma = 0\\
 (multiplicative decomposition of an arithmetic index) \\
@@ -162,10 +161,10 @@ into one based on a generalized mean of order \\\varsigma\\.
 The function given by [Equation 2](#eq-res1) takes on all existing
 decompositions that I know of as special cases. Setting \\\rho = 0\\ and
 \\\varsigma = 1\\, or \\\rho = 1\\ and \\\varsigma = 0\\, gives the
-special cases by Balk ([2008](#ref-balk2008)) and Reinsdorf, Diewert,
-and Ehemann ([2002](#ref-reinsdorf2002)) for decomposing indexes based
-on arithmetic and geometric means (because the extended mean reduces to
-the logarithmic mean). Similarly, because
+special cases by Balk ([2008](#ref-balk2008)) and Reinsdorf et al.
+([2002](#ref-reinsdorf2002)) for decomposing indexes based on arithmetic
+and geometric means (because the extended mean reduces to the
+logarithmic mean). Similarly, because
 \\\mathfrak{E}\_{\rho\varsigma}(r_i, \mathfrak{M}\_{\rho} (\mathbf{r},
 \mathbf{w}))^{\rho - \varsigma} \equiv \left(\mathfrak{M}\_{\rho}
 (\mathbf{r}, \mathbf{w}) r\_{i}\right)^\rho\\ when \\\rho = -1\\ and
@@ -287,12 +286,11 @@ all.equal(
 ### Decomposing superlative indexes
 
 The additive and multiplicative decompositions for the Fisher index by
-Reinsdorf, Diewert, and Ehemann ([2002, sec. 6](#ref-reinsdorf2002)) can
-be generalized in the same way as the decompositions for the arithmetic
-and geometric indexes by noting that the Fisher index is simply a nested
-generalized mean of indexes based on the generalized mean. For a pair of
-generalized means \\\mathfrak{N}\_{\rho\_{1}\rho\_{2}}(\mathbf{r},
-\mathbf{w}\_{1},
+Reinsdorf et al. ([2002, sec. 6](#ref-reinsdorf2002)) can be generalized
+in the same way as the decompositions for the arithmetic and geometric
+indexes by noting that the Fisher index is simply a nested generalized
+mean of indexes based on the generalized mean. For a pair of generalized
+means \\\mathfrak{N}\_{\rho\_{1}\rho\_{2}}(\mathbf{r}, \mathbf{w}\_{1},
 \mathbf{w}\_{2})=\left(\mathfrak{M}\_{\rho_1}(\mathbf{r},
 \mathbf{w}\_1), \mathfrak{M}\_{\rho_2}(\mathbf{r},
 \mathbf{w}\_2)\right)\\ mapping into \\R_2^{++}\\ with weights
@@ -551,16 +549,16 @@ Official Statistics* 25 (1): 149–49.
 Lippe, Peter von der. 2007. *Index Theory and Price Statistics*. Peter
 Lang.
 
-Martin, S. 2021. “A Note on Generalized Decompositions for Price
-Indexes.” Statistics Canada.
+Martin, S. 2021. *A Note on Generalized Decompositions for Price
+Indexes*. Statistics Canada.
 
 Reinsdorf, M. B., W. E. Diewert, and C. Ehemann. 2002. “Additive
 Decompositions for Fisher, Törnqvist and Geometric Mean Indexes.”
 *Journal of Economic and Social Measurement* 28 (1-2): 51–61.
 
-von der Lippe, P. 2015. “Generalized Statistical Means and New Price
+von der Lippe, P. 2015. *Generalized Statistical Means and New Price
 Index Formulas, Notes on Some Unexplored Index Formulas, Their
-Interpretations and Generalizations.” Munich Personal RePEc Archive
+Interpretations and Generalizations*. Munich Personal RePEc Archive
 paper no. 64952.
 
 Webster, M. B., and R. C. Tarnow-Mordi. 2019. “Decomposing Multilateral
@@ -570,8 +568,8 @@ Price Indexes into the Contributions of Individual Commodities.”
 ------------------------------------------------------------------------
 
 1.  There are decompositions with “weights” that do not sum to one, such
-    as those for the Fisher index by Reinsdorf, Diewert, and Ehemann
-    ([2002, sec. 2](#ref-reinsdorf2002)) and Hallerbach
+    as those for the Fisher index by Reinsdorf et al. ([2002, sec.
+    2](#ref-reinsdorf2002)) and Hallerbach
     ([2005](#ref-hallerbach2005)), and for other superlative indexes by
     Diewert ([2002](#ref-diewert2002)). Balk ([2008](#ref-balk2008),
     equation 4.28) gives the original multiplicative decomposition of
