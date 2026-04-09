@@ -745,8 +745,6 @@ Warning in back_period(period) :
 > 
 > x <- rlnorm(10)
 > 
-> outliers(x, method = "fixed-cutoff")
- [1]  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 > outliers(x, method = "robust-z")
  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 > outliers(x, method = "quartile")

@@ -10,9 +10,6 @@
 #' \eqn{l(x)}, and \eqn{u(x)}. Any missing values in `x` are ignored when
 #' calculating the cutoffs, but will return `NA`.
 #'
-#' The fixed cutoff method is the simplest, and just uses the interval
-#' \eqn{[c_l, c_u]}{[cl, cu]}.
-#'
 #' The quartile method and Tukey algorithm are described in paragraphs 5.113 to
 #' 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
 #' The resistant fences method is an alternative to the quartile method, and is
@@ -22,7 +19,15 @@
 #' concentrated around 1; setting `scale > 0` puts a floor on the minimum
 #' dispersion between quantiles as a fraction of the median. See the references
 #' for more details.
+# nolint start
 #'
+#' |                  | \eqn{b_l(x)}{bl(x)} | \eqn{b_u(x)}{bu(x)} | \eqn{l(x)}            | \eqn{u(x)}            |
+#' | ---              | --                  | ---                 | ---                   | ---                   |
+#' | Quartile         | \eqn{Q_2(x)}        | \eqn{Q_2(x)}        | \eqn{Q_2(x) - Q_1(x)} | \eqn{Q_3(x) - Q_2(x)} |
+#' | Resistant fences | \eqn{Q_1(x)}        | \eqn{Q_3(x)}        | \eqn{Q_3(x) - Q_1(x)} | \eqn{Q_3(x) - Q_1(x)} |
+#' | Kimber           | \eqn{Q_1(x)}        | \eqn{Q_3(x)}        | \eqn{Q_2(x) - Q_1(x)} | \eqn{Q_3(x) - Q_2(x)} |
+#'
+# nolint end
 #' The robust Z-score is the usual method to identify relatives in the
 #' (asymmetric) tails of the distribution, simply replacing the mean with the
 #' median, and the standard deviation with the median absolute deviation.
@@ -43,8 +48,7 @@
 #' @param upper,lower,cu,cl A number giving the upper and lower cutoffs for
 #'   each element of `x`.
 #' @param method The outlier detection method, one `"quartile"` (the default),
-#'   `"resistant-fences"`, `"kimber"`, `"robust-z"`, `"tukey"`,
-#'   or `"fixed-cutoff"`.
+#'   `"resistant-fences"`, `"kimber"`, `"robust-z"`, or `"tukey"`.
 #' @param scale,a A number between 0 and 1 giving the scale factor for the
 #'   median to establish the minimum dispersion between quartiles for each
 #'   element of `x`. The default does not set a minimum dispersion.
@@ -82,7 +86,6 @@
 #'
 #' x <- rlnorm(10)
 #'
-#' outliers(x, method = "fixed-cutoff")
 #' outliers(x, method = "robust-z")
 #' outliers(x, method = "quartile")
 #' # Always identifies fewer outliers than above.
@@ -101,14 +104,13 @@
 outliers <- function(
   x,
   upper = 2.5,
-  lower = if (method != "fixed-cutoff") upper else 1 / upper,
+  lower = upper,
   method = c(
     "quartile",
     "resistant-fences",
     "kimber",
     "robust-z",
-    "tukey",
-    "fixed-cutoff"
+    "tukey"
   ),
   scale = 0,
   quantile_type = 7
@@ -147,8 +149,14 @@ outliers <- function(
       l <- q[1L] - lower * pmax.int(q[2L] - q[1L], abs(scale * q[2L]))
     }
   } else if (method == "robust-z") {
-    med <- stats::median(x, na.rm = TRUE)
-    s <- pmax.int(stats::mad(x, na.rm = TRUE), abs(scale * med))
+    med <- stats::quantile(
+      x,
+      0.5,
+      names = FALSE,
+      na.rm = TRUE,
+      type = quantile_type
+    )
+    s <- pmax.int(stats::mad(x, med, na.rm = TRUE), abs(scale * med))
     u <- med + upper * s
     l <- med - lower * s
   } else if (method == "tukey") {
@@ -168,9 +176,6 @@ outliers <- function(
     m <- mean(ts, na.rm = TRUE)
     u <- min(m + upper * (mean(ts[ts >= m], na.rm = TRUE) - m), q[2L])
     l <- max(m - lower * (m - mean(ts[ts <= m], na.rm = TRUE)), q[1L])
-  } else if (method == "fixed-cutoff") {
-    u <- upper
-    l <- lower
   }
   x > u | x < l
 }
@@ -227,7 +232,7 @@ fixed_cutoff <- function(x, cu = 2.5, cl = 1 / cu) {
     "this function is deprecated and will be removed in a future version;",
     " use 'outliers()' instead"
   )
-  outliers(x, cu, cl, method = "fixed-cutoff")
+  x > cu | x < cl
 }
 
 #' Tukey's algorithm

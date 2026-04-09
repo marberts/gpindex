@@ -14,9 +14,8 @@
 outliers(
   x,
   upper = 2.5,
-  lower = if (method != "fixed-cutoff") upper else 1/upper,
-  method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey",
-    "fixed-cutoff"),
+  lower = upper,
+  method = c("quartile", "resistant-fences", "kimber", "robust-z", "tukey"),
   scale = 0,
   quantile_type = 7
 )
@@ -43,8 +42,7 @@ made with, e.g., \code{\link[=back_period]{back_period()}}.}
 each element of \code{x}.}
 
 \item{method}{The outlier detection method, one \code{"quartile"} (the default),
-\code{"resistant-fences"}, \code{"kimber"}, \code{"robust-z"}, \code{"tukey"},
-or \code{"fixed-cutoff"}.}
+\code{"resistant-fences"}, \code{"kimber"}, \code{"robust-z"}, or \code{"tukey"}.}
 
 \item{scale, a}{A number between 0 and 1 giving the scale factor for the
 median to establish the minimum dispersion between quartiles for each
@@ -69,18 +67,21 @@ how they construct the values \eqn{b_l(x)}{bl(x)}, \eqn{b_u(x)}{bu(x)},
 \eqn{l(x)}, and \eqn{u(x)}. Any missing values in \code{x} are ignored when
 calculating the cutoffs, but will return \code{NA}.
 
-The fixed cutoff method is the simplest, and just uses the interval
-\eqn{[c_l, c_u]}{[cl, cu]}.
-
 The quartile method and Tukey algorithm are described in paragraphs 5.113 to
 5.135 of the CPI manual (2020), as well as by Rais (2008) and Hutton (2008).
 The resistant fences method is an alternative to the quartile method, and is
 described by Rais (2008) and Hutton (2008). The Kimber method is yet another
 alternative. Quantile-based methods often
 identify price relatives as outliers because the distribution is
-concentrated around 1; setting \code{a > 0} puts a floor on the minimum
+concentrated around 1; setting \code{scale > 0} puts a floor on the minimum
 dispersion between quantiles as a fraction of the median. See the references
-for more details.
+for more details.\tabular{lllll}{
+    \tab \eqn{b_l(x)}{bl(x)} \tab \eqn{b_u(x)}{bu(x)} \tab \eqn{l(x)} \tab \eqn{u(x)} \cr
+   Quartile \tab \eqn{Q_2(x)} \tab \eqn{Q_2(x)} \tab \eqn{Q_2(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_2(x)} \cr
+   Resistant fences \tab \eqn{Q_1(x)} \tab \eqn{Q_3(x)} \tab \eqn{Q_3(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_1(x)} \cr
+   Kimber \tab \eqn{Q_1(x)} \tab \eqn{Q_3(x)} \tab \eqn{Q_2(x) - Q_1(x)} \tab \eqn{Q_3(x) - Q_2(x)} \cr
+}
+
 
 The robust Z-score is the usual method to identify relatives in the
 (asymmetric) tails of the distribution, simply replacing the mean with the
@@ -102,7 +103,6 @@ set.seed(1234)
 
 x <- rlnorm(10)
 
-outliers(x, method = "fixed-cutoff")
 outliers(x, method = "robust-z")
 outliers(x, method = "quartile")
 # Always identifies fewer outliers than above.
